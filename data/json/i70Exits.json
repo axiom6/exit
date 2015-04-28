@@ -1,0 +1,37 @@
+{
+  "type":"FeatureCollection",
+  "crs":{ "type":"name", "properties": { "name":"urn:ogc:def:crs:OGC:1.3:CRS84" } },
+  "features":[
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Avon",                 "Dir":"Both", "Class":"Exit", "Milepost":167, "ExitNum":"167" }, "geometry":{ "type":"Point", "coordinates":[ -106.567579,39.642711 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Midturn",              "Dir":"Both", "Class":"Exit", "Milepost":171, "ExitNum":"171" }, "geometry":{ "type":"Point", "coordinates":[ -106.450713,39.608377 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Vail-West",            "Dir":"Both", "Class":"Exit", "Milepost":173, "ExitNum":"173" }, "geometry":{ "type":"Point", "coordinates":[ -106.424723,39.623960 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Vail-Mid",             "Dir":"Both", "Class":"Exit", "Milepost":176, "ExitNum":"176" }, "geometry":{ "type":"Point", "coordinates":[ -106.378767,39.644407 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Vail-East",            "Dir":"Both", "Class":"Exit", "Milepost":180, "ExitNum":"180" }, "geometry":{ "type":"Point", "coordinates":[ -106.305389,39.643470 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Vail-Pass",            "Dir":"Both", "Class":"Exit", "Milepost":190, "ExitNum":"190" }, "geometry":{ "type":"Point", "coordinates":[ -106.216071,39.531042 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Copper",               "Dir":"Both", "Class":"Exit", "Milepost":195, "ExitNum":"195" }, "geometry":{ "type":"Point", "coordinates":[ -106.147382,39.503512 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Officers-Gulch",       "Dir":"Both", "Class":"Exit", "Milepost":198, "ExitNum":"198" }, "geometry":{ "type":"Point", "coordinates":[ -106.143089,39.537548 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Frisco",               "Dir":"Both", "Class":"Exit", "Milepost":201, "ExitNum":"201" }, "geometry":{ "type":"Point", "coordinates":[ -106.111970,39.577934 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Silverthorne",         "Dir":"Both", "Class":"Exit", "Milepost":205, "ExitNum":"205" }, "geometry":{ "type":"Point", "coordinates":[ -106.072685,39.624160 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Loveland",             "Dir":"Both", "Class":"Exit", "Milepost":216, "ExitNum":"216" }, "geometry":{ "type":"Point", "coordinates":[ -105.891111,39.681757 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Herman-Gulch",         "Dir":"Both", "Class":"Exit", "Milepost":218, "ExitNum":"218" }, "geometry":{ "type":"Point", "coordinates":[ -105.863727,39.701232 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Silverplume",          "Dir":"Both", "Class":"Exit", "Milepost":226, "ExitNum":"226" }, "geometry":{ "type":"Point", "coordinates":[ -105.720368,39.697607 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Georgetown",           "Dir":"Both", "Class":"Exit", "Milepost":228, "ExitNum":"228" }, "geometry":{ "type":"Point", "coordinates":[ -105.696435,39.716707 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Hwy40",                "Dir":"Both", "Class":"Exit", "Milepost":232, "ExitNum":"232" }, "geometry":{ "type":"Point", "coordinates":[ -105.654065,39.759558 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Lawson",               "Dir":"Both", "Class":"Exit", "Milepost":233, "ExitNum":"233" }, "geometry":{ "type":"Point", "coordinates":[ -105.636026,39.763824 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Dumont",               "Dir":"Both", "Class":"Exit", "Milepost":234, "ExitNum":"234" }, "geometry":{ "type":"Point", "coordinates":[ -105.617902,39.766115 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Fall-River",           "Dir":"Both", "Class":"Exit", "Milepost":238, "ExitNum":"238" }, "geometry":{ "type":"Point", "coordinates":[ -105.548821,39.749691 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Idaho-Springs-West",   "Dir":"Both", "Class":"Exit", "Milepost":239, "ExitNum":"239" }, "geometry":{ "type":"Point", "coordinates":[ -105.532258,39.743542 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Idaho-Springs-Hwy103", "Dir":"Both", "Class":"Exit", "Milepost":240, "ExitNum":"240" }, "geometry":{ "type":"Point", "coordinates":[ -105.513981,39.741333 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Idaho-Springs-East",   "Dir":"Both", "Class":"Exit", "Milepost":241, "ExitNum":"241" }, "geometry":{ "type":"Point", "coordinates":[ -105.496008,39.741248 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Hidden-Valley",        "Dir":"Both", "Class":"Exit", "Milepost":243, "ExitNum":"243" }, "geometry":{ "type":"Point", "coordinates":[ -105.460502,39.746313 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"US6-Canyon",           "Dir":"Both", "Class":"Exit", "Milepost":244, "ExitNum":"244" }, "geometry":{ "type":"Point", "coordinates":[ -105.443446,39.743465 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Beaver-Brook",         "Dir":"Both", "Class":"Exit", "Milepost":247, "ExitNum":"247" }, "geometry":{ "type":"Point", "coordinates":[ -105.401919,39.719308 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Evergreen-Pkwy",       "Dir":"Both", "Class":"Exit", "Milepost":251, "ExitNum":"251" }, "geometry":{ "type":"Point", "coordinates":[ -105.334724,39.701735 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Genesee",              "Dir":"Both", "Class":"Exit", "Milepost":256, "ExitNum":"256" }, "geometry":{ "type":"Point", "coordinates":[ -105.25042, 39.703874 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Lookout Mtn",          "Dir":"Both", "Class":"Exit", "Milepost":257, "ExitNum":"257" }, "geometry":{ "type":"Point", "coordinates":[ -105.234106,39.698332 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"Morrison",             "Dir":"Both", "Class":"Exit", "Milepost":259, "ExitNum":"259" }, "geometry":{ "type":"Point", "coordinates":[ -105.202145,39.701911 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"C470",                 "Dir":"Both", "Class":"Exit", "Milepost":280, "ExitNum":"260" }, "geometry":{ "type":"Point", "coordinates":[ -105.192522,39.714378 ] } },
+    { "type":"Feature", "properties":{ "Route":"070A", "Name":"US6-Denver",           "Dir":"Both", "Class":"Exit", "Milepost":261, "ExitNum":"261" }, "geometry":{ "type":"Point", "coordinates":[ -105.192522,39.714378 ] } }
+    ]
+}
+    

@@ -1,0 +1,24 @@
+{
+  "type":"FeatureCollection",
+  "crs":{ "type":"name", "properties": { "name":"urn:ogc:def:crs:OGC:1.3:CRS84" } },
+  "features":[
+    { "type":"Feature", "properties":{ "name":"US 6 to C-470",              "id":"16",  "dir":"West", "beg":"260.79", "end":"259.85", "time":"12", "speed":"60" }, "geometry":{ "type":"LineString", "coordinates":[] } },
+    { "type":"Feature", "properties":{ "name":"C470 to Morrison",           "id":"17",  "dir":"West", "beg":"259.85", "end":"258.70", "time":"12", "speed":"60" }, "geometry":{ "type":"LineString", "coordinates":[] } },
+    { "type":"Feature", "properties":{ "name":"Morrison to Lookout",        "id":"266", "dir":"West", "beg":"258.70", "end":"256.00", "time":"12", "speed":"60" }, "geometry":{ "type":"LineString", "coordinates":[] } },
+    { "type":"Feature", "properties":{ "name":"Lookout to Evergreen",       "id":"267", "dir":"West", "beg":"256.00", "end":"251.50", "time":"12", "speed":"60" }, "geometry":{ "type":"LineString", "coordinates":[] } },
+    { "type":"Feature", "properties":{ "name":"Evergreen to Beaver Brook",  "id":"274", "dir":"West", "beg":"251.50", "end":"247.60", "time":"12", "speed":"60" }, "geometry":{ "type":"LineString", "coordinates":[] } },
+    { "type":"Feature", "properties":{ "name":"Beaver Brook to US6",        "id":"275", "dir":"West", "beg":"247.60", "end":"244.40", "time":"12", "speed":"60" }, "geometry":{ "type":"LineString", "coordinates":[] } },
+    { "type":"Feature", "properties":{ "name":"US6 to Idaho Springs",       "id":"20",  "dir":"West", "beg":"244.4",  "end":"239.70", "time":"12", "speed":"60" }, "geometry":{ "type":"LineString", "coordinates":[] } },
+    { "type":"Feature", "properties":{ "name":"Idaho Springs to US40",      "id":"21",  "dir":"West", "beg":"239.70", "end":"232.70", "time":"12", "speed":"60" }, "geometry":{ "type":"LineString", "coordinates":[] } },
+    { "type":"Feature", "properties":{ "name":"US40 to Georgetown",         "id":"22",  "dir":"West", "beg":"232.70", "end":"227.90", "time":"12", "speed":"60" }, "geometry":{ "type":"LineString", "coordinates":[] } },
+    { "type":"Feature", "properties":{ "name":"Georgetown to Bakerville",   "id":"23",  "dir":"West", "beg":"227.90", "end":"221.30", "time":"12", "speed":"60" }, "geometry":{ "type":"LineString", "coordinates":[] } },
+    { "type":"Feature", "properties":{ "name":"Bakerville to Loveland",     "id":"24",  "dir":"West", "beg":"221.30", "end":"216.30", "time":"12", "speed":"60" }, "geometry":{ "type":"LineString", "coordinates":[] } },
+    { "type":"Feature", "properties":{ "name":"Loveland to Tunnel West",    "id":"25",  "dir":"West", "beg":"216.30", "end":"213.60", "time":"12", "speed":"60" }, "geometry":{ "type":"LineString", "coordinates":[] } },
+    { "type":"Feature", "properties":{ "name":"Tunnel West to MN211",       "id":"270", "dir":"West", "beg":"213.60", "end":"211.00", "time":"12", "speed":"60" }, "geometry":{ "type":"LineString", "coordinates":[] } },
+    { "type":"Feature", "properties":{ "name":"MM211 to Silverthorne",      "id":"271", "dir":"West", "beg":"211.00", "end":"205.50", "time":"12", "speed":"60" }, "geometry":{ "type":"LineString", "coordinates":[] } },
+    { "type":"Feature", "properties":{ "name":"Silverthorne to Frisco",     "id":"27",  "dir":"West", "beg":"205.00", "end":"200.70", "time":"12", "speed":"60" }, "geometry":{ "type":"LineString", "coordinates":[] } },
+    { "type":"Feature", "properties":{ "name":"Frisco to Copper",           "id":"28",  "dir":"West", "beg":"200.70", "end":"195.40", "time":"12", "speed":"60" }, "geometry":{ "type":"LineString", "coordinates":[] } },
+    { "type":"Feature", "properties":{ "name":"Copper to Vail Pass",        "id":"29",  "dir":"West", "beg":"195.40", "end":"189.40", "time":"12", "speed":"60" }, "geometry":{ "type":"LineString", "coordinates":[] } },
+    { "type":"Feature", "properties":{ "name":"Vail Pass to East Vail",     "id":"30",  "dir":"West", "beg":"189.40", "end":"177.00", "time":"12", "speed":"60" }, "geometry":{ "type":"LineString", "coordinates":[] } }
+  ]
+}

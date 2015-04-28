@@ -1,0 +1,36 @@
+{
+  "name": "Exit-Now-App",
+  "version": "0.0.0",
+  "description": "Exit Now Application",
+  "main": "Exit-Now-App.html",
+  "dependencies": {
+    "yepnope":          "1.5.4",
+    "jquery":         ">=2.1.1",
+    "jquery.gritter": ">=1.7.4",
+    "rxjs":           ">=2.5.2",
+    "rxjs-jquery":    ">=1.1.7",
+    "d3":             ">=3.5.3",
+    "font-awesome":   ">=4.2.0",
+    "d3":             ">=3.5.3"
+  },
+
+  "author": "Tom Flaherty",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/exitnow/exit-now-app/issues"
+  },
+  "devDependencies": {
+    "less":          "2.4.x",
+    "coffee-script": "1.9.x"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/exitnow/exit-now-app.git"
+  },
+  "homepage": "http://exit-now.net"
+}

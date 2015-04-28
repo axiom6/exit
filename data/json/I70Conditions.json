@@ -1,0 +1,15 @@
+{
+   "type":"FeatureCollection",
+   "crs":{ "type":"name", "properties": { "name":"urn:ogc:def:crs:OGC:1.3:CRS84" } },
+   "features":[
+      { "type":"Feature", "properties":{ "id":"12",   "name":"Eagle-Vail",               "beg":"146.63", "end":"177.00", "eids":["00"],                   "wids":["00"],                   "condition":"Wet In Areas" },                   "geometry":{ "type":"LineString", "coordinates":[] } },
+      { "type":"Feature", "properties":{ "id":"11",   "name":"Vail-Vail Pass",           "beg":"177.00", "end":"189.38", "eids":["31"],                   "wids":["30"],                   "condition":"Wet , Slushy" },                   "geometry":{ "type":"LineString", "coordinates":[] } },
+      { "type":"Feature", "properties":{ "id":"10",   "name":"Vail Pass-Copper Mtn",     "beg":"189.38", "end":"195.38", "eids":["32"],                   "wids":["29"],                   "condition":"Scattered Showers , Snow , Wet" }, "geometry":{ "type":"LineString", "coordinates":[] } },
+      { "type":"Feature", "properties":{ "id":"9",    "name":"Copper Mtn-Silverthorne",  "beg":"195.38", "end":"204.90", "eids":["33","34"],              "wids":["28","27"],              "condition":"Scattered Showers , Snow , Wet" }, "geometry":{ "type":"LineString", "coordinates":[] } },
+      { "type":"Feature", "properties":{ "id":"6",    "name":"Silverthorne-Tunnel West", "beg":"204.90", "end":"213.60", "eids":["272","273"],            "wids":["271","270"],            "condition":"Wet In Areas" },                   "geometry":{ "type":"LineString", "coordinates":[] } },
+      { "type":"Feature", "properties":{ "id":"5060", "name":"Tunnel West-Georgetown",   "beg":"213.60", "end":"228.00", "eids":["36","37","38"],         "wids":["25","24","23"],         "condition":"Snow , Wet In Areas" },            "geometry":{ "type":"LineString", "coordinates":[] } },
+      { "type":"Feature", "properties":{ "id":"4",    "name":"Georgetown-Idaho Springs", "beg":"228.00", "end":"239.69", "eids":["39","40"],              "wids":["22","21"],              "condition":"Wet In Areas" },                   "geometry":{ "type":"LineString", "coordinates":[] } },
+      { "type":"Feature", "properties":{ "id":"3",    "name":"Idaho Springs-Genesee",    "beg":"239.69", "end":"253.52", "eids":["41","276","277","268"], "wids":["20","275","274","267"], "condition":"Wet In Areas" },                   "geometry":{ "type":"LineString", "coordinates":[] } },
+      { "type":"Feature", "properties":{ "id":"2",    "name":"Genesee-C470",             "beg":"253.52", "end":"259.75", "eids":["266","44"],             "wids":["269","17"],             "condition":"Wet In Areas" },                   "geometry":{ "type":"LineString", "coordinates":[] } }
+   ]
+}
