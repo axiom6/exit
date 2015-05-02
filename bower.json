@@ -9,8 +9,7 @@
     "rxjs":           ">=2.5.2",
     "rxjs-jquery":    ">=1.1.7",
     "d3":             ">=3.5.3",
-    "font-awesome":   ">=4.2.0",
-    "d3":             ">=3.5.3"
+    "font-awesome":   ">=4.2.0"
   },
   "devDependencies": {
     "coffee-script": "1.9.x",

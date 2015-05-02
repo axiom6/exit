@@ -34,11 +34,13 @@
 | - | - | -  | - | - | - |
 | **Login**           |           |                |            |         |         | 
 | **Destination**     |           |                |            |         |         |
-| **Travel Forecast** |           |                |            |         |         |
+| **Traffic**         | Forecast  |                |            |         |         |
 | **Go**              |           |                |            |         |         |
 | **No Go**           |           |                |            |         |         |
 | **Threshold**       |           |                |            |         |         |
-| **Drive Bar**       | Speeds    | Conditions     | Congestion | Weather |         |
+| **Trip**            |           |                |            |         |         |
+| **Road**            | Speeds    | Conditions     | Congestion | Weather |         |
+| **Weather**         |           |                |            |         |         |
 | **Deals**           | Geo Fence | Request        | Slow Down  |         |         | 
 | **Navigate**        |           |                |            |         |         |
 | **Push**            | Speeds    | Conditions     |            |         |         |

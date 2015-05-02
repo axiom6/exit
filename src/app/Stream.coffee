@@ -1,11 +1,7 @@
 
-class Pub
+class Stream
 
-  Util.loadModule( Util.paths.bower, 'rxjs/dist/',   'rx.all',   'Rx' )
-  Util.loadModule( Util.paths.bower, 'rxjs-jquery/', 'rx.jquery'      )
-  App = Util.Import('app/App' )
-  App.Pub = Pub
-  Util.Export( Pub, 'app/App.Pub' )
+  Util.Export( Stream, 'app/Stream' )
 
   constructor:( @app ) ->
     Util.error( 'App rxjs-jquery not defined' ) if not $().bindAsObservable? # Special case
