@@ -3,25 +3,24 @@
   var UI;
 
   UI = (function() {
-    Util.Export(Trip, 'ui/UI');
+    Util.Export(UI, 'ui/UI');
 
-    function UI(app, login, destination1, trip1, deals1, navigate1) {
+    function UI(app, destination, trip, deals, navigate) {
       this.app = app;
-      this.login = login;
-      this.destination = destination1;
-      this.trip = trip1;
-      this.deals = deals1;
-      this.navigate = navigate1;
+      this.destination = destination;
+      this.trip = trip;
+      this.deals = deals;
+      this.navigate = navigate;
     }
 
     UI.prototype.ready = function() {
       this.$ = $(this.html());
       $('#App').append(this.$);
       this.$view = this.$.find('#View');
-      this.$view.append(destination.$);
-      this.$view.append(trip.$);
-      this.$view.append(deals.$);
-      this.$view.append(navigate.$);
+      this.$view.append(this.destination.$);
+      this.$view.append(this.trip.$);
+      this.$view.append(this.deals.$);
+      this.$view.append(this.navigate.$);
       this.$destinationIcon = this.$.find('DestinationIcon');
       this.$tripIcon = this.$.find('TripIcon');
       this.$dealIcon = this.$.find('DealIcon');
@@ -41,14 +40,12 @@
     };
 
     UI.prototype.html = function() {
-      return "<div    id=\"" + (this.id('UI')) + "\"                  class=\"" + (this.css('UI')) + "\">\n <div  id=\"" + (this.id('Icons')) + "\"               class=\"" + (this.css('Icons')) + "\">\n    <i id=\"" + (this.id('Destination', 'Icon')) + "\"  class=\"" + (this.icon('Destination', 'Icon', 'globe')) + "\">></i>\n    <i id=\"" + (this.id('Trip', 'Icon')) + "\"  class=\"" + (this.icon('Trip', 'Icon', 'car')) + "\">></i>\n    <i id=\"" + (this.id('Deals', 'Icon')) + "\"  class=\"" + (this.icon('Deals', 'Icon', 'road')) + "\">></i>\n    <i id=\"" + (this.id('Navigate', 'Icon')) + "\"  class=\"" + (this.icon('Navigate', 'Icon', 'long-arrow-right')) + "\">></i>\n </div>\n <div> id=\"" + (this.id('View')) + "\"   class=\"" + (this.css('View')) + "\"></div>\n</div>";
+      return "<div    id=\"" + (this.id('UI')) + "\"                  class=\"" + (this.css('UI')) + "\">\n <div  id=\"" + (this.id('Icons')) + "\"               class=\"" + (this.css('Icons')) + "\">\n    <i id=\"" + (this.id('Destination', 'Icon')) + "\"  class=\"" + (this.icon('Destination', 'Icon', 'globe')) + "\"></i>\n    <i id=\"" + (this.id('Trip', 'Icon')) + "\"  class=\"" + (this.icon('Trip', 'Icon', 'car')) + "\"></i>\n    <i id=\"" + (this.id('Deals', 'Icon')) + "\"  class=\"" + (this.icon('Deals', 'Icon', 'road')) + "\"></i>\n    <i id=\"" + (this.id('Navigate', 'Icon')) + "\"  class=\"" + (this.icon('Navigate', 'Icon', 'street-view')) + "\"></i>\n </div>\n <div id=\"" + (this.id('View')) + "\" class=\"" + (this.css('View')) + "\"></div>\n</div>";
     };
 
     UI.prototype.layout = function() {};
 
-    show;
-
-    (function() {});
+    UI.prototype.show = function() {};
 
     UI.prototype.hide = function() {};
 

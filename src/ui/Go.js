@@ -20,9 +20,7 @@
 
     Go.prototype.layout = function() {};
 
-    show;
-
-    (function() {});
+    Go.prototype.show = function() {};
 
     Go.prototype.hide = function() {};
 

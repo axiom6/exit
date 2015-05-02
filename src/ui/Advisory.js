@@ -3,7 +3,7 @@
   var Advisory;
 
   Advisory = (function() {
-    Util.Export(Road, 'ui/Advisory');
+    Util.Export(Advisory, 'ui/Advisory');
 
     function Advisory(app, stream) {
       this.app = app;
@@ -20,9 +20,7 @@
 
     Advisory.prototype.layout = function() {};
 
-    show;
-
-    (function() {});
+    Advisory.prototype.show = function() {};
 
     Advisory.prototype.hide = function() {};
 

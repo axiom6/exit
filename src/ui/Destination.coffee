@@ -13,6 +13,6 @@ class Destination
 
   layout:() ->
 
-  show;() ->
+  show:() ->
 
   hide:() ->

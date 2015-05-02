@@ -6,9 +6,9 @@
     Util.Export(App, 'app/App');
 
     $(document).ready(function() {
-      var app;
       Util.init();
-      app = new App(true, false);
+      Util.app = new App(true, false);
+      Util.log('App Created');
     });
 
     function App(runSimulate, runTest) {
@@ -54,7 +54,20 @@
       this.deals = new Deals(this, this.stream);
       this.navigate = new Navigate(this, this.stream);
       this.ui = new UI(this, this.destination, this.trip, this.deals, this.navigate);
+      this.ready();
     }
+
+    App.prototype.ready = function() {
+      this.destination.ready();
+      this.advisory.ready();
+      this.go.ready();
+      this.road.ready();
+      this.weather.ready();
+      this.trip.ready();
+      this.deals.ready();
+      this.navigate.ready();
+      return this.ui.ready();
+    };
 
     App.prototype.id = function(name, type) {
       if (type == null) {
@@ -71,7 +84,7 @@
     };
 
     App.prototype.icon = function(name, type, fa) {
-      return name + type + ' fa ' + fa;
+      return name + type + ' fa fa-' + fa;
     };
 
     return App;

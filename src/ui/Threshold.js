@@ -3,7 +3,7 @@
   var Threshold;
 
   Threshold = (function() {
-    Util.Export(Road, 'ui/Threshold');
+    Util.Export(Threshold, 'ui/Threshold');
 
     function Threshold(app, model) {
       this.app = app;
@@ -20,9 +20,7 @@
 
     Threshold.prototype.layout = function() {};
 
-    show;
-
-    (function() {});
+    Threshold.prototype.show = function() {};
 
     Threshold.prototype.hide = function() {};
 

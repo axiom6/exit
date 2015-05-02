@@ -13,6 +13,6 @@ class Deals
 
   layout:() ->
 
-  show;() ->
+  show:() ->
 
   hide:() ->

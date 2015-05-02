@@ -1,7 +1,7 @@
 
 class Weather
 
-  Util.Export( Road, 'ui/Weather' )
+  Util.Export( Weather, 'ui/Weather' )
 
   constructor:( @app ) ->
 
@@ -13,6 +13,6 @@ class Weather
 
   layout:() ->
 
-  show;() ->
+  show:() ->
 
   hide:() ->

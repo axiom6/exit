@@ -20,9 +20,7 @@
 
     Navigate.prototype.layout = function() {};
 
-    show;
-
-    (function() {});
+    Navigate.prototype.show = function() {};
 
     Navigate.prototype.hide = function() {};
 

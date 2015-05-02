@@ -5,9 +5,8 @@
   Trip = (function() {
     Util.Export(Trip, 'ui/Trip');
 
-    function Trip(app, model, advisory, go, nogo, weather, road) {
+    function Trip(app, advisory, go, nogo, weather, road) {
       this.app = app;
-      this.model = model;
       this.advisory = advisory;
       this.go = go;
       this.nogo = nogo;
@@ -16,7 +15,12 @@
     }
 
     Trip.prototype.ready = function() {
-      return this.$ = $(this.html());
+      this.$ = $(this.html());
+      this.$.append(this.advisory.$);
+      this.$.append(this.go.$);
+      this.$.append(this.nogo.$);
+      this.$.append(this.weather.$);
+      return this.$.append(this.road.$);
     };
 
     Trip.prototype.html = function() {
@@ -25,9 +29,7 @@
 
     Trip.prototype.layout = function() {};
 
-    show;
-
-    (function() {});
+    Trip.prototype.show = function() {};
 
     Trip.prototype.hide = function() {};
 

@@ -20,9 +20,7 @@
 
     Destination.prototype.layout = function() {};
 
-    show;
-
-    (function() {});
+    Destination.prototype.show = function() {};
 
     Destination.prototype.hide = function() {};
 

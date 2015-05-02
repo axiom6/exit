@@ -3,7 +3,7 @@
   var Weather;
 
   Weather = (function() {
-    Util.Export(Road, 'ui/Weather');
+    Util.Export(Weather, 'ui/Weather');
 
     function Weather(app) {
       this.app = app;
@@ -19,9 +19,7 @@
 
     Weather.prototype.layout = function() {};
 
-    show;
-
-    (function() {});
+    Weather.prototype.show = function() {};
 
     Weather.prototype.hide = function() {};
 

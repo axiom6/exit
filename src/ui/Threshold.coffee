@@ -1,7 +1,7 @@
 
 class Threshold
 
-  Util.Export( Road, 'ui/Threshold' )
+  Util.Export( Threshold, 'ui/Threshold' )
 
   constructor:( @app, @model ) ->
 
@@ -13,6 +13,6 @@ class Threshold
 
   layout:() ->
 
-  show;() ->
+  show:() ->
 
   hide:() ->

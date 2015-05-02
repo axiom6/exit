@@ -20,9 +20,7 @@
 
     Deals.prototype.layout = function() {};
 
-    show;
-
-    (function() {});
+    Deals.prototype.show = function() {};
 
     Deals.prototype.hide = function() {};
 

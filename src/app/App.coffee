@@ -3,10 +3,11 @@ class App
 
   Util.Export( App, 'app/App' )
 
-  # This kicks of everything
+  # This kicks of everything   (MTCN): 9763514107
   $(document).ready ->
     Util.init()
-    app = new App( true, false )
+    Util.app = new App( true, false )
+    Util.log( 'App Created' )
     return
 
   constructor:( runSimulate=false, runTest=false ) ->
@@ -44,6 +45,20 @@ class App
     @navigate    = new Navigate(     @, @stream )
     @ui          = new UI( @, @destination, @trip, @deals, @navigate )
 
+    @ready()
+
+  ready:() ->
+    @destination.ready()
+    @advisory.ready()
+    @go.ready()
+    @road.ready()
+    @weather.ready()
+    @trip.ready()
+    @deals.ready()
+    @navigate.ready()
+    @ui.ready()
+
+
   id:(   name, type=''  ) -> name + type
   css:(  name, type=''  ) -> name + type
-  icon:( name, type, fa ) -> name + type + ' fa ' + fa
+  icon:( name, type, fa ) -> name + type + ' fa fa-' + fa

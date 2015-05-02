@@ -20,9 +20,7 @@
 
     NoGo.prototype.layout = function() {};
 
-    show;
-
-    (function() {});
+    NoGo.prototype.show = function() {};
 
     NoGo.prototype.hide = function() {};
 

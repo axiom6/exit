@@ -13,6 +13,6 @@ class Road
 
   layout:() ->
 
-  show;() ->
+  show:() ->
 
   hide:() ->

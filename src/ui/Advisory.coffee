@@ -1,7 +1,7 @@
 
 class Advisory
 
-  Util.Export( Road, 'ui/Advisory' )
+  Util.Export( Advisory, 'ui/Advisory' )
 
   constructor:( @app, @stream ) ->
 
@@ -13,6 +13,6 @@ class Advisory
 
   layout:() ->
 
-  show;() ->
+  show:() ->
 
   hide:() ->

@@ -13,6 +13,6 @@ class Navigate
 
   layout:() ->
 
-  show;() ->
+  show:() ->
 
   hide:() ->

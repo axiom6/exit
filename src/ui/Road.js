@@ -19,9 +19,7 @@
 
     Road.prototype.layout = function() {};
 
-    show;
-
-    (function() {});
+    Road.prototype.show = function() {};
 
     Road.prototype.hide = function() {};
 
