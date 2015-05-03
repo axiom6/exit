@@ -3,7 +3,7 @@ class Trip
 
   Util.Export( Trip, 'ui/Trip' )
 
-  constructor:( @app, @advisory, @go, @nogo, @weather, @road ) ->
+  constructor:( @app, @road, @weather, @advisory ) ->
 
   ready:() ->
     @$ = $( @html() )

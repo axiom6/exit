@@ -1,4 +1,22 @@
 
+## App
+|   |   |    |   |   |   |
+| - | - | -  | - | - | - |
+| **Speeds / Conds**  | DIA Edwards | Breckinridge   | Winterpark | Keystone   | A-Basin    |
+| **Predict**         | ETA         |   Go           |  NoGo      | Explain    | Roadblocks | 
+| **CSS**             |  Icons      | Wireframe      | Gradients  | Media      |            |
+| **Simulat/Streame** | LanLngTime  | Speeds / Conds | Weather    | Roadblocks | Deals      | 
+| **Destination**     | Login       | Go             | NoGo       | Threshold  |            |
+| **Trip**            | Road        | Weather        | Adivsory   |            |            |
+| **Deals**           | Geo Fence   | Request        | Push       |            |            | 
+| **Navigate**        |             |                |            |            |            |
+| **Store**           | Stream      | Memory         | Rest       |  IndexedDB |            |
+| **Http**            | Speeds      | Conditions     | Deals      | Advisorys  | Geo Fence  |
+| **Push**            | Speeds      | Conditions     | Hot Deals  | Advisorys  |            |
+| **Post Profiles**   | Destination | Trip           | Deals      |            |            | 
+| **Test**            |             |                |            |            |            |
+| **Contest**         | GIF         | Doc            | GitHub     |  Cordova   |            |
+
 ## Pitch
 |   |   |    |   |   |   |
 | - | - | -  | - | - | - |
@@ -15,37 +33,6 @@
 | **Accomplish**     |           |                |           |        |         |
 | **Reach Out**      |           |                |           |        |         |
 | **Lift Off**       |           |                |           |        |         |
-
-## Interaction
-|   |   |    |   |   |   |
-| - | - | -  | - | - | - |
-| **Login**         |           |                |           |        |         | 
-| **Destination**   |           |                |           |        |         |
-| **Threshold**     |           |                |           |        |         |
-| **Deals**         | Geo Fence | Request        | Slow Down |        |         |
-| **Navigate?**     |           |                |           |         |         | 
-| **Push**          | Speeds    | Conditions     |           |        |         |
-| **Post Profiles** | Route     | Deals Accepted |           |        |         |
-| **Quit**          |           |                |           |        |         |
-
-
-## App
-|   |   |    |   |   |   |
-| - | - | -  | - | - | - |
-| **Login**           |           |                |            |         |         | 
-| **Destination**     |           |                |            |         |         |
-| **Traffic**         | Forecast  |                |            |         |         |
-| **Go**              |           |                |            |         |         |
-| **No Go**           |           |                |            |         |         |
-| **Threshold**       |           |                |            |         |         |
-| **Trip**            |           |                |            |         |         |
-| **Road**            | Speeds    | Conditions     | Congestion | Weather |         |
-| **Weather**         |           |                |            |         |         |
-| **Deals**           | Geo Fence | Request        | Slow Down  |         |         | 
-| **Navigate**        |           |                |            |         |         |
-| **Push**            | Speeds    | Conditions     |            |         |         |
-| **Post Profiles**   | Route     | Deals Accepted |            |         |         |
-| **Quit**            |           |                |            |         |         |
 
 ## Stats
 |   |  Number | Low   | High | Premium  |   |
@@ -67,5 +54,17 @@
 | **Change**    |      |     |     |      | 
 | **Cloud**     |      |     |     |      | 
 | **Decision**  |      |     |     |      | 
+
+## Interaction
+|   |   |    |   |   |   |
+| - | - | -  | - | - | - |
+| **Login**         |           |                |           |        |         | 
+| **Destination**   |           |                |           |        |         |
+| **Threshold**     |           |                |           |        |         |
+| **Deals**         | Geo Fence | Request        | Slow Down |        |         |
+| **Navigate?**     |           |                |           |         |         | 
+| **Push**          | Speeds    | Conditions     |           |        |         |
+| **Post Profiles** | Route     | Deals Accepted |           |        |         |
+| **Quit**          |           |                |           |        |         |
 
 

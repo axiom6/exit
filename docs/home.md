@@ -1,10 +1,11 @@
 ## Now
-|   |   |    |   |
-| - | - | -  | - |
-| **Appoint**| Glasses   | Haircut   |          | 
-| **Money**  | Gift Card | Experian  |          |  
-| **Chore**  | Dust      | Vacumn    | Bath     | 
-| **Crib**   | Office    | Bar       | Closet   | 
+|   |   |   |   |
+| - | - | - | - |
+| **Appoint** | Glasses    | Haircut   |          | 
+| **Org**     | Passwords  | Paper     | Disk     | 
+| **Crib**    | Office     | Bar       | Closet   |
+| **Chore**   | Dust       | Vacumn    | Bath     |
+| **Money**   | Chase Card | Gift Card | Experian |  
 
 ## Home
 |   |   |    |   |   |   |

@@ -3,7 +3,7 @@ class Destination
 
   Util.Export( Destination, 'ui/Destination' )
 
-  constructor:( @app, @model ) ->
+  constructor:( @app, @stream, @go, @nogo, @threshold ) ->
 
   ready:() ->
     @$ = $( @html() )

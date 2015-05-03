@@ -13,6 +13,6 @@ class Go
 
   layout:() ->
 
-  show;() ->
+  show:() ->
 
   hide:() ->

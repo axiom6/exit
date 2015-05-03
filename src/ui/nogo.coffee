@@ -13,6 +13,6 @@ class NoGo
 
   layout:() ->
 
-  show;() ->
+  show:() ->
 
   hide:() ->

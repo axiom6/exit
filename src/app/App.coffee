@@ -16,14 +16,17 @@ class App
     Stream      = Util.Import( 'app/Stream'     )
     Simulate    = Util.Import( 'app/Simulate'   )  if runSimulate
     Test        = Util.Import( 'app/Test'       )  if runTest
-    Destination = Util.Import( 'ui/Destination' )
-    Threshold   = Util.Import( 'ui/Threshold'   )
-    Advisory    = Util.Import( 'ui/Advisory'    )
+
     Go          = Util.Import( 'ui/Go'          )
     NoGo        = Util.Import( 'ui/NoGo'        )
-    Weather     = Util.Import( 'ui/Weather'     )
+    Threshold   = Util.Import( 'ui/Threshold'   )
+    Destination = Util.Import( 'ui/Destination' )
+
     Road        = Util.Import( 'ui/Road'        )
+    Weather     = Util.Import( 'ui/Weather'     )
+    Advisory    = Util.Import( 'ui/Advisory'    )
     Trip        = Util.Import( 'ui/Trip'        )
+
     Deals       = Util.Import( 'ui/Deals'       )
     Navigate    = Util.Import( 'ui/Navigate'    )
     UI          = Util.Import( 'ui/UI'          )
@@ -34,13 +37,14 @@ class App
     @test     = new Test(     @ ) if runTest
 
     # Instantiate UI class
-    @destination = new Destination(  @, @stream )
-    @advisory    = new Advisory(     @, @stream )
     @go          = new Go(           @, @stream )
     @nogo        = new NoGo(         @, @stream )
-    @weather     = new Weather(      @, @stream )
+    @threshold   = new Threshold(    @, @stream )
+    @destination = new Destination(  @, @stream, @go, @nogo, @threshold )
     @road        = new Road(         @, @stream )
-    @trip        = new Trip(         @, @advisory, @go, @nogo, @weather, @road )
+    @weather     = new Weather(      @, @stream )
+    @advisory    = new Adivisory(    @, @stream )
+    @trip        = new Trip(         @, @stream @road. @weather, @advisory  )
     @deals       = new Deals(        @, @stream )
     @navigate    = new Navigate(     @, @stream )
     @ui          = new UI( @, @destination, @trip, @deals, @navigate )

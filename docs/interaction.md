@@ -8,7 +8,7 @@
 2. Http: Change Threshold
    a. Update Go-NoGo
 3. Request Deals By:
-   a. Current Location 
+   a. GeoFence / Current Location 
       - App will do this on latLng intervals
       - User request
    b. Down the Road Location
@@ -19,7 +19,7 @@
 5. Always Push
    a. Speeds
    b. Conditions
-   c. Alerts?
+   c. Advisory
 6. Quit
    a. On lack of activity
    b. Quit button?
