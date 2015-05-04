@@ -1,16 +1,25 @@
 
+//body { background-image:url("../img/app/phone6x12.png");
+//       background-repeat:no-repeat; }
 
+body { background-image:url("../img/app/phone6x12Horz.png");
+       background-repeat:no-repeat; }
 
-.App              { position:absolute; left:0; top:0; width:100%; height:100%; }
+.App                 { position:absolute; left:1.11in; top:0.33in;; width:6.7in; height:3.79in; }
+
+.App6x12             { position:absolute; left:0.33in; top:1.11in;; width:3.79in; height:6.7in; }
+
+.App4x8              { position:absolute; left:0.25in; top:0.71in;; width:2.52in; height:4.5in; }
+
 .UI               { position:absolute; left:0; top:0; width:100%; height:100%; }
 
-.Icons            { position:absolute; left: 0;  top:0; width:100%; height: 11%; background:lightblue; font-size:72px; }
-.DestinationIcon  { position:absolute; left:11%; top:0; width: 11%; height:100%; background:lightblue; }
-.TripIcon         { position:absolute; left:33%; top:0; width: 11%; height:100%; background:lightblue; }
-.DealsIcon        { position:absolute; left:55%; top:0; width: 11%; height:100%; background:lightblue; }
-.NavigateIcon     { position:absolute; left:77%; top:0; width: 11%; height:100%; background:lightblue; }
+.Icons            { position:absolute; left:    0;  top:1%; width:100%;  height: 10%; background:transparent; font-size:36px; }
+.DestinationIcon  { position:absolute; left: 6.25%; top:0;  width:12.5%; height:100%; }
+.TripIcon         { position:absolute; left:31.25%; top:0;  width:12.5%; height:100%; }
+.DealsIcon        { position:absolute; left:56.25%; top:0;  width:12.5%; height:100%; }
+.NavigateIcon     { position:absolute; left:81.25%; top:0;  width:12.5%; height:100%; }
 
-.View             { position:absolute; left:0; top:10%; width:100%; height:89%; background:wheat; }
+.View             { position:absolute; left:0; top:10%; width:100%; height:89%; background:transparent; }
 
 .Destination      { display:none; }
 
@@ -20,11 +29,24 @@
 
 .NoGo             { display:none; }
 
-.Trip             { display:none; }
+.Trip             { }
 
 .Advisory         { display:none; }
 
-.Weather          { display:none; }
+@s:1.00;
+
+iframe            { transform:scale(@s,@s); }
+
+.Weather          { position:absolute; left:0;     top:0;   width:100%;  height:100%; }
+.Weather1         { position:absolute; left:0;     top:0;   width:25.0%; height:50%;}
+.Weather2         { position:absolute; left:25.0%; top:0;   width:25.0%; height:50%;}
+.Weather3         { position:absolute; left:50.0%; top:0;   width:25.0%; height:50%;}
+.Weather4         { position:absolute; left:75.0%; top:0;   width:25.0%; height:50%;}
+.Weather5         { position:absolute; left:0;     top:50%; width:25.0%; height:50%;}
+.Weather6         { position:absolute; left:25.0%; top:50%; width:25.0%; height:50%;}
+.Weather7         { position:absolute; left:50.0%; top:50%; width:25.0%; height:50%;}
+.Weather8         { position:absolute; left:75.0%; top:50%; width:25.0%; height:50%;}
+
 
 .Road             { display:none; }
 

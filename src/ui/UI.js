@@ -40,7 +40,7 @@
     };
 
     UI.prototype.html = function() {
-      return "<div    id=\"" + (this.id('UI')) + "\"                  class=\"" + (this.css('UI')) + "\">\n <div  id=\"" + (this.id('Icons')) + "\"               class=\"" + (this.css('Icons')) + "\">\n    <i id=\"" + (this.id('Destination', 'Icon')) + "\"  class=\"" + (this.icon('Destination', 'Icon', 'globe')) + "\"></i>\n    <i id=\"" + (this.id('Trip', 'Icon')) + "\"  class=\"" + (this.icon('Trip', 'Icon', 'car')) + "\"></i>\n    <i id=\"" + (this.id('Deals', 'Icon')) + "\"  class=\"" + (this.icon('Deals', 'Icon', 'road')) + "\"></i>\n    <i id=\"" + (this.id('Navigate', 'Icon')) + "\"  class=\"" + (this.icon('Navigate', 'Icon', 'street-view')) + "\"></i>\n </div>\n <div id=\"" + (this.id('View')) + "\" class=\"" + (this.css('View')) + "\"></div>\n</div>";
+      return "<div    id=\"" + (this.id('UI')) + "\"                  class=\"" + (this.css('UI')) + "\">\n <div  id=\"" + (this.id('Icons')) + "\"               class=\"" + (this.css('Icons')) + "\">\n    <i id=\"" + (this.id('Destination', 'Icon')) + "\"  class=\"" + (this.icon('Destination', 'Icon', 'map-marker')) + "\"></i>\n    <i id=\"" + (this.id('Trip', 'Icon')) + "\"  class=\"" + (this.icon('Trip', 'Icon', 'road')) + "\"></i>\n    <i id=\"" + (this.id('Deals', 'Icon')) + "\"  class=\"" + (this.icon('Deals', 'Icon', 'thumbs-up')) + "\"></i>\n    <i id=\"" + (this.id('Navigate', 'Icon')) + "\"  class=\"" + (this.icon('Navigate', 'Icon', 'street-view')) + "\"></i>\n </div>\n <div id=\"" + (this.id('View')) + "\" class=\"" + (this.css('View')) + "\"></div>\n</div>";
     };
 
     UI.prototype.layout = function() {};

@@ -2,7 +2,7 @@
 |   |   |   |   |
 | - | - | - | - |
 | **Appoint** | Glasses    | Haircut   |          | 
-| **Org**     | Passwords  | Paper     | Disk     | 
+| **Org**     | Passwords  | Paper     | Laptop   | 
 | **Crib**    | Office     | Bar       | Closet   |
 | **Chore**   | Dust       | Vacumn    | Bath     |
 | **Money**   | Chase Card | Gift Card | Experian |  
