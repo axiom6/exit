@@ -82,6 +82,15 @@ body {
 .Destination {
   display: none;
 }
+.Trip {
+  display: none;
+}
+.Deals {
+  display: none;
+}
+.Navigate {
+  display: none;
+}
 .Threshold {
   display: none;
 }

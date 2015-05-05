@@ -3,21 +3,19 @@ class Trip
 
   Util.Export( Trip, 'ui/Trip' )
 
-  constructor:( @app, @road, @weather, @advisory ) ->
+  constructor:( @app, @stream, @road, @weather, @advisory ) ->
 
   ready:() ->
     @$ = $( @html() )
-    @$.append( @advisory.$  )
-    @$.append( @go.$        )
-    @$.append( @nogo.$      )
     @$.append( @weather.$   )
     @$.append( @road.$      )
+    @$.append( @advisory.$  )
 
   html:() ->
     """<div id="#{@app.id('Trip')}" class="#{@app.css('Trip')}"></div>"""
 
   layout:() ->
 
-  show:() ->
+  show:() -> @$.show()
 
-  hide:() ->
+  hide:() -> @$.hide()

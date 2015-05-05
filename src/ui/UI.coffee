@@ -3,7 +3,7 @@ class UI
 
   Util.Export( UI, 'ui/UI' )
 
-  constructor:( @app, @destination, @trip, @deals, @navigate ) ->
+  constructor:( @app, @stream, @destination, @trip, @deals, @navigate ) ->
 
   ready:() ->
     @$ = $( @html() )
@@ -13,11 +13,17 @@ class UI
     @$view.append(@trip.$)
     @$view.append(@deals.$)
     @$view.append(@navigate.$)
+    @$destinationIcon =  @$.find('#DestinationIcon')
+    @$tripIcon        =  @$.find('#TripIcon')
+    @$dealsIcon       =  @$.find('#DealsIcon')
+    @$namigateIcon    =  @$.find('#NavigateIcon')
+    @lastSelect       = null
+    @publish()
+    @subscribe()
+    #@push( 'Select', 'Trip', 'UI' )
+    @select( 'Trip' )
 
-    @$destinationIcon =  @$.find('DestinationIcon')
-    @$tripIcon        =  @$.find('TripIcon')
-    @$dealIcon        =  @$.find('DealIcon')
-    @$namigateIcon    =  @$.find('NavigateIcon')
+
 
   id:(   name, type     ) -> @app.id(   name, type     )
   css:(  name, type     ) -> @app.css(  name, type     )
@@ -39,3 +45,28 @@ class UI
   show:() ->
 
   hide:() ->
+
+  publish:() ->
+    @stream.publish( 'Select', @$destinationIcon, 'click', 'Destination', 'UI' )
+    @stream.publish( 'Select', @$tripIcon,        'click', 'Trip',        'UI' )
+    @stream.publish( 'Select', @$dealsIcon,       'click', 'Deals',       'UI' )
+    @stream.publish( 'Select', @$namigateIcon,    'click', 'Navigate',    'UI' )
+
+  subscribe:() ->
+    @stream.subscribe( 'Select', (object) => @select(object.topic) )
+
+  push:( subject, topic, from ) ->
+    @stream.push( subject, topic, from )
+
+  select:( name ) ->
+    @lastSelect.hide() if @lastSelect?
+    switch name
+      when 'Destination' then @lastSelect = @destination
+      when 'Trip'        then @lastSelect = @trip
+      when 'Deals'       then @lastSelect = @deals
+      when 'Navigate'    then @lastSelect = @navigate
+      else Util.error( "UI.select unknown name", name )
+    if @lastSelect?
+       @lastSelect.show()
+       Util.log( name, 'Selected')
+    return

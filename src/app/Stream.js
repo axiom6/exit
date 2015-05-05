@@ -8,17 +8,10 @@
     function Stream(app) {
       this.app = app;
       if ($().bindAsObservable == null) {
-        Util.error('App rxjs-jquery not defined');
+        Util.error('Stream rxjs-jquery not defined');
       }
       this.subjects = {};
       this.subjects['Select'] = new Rx.Subject();
-      this.subjects['Convey'] = new Rx.Subject();
-      this.subjects['Flow'] = new Rx.Subject();
-      this.subjects['Plane'] = new Rx.Subject();
-      this.subjects['About'] = new Rx.Subject();
-      this.subjects['Navigate'] = new Rx.Subject();
-      this.subjects['Settings'] = new Rx.Subject();
-      this.subjects['Submit'] = new Rx.Subject();
     }
 
     Stream.prototype.getSubject = function(prop, warn) {
@@ -61,6 +54,19 @@
       subject = this.getSubject(prop, false);
       subscription = subject.subscribe(onNext, this.onError, this.onComplete);
       return subscription;
+    };
+
+    Stream.prototype.push = function(prop, topic, from) {
+      var object, onNext, subject;
+      subject = this.getSubject(prop);
+      object = {
+        from: from,
+        topic: topic
+      };
+      onNext = function() {
+        return subject.onNext(object);
+      };
+      return subject.subscribe(onNext, this.onError, this.onComplete);
     };
 
     Stream.prototype.createRxJQuery = function(jqSel, object) {

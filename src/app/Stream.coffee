@@ -4,17 +4,10 @@ class Stream
   Util.Export( Stream, 'app/Stream' )
 
   constructor:( @app ) ->
-    Util.error( 'App rxjs-jquery not defined' ) if not $().bindAsObservable? # Special case
+    Util.error( 'Stream rxjs-jquery not defined' ) if not $().bindAsObservable? # Special case
     @subjects = {}
     @subjects['Select']   = new Rx.Subject()
-    #@subjects['Content'] = new Rx.Subject()
-    @subjects['Convey']   = new Rx.Subject()
-    @subjects['Flow']     = new Rx.Subject()
-    @subjects['Plane']    = new Rx.Subject()
-    @subjects['About']    = new Rx.Subject()
-    @subjects['Navigate'] = new Rx.Subject()
-    @subjects['Settings'] = new Rx.Subject()
-    @subjects['Submit']   = new Rx.Subject()
+
 
   getSubject:( prop, warn=false ) ->
     if @subjects[prop]?
@@ -27,7 +20,7 @@ class Stream
   publish:( prop, jqSel, eventType, topic, from ) ->
     subject = @getSubject(  prop )
     object  = { from:from, topic:topic }
-    #Util.log( 'App.Pub.publishEventToSubject.onInit', prop, object )
+    #Util.log( 'Stream.publish()', prop, object )
     onNext = ( event ) =>
       @processEvent(  event )
       object.value = event.target.value  if eventType isnt 'click'
@@ -41,6 +34,13 @@ class Stream
     subject = @getSubject( prop, false ) # Many subscribers come before publishers
     subscription = subject.subscribe( onNext, @onError, @onComplete )
     subscription
+
+  push:( prop, topic, from ) ->
+    subject = @getSubject(  prop )
+    object  = { from:from, topic:topic }
+    onNext  = () ->
+      subject.onNext( object )
+    subject.subscribe( onNext, @onError, @onComplete ) # What is needed here
 
   createRxJQuery:( jqSel, object ) ->
     if Util.isJQuery( jqSel )

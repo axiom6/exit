@@ -43,11 +43,11 @@ class App
     @destination = new Destination(  @, @stream, @go, @nogo, @threshold )
     @road        = new Road(         @, @stream )
     @weather     = new Weather(      @, @stream )
-    @advisory    = new Adivisory(    @, @stream )
-    @trip        = new Trip(         @, @stream @road. @weather, @advisory  )
+    @advisory    = new Advisory(     @, @stream )
+    @trip        = new Trip(         @, @stream, @road, @weather, @advisory  )
     @deals       = new Deals(        @, @stream )
     @navigate    = new Navigate(     @, @stream )
-    @ui          = new UI( @, @destination, @trip, @deals, @navigate )
+    @ui          = new UI(           @, @stream, @destination, @trip, @deals, @navigate )
 
     @ready()
 

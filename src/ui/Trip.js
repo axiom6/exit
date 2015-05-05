@@ -5,22 +5,19 @@
   Trip = (function() {
     Util.Export(Trip, 'ui/Trip');
 
-    function Trip(app, advisory, go, nogo, weather, road) {
+    function Trip(app, stream, road, weather, advisory) {
       this.app = app;
-      this.advisory = advisory;
-      this.go = go;
-      this.nogo = nogo;
-      this.weather = weather;
+      this.stream = stream;
       this.road = road;
+      this.weather = weather;
+      this.advisory = advisory;
     }
 
     Trip.prototype.ready = function() {
       this.$ = $(this.html());
-      this.$.append(this.advisory.$);
-      this.$.append(this.go.$);
-      this.$.append(this.nogo.$);
       this.$.append(this.weather.$);
-      return this.$.append(this.road.$);
+      this.$.append(this.road.$);
+      return this.$.append(this.advisory.$);
     };
 
     Trip.prototype.html = function() {
@@ -29,9 +26,13 @@
 
     Trip.prototype.layout = function() {};
 
-    Trip.prototype.show = function() {};
+    Trip.prototype.show = function() {
+      return this.$.show();
+    };
 
-    Trip.prototype.hide = function() {};
+    Trip.prototype.hide = function() {
+      return this.$.hide();
+    };
 
     return Trip;
 

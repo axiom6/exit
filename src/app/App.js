@@ -26,13 +26,13 @@
       if (runTest) {
         Test = Util.Import('app/Test');
       }
-      Destination = Util.Import('ui/Destination');
-      Threshold = Util.Import('ui/Threshold');
-      Advisory = Util.Import('ui/Advisory');
       Go = Util.Import('ui/Go');
       NoGo = Util.Import('ui/NoGo');
-      Weather = Util.Import('ui/Weather');
+      Threshold = Util.Import('ui/Threshold');
+      Destination = Util.Import('ui/Destination');
       Road = Util.Import('ui/Road');
+      Weather = Util.Import('ui/Weather');
+      Advisory = Util.Import('ui/Advisory');
       Trip = Util.Import('ui/Trip');
       Deals = Util.Import('ui/Deals');
       Navigate = Util.Import('ui/Navigate');
@@ -44,16 +44,17 @@
       if (runTest) {
         this.test = new Test(this);
       }
-      this.destination = new Destination(this, this.stream);
-      this.advisory = new Advisory(this, this.stream);
       this.go = new Go(this, this.stream);
       this.nogo = new NoGo(this, this.stream);
-      this.weather = new Weather(this, this.stream);
+      this.threshold = new Threshold(this, this.stream);
+      this.destination = new Destination(this, this.stream, this.go, this.nogo, this.threshold);
       this.road = new Road(this, this.stream);
-      this.trip = new Trip(this, this.advisory, this.go, this.nogo, this.weather, this.road);
+      this.weather = new Weather(this, this.stream);
+      this.advisory = new Advisory(this, this.stream);
+      this.trip = new Trip(this, this.stream, this.road, this.weather, this.advisory);
       this.deals = new Deals(this, this.stream);
       this.navigate = new Navigate(this, this.stream);
-      this.ui = new UI(this, this.destination, this.trip, this.deals, this.navigate);
+      this.ui = new UI(this, this.stream, this.destination, this.trip, this.deals, this.navigate);
       this.ready();
     }
 

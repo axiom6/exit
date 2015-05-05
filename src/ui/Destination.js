@@ -5,9 +5,12 @@
   Destination = (function() {
     Util.Export(Destination, 'ui/Destination');
 
-    function Destination(app, model) {
+    function Destination(app, stream, go, nogo, threshold) {
       this.app = app;
-      this.model = model;
+      this.stream = stream;
+      this.go = go;
+      this.nogo = nogo;
+      this.threshold = threshold;
     }
 
     Destination.prototype.ready = function() {
@@ -15,14 +18,18 @@
     };
 
     Destination.prototype.html = function() {
-      return "<div id=\"" + (this.app.id('Destination')) + "\" class=\"" + (this.app.css('Destination')) + "\"></div>";
+      return "<div id=\"" + (this.app.id('Destination')) + "\" class=\"" + (this.app.css('Destination')) + "\">Destination</div>";
     };
 
     Destination.prototype.layout = function() {};
 
-    Destination.prototype.show = function() {};
+    Destination.prototype.show = function() {
+      return this.$.show();
+    };
 
-    Destination.prototype.hide = function() {};
+    Destination.prototype.hide = function() {
+      return this.$.hide();
+    };
 
     return Destination;
 

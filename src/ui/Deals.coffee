@@ -9,10 +9,10 @@ class Deals
     @$ = $( @html() )
 
   html:() ->
-    """<div id="#{@app.id('Deals')}" class="#{@app.css('Deals')}"></div>"""
+    """<div id="#{@app.id('Deals')}" class="#{@app.css('Deals')}">Deals</div>"""
 
   layout:() ->
 
-  show:() ->
+  show:() -> @$.show()
 
-  hide:() ->
+  hide:() -> @$.hide()

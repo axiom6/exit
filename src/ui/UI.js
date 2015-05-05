@@ -5,8 +5,9 @@
   UI = (function() {
     Util.Export(UI, 'ui/UI');
 
-    function UI(app, destination, trip, deals, navigate) {
+    function UI(app, stream, destination, trip, deals, navigate) {
       this.app = app;
+      this.stream = stream;
       this.destination = destination;
       this.trip = trip;
       this.deals = deals;
@@ -21,10 +22,14 @@
       this.$view.append(this.trip.$);
       this.$view.append(this.deals.$);
       this.$view.append(this.navigate.$);
-      this.$destinationIcon = this.$.find('DestinationIcon');
-      this.$tripIcon = this.$.find('TripIcon');
-      this.$dealIcon = this.$.find('DealIcon');
-      return this.$namigateIcon = this.$.find('NavigateIcon');
+      this.$destinationIcon = this.$.find('#DestinationIcon');
+      this.$tripIcon = this.$.find('#TripIcon');
+      this.$dealsIcon = this.$.find('#DealsIcon');
+      this.$namigateIcon = this.$.find('#NavigateIcon');
+      this.lastSelect = null;
+      this.publish();
+      this.subscribe();
+      return this.select('Trip');
     };
 
     UI.prototype.id = function(name, type) {
@@ -48,6 +53,51 @@
     UI.prototype.show = function() {};
 
     UI.prototype.hide = function() {};
+
+    UI.prototype.publish = function() {
+      this.stream.publish('Select', this.$destinationIcon, 'click', 'Destination', 'UI');
+      this.stream.publish('Select', this.$tripIcon, 'click', 'Trip', 'UI');
+      this.stream.publish('Select', this.$dealsIcon, 'click', 'Deals', 'UI');
+      return this.stream.publish('Select', this.$namigateIcon, 'click', 'Navigate', 'UI');
+    };
+
+    UI.prototype.subscribe = function() {
+      return this.stream.subscribe('Select', (function(_this) {
+        return function(object) {
+          return _this.select(object.topic);
+        };
+      })(this));
+    };
+
+    UI.prototype.push = function(subject, topic, from) {
+      return this.stream.push(subject, topic, from);
+    };
+
+    UI.prototype.select = function(name) {
+      if (this.lastSelect != null) {
+        this.lastSelect.hide();
+      }
+      switch (name) {
+        case 'Destination':
+          this.lastSelect = this.destination;
+          break;
+        case 'Trip':
+          this.lastSelect = this.trip;
+          break;
+        case 'Deals':
+          this.lastSelect = this.deals;
+          break;
+        case 'Navigate':
+          this.lastSelect = this.navigate;
+          break;
+        default:
+          Util.error("UI.select unknown name", name);
+      }
+      if (this.lastSelect != null) {
+        this.lastSelect.show();
+        Util.log(name, 'Selected');
+      }
+    };
 
     return UI;
 

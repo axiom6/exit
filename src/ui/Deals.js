@@ -15,14 +15,18 @@
     };
 
     Deals.prototype.html = function() {
-      return "<div id=\"" + (this.app.id('Deals')) + "\" class=\"" + (this.app.css('Deals')) + "\"></div>";
+      return "<div id=\"" + (this.app.id('Deals')) + "\" class=\"" + (this.app.css('Deals')) + "\">Deals</div>";
     };
 
     Deals.prototype.layout = function() {};
 
-    Deals.prototype.show = function() {};
+    Deals.prototype.show = function() {
+      return this.$.show();
+    };
 
-    Deals.prototype.hide = function() {};
+    Deals.prototype.hide = function() {
+      return this.$.hide();
+    };
 
     return Deals;
 

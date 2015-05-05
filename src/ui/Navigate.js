@@ -15,14 +15,18 @@
     };
 
     Navigate.prototype.html = function() {
-      return "<div id=\"" + (this.app.id('Navigate')) + "\" class=\"" + (this.app.css('Navigate')) + "\"></div>";
+      return "<div id=\"" + (this.app.id('Navigate')) + "\" class=\"" + (this.app.css('Navigate')) + "\">Navigate</div>";
     };
 
     Navigate.prototype.layout = function() {};
 
-    Navigate.prototype.show = function() {};
+    Navigate.prototype.show = function() {
+      return this.$.show();
+    };
 
-    Navigate.prototype.hide = function() {};
+    Navigate.prototype.hide = function() {
+      return this.$.hide();
+    };
 
     return Navigate;
 
