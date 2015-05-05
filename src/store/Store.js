@@ -8,9 +8,7 @@
 
     Util.Export(Store, 'store/Store');
 
-    Store.modules = ['Store.Memory', 'Store.IndexedDB', 'Store.Rest', 'Store.Firebase', 'Store.PouchDB'];
-
-    Util.loadModules('src/', 'store/', Store.modules);
+    Store.modules = ['Store.Memory', 'Store.IndexedDB', 'Store.Rest'];
 
     Store.restOps = ['add', 'get', 'put', 'del'];
 

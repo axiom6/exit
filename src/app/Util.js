@@ -791,6 +791,20 @@ Util = (function() {
     return date.getUTCFullYear()(+'-' + pad(date.getUTCMonth() + 1) + '-' + pad(date.getUTCDate()) + 'T' + pad(date.getUTCHours()) + ':' + pad(date.getUTCMinutes()) + ':' + pad(date.getUTCSeconds()) + 'Z');
   };
 
+  Util.toTime = function(unixTime) {
+    var ampm, date, hour, min, time;
+    date = new Date(unixTime * 1000);
+    hour = date.getHours();
+    ampm = 'AM';
+    if (hour > 12) {
+      hour = hour - 12;
+      ampm = 'PM';
+    }
+    min = ('0' + date.getMinutes()).slice(-2);
+    time = hour + ':' + min + ' ' + ampm;
+    return time;
+  };
+
   Util.hex4 = function() {
     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
   };

@@ -464,6 +464,17 @@ class Util
     date.getUTCFullYear()  +'-'+pad(date.getUTCMonth()+1)+'-'+pad(date.getUTCDate())+'T'+
     pad(date.getUTCHours())+':'+pad(date.getUTCMinutes())+':'+pad(date.getUTCSeconds())+'Z'
 
+  @toTime:( unixTime ) ->
+    date = new Date( unixTime * 1000 )
+    hour   = date.getHours()
+    ampm   = 'AM'
+    if hour > 12
+      hour = hour - 12
+      ampm = 'PM'
+    min  = ('0' + date.getMinutes()).slice(-2)
+    time = hour + ':' + min + ' ' + ampm
+    time
+
   # Generate four random hex digits
   @hex4:() ->
     (((1+Math.random())*0x10000)|0).toString(16).substring(1)

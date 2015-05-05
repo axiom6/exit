@@ -5,21 +5,23 @@
 body { background-image:url("../img/app/phone6x12Horz.png");
        background-repeat:no-repeat; }
 
-.App                 { position:absolute; left:1.11in; top:0.33in;; width:6.7in; height:3.79in; }
 
-.App6x12             { position:absolute; left:0.33in; top:1.11in;; width:3.79in; height:6.7in; }
+
+.App                 { position:absolute; left:1.21in; top:0.33in;; width:6.67in; height:3.79in; backbround:azure; }
+
+.App6x12             { position:absolute; left:0.33in; top:1.11in;; width:3.79in; height:6.69in; }
 
 .App4x8              { position:absolute; left:0.25in; top:0.71in;; width:2.52in; height:4.5in; }
 
-.UI               { position:absolute; left:0; top:0; width:100%; height:100%; }
+.UI               { position:absolute; left:0; top:0; width:100%; height:100%; font-family: 'Droid Sans', sans-serif; }
 
-.Icons            { position:absolute; left:    0;  top:1%; width:100%;  height: 10%; background:transparent; font-size:36px; }
-.DestinationIcon  { position:absolute; left: 6.25%; top:0;  width:12.5%; height:100%; }
-.TripIcon         { position:absolute; left:31.25%; top:0;  width:12.5%; height:100%; }
-.DealsIcon        { position:absolute; left:56.25%; top:0;  width:12.5%; height:100%; }
-.NavigateIcon     { position:absolute; left:81.25%; top:0;  width:12.5%; height:100%; }
+.Icons            { position:absolute; left:    0;  top:0;  width:100%;  height: 13%; background:black; color:white; font-size:36px; border:1px solid black;}
+.DestinationIcon  { position:absolute; left: 6.25%; top:6%; width:12.5%; height:94%; }
+.TripIcon         { position:absolute; left:31.25%; top:6%; width:12.5%; height:94%; }
+.DealsIcon        { position:absolute; left:56.25%; top:6%; width:12.5%; height:94%; }
+.NavigateIcon     { position:absolute; left:81.25%; top:6%; width:12.5%; height:94%; }
 
-.View             { position:absolute; left:0; top:10%; width:100%; height:89%; background:transparent; }
+.View             { position:absolute; left:0; top:13%; width:100%; height:87%; background:white; }
 
 .Destination      { display:none; }
 
@@ -37,15 +39,31 @@ body { background-image:url("../img/app/phone6x12Horz.png");
 
 iframe            { transform:scale(@s,@s); }
 
-.Weather          { position:absolute; left:0;     top:0;   width:100%;  height:100%; }
-.Weather1         { position:absolute; left:0;     top:0;   width:25.0%; height:50%;}
-.Weather2         { position:absolute; left:25.0%; top:0;   width:25.0%; height:50%;}
-.Weather3         { position:absolute; left:50.0%; top:0;   width:25.0%; height:50%;}
-.Weather4         { position:absolute; left:75.0%; top:0;   width:25.0%; height:50%;}
-.Weather5         { position:absolute; left:0;     top:50%; width:25.0%; height:50%;}
-.Weather6         { position:absolute; left:25.0%; top:50%; width:25.0%; height:50%;}
-.Weather7         { position:absolute; left:50.0%; top:50%; width:25.0%; height:50%;}
-.Weather8         { position:absolute; left:75.0%; top:50%; width:25.0%; height:50%;}
+.Weather          { position:absolute; left:0;     top:0; width:100%;  height:45%; font-family: 'Open Sans Condensed', sans-serif; font-weight:700;font-size:1.0em; }
+.Weather1         { position:absolute; left:0;     top:0; width:12.5%; height:100%;  border:1px solid; text-align:center; }
+.Weather2         { position:absolute; left:12.5%; top:0; width:12.5%; height:100%;  border:1px solid; text-align:center; }
+.Weather3         { position:absolute; left:25.0%; top:0; width:12.5%; height:100%;  border:1px solid; text-align:center; }
+.Weather4         { position:absolute; left:37.5%; top:0; width:12.5%; height:100%;  border:1px solid; text-align:center; }
+.Weather5         { position:absolute; left:50.0%; top:0; width:12.5%; height:100%;  border:1px solid; text-align:center; }
+.Weather6         { position:absolute; left:62.5%; top:0; width:12.5%; height:100%;  border:1px solid; text-align:center; }
+.Weather7         { position:absolute; left:75.0%; top:0; width:12.5%; height:100%;  border:1px solid; text-align:center; }
+.Weather8         { position:absolute; left:87.5%; top:0; width:12.5%; height:100%;  border:1px solid; text-align:center; }
+
+/*
+    html = """<div   class="Weather#{loc.index}" style="text-align:center; background-color:#{f.style.back}">
+                <div class="WeatherName" style="font-size:0.9em;">#{loc.name}</div>
+                <div class="WeatherTime" style="font-size:0.9em;">#{time}</div>
+                <div class="WeatherIcon"><i class="wi #{f.style.icon}" style="font-size:2.5em;"></i></div>
+                <div class="WeatherSumm" style="padding-top:0.2em;">#{f.summary}</div>
+                <div class="WeatherTemp" style="font-size:1.5em;">#{f.temperature}&deg;</div>
+*/
+
+.WeatherName { font-size:0.9em; }
+.WeatherName { font-size:0.9em; }
+.WeatherIcon { font-size:2.5em; }
+.WeatherSumm { font-size:1.0em; padding-top:0.2em; }
+.WeatherTemp { font-size:1.5em; }
+
 
 
 .Road             { display:none; }
@@ -53,3 +71,7 @@ iframe            { transform:scale(@s,@s); }
 .Deals            { display:none; }
 
 .Navi             { display:none; }
+
+// @font-face {  font-family: "Bitstream Vera Serif Bold"; src: local(""), url("https://mdn.mozillademos.org/files/2468/VeraSeBd.ttf");  }
+//@font-face {  font-family: 'Abril Fatface';  src: local(""), url("AbrilFatface.otf");
+//  font-weight: bold;  font-style: italic;  font-stretch: condensed;  unicode-range: U+0026;  }
