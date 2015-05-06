@@ -1,28 +1,20 @@
 body {
-  background-image: url("../img/app/phone6x12Horz.png");
+  background-image: url("../img/app/phone6x12Portrait.png");
   background-repeat: no-repeat;
 }
-.App {
+.AppPortrait {
+  position: absolute;
+  left: 0.33in;
+  top: 1.11in;
+  width: 3.79in;
+  height: 6.67in;
+}
+.AppLandscape {
   position: absolute;
   left: 1.21in;
   top: 0.33in;
   width: 6.67in;
   height: 3.79in;
-  backbround: azure;
-}
-.App6x12 {
-  position: absolute;
-  left: 0.33in;
-  top: 1.11in;
-  width: 3.79in;
-  height: 6.69in;
-}
-.App4x8 {
-  position: absolute;
-  left: 0.25in;
-  top: 0.71in;
-  width: 2.52in;
-  height: 4.5in;
 }
 .UI {
   position: absolute;
@@ -80,7 +72,39 @@ body {
   background: white;
 }
 .Destination {
+  position: absolute;
+  left: 0;
+  top: 0%;
+  width: 100%;
+  height: 100%;
   display: none;
+  background-color: #658552;
+  text-align: center;
+}
+.DestinationLabelInput {
+  padding-top: 1.0em;
+}
+.DestinationUserLabel {
+  font-size: 1.0em;
+  font-weight: bold;
+}
+.DestinationUserInput {
+  font-size: 1.0em;
+  font-weight: bold;
+}
+.DestinationWhat {
+  font-size: 2.5em;
+  font-weight: bold;
+  padding-top: 0.5em;
+}
+.DestinationDest {
+  font-size: 2.5em;
+  font-weight: bold;
+  padding-bottom: 0.5em;
+}
+.DestinationSelect {
+  font-size: 1.0em;
+  font-weight: bold;
 }
 .Trip {
   display: none;
@@ -96,15 +120,61 @@ body {
 }
 .Go {
   display: none;
+  background-color: #658552;
+}
+.GoBanner {
+  font-size: 5.0em;
+  font-weight: bold;
+  background-color: white;
+  color: #658552;
+  margin: 12px;
+}
+.GoDeals {
+  position: absolute;
+  left: 3%;
+  top: 20%;
+  width: 94%;
+  height: 65%;
+  font-size: 1.5em;
+  font-weight: bold;
+  background-color: white;
+}
+.GoDrive {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 125px;
 }
 .NoGo {
   display: none;
 }
+.NoGoBanner {
+  font-size: 5.0em;
+  font-weight: bold;
+  background-color: #E2492F;
+  color: white;
+  margin: 12px;
+}
+.NoGoDeals {
+  position: absolute;
+  left: 3%;
+  top: 20%;
+  width: 94%;
+  height: 65%;
+  font-size: 1.5em;
+  background-color: white;
+  margin: 12px;
+}
+.NoGoDrive {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 125px;
+}
 .Advisory {
   display: none;
-}
-iframe {
-  transform: scale(1, 1);
 }
 .Weather {
   position: absolute;
@@ -188,14 +258,6 @@ iframe {
   border: 1px solid;
   text-align: center;
 }
-/*
-    html = """<div   class="Weather#{loc.index}" style="text-align:center; background-color:#{f.style.back}">
-                <div class="WeatherName" style="font-size:0.9em;">#{loc.name}</div>
-                <div class="WeatherTime" style="font-size:0.9em;">#{time}</div>
-                <div class="WeatherIcon"><i class="wi #{f.style.icon}" style="font-size:2.5em;"></i></div>
-                <div class="WeatherSumm" style="padding-top:0.2em;">#{f.summary}</div>
-                <div class="WeatherTemp" style="font-size:1.5em;">#{f.temperature}&deg;</div>
-*/
 .WeatherName {
   font-size: 0.9em;
 }

@@ -27,9 +27,10 @@
       this.$dealsIcon = this.$.find('#DealsIcon');
       this.$namigateIcon = this.$.find('#NavigateIcon');
       this.lastSelect = null;
+      this.orientation = 'Portrait';
       this.publish();
       this.subscribe();
-      return this.select('Trip');
+      return this.select('Destination');
     };
 
     UI.prototype.id = function(name, type) {
@@ -48,7 +49,15 @@
       return "<div    id=\"" + (this.id('UI')) + "\"                  class=\"" + (this.css('UI')) + "\">\n <div  id=\"" + (this.id('Icons')) + "\"               class=\"" + (this.css('Icons')) + "\">\n    <i id=\"" + (this.id('Destination', 'Icon')) + "\"  class=\"" + (this.icon('Destination', 'Icon', 'picture-o')) + "\"></i>\n    <i id=\"" + (this.id('Trip', 'Icon')) + "\"  class=\"" + (this.icon('Trip', 'Icon', 'road')) + "\"></i>\n    <i id=\"" + (this.id('Deals', 'Icon')) + "\"  class=\"" + (this.icon('Deals', 'Icon', 'trophy')) + "\"></i>\n    <i id=\"" + (this.id('Navigate', 'Icon')) + "\"  class=\"" + (this.icon('Navigate', 'Icon', 'street-view')) + "\"></i>\n </div>\n <div id=\"" + (this.id('View')) + "\" class=\"" + (this.css('View')) + "\"></div>\n</div>";
     };
 
-    UI.prototype.layout = function() {};
+    UI.prototype.layout = function(orientation) {
+      var url;
+      Util.log('UI.layout', orientation);
+      url = "img/app/phone6x12" + orientation + ".png";
+      $('body').css({
+        "background-image": "url(" + url + ")"
+      });
+      return $('#App').attr('class', "App" + orientation);
+    };
 
     UI.prototype.show = function() {};
 
@@ -58,13 +67,18 @@
       this.stream.publish('Select', this.$destinationIcon, 'click', 'Destination', 'UI');
       this.stream.publish('Select', this.$tripIcon, 'click', 'Trip', 'UI');
       this.stream.publish('Select', this.$dealsIcon, 'click', 'Deals', 'UI');
-      return this.stream.publish('Select', this.$namigateIcon, 'click', 'Navigate', 'UI');
+      return this.stream.publish('Orient', this.$namigateIcon, 'click', 'Orient', 'UI');
     };
 
     UI.prototype.subscribe = function() {
-      return this.stream.subscribe('Select', (function(_this) {
+      this.stream.subscribe('Select', (function(_this) {
         return function(object) {
           return _this.select(object.topic);
+        };
+      })(this));
+      return this.stream.subscribe('Orient', (function(_this) {
+        return function(object) {
+          return _this.orient();
         };
       })(this));
     };
@@ -97,6 +111,11 @@
         this.lastSelect.show();
         Util.log(name, 'Selected');
       }
+    };
+
+    UI.prototype.orient = function() {
+      this.orientation = this.orientation === 'Portrait' ? 'Landscape' : 'Portrait';
+      return this.layout(this.orientation);
     };
 
     return UI;

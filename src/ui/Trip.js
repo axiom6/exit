@@ -14,10 +14,13 @@
     }
 
     Trip.prototype.ready = function() {
+      this.advisory.ready();
+      this.road.ready();
+      this.weather.ready();
       this.$ = $(this.html());
+      this.$.append(this.advisory.$);
       this.$.append(this.weather.$);
-      this.$.append(this.road.$);
-      return this.$.append(this.advisory.$);
+      return this.$.append(this.road.$);
     };
 
     Trip.prototype.html = function() {

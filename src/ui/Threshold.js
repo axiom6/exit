@@ -15,14 +15,18 @@
     };
 
     Threshold.prototype.html = function() {
-      return "<div id=\"" + (this.app.id('Threshold')) + "\" class=\"" + (this.app.css('Threshold')) + "\"></div>";
+      return "<div id=\"" + (this.app.id('Threshold')) + "\"       class=\"" + (this.app.css('Threshold')) + "\">\n   <div id=\"" + (this.app.id('ThresholdAdjust')) + "\" class=\"" + (this.app.css('ThresholdAdjust')) + "\">Adjust Threshold</div>\n   <img src=\"img/app/Threshold.png\">\n</div>";
     };
 
     Threshold.prototype.layout = function() {};
 
-    Threshold.prototype.show = function() {};
+    Threshold.prototype.show = function() {
+      return this.$.show();
+    };
 
-    Threshold.prototype.hide = function() {};
+    Threshold.prototype.hide = function() {
+      return this.$.hide();
+    };
 
     return Threshold;
 

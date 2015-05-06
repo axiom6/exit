@@ -12,6 +12,8 @@
       }
       this.subjects = {};
       this.subjects['Select'] = new Rx.Subject();
+      this.subjects['Orient'] = new Rx.Subject();
+      this.subjects['Destination'] = new Rx.Subject();
     }
 
     Stream.prototype.getSubject = function(prop, warn) {

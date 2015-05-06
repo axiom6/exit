@@ -6,7 +6,9 @@ class Stream
   constructor:( @app ) ->
     Util.error( 'Stream rxjs-jquery not defined' ) if not $().bindAsObservable? # Special case
     @subjects = {}
-    @subjects['Select']   = new Rx.Subject()
+    @subjects['Select']      = new Rx.Subject()
+    @subjects['Orient']      = new Rx.Subject()
+    @subjects['Destination'] = new Rx.Subject()
 
 
   getSubject:( prop, warn=false ) ->

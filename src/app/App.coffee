@@ -53,14 +53,12 @@ class App
 
   ready:() ->
     @destination.ready()
-    @advisory.ready()
-    @go.ready()
-    @road.ready()
-    @weather.ready()
     @trip.ready()
     @deals.ready()
     @navigate.ready()
     @ui.ready()
+
+    @destination.publish()
 
 
   id:(   name, type=''  ) -> name + type

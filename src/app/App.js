@@ -60,14 +60,11 @@
 
     App.prototype.ready = function() {
       this.destination.ready();
-      this.advisory.ready();
-      this.go.ready();
-      this.road.ready();
-      this.weather.ready();
       this.trip.ready();
       this.deals.ready();
       this.navigate.ready();
-      return this.ui.ready();
+      this.ui.ready();
+      return this.destination.publish();
     };
 
     App.prototype.id = function(name, type) {

@@ -18,12 +18,11 @@ class UI
     @$dealsIcon       =  @$.find('#DealsIcon')
     @$namigateIcon    =  @$.find('#NavigateIcon')
     @lastSelect       = null
+    @orientation      = 'Portrait'
     @publish()
     @subscribe()
     #@push( 'Select', 'Trip', 'UI' )
-    @select( 'Trip' )
-
-
+    @select( 'Destination' )
 
   id:(   name, type     ) -> @app.id(   name, type     )
   css:(  name, type     ) -> @app.css(  name, type     )
@@ -40,7 +39,11 @@ class UI
          <div id="#{@id('View')}" class="#{@css('View')}"></div>
         </div>"""
 
-  layout:() ->
+  layout:( orientation ) ->
+    Util.log( 'UI.layout', orientation )
+    url = "img/app/phone6x12#{orientation}.png"
+    $('body').css( { "background-image":"url(#{url})" } )
+    $('#App').attr( 'class', "App#{orientation}" )
 
   show:() ->
 
@@ -50,10 +53,11 @@ class UI
     @stream.publish( 'Select', @$destinationIcon, 'click', 'Destination', 'UI' )
     @stream.publish( 'Select', @$tripIcon,        'click', 'Trip',        'UI' )
     @stream.publish( 'Select', @$dealsIcon,       'click', 'Deals',       'UI' )
-    @stream.publish( 'Select', @$namigateIcon,    'click', 'Navigate',    'UI' )
+    @stream.publish( 'Orient', @$namigateIcon,    'click', 'Orient',      'UI' )
 
   subscribe:() ->
     @stream.subscribe( 'Select', (object) => @select(object.topic) )
+    @stream.subscribe( 'Orient', (object) => @orient() )
 
   push:( subject, topic, from ) ->
     @stream.push( subject, topic, from )
@@ -70,3 +74,7 @@ class UI
        @lastSelect.show()
        Util.log( name, 'Selected')
     return
+
+  orient:() ->
+    @orientation = if @orientation is 'Portrait' then 'Landscape' else 'Portrait'
+    @layout( @orientation )
