@@ -24,51 +24,73 @@ body {
   height: 100%;
   font-family: 'Droid Sans', sans-serif;
 }
+.IconsHover {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 4%;
+  background: transparent;
+  z-index: 3;
+}
 .Icons {
   position: absolute;
   left: 0;
   top: 0;
   width: 100%;
   height: 13%;
+  display: none;
   background: black;
   color: white;
   font-size: 36px;
   border: 1px solid black;
+  z-index: 4;
 }
 .DestinationIcon {
   position: absolute;
   left: 6.25%;
-  top: 6%;
+  top: 0;
   width: 12.5%;
   height: 94%;
+  z-index: 5;
 }
 .TripIcon {
   position: absolute;
   left: 31.25%;
-  top: 6%;
+  top: 0;
   width: 12.5%;
   height: 94%;
+  z-index: 5;
 }
 .DealsIcon {
   position: absolute;
   left: 56.25%;
-  top: 6%;
+  top: 0;
   width: 12.5%;
   height: 94%;
+  z-index: 5;
 }
 .NavigateIcon {
   position: absolute;
   left: 81.25%;
-  top: 6%;
+  top: 0;
   width: 12.5%;
   height: 94%;
+  z-index: 5;
+}
+.Icons > div {
+  display: table;
+}
+.Icons > div > div {
+  display: table-cell;
+  vertical-align: middle;
 }
 .View {
   position: absolute;
   left: 0;
-  top: 13%;
+  top: 0%;
   width: 100%;
-  height: 87%;
+  height: 100%;
   background: white;
 }
 .Destination {
@@ -123,21 +145,30 @@ body {
   background-color: #658552;
 }
 .GoBanner {
-  font-size: 5.0em;
+  position: absolute;
+  left: 4%;
+  top: 4%;
+  width: 92%;
+  height: 24%;
+  display: table;
+  font-size: 7.0em;
   font-weight: bold;
   background-color: white;
   color: #658552;
-  margin: 12px;
+}
+.GoBannerText {
+  display: table-cell;
+  vertical-align: middle;
 }
 .GoDeals {
   position: absolute;
   left: 3%;
-  top: 20%;
+  top: 32%;
   width: 94%;
-  height: 65%;
+  height: 45%;
   font-size: 1.5em;
-  font-weight: bold;
-  background-color: white;
+  background-color: #678754;
+  color: white;
 }
 .GoDrive {
   position: absolute;
@@ -150,21 +181,29 @@ body {
   display: none;
 }
 .NoGoBanner {
+  position: absolute;
+  left: 4%;
+  top: 4%;
+  width: 92%;
+  height: 24%;
+  display: table;
   font-size: 5.0em;
   font-weight: bold;
   background-color: #E2492F;
   color: white;
-  margin: 12px;
+}
+.NoGoBannerText {
+  display: table-cell;
+  vertical-align: middle;
 }
 .NoGoDeals {
   position: absolute;
-  left: 3%;
-  top: 20%;
-  width: 94%;
-  height: 65%;
+  left: 4%;
+  top: 32%;
+  width: 92%;
+  height: 45%;
   font-size: 1.5em;
   background-color: white;
-  margin: 12px;
 }
 .NoGoDrive {
   position: absolute;

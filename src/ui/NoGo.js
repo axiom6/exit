@@ -15,7 +15,7 @@
     };
 
     NoGo.prototype.html = function() {
-      return "<div   id=\"" + (this.app.id('NoGo')) + "\"       class=\"" + (this.app.css('NoGo')) + "\">\n  <div id=\"" + (this.app.id('NoGoBanner')) + "\" class=\"" + (this.app.css('NoGoBanner')) + "\">NO GO</div>\n  <div id=\"" + (this.app.id('NoGoODeals')) + "\" class=\"" + (this.app.css('NoGoDeals')) + "\">\n    <div>50% off Hotel</div>\n  </div>\n  <div id=\"" + (this.app.id('NoGoDrive')) + "\" class=\"" + (this.app.css('NoGoDrive')) + "\">\n    <img src=\"img/app/DriveBar.png\" width=\"362\">\n  </div>\n</div>";
+      return "<div      id=\"" + (this.app.id('NoGo')) + "\"          class=\"" + (this.app.css('NoGo')) + "\">\n  <div   id=\"" + (this.app.id('NoGoBanner')) + "\"     class=\"" + (this.app.css('NoGoBanner')) + "\">\n    <div id=\"" + (this.app.id('NoGoBannerText')) + "\" class=\"" + (this.app.css('NoGoBannerText')) + "\">NO GO</div>\n  </div>\n  <div id=\"" + (this.app.id('NoGoODeals')) + "\"       class=\"" + (this.app.css('NoGoDeals')) + "\">\n    <div>50% off Hotel</div>\n  </div>\n  <div id=\"" + (this.app.id('NoGoDrive')) + "\" class=\"" + (this.app.css('NoGoDrive')) + "\">\n    <img src=\"img/app/NoGoDriveBar.png\" width=\"362\">\n  </div>\n</div>";
     };
 
     NoGo.prototype.layout = function() {};

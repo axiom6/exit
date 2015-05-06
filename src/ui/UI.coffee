@@ -13,12 +13,16 @@ class UI
     @$view.append(@trip.$)
     @$view.append(@deals.$)
     @$view.append(@navigate.$)
+    @$IconsHover      =  @$.find('#IconsHover')
+    @$Icons           =  @$.find('#Icons')
     @$destinationIcon =  @$.find('#DestinationIcon')
     @$tripIcon        =  @$.find('#TripIcon')
     @$dealsIcon       =  @$.find('#DealsIcon')
     @$namigateIcon    =  @$.find('#NavigateIcon')
     @lastSelect       = null
     @orientation      = 'Portrait'
+    @$IconsHover.mouseenter( () => @$Icons.show() )
+    @$Icons     .mouseleave( () => @$Icons.hide() )
     @publish()
     @subscribe()
     #@push( 'Select', 'Trip', 'UI' )
@@ -30,11 +34,12 @@ class UI
 
   html:() ->
     """<div    id="#{@id('UI')}"                  class="#{@css('UI')}">
+         <div  id="#{@id('IconsHover')}"          class="#{@css('IconsHover')}"></div>
          <div  id="#{@id('Icons')}"               class="#{@css('Icons')}">
-            <i id="#{@id('Destination','Icon')}"  class="#{@icon('Destination','Icon','picture-o')}"></i>
-            <i id="#{@id('Trip',       'Icon')}"  class="#{@icon('Trip',       'Icon','road')}"></i>
-            <i id="#{@id('Deals',      'Icon')}"  class="#{@icon('Deals',      'Icon','trophy')}"></i>
-            <i id="#{@id('Navigate',   'Icon')}"  class="#{@icon('Navigate',   'Icon','street-view')}"></i>
+            <div id="#{@id('Destination','Icon')}"  class="#{@css('Destination','Icon')}"><div><i class="fa fa-picture-o"></i></div></div>
+            <div id="#{@id('Trip',       'Icon')}"  class="#{@css('Trip',       'Icon')}"><div><i class="fa fa-road"></i></div></div>
+            <div id="#{@id('Deals',      'Icon')}"  class="#{@css('Deals',      'Icon')}"><div><i class="fa fa-trophy"></i></div></div>
+            <div id="#{@id('Navigate',   'Icon')}"  class="#{@css('Navigate',   'Icon')}"><div><i class="fa fa-street-view"></i></div></div>
          </div>
          <div id="#{@id('View')}" class="#{@css('View')}"></div>
         </div>"""
@@ -73,7 +78,6 @@ class UI
     if @lastSelect?
        @lastSelect.show()
        Util.log( name, 'Selected')
-    return
 
   orient:() ->
     @orientation = if @orientation is 'Portrait' then 'Landscape' else 'Portrait'

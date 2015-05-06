@@ -15,6 +15,11 @@ class Weather
     { key:"VailPass",     index:7, lon:-106.216071, lat:39.531042, name:"Vail Pass"      }
     { key:"Vail",         index:8, lon:-106.378767, lat:39.644407, name:"Vail"           } ]
 
+  @Locs = [
+    { key:"EastTunnel",   index:3, lon:-105.891111, lat:39.681757, name:"East Tunnel"    }
+    { key:"WestTunnel",   index:4, lon:-105.878342, lat:39.692400, name:"West Tunnel"    }
+    { key:"VailPass",     index:7, lon:-106.216071, lat:39.531042, name:"Vail Pass"      } ]
+
   @Locs[0].fore = { time:1430776040, summary:'Overcast',   fcIcon:'cloudy', style:{ back:'silver', icon:'wi-cloudy' }, precipProbability:0.01, precipType:'rain', temperature:44.16, windSpeed:5.7, cloudCover:0.99  }
   @Locs[1].fore = { time:1430776040, summary:'Drizzle',    fcIcon:'rain',   style:{ back:'silver', icon:'wi-showers' }, precipProbability:0.67, precipType:'rain', temperature:43.61, windSpeed:6.3, cloudCover:0.89  }
   @Locs[2].fore = { time:1430776040, summary:'Overcast',   fcIcon:'cloudy', style:{ back:'silver', icon:'wi-cloudy' }, precipProbability:0.19, precipType:'rain', temperature:39.49, windSpeed:6.9, cloudCover:0.97  }

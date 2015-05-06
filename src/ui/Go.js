@@ -15,7 +15,7 @@
     };
 
     Go.prototype.html = function() {
-      return "<div id=\"" + (this.app.id('Go')) + "\"         class=\"" + (this.app.css('Go')) + "\">\n  <div id=\"" + (this.app.id('GoBanner')) + "\" class=\"" + (this.app.css('GoBanner')) + "\">GO</div>\n  <div id=\"" + (this.app.id('GoDeals')) + "\"  class=\"" + (this.app.css('GoDeals')) + "\">\n    <div>11 deals at your destination</div>\n    <div>get going to beat traffic!</div>\n  </div>\n  <div id=\"" + (this.app.id('GoDrive')) + "\" class=\"" + (this.app.css('GoDrive')) + "\">\n    <img src=\"img/app/DriveBar.png\" width=\"362\">\n  </div>\n</div>";
+      return "<div id=\"" + (this.app.id('Go')) + "\"         class=\"" + (this.app.css('Go')) + "\">\n  <div   id=\"" + (this.app.id('GoBanner')) + "\"     class=\"" + (this.app.css('GoBanner')) + "\">\n    <div id=\"" + (this.app.id('GoBannerText')) + "\" class=\"" + (this.app.css('GoBannerText')) + "\">GO</div>\n  </div>\n  <div id=\"" + (this.app.id('GoDeals')) + "\"  class=\"" + (this.app.css('GoDeals')) + "\">\n    <div>11 deals at your destination</div>\n    <div>get going to beat traffic!</div>\n  </div>\n  <div id=\"" + (this.app.id('GoDrive')) + "\" class=\"" + (this.app.css('GoDrive')) + "\">\n    <img src=\"img/app/GoDriveBar.png\" width=\"362\">\n  </div>\n</div>";
     };
 
     Go.prototype.layout = function() {};

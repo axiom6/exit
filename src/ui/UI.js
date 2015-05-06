@@ -22,12 +22,24 @@
       this.$view.append(this.trip.$);
       this.$view.append(this.deals.$);
       this.$view.append(this.navigate.$);
+      this.$IconsHover = this.$.find('#IconsHover');
+      this.$Icons = this.$.find('#Icons');
       this.$destinationIcon = this.$.find('#DestinationIcon');
       this.$tripIcon = this.$.find('#TripIcon');
       this.$dealsIcon = this.$.find('#DealsIcon');
       this.$namigateIcon = this.$.find('#NavigateIcon');
       this.lastSelect = null;
       this.orientation = 'Portrait';
+      this.$IconsHover.mouseenter((function(_this) {
+        return function() {
+          return _this.$Icons.show();
+        };
+      })(this));
+      this.$Icons.mouseleave((function(_this) {
+        return function() {
+          return _this.$Icons.hide();
+        };
+      })(this));
       this.publish();
       this.subscribe();
       return this.select('Destination');
@@ -46,7 +58,7 @@
     };
 
     UI.prototype.html = function() {
-      return "<div    id=\"" + (this.id('UI')) + "\"                  class=\"" + (this.css('UI')) + "\">\n <div  id=\"" + (this.id('Icons')) + "\"               class=\"" + (this.css('Icons')) + "\">\n    <i id=\"" + (this.id('Destination', 'Icon')) + "\"  class=\"" + (this.icon('Destination', 'Icon', 'picture-o')) + "\"></i>\n    <i id=\"" + (this.id('Trip', 'Icon')) + "\"  class=\"" + (this.icon('Trip', 'Icon', 'road')) + "\"></i>\n    <i id=\"" + (this.id('Deals', 'Icon')) + "\"  class=\"" + (this.icon('Deals', 'Icon', 'trophy')) + "\"></i>\n    <i id=\"" + (this.id('Navigate', 'Icon')) + "\"  class=\"" + (this.icon('Navigate', 'Icon', 'street-view')) + "\"></i>\n </div>\n <div id=\"" + (this.id('View')) + "\" class=\"" + (this.css('View')) + "\"></div>\n</div>";
+      return "<div    id=\"" + (this.id('UI')) + "\"                  class=\"" + (this.css('UI')) + "\">\n <div  id=\"" + (this.id('IconsHover')) + "\"          class=\"" + (this.css('IconsHover')) + "\"></div>\n <div  id=\"" + (this.id('Icons')) + "\"               class=\"" + (this.css('Icons')) + "\">\n    <div id=\"" + (this.id('Destination', 'Icon')) + "\"  class=\"" + (this.css('Destination', 'Icon')) + "\"><div><i class=\"fa fa-picture-o\"></i></div></div>\n    <div id=\"" + (this.id('Trip', 'Icon')) + "\"  class=\"" + (this.css('Trip', 'Icon')) + "\"><div><i class=\"fa fa-road\"></i></div></div>\n    <div id=\"" + (this.id('Deals', 'Icon')) + "\"  class=\"" + (this.css('Deals', 'Icon')) + "\"><div><i class=\"fa fa-trophy\"></i></div></div>\n    <div id=\"" + (this.id('Navigate', 'Icon')) + "\"  class=\"" + (this.css('Navigate', 'Icon')) + "\"><div><i class=\"fa fa-street-view\"></i></div></div>\n </div>\n <div id=\"" + (this.id('View')) + "\" class=\"" + (this.css('View')) + "\"></div>\n</div>";
     };
 
     UI.prototype.layout = function(orientation) {
@@ -109,7 +121,7 @@
       }
       if (this.lastSelect != null) {
         this.lastSelect.show();
-        Util.log(name, 'Selected');
+        return Util.log(name, 'Selected');
       }
     };
 
