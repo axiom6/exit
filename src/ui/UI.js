@@ -58,7 +58,7 @@
     };
 
     UI.prototype.html = function() {
-      return "<div    id=\"" + (this.id('UI')) + "\"                  class=\"" + (this.css('UI')) + "\">\n <div  id=\"" + (this.id('IconsHover')) + "\"          class=\"" + (this.css('IconsHover')) + "\"></div>\n <div  id=\"" + (this.id('Icons')) + "\"               class=\"" + (this.css('Icons')) + "\">\n    <div id=\"" + (this.id('Destination', 'Icon')) + "\"  class=\"" + (this.css('Destination', 'Icon')) + "\"><div><i class=\"fa fa-picture-o\"></i></div></div>\n    <div id=\"" + (this.id('Trip', 'Icon')) + "\"  class=\"" + (this.css('Trip', 'Icon')) + "\"><div><i class=\"fa fa-road\"></i></div></div>\n    <div id=\"" + (this.id('Deals', 'Icon')) + "\"  class=\"" + (this.css('Deals', 'Icon')) + "\"><div><i class=\"fa fa-trophy\"></i></div></div>\n    <div id=\"" + (this.id('Navigate', 'Icon')) + "\"  class=\"" + (this.css('Navigate', 'Icon')) + "\"><div><i class=\"fa fa-street-view\"></i></div></div>\n </div>\n <div id=\"" + (this.id('View')) + "\" class=\"" + (this.css('View')) + "\"></div>\n</div>";
+      return "<div      id=\"" + (this.id('UI')) + "\"                  class=\"" + (this.css('UI')) + "\">\n <div    id=\"" + (this.id('IconsHover')) + "\"          class=\"" + (this.css('IconsHover')) + "\"></div>\n <div    id=\"" + (this.id('Icons')) + "\"               class=\"" + (this.css('Icons')) + "\">\n    <div id=\"" + (this.id('Destination', 'Icon')) + "\"  class=\"" + (this.css('Destination', 'Icon')) + "\"><div><i class=\"fa fa-picture-o\"></i></div></div>\n    <div id=\"" + (this.id('Trip', 'Icon')) + "\"  class=\"" + (this.css('Trip', 'Icon')) + "\"><div><i class=\"fa fa-road\"></i></div></div>\n    <div id=\"" + (this.id('Deals', 'Icon')) + "\"  class=\"" + (this.css('Deals', 'Icon')) + "\"><div><i class=\"fa fa-trophy\"></i></div></div>\n    <div id=\"" + (this.id('Navigate', 'Icon')) + "\"  class=\"" + (this.css('Navigate', 'Icon')) + "\"><div><i class=\"fa fa-street-view\"></i></div></div>\n </div>\n <div id=\"" + (this.id('View')) + "\" class=\"" + (this.css('View')) + "\"></div>\n</div>";
     };
 
     UI.prototype.layout = function(orientation) {
@@ -100,6 +100,7 @@
     };
 
     UI.prototype.select = function(name) {
+      var opts;
       if (this.lastSelect != null) {
         this.lastSelect.hide();
       }
@@ -112,6 +113,12 @@
           break;
         case 'Deals':
           this.lastSelect = this.deals;
+          opts = {};
+          opts.title = "<div style=\"text-align:center; font-size:2.0em;\"><div>EXIT NOW!</div></div><hr/>";
+          opts.text = "<div style=\"text-align:center; font-size:1.0em;\">\n  <div>Traffic is slow ahead</div>\n  <div>ETA +2.5 hours</div>\n  <div>Stop now for FREE DINNER</div>\n</div>";
+          opts.class_name = "gritter-light";
+          opts.sticky = true;
+          this.deal(opts);
           break;
         case 'Navigate':
           this.lastSelect = this.navigate;
@@ -129,6 +136,25 @@
       this.orientation = this.orientation === 'Portrait' ? 'Landscape' : 'Portrait';
       return this.layout(this.orientation);
     };
+
+    UI.prototype.deal = function(opts) {
+      return this.gritter(opts);
+    };
+
+    UI.prototype.gritter = function(opts) {
+      return $.gritter.add(opts);
+    };
+
+
+    /*
+      $.gritter.add({
+        title: 'This is a regular notice!', // (string | mandatory) the heading of the notification
+        text:                               // (string | mandatory) the text inside the notification
+        image: 'bigger.png',                // (string | optional) the image to display on the left
+        sticky: false,                      // (bool | optional) if you want it to fade out on its own or just sit there
+        time: 8000,                         // (int | optional) the time you want it to be alive for before fading out (milliseconds)
+        class_name: 'my-class',             // (string | optional) the class
+     */
 
     return UI;
 

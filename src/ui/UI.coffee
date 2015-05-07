@@ -33,9 +33,9 @@ class UI
   icon:( name, type, fa ) -> @app.icon( name, type, fa )
 
   html:() ->
-    """<div    id="#{@id('UI')}"                  class="#{@css('UI')}">
-         <div  id="#{@id('IconsHover')}"          class="#{@css('IconsHover')}"></div>
-         <div  id="#{@id('Icons')}"               class="#{@css('Icons')}">
+    """<div      id="#{@id('UI')}"                  class="#{@css('UI')}">
+         <div    id="#{@id('IconsHover')}"          class="#{@css('IconsHover')}"></div>
+         <div    id="#{@id('Icons')}"               class="#{@css('Icons')}">
             <div id="#{@id('Destination','Icon')}"  class="#{@css('Destination','Icon')}"><div><i class="fa fa-picture-o"></i></div></div>
             <div id="#{@id('Trip',       'Icon')}"  class="#{@css('Trip',       'Icon')}"><div><i class="fa fa-road"></i></div></div>
             <div id="#{@id('Deals',      'Icon')}"  class="#{@css('Deals',      'Icon')}"><div><i class="fa fa-trophy"></i></div></div>
@@ -70,11 +70,26 @@ class UI
   select:( name ) ->
     @lastSelect.hide() if @lastSelect?
     switch name
-      when 'Destination' then @lastSelect = @destination
-      when 'Trip'        then @lastSelect = @trip
-      when 'Deals'       then @lastSelect = @deals
-      when 'Navigate'    then @lastSelect = @navigate
-      else Util.error( "UI.select unknown name", name )
+      when 'Destination'
+        @lastSelect = @destination
+      when 'Trip'
+        @lastSelect = @trip
+      when 'Deals'
+        @lastSelect = @deals
+        opts = {}
+        opts.title = """<div style="text-align:center; font-size:2.0em;"><div>EXIT NOW!</div></div><hr/>"""
+        opts.text  = """<div style="text-align:center; font-size:1.0em;">
+                          <div>Traffic is slow ahead</div>
+                          <div>ETA +2.5 hours</div>
+                          <div>Stop now for FREE DINNER</div>
+                        </div>"""
+        opts.class_name = "gritter-light"
+        opts.sticky = true
+        @deal( opts )
+      when 'Navigate'
+        @lastSelect = @navigate
+      else
+        Util.error( "UI.select unknown name", name )
     if @lastSelect?
        @lastSelect.show()
        Util.log( name, 'Selected')
@@ -82,3 +97,19 @@ class UI
   orient:() ->
     @orientation = if @orientation is 'Portrait' then 'Landscape' else 'Portrait'
     @layout( @orientation )
+
+  deal:( opts ) ->
+    @gritter( opts )
+
+  gritter:( opts ) ->
+    $.gritter.add( opts )
+
+  ###
+    $.gritter.add({
+      title: 'This is a regular notice!', // (string | mandatory) the heading of the notification
+      text:                               // (string | mandatory) the text inside the notification
+      image: 'bigger.png',                // (string | optional) the image to display on the left
+      sticky: false,                      // (bool | optional) if you want it to fade out on its own or just sit there
+      time: 8000,                         // (int | optional) the time you want it to be alive for before fading out (milliseconds)
+      class_name: 'my-class',             // (string | optional) the class
+   ###

@@ -2,20 +2,33 @@
 ## App
 |   |   |    |   |   |   |
 | - | - | -  | - | - | - |
-| **Speeds / Conds**  | DIA Edwards | Breckinridge   | Winterpark | Keystone   | A-Basin    |
-| **Predict**         | ETA         |   Go           |  NoGo      | Explain    | Roadblocks | 
-| **CSS**             |  Icons      | Wireframe      | Gradients  | Media      |            |
+| **Deals**           | Gritter     | Geo Fence      | Request    | Push       |            | 
+| **Store**           | Stream      | Memory         | Rest       | IndexedDB  |            |
+| **Http Fri**        | Speeds      | Conditions     | Deals      | Advisorys  | Geo Fence  |
+| **Event**           | Navigate    | Swipe          | Resize     |            |            |
 | **Simulat/Streame** | LanLngTime  | Speeds / Conds | Weather    | Roadblocks | Deals      | 
-| **Destination**     | Login       | Go             | NoGo       | Threshold  |            |
+| **Test**            | Responsive  |                |            |            |            |
+| **Contest**         | GIF         | Doc            | GitHub     |  Cordova   |            |
+
+## Add Ons
+|   |   |    |   |   |   |
+| - | - | -  | - | - | - |
+| **Speeds / Conds**  | DIA Edwards | Breckinridge   | Winterpark | Keystone   | A-Basin    |
 | **Trip**            | Road        | Weather        | Adivsory   |            |            |
-| **Deals**           | Geo Fence   | Request        | Push       |            |            | 
-| **Navigate**        |             |                |            |            |            |
-| **Store**           | Stream      | Memory         | Rest       |  IndexedDB |            |
-| **Http**            | Speeds      | Conditions     | Deals      | Advisorys  | Geo Fence  |
+| **Predict**         | ETA         |   Go           |  NoGo      | Explain    | Roadblocks | 
 | **Push**            | Speeds      | Conditions     | Hot Deals  | Advisorys  |            |
 | **Post Profiles**   | Destination | Trip           | Deals      |            |            | 
-| **Test**            |             |                |            |            |            |
-| **Contest**         | GIF         | Doc            | GitHub     |  Cordova   |            |
+
+## Complete
+|   |   |    |   |   |   |
+| - | - | -  | - | - | - |
+| **Destination**     | Login       | Go             | NoGo       | Threshold  |            |
+| **CSS**             |  Icons      | Wireframe      | Gradients  | Media      |            |
+
+## Post App
+|   |   |    |   |   |   |
+| - | - | -  | - | - | - |
+| **Navigate**        |             |                |            |            |            |
 
 ## Pitch
 |   |   |    |   |   |   |

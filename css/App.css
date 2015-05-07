@@ -319,6 +319,29 @@ body {
 .Deals {
   display: none;
 }
+#gritter-notice-wrapper {
+  position: fixed;
+  top: 240px;
+  left: 60px;
+  width: 301px;
+  z-index: 9999;
+  border: 2px solid black;
+}
+.gritter-item {
+  display: block;
+  background-color: white;
+  color: #eee;
+  padding: 2px 11px 8px 11px;
+  font-size: 1em;
+  font-family: 'Droid Sans', sans-serif;
+}
+/* for the light (white) version of the gritter notice */
+.gritter-light .gritter-item,
+.gritter-light .gritter-bottom,
+.gritter-light .gritter-top,
+.gritter-light .gritter-close {
+  color: #222;
+}
 .Navi {
   display: none;
 }
