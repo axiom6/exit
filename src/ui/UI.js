@@ -100,7 +100,7 @@
     };
 
     UI.prototype.select = function(name) {
-      var opts;
+      var dataId, opts;
       if (this.lastSelect != null) {
         this.lastSelect.hide();
       }
@@ -113,12 +113,13 @@
           break;
         case 'Deals':
           this.lastSelect = this.deals;
+          dataId = "IAMEXITING1";
           opts = {};
           opts.title = "<div style=\"text-align:center; font-size:2.0em;\"><div>EXIT NOW!</div></div><hr/>";
-          opts.text = "<div style=\"text-align:center; font-size:1.0em;\">\n  <div>Traffic is slow ahead</div>\n  <div>ETA +2.5 hours</div>\n  <div>Stop now for FREE DINNER</div>\n</div>";
+          opts.text = "<div style=\"text-align:center; font-size:1.0em;\">\n  <div><span>Traffic is slow ahead, </span><span style=\"font-weight:bold;\">ETA +2.5 hrs</span></div>\n  <div style=\"font-size:0.9em;\"><span>Stop now for <span style=\"font-weight:bold;\">FREE DINNER</span></div>\n  <div style=\"margin-top:0.5em;\">\n    <span dataid=\"" + dataId + "\" style=\"font-size:0.9em; padding:0.3em; background-color:#658552; color:white;\">I'M EXITING</span>\n  </div>\n</div>";
           opts.class_name = "gritter-light";
           opts.sticky = true;
-          this.deal(opts);
+          this.deal(opts, dataId);
           break;
         case 'Navigate':
           this.lastSelect = this.navigate;
@@ -137,8 +138,11 @@
       return this.layout(this.orientation);
     };
 
-    UI.prototype.deal = function(opts) {
-      return this.gritter(opts);
+    UI.prototype.deal = function(opts, dataId) {
+      this.gritter(opts);
+      return $("[dataid=" + dataId + "]").click(function() {
+        return Util.log("I'M EXITING");
+      });
     };
 
     UI.prototype.gritter = function(opts) {

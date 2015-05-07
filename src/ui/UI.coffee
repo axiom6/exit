@@ -76,16 +76,19 @@ class UI
         @lastSelect = @trip
       when 'Deals'
         @lastSelect = @deals
+        dataId = "IAMEXITING1"
         opts = {}
         opts.title = """<div style="text-align:center; font-size:2.0em;"><div>EXIT NOW!</div></div><hr/>"""
         opts.text  = """<div style="text-align:center; font-size:1.0em;">
-                          <div>Traffic is slow ahead</div>
-                          <div>ETA +2.5 hours</div>
-                          <div>Stop now for FREE DINNER</div>
+                          <div><span>Traffic is slow ahead, </span><span style="font-weight:bold;">ETA +2.5 hrs</span></div>
+                          <div style="font-size:0.9em;"><span>Stop now for <span style="font-weight:bold;">FREE DINNER</span></div>
+                          <div style="margin-top:0.5em;">
+                            <span dataid="#{dataId}" style="font-size:0.9em; padding:0.3em; background-color:#658552; color:white;">I'M EXITING</span>
+                          </div>
                         </div>"""
         opts.class_name = "gritter-light"
         opts.sticky = true
-        @deal( opts )
+        @deal( opts, dataId )
       when 'Navigate'
         @lastSelect = @navigate
       else
@@ -98,8 +101,9 @@ class UI
     @orientation = if @orientation is 'Portrait' then 'Landscape' else 'Portrait'
     @layout( @orientation )
 
-  deal:( opts ) ->
+  deal:( opts, dataId ) ->
     @gritter( opts )
+    $("[dataid=#{dataId}]").click( () -> Util.log( "I'M EXITING" ) )
 
   gritter:( opts ) ->
     $.gritter.add( opts )
