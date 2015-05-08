@@ -23,6 +23,7 @@ class UI
     @orientation      = 'Portrait'
     @$IconsHover.mouseenter( () => @$Icons.show() )
     @$Icons     .mouseleave( () => @$Icons.hide() )
+    @gritterId = 0
     @publish()
     @subscribe()
     #@push( 'Select', 'Trip', 'UI' )
@@ -77,6 +78,7 @@ class UI
       when 'Deals'
         @lastSelect = @deals
         dataId = "IAMEXITING1"
+        @gritterId++
         opts = {}
         opts.title = """<div style="text-align:center; font-size:2.0em;"><div>EXIT NOW!</div></div><hr/>"""
         opts.text  = """<div style="text-align:center; font-size:1.0em;">
@@ -88,7 +90,7 @@ class UI
                         </div>"""
         opts.class_name = "gritter-light"
         opts.sticky = true
-        @deal( opts, dataId )
+        @deal( opts, dataId, @gritterId )
       when 'Navigate'
         @lastSelect = @navigate
       else
@@ -101,9 +103,11 @@ class UI
     @orientation = if @orientation is 'Portrait' then 'Landscape' else 'Portrait'
     @layout( @orientation )
 
-  deal:( opts, dataId ) ->
+  deal:( opts, dataId, gritterId ) ->
     @gritter( opts )
-    $("[dataid=#{dataId}]").click( () -> Util.log( "I'M EXITING" ) )
+    $("[dataid=#{dataId}]").click( () ->
+      Util.log( "I'M EXITING" )
+      $.gritter.remove( gritterId ) )
 
   gritter:( opts ) ->
     $.gritter.add( opts )
