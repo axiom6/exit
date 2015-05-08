@@ -3,7 +3,9 @@ class NoGo
 
   Util.Export( NoGo, 'ui/NoGo' )
 
-  constructor:( @app, @model ) ->
+  constructor:( @app, @stream ) ->
+    DriveBar  = Util.Import( 'ui/DriveBar')
+    @driveBar = new DriveBar( @app, @stream, 'NoGo' )
 
   ready:() ->
     @$ = $( @html() )
@@ -16,10 +18,11 @@ class NoGo
          <div id="#{@app.id('NoGoODeals')}"       class="#{@app.css('NoGoDeals')}">
            <div>50% off Hotel</div>
          </div>
-         <div id="#{@app.id('NoGoDrive')}" class="#{@app.css('NoGoDrive')}">
-           <img src="img/app/NoGoDriveBar.png" width="362">
-         </div>
+         <div id="#{@app.id('NoGoDrive')}" class="#{@app.css('NoGoDrive')}">#{@driveBar.html('NoGo')}</div>
        </div>"""
+
+  postReady:() ->
+    @driveBar.postReady()
 
   layout:() ->
 

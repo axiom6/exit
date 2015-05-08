@@ -15,6 +15,11 @@ class Destination
     @$.append( @nogo.$      )
     @$.append( @threshold.$  )
 
+  postReady:() ->
+    @go.postReady()
+    @nogo.postReady()
+    @publish()
+
   # publish is called by
   publish:() ->
     @$destinationBody   = @$.find('#DestinationBody'  )

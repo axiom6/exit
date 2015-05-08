@@ -5,16 +5,25 @@
   DriveBar = (function() {
     Util.Export(DriveBar, 'ui/DriveBar');
 
-    function DriveBar(app) {
+    function DriveBar(app, stream, ext1) {
       this.app = app;
+      this.stream = stream;
+      this.ext = ext1;
+      this.hPercent = 0.2;
+      this.name = 'DriveBar';
     }
 
-    DriveBar.prototype.ready = function() {
-      return this.$ = $(this.html());
+    DriveBar.prototype.html = function() {
+      var htm;
+      this.htmlId = this.app.id(this.name, this.ext);
+      htm = "<div id=\"" + this.htmlId + "\" class=\"" + (this.app.css(this.name)) + "\"></div>";
+      this.$ = $(htm);
+      return htm;
     };
 
-    DriveBar.prototype.html = function(name) {
-      return "<div id=\"" + (this.app.id('DriveBar', name)) + "\" class=\"" + (this.app.css('DriveBar', name)) + "\"></div>";
+    DriveBar.prototype.postReady = function() {
+      var ref;
+      return ref = this.createSvg(this.$, this.htmlId, this.name, this.ext, this.app.width(), this.app.height() * this.hPercent), this.svg = ref[0], this.$svg = ref[1], this.g = ref[2], this.$g = ref[3], ref;
     };
 
     DriveBar.prototype.layout = function() {};
@@ -22,6 +31,17 @@
     DriveBar.prototype.show = function() {};
 
     DriveBar.prototype.hide = function() {};
+
+    DriveBar.prototype.createSvg = function($, htmlId, name, ext, width, height) {
+      var $g, $svg, g, gId, svg, svgId;
+      svgId = this.app.svgId(name, ext, 'Svg');
+      gId = this.app.svgId(name, ext, 'G');
+      svg = d3.select('#' + htmlId).append("svg:svg").attr("id", svgId).attr("width", width).attr("height", height);
+      g = svg.append("svg:g").attr("id", gId);
+      $svg = $.find('#' + svgId);
+      $g = $.find('#' + gId);
+      return [svg, $svg, g, $g];
+    };
 
     return DriveBar;
 

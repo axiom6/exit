@@ -152,6 +152,32 @@
       return $.gritter.add(opts);
     };
 
+    UI.prototype.width = function() {
+      var w, w1;
+      w1 = this.$ != null ? this.$.width() : 0;
+      w = 0;
+      if (w1 === 0) {
+        w = this.orientation === 'Portrait' ? 300 : 500;
+      } else {
+        w = w1;
+      }
+      Util.log('UI.width()', w, w1);
+      return w;
+    };
+
+    UI.prototype.height = function() {
+      var h, h1;
+      h1 = this.$ != null ? this.$.height() : 0;
+      h = 0;
+      if (h1 === 0) {
+        h = this.orientation === 'Portrait' ? 500 : 300;
+      } else {
+        h = h1;
+      }
+      Util.log('UI.height()', h, h1);
+      return h;
+    };
+
 
     /*
       $.gritter.add({

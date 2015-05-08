@@ -56,6 +56,7 @@
       this.navigate = new Navigate(this, this.stream);
       this.ui = new UI(this, this.stream, this.destination, this.trip, this.deals, this.navigate);
       this.ready();
+      this.postReady();
     }
 
     App.prototype.ready = function() {
@@ -63,8 +64,20 @@
       this.trip.ready();
       this.deals.ready();
       this.navigate.ready();
-      this.ui.ready();
-      return this.destination.publish();
+      return this.ui.ready();
+    };
+
+    App.prototype.postReady = function() {
+      this.destination.postReady();
+      return this.trip.postReady();
+    };
+
+    App.prototype.width = function() {
+      return this.ui.width();
+    };
+
+    App.prototype.height = function() {
+      return this.ui.height();
     };
 
     App.prototype.id = function(name, type) {
@@ -83,6 +96,10 @@
 
     App.prototype.icon = function(name, type, fa) {
       return name + type + ' fa fa-' + fa;
+    };
+
+    App.prototype.svgId = function(name, type, svgType) {
+      return this.id(name, type + svgType);
     };
 
     return App;

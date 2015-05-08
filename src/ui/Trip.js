@@ -27,6 +27,10 @@
       return "<div id=\"" + (this.app.id('Trip')) + "\" class=\"" + (this.app.css('Trip')) + "\"></div>";
     };
 
+    Trip.prototype.postReady = function() {
+      return this.road.postReady();
+    };
+
     Trip.prototype.layout = function() {};
 
     Trip.prototype.show = function() {

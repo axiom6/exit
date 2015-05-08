@@ -3,7 +3,9 @@ class Go
 
   Util.Export( Go, 'ui/Go' )
 
-  constructor:( @app, @model ) ->
+  constructor:( @app, @stream ) ->
+    DriveBar  = Util.Import( 'ui/DriveBar')
+    @driveBar = new DriveBar( @app, @stream, 'Go' )
 
   ready:() ->
     @$ = $( @html() )
@@ -17,10 +19,11 @@ class Go
            <div>11 deals at your destination</div>
            <div>get going to beat traffic!</div>
          </div>
-         <div id="#{@app.id('GoDrive')}" class="#{@app.css('GoDrive')}">
-           <img src="img/app/GoDriveBar.png" width="362">
-         </div>
+         <div id="#{@app.id('GoDrive')}" class="#{@app.css('GoDrive')}">#{@driveBar.html('Go')}</div>
        </div>"""
+
+  postReady:() ->
+    @driveBar.postReady()
 
   layout:() ->
 

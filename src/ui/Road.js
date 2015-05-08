@@ -5,8 +5,12 @@
   Road = (function() {
     Util.Export(Road, 'ui/Road');
 
-    function Road(app) {
+    function Road(app, stream) {
+      var DriveBar;
       this.app = app;
+      this.stream = stream;
+      DriveBar = Util.Import('ui/DriveBar');
+      this.driveBar = new DriveBar(this.app, this.stream, 'Road');
     }
 
     Road.prototype.ready = function() {
@@ -14,7 +18,11 @@
     };
 
     Road.prototype.html = function() {
-      return "<div id=\"" + (this.app.id('Road')) + "\" class=\"" + (this.app.css('Road')) + "\"></div>";
+      return "<div id=\"" + (this.app.id('Road')) + "\" class=\"" + (this.app.css('Road')) + "\">" + (this.driveBar.html('Trip')) + "</div>";
+    };
+
+    Road.prototype.postReady = function() {
+      return this.driveBar.postReady();
     };
 
     Road.prototype.layout = function() {};

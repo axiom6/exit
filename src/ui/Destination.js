@@ -24,6 +24,12 @@
       return this.$.append(this.threshold.$);
     };
 
+    Destination.prototype.postReady = function() {
+      this.go.postReady();
+      this.nogo.postReady();
+      return this.publish();
+    };
+
     Destination.prototype.publish = function() {
       this.$destinationBody = this.$.find('#DestinationBody');
       this.$destinationSelect = this.$.find('#DestinationSelect');

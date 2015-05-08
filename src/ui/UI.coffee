@@ -112,6 +112,26 @@ class UI
   gritter:( opts ) ->
     $.gritter.add( opts )
 
+  width:()  ->
+    w1 = if @$? then @$.width() else 0
+    w  = 0
+    if w1 is 0
+      w = if @orientation is 'Portrait' then 300 else 500
+    else
+      w = w1
+    Util.log( 'UI.width()', w, w1 )
+    w
+
+  height:() ->
+    h1 = if @$? then @$.height() else 0
+    h  = 0
+    if h1 is 0
+      h = if @orientation is 'Portrait' then 500 else 300
+    else
+      h = h1
+    Util.log( 'UI.height()', h, h1 )
+    h
+
   ###
     $.gritter.add({
       title: 'This is a regular notice!', // (string | mandatory) the heading of the notification

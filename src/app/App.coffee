@@ -37,20 +37,20 @@ class App
     @test     = new Test(     @ ) if runTest
 
     # Instantiate UI class
-    @driveBar    = new DriveBar(     @, @stream )
-    @go          = new Go(           @, @stream, @driveBar )
-    @nogo        = new NoGo(         @, @stream, @driveBar )
+    @go          = new Go(           @, @stream )
+    @nogo        = new NoGo(         @, @stream )
     @threshold   = new Threshold(    @, @stream )
     @destination = new Destination(  @, @stream, @go, @nogo, @threshold )
     @road        = new Road(         @, @stream )
     @weather     = new Weather(      @, @stream )
     @advisory    = new Advisory(     @, @stream )
-    @trip        = new Trip(         @, @stream, @road, @weather, @advisory, @driveBar )
+    @trip        = new Trip(         @, @stream, @road, @weather, @advisory )
     @deals       = new Deals(        @, @stream )
     @navigate    = new Navigate(     @, @stream )
     @ui          = new UI(           @, @stream, @destination, @trip, @deals, @navigate )
 
     @ready()
+    @postReady()
 
   ready:() ->
     @destination.ready()
@@ -59,9 +59,15 @@ class App
     @navigate.ready()
     @ui.ready()
 
-    @destination.publish()
+  postReady:() ->
+    @destination.postReady()
+    @trip.postReady()
+
+  width:()  -> @ui.width()
+  height:() -> @ui.height()
 
 
-  id:(   name, type=''  ) -> name + type
-  css:(  name, type=''  ) -> name + type
-  icon:( name, type, fa ) -> name + type + ' fa fa-' + fa
+  id:(    name, type=''       ) -> name + type
+  css:(   name, type=''       ) -> name + type
+  icon:(  name, type, fa      ) -> name + type + ' fa fa-' + fa
+  svgId:( name, type, svgType ) -> @id( name, type+svgType )
