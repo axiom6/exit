@@ -46,10 +46,10 @@ class Destination
   html:() ->
     """<div      id="#{@id('Destination')}"             class="#{@css('Destination')}">
          <div      id="#{@id('DestinationBody')}"       class="#{@css('DestinationBody')}">
-          <div     id="#{@id('DestinationLabelInput')}" class="#{@css('DestinationLabelInput')}">
+          <!--div  id="#{@id('DestinationLabelInput')}" class="#{@css('DestinationLabelInput')}">
             <span  id="#{@id('DestinationUserLabel' )}" class="#{@css('DestinationUserLabel' )}">User:</span>
             <input id="#{@id('DestinationUserInput' )}" class="#{@css('DestinationUserInput' )}"type="text" name="theinput" />
-          </div>
+          </div-->
           <div     id="#{@id('DestinationWhat')}"       class="#{@css('DestinationWhat')}">What is your</div>
           <div     id="#{@id('DestinationDest')}"       class="#{@css('DestinationDest')}">Destination?</div>
           <select  id="#{@id('DestinationSelect')}"     class="#{@css('DestinationSelect')}"name="Desinations">

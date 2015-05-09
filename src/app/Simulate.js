@@ -5,8 +5,9 @@
   Simulate = (function() {
     Util.Export(Simulate, 'app/Simulate');
 
-    function Simulate(app) {
+    function Simulate(app, stream) {
       this.app = app;
+      this.stream = stream;
     }
 
     return Simulate;

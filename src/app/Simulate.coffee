@@ -3,4 +3,6 @@ class Simulate
 
   Util.Export( Simulate, 'app/Simulate' )
 
-  constructor:( @app ) ->
+  constructor:( @app, @stream  ) ->
+
+

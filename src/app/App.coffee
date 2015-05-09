@@ -32,9 +32,9 @@ class App
     UI          = Util.Import( 'ui/UI'          )
 
     # Instantiate main App classes
-    @stream   = new Stream(   @ )
-    @simulate = new Simulate( @ ) if runSimulate
-    @test     = new Test(     @ ) if runTest
+    @stream     = new Stream(        @ )
+    @simulate   = new Simulate(      @, @stream ) if runSimulate
+    @test       = new Test(          @, @stream ) if runTest
 
     # Instantiate UI class
     @go          = new Go(           @, @stream )
