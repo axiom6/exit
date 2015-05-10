@@ -5,9 +5,19 @@
   Test = (function() {
     Util.Export(Test, 'app/Test');
 
-    function Test(app) {
+    function Test(app, stream) {
       this.app = app;
+      this.stream = stream;
+      this.rest();
     }
+
+    Test.prototype.rest = function() {
+      Util.log('Test.rest() ------------');
+      this.rest = this.app.rest;
+      this.rest.segmentsByPreset(1, Util.log);
+      this.rest.conditionsSegments([23, 24, 25, 270], Util.log);
+      return this.rest.deals([23, 24, 25, 270], 39.716707, -105.696435, Util.log);
+    };
 
     return Test;
 

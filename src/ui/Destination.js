@@ -18,7 +18,6 @@
       this.nogo.ready();
       this.threshold.ready();
       this.$ = $(this.html());
-      Util.log('Go Id', this.go.$.attr('id'));
       this.$.append(this.go.$);
       this.$.append(this.nogo.$);
       return this.$.append(this.threshold.$);

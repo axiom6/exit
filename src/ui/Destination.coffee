@@ -10,7 +10,6 @@ class Destination
     @nogo.ready()
     @threshold.ready()
     @$ = $( @html() )
-    Util.log( 'Go Id', @go.$.attr('id') )
     @$.append( @go.$   )
     @$.append( @nogo.$      )
     @$.append( @threshold.$  )

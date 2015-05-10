@@ -130,8 +130,7 @@
           Util.error("UI.select unknown name", name);
       }
       if (this.lastSelect != null) {
-        this.lastSelect.show();
-        return Util.log(name, 'Selected');
+        return this.lastSelect.show();
       }
     };
 
@@ -161,7 +160,6 @@
       } else {
         w = w1;
       }
-      Util.log('UI.width()', w, w1);
       return w;
     };
 
@@ -174,7 +172,6 @@
       } else {
         h = h1;
       }
-      Util.log('UI.height()', h, h1);
       return h;
     };
 

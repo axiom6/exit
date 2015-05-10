@@ -97,7 +97,7 @@ class UI
         Util.error( "UI.select unknown name", name )
     if @lastSelect?
        @lastSelect.show()
-       Util.log( name, 'Selected')
+       # Util.log( name, 'Selected')
 
   orient:() ->
     @orientation = if @orientation is 'Portrait' then 'Landscape' else 'Portrait'
@@ -119,7 +119,7 @@ class UI
       w = if @orientation is 'Portrait' then 300 else 500
     else
       w = w1
-    Util.log( 'UI.width()', w, w1 )
+    # Util.log( 'UI.width()', w, w1 )
     w
 
   height:() ->
@@ -129,7 +129,7 @@ class UI
       h = if @orientation is 'Portrait' then 500 else 300
     else
       h = h1
-    Util.log( 'UI.height()', h, h1 )
+    # Util.log( 'UI.height()', h, h1 )
     h
 
   ###

@@ -451,13 +451,6 @@ Util = (function() {
     var str;
     str = Util.toStrArgs('Error:', arguments);
     Util.consoleLog(str);
-    if ((window['$'] != null) && ($['gritter'] != null)) {
-      this.gritter({
-        title: 'Error',
-        sticky: true
-      }, str);
-    }
-    Util.trace('Trace:');
   };
 
   Util.warn = function() {

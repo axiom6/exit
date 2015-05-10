@@ -270,8 +270,8 @@ class Util
   @error:() ->
     str  = Util.toStrArgs( 'Error:', arguments )
     Util.consoleLog( str )
-    @gritter( { title:'Error', sticky:true }, str ) if window['$']? and $['gritter']?
-    Util.trace( 'Trace:' )
+    # @gritter( { title:'Error', sticky:true }, str ) if window['$']? and $['gritter']?
+    # Util.trace( 'Trace:' )
     return
 
   # Log Warning and arguments through console and Gritter

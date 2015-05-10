@@ -6,16 +6,15 @@ class App
   # This kicks of everything   (MTCN): 9763514107
   $(document).ready ->
     Util.init()
-    Util.app = new App( true, false )
-    Util.log( 'App Created' )
+    Util.app = new App( true, true )
+    # Util.log( 'App Created' )
     return
 
   constructor:( runSimulate=false, runTest=false ) ->
 
     # Import Classes
     Stream      = Util.Import( 'app/Stream'     )
-    Simulate    = Util.Import( 'app/Simulate'   )  if runSimulate
-    Test        = Util.Import( 'app/Test'       )  if runTest
+    Rest        = Util.Import( 'app/Rest'       )
 
     Go          = Util.Import( 'ui/Go'          )
     NoGo        = Util.Import( 'ui/NoGo'        )
@@ -31,10 +30,12 @@ class App
     Navigate    = Util.Import( 'ui/Navigate'    )
     UI          = Util.Import( 'ui/UI'          )
 
+    Simulate    = Util.Import( 'app/Simulate'   )
+    Test        = Util.Import( 'app/Test'       )
+
     # Instantiate main App classes
     @stream     = new Stream(        @ )
-    @simulate   = new Simulate(      @, @stream ) if runSimulate
-    @test       = new Test(          @, @stream ) if runTest
+    @rest       = new Rest(          @, @stream )
 
     # Instantiate UI class
     @go          = new Go(           @, @stream )
@@ -51,6 +52,10 @@ class App
 
     @ready()
     @postReady()
+
+    # Run simulations and tests
+    @simulate   = new Simulate(      @, @stream ) if runSimulate
+    @test       = new Test(          @, @stream ) if runTest
 
   ready:() ->
     @destination.ready()

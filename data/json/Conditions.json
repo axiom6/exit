@@ -1,0 +1,21 @@
+[
+
+  {"_id":"554e63fb4a564218f7847133","CalculatedDate":"2015-05-09T19:42:30.000Z",
+   "Conditions":[{"Weather":{"temperature":0,"summary":"","time":"2015-05-10T01:03:03.788Z","icon":"rain"},"Alerts":[],"AverageVolume"
+:15,"AverageOccupancy":4,"ExpectedTravelTime":0,"TravelTime":0,"RoadCondition":8,"IsSlowDown":true,"AverageTrafficFlow"
+:-1,"AverageSpeed":65}],"SegmentId":23},
+
+  {"_id":"554e63fb4a564218f7847134","CalculatedDate":"2015-05-09T19:42:30.000Z",
+   "Conditions":[{"Weather":{"temperature":0,"summary":"","time":"2015-05-10T01:03:03.788Z"
+,"icon":"rain"},"Alerts":[],"AverageVolume":25,"AverageOccupancy":4,"ExpectedTravelTime":0,"TravelTime"
+  :0,"RoadCondition":8,"IsSlowDown":true,"AverageTrafficFlow":-1,"AverageSpeed":65}],"SegmentId":24},
+
+  {"_id":"554e63fb4a564218f7847135","CalculatedDate":"2015-05-09T19:42:30.000Z","Conditions":[{"Weather":{"temperature"
+:0,"summary":"","time":"2015-05-10T01:03:03.788Z","icon":"rain"},"Alerts":[],"AverageVolume":-1,"AverageOccupancy"
+:-1,"ExpectedTravelTime":0,"TravelTime":0,"RoadCondition":8,"IsSlowDown":true,"AverageTrafficFlow":-1
+,"AverageSpeed":49}],"SegmentId":25},
+
+  {"_id":"554e63fb4a564218f7847136","CalculatedDate":"2015-05-09T19:42:30.000Z",
+   "Conditions":[{"Weather":{"temperature":0,"summary":"","time":"2015-05-10T01:03:03.788Z"
+,"icon":"cloudy"},"Alerts":[],"AverageVolume":27,"AverageOccupancy":4,"ExpectedTravelTime":0,"TravelTime"
+:0,"RoadCondition":8,"IsSlowDown":true,"AverageTrafficFlow":-1,"AverageSpeed":60}],"SegmentId":270}]

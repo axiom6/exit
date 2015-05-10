@@ -7,12 +7,11 @@
 
     $(document).ready(function() {
       Util.init();
-      Util.app = new App(true, false);
-      Util.log('App Created');
+      Util.app = new App(true, true);
     });
 
     function App(runSimulate, runTest) {
-      var Advisory, Deals, Destination, Go, Navigate, NoGo, Road, Simulate, Stream, Test, Threshold, Trip, UI, Weather;
+      var Advisory, Deals, Destination, Go, Navigate, NoGo, Rest, Road, Simulate, Stream, Test, Threshold, Trip, UI, Weather;
       if (runSimulate == null) {
         runSimulate = false;
       }
@@ -20,12 +19,7 @@
         runTest = false;
       }
       Stream = Util.Import('app/Stream');
-      if (runSimulate) {
-        Simulate = Util.Import('app/Simulate');
-      }
-      if (runTest) {
-        Test = Util.Import('app/Test');
-      }
+      Rest = Util.Import('app/Rest');
       Go = Util.Import('ui/Go');
       NoGo = Util.Import('ui/NoGo');
       Threshold = Util.Import('ui/Threshold');
@@ -37,13 +31,10 @@
       Deals = Util.Import('ui/Deals');
       Navigate = Util.Import('ui/Navigate');
       UI = Util.Import('ui/UI');
+      Simulate = Util.Import('app/Simulate');
+      Test = Util.Import('app/Test');
       this.stream = new Stream(this);
-      if (runSimulate) {
-        this.simulate = new Simulate(this);
-      }
-      if (runTest) {
-        this.test = new Test(this);
-      }
+      this.rest = new Rest(this, this.stream);
       this.go = new Go(this, this.stream);
       this.nogo = new NoGo(this, this.stream);
       this.threshold = new Threshold(this, this.stream);
@@ -57,6 +48,12 @@
       this.ui = new UI(this, this.stream, this.destination, this.trip, this.deals, this.navigate);
       this.ready();
       this.postReady();
+      if (runSimulate) {
+        this.simulate = new Simulate(this, this.stream);
+      }
+      if (runTest) {
+        this.test = new Test(this, this.stream);
+      }
     }
 
     App.prototype.ready = function() {
