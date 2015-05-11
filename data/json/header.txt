@@ -1,0 +1,21 @@
+  # contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+  # contentType = "application/x-www-form-urlencoded; charset=UTF-8"
+  # ISO-8859-1
+  # GET http://104.154.46.117/api/segment?start=1,1&end=1,1&preset=1
+  # GET http://104.154.46.117/api/state?segments=23,24,25,270
+  ###
+    HTTP/1.1 200 OK
+    Date: Sun, 10 May 2015 15:50:36 GMT
+    Server: Apache
+    X-Frame-Options: SAMEORIGIN
+    X-Powered-By: Express
+    X-XSS-Protection: 1; mode=block
+    X-FRAME-OPTIONS: SAMEORIGIN
+    Access-Control-Allow-Origin: *
+    Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+    Content-Type: application/json; charset=utf-8
+    Content-Length: 1477
+    ETag: W/"6fUl+Khee0p+Mh1jNwEznA=="
+    Vary: Accept-Encoding
+    set-cookie: connect.sid=s%3AGkfWl5OmBBJ6ZNrh3sD_mnRjTZ76okLA.o4z1I6Z5ubxuQERBEC066%2F5wB6okIDuX4Q4Ics2EXCA; Path=/; HttpOnly
+  ###

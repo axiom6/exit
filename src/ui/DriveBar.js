@@ -43,6 +43,89 @@
       return [svg, $svg, g, $g];
     };
 
+    DriveBar.prototype.createBars = function(segments, conditions, Data) {
+      var DataSegments, beg, distance, end, fill, h, height, i, len, mileBeg, mileEnd, n, pxBeg, pxEnd, pxLen, results, seg, segId, stroke, y0;
+      DataSegments = this.app.direction === 'West' ? Data.WestSegments.features : Data.EastSegments.features;
+      n = DataSegments.length - 1;
+      mileBeg = DataSegments[0].beg;
+      mileEnd = DataSegments[n].end;
+      distance = Math.abs(mileEnd - mileBeg);
+      pxBeg = 0;
+      pxEnd = this.app.width();
+      pxLen = pxEnd - pxBeg;
+      height = this.app.height() * this.hPercent;
+      y0 = height * 0.70;
+      h = height * 0.20;
+      stroke = 1;
+      results = [];
+      for (i = 0, len = DataSegments.length; i < len; i++) {
+        seg = DataSegments[i];
+        beg = pxLen * seg.beg / distance;
+        end = pxLen * seg.end / distance;
+        segId = Util.toInt(seq.id);
+        fill = this.fillCondtion(segId, conditions);
+        results.push(this.rect(this.g, segId, beg, y0, end - beg, h, fill, stroke, ''));
+      }
+      return results;
+    };
+
+    DriveBar.fillCondition = function(segId, conditions) {
+      var condition, i, len;
+      for (i = 0, len = conditions.length; i < len; i++) {
+        condition = conditions[i];
+        if (segId === condition.SegmentId) {
+          return this.fillColor(condition);
+        }
+      }
+      return 'green';
+    };
+
+    DriveBar.fillColor = function(condition) {
+      var color;
+      color = 'gray';
+      if (condition.ExpectedTravelTime === 0 || condition.TravelTime === 0) {
+        color = 'gray';
+      } else if (condition.ExpectedTravelTime < condition.TravelTime * 0.50) {
+        color = 'red';
+      } else if (condition.ExpectedTravelTime < condition.TravelTime * 0.80) {
+        color = 'yellow';
+      } else if (condition.ExpectedTravelTime > condition.TravelTime * 0.80) {
+        color = 'green';
+      }
+      return color;
+    };
+
+    DriveBar.prototype.updateBars = function(segments, conditions, Data) {
+      var fill, i, len, results, seg, segId;
+      results = [];
+      for (i = 0, len = DataSegments.length; i < len; i++) {
+        seg = DataSegments[i];
+        segId = Util.toInt(seq.id);
+        fill = this.fillCondtion(segId, conditions);
+        results.push(this.updateRectFill(segId, fill));
+      }
+      return results;
+    };
+
+    DriveBar.prototype.rect = function(g, segId, x0, y0, w, h, fill, stroke, text) {
+      var svgId;
+      if (text == null) {
+        text = '';
+      }
+      svgId = this.app.svgId(this.name, segId.toString(), this.ext);
+      g.append("svg:rect").attr('id', svgId).attr("x", x0).attr("y", y0).attr("width", w).attr("height", h).attr("fill", fill).attr("stroke", stroke);
+      if (text !== '') {
+        g.append("svg:text").text(text).attr("x", x0 + w / 2).attr("y", y0 + h / 2 + 2).attr('fill', this.textFill(fill)).attr("text-anchor", "middle").attr("font-size", "4px").attr("font-family", "Arial");
+      }
+    };
+
+    DriveBar.prototype.updateRectFill = function(segId, fill) {
+      var rect, rectId;
+      rectId = this.app.svgId(this.name, segId.toString(), this.ext);
+      rect = $svg.find('#' + rectId);
+      return rect.attr('fill', fill);
+    };
+
     return DriveBar;
 
   })();

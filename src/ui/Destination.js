@@ -44,16 +44,12 @@
       })(this));
     };
 
-    Destination.prototype.selectDestination = function(destArg) {
-      var dest;
-      dest = $('#DestinationSelect').find('option:selected').text();
-      Util.log('Destination.selectDestination()', dest, destArg);
+    Destination.prototype.selectDestination = function(dest1) {
+      var dest2;
+      dest2 = $('#DestinationSelect').find('option:selected').text();
+      Util.log('Destination.selectDestination()', dest1, dest2);
       this.hideBody();
-      if (dest === 'Vail' || dest === 'Winter Park') {
-        return this.nogo.show();
-      } else {
-        return this.go.show();
-      }
+      return this.doDestination(dest2);
     };
 
     Destination.prototype.id = function(name, type) {

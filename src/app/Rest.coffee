@@ -5,9 +5,12 @@ class Rest
 
   constructor:( @app, @stream  ) ->
     @baseURL       = "http://104.154.46.117/"
-    @segmentURL    = @baseURL + "api/segment"
-    @conditionsURL = @baseURL + "api/state"
-    @dealsURL      = @baseURL + "api/deals"
+    @jessURL       = "https://exit-now-admin-jesseporter32.c9.io/"
+    @currURL       = @jessURL
+    @segmentURL    = @currURL + "api/segment"
+    @conditionsURL = @currURL + "api/state"
+    @dealsURL      = @currURL + "api/deals"
+    @cors          = 'json' # jsonp for different origin
 
   segmentsByLatLon:( slat, slon, elat, elon, callback ) ->
     args = { slat:slat, slon:slon, elat:elat, elon:elon }
@@ -19,7 +22,7 @@ class Rest
     url  = "#{@segmentURL}?start=1,1&end=1,1&preset=#{preset}"
     @get( url, 'Segments', args, callback )
 
-  conditionsSegments:( segments, callback ) ->
+  conditionsBySegments:( segments, callback ) ->
     args = { segments:segments }
     csv  = @toCsv( segments )
     url  = "#{@conditionsURL}?segments=#{csv}"
@@ -32,10 +35,10 @@ class Rest
     url  = "#{@conditionsURL}?segments=#{csv}&setdate=#{date}"
     @get( url, 'Conditions', args, callback )
 
-  deals:( segments, lat, lon, callback ) ->
-    args = { segments:segments, lat:lat, lon:lon }
+  deals:( latlon, segments, callback ) ->
+    args = { segments:segments, lat:latlon[0], lon:latlon[1] }
     csv  = @toCsv( segments )
-    url  = "#{@dealsURL}?segments=#{csv}&loc=#{lat},#{lon}"
+    url  = "#{@dealsURL}?segments=#{csv}&loc=#{latlon[0]},#{latlon[1]}"
     @get( url, 'Deals', args, callback )
 
   # Needs work
@@ -45,10 +48,10 @@ class Rest
     @post( url, 'Accept', args, callback )
 
   get:( url, from, args, callback ) ->
-    settings = { url:url, type:'GET', dataType:'json' } # , contentType:'text/plain'
+    settings = { url:url, type:'GET', dataType:@cors,  contentType:'application/json; charset=utf-8' }
     settings.success = ( json, textStatus, jqXHR ) =>
       Util.noop( textStatus, jqXHR )
-      @jsonParse( url, from, args, json, callback )
+      callback( args, json )
     settings.error = ( jqXHR, textStatus, errorThrown ) ->
       Util.noop( errorThrown )
       Util.error( 'Rest.'+from, { url:url, args:args, text:textStatus } )
@@ -65,35 +68,53 @@ class Rest
       Util.error( 'Rest.'+from, { url:url, text:textStatus } )
     $.ajax( settings )
 
-  jsonParse:( url, from, args, json, callback ) ->
-    try
-      objs = JSON.parse(json)
-      callback( args, objs )
-    catch error
-      Util.error( 'Rest.jsonParse()', { url:url, from:from, args:args, error:error } )
-      callback( args, json )
-
   toCsv:( array ) ->
     csv = ''
     for a in array
       csv += a.toString() + ','
     csv.substring( 0, csv.length-1 ) # Trim last comma
 
-  logSegments:( args, segments ) ->
+  logSegments:( args, obj ) =>
+    segments = obj.segments
     Util.log( 'logSegments args', args )
-    for i in [0...segments.length]
-      segId = 'id' + args.segments[i]
-      Util.log( 'logSegment', { segId:segId, name:segment.name } )
+    Util.log( 'logSegments segs', segments.length )
+    for segment in segments
+      [id,num] = @segIdNum( segment )
+      Util.log( 'logSegment', { id:id, num:num, name:segment.name } )
 
-  logConditions:( args, conditions ) ->
-    Util.log( 'logConditions args', args )
+  segIdNum:( segment ) ->
+    id  = ""
+    num = 0
+    for own key, obj of segment
+      len = key.length
+      if len >= 2 and 'id' is key.substring(0,1)
+        id    = key
+        num   = key.substring(0,1)
+    [id,num]
+
+  logConditions:( args, conditions ) =>
+    Util.log( 'logConditions args',  args )
+    Util.log( 'logConditions conds', conditions.length )
     for c in conditions
       cc = c.Conditions
       Util.log( '  condition', { SegmentId:c.SegmentId, TravelTime:cc.TravelTime, AverageSpeed:cc.AverageSpeed } )
       Util.log( '  weather', cc.Weather )
 
-  logDeals:( args, deals ) ->
-    Util.log( 'logDeals args', args )
+  logDeals:( args, deals ) =>
+    Util.log( 'logDeals args',  args )
+    Util.log( 'logDeals deals', deals.length )
     for d in deals
-      dd = deals.DealData
-      Util.log( '  ', { buiness:dd.businessName, description:dd.name } )
+      dd = d.dealData
+      Util.log( '  ', { segmentId:dd.segmentId, lat:d.lat, lon:d.lon,  buiness:d.businessName, description:d.name } )
+
+  # Deprecated
+  jsonParse:( url, from, args, json, callback ) ->
+    json = json.toString().replace(/(\r\n|\n|\r)/gm,"")  # Remove all line breaks
+    Util.log( '--------------------------' )
+    Util.log( json )
+    Util.log( '--------------------------' )
+    try
+      objs = JSON.parse(json)
+      callback( args, objs )
+    catch error
+      Util.error( 'Rest.jsonParse()', { url:url, from:from, args:args, error:error } )

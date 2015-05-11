@@ -830,6 +830,17 @@ Util = (function() {
     return num.toFixed(dec);
   };
 
+  Util.toInt = function(arg) {
+    switch (typeof arg) {
+      case 'number':
+        return arg;
+      case 'string':
+        return parseInt(arg);
+      default:
+        return 0;
+    }
+  };
+
   Util.toCap = function(str) {
     return str.charAt(0).toUpperCase() + str.substring(1);
   };

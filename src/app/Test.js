@@ -14,9 +14,10 @@
     Test.prototype.rest = function() {
       Util.log('Test.rest() ------------');
       this.rest = this.app.rest;
-      this.rest.segmentsByPreset(1, Util.log);
-      this.rest.conditionsSegments([23, 24, 25, 270], Util.log);
-      return this.rest.deals([23, 24, 25, 270], 39.716707, -105.696435, Util.log);
+      this.segments = [31, 32, 33, 34, 272, 273, 36, 37, 39, 40, 41, 276, 277, 268, 269, 44, 45];
+      this.rest.segmentsByPreset(1, this.rest.logSegments);
+      this.rest.conditionsBySegments(this.segments, this.rest.logConditions);
+      return this.rest.deals([39.644407, -106.378767], this.segments, this.rest.logDeals);
     };
 
     return Test;

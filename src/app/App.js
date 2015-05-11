@@ -7,19 +7,25 @@
 
     $(document).ready(function() {
       Util.init();
-      Util.app = new App(true, true);
+      return Util.app = new App(true, true);
     });
 
     function App(runSimulate, runTest) {
-      var Advisory, Deals, Destination, Go, Navigate, NoGo, Rest, Road, Simulate, Stream, Test, Threshold, Trip, UI, Weather;
+      var Advisory, Data, Deals, Destination, Go, Navigate, NoGo, Rest, Road, Simulate, Stream, Test, Threshold, Trip, UI, Weather;
       if (runSimulate == null) {
         runSimulate = false;
       }
       if (runTest == null) {
         runTest = false;
       }
+      this.dest = '';
+      this.segmentsComplete = false;
+      this.conditionsComplete = false;
+      this.dealsComplete = false;
+      this.direction = 'West';
       Stream = Util.Import('app/Stream');
       Rest = Util.Import('app/Rest');
+      Data = Util.Import('app/Data');
       Go = Util.Import('ui/Go');
       NoGo = Util.Import('ui/NoGo');
       Threshold = Util.Import('ui/Threshold');
@@ -97,6 +103,31 @@
 
     App.prototype.svgId = function(name, type, svgType) {
       return this.id(name, type + svgType);
+    };
+
+    App.prototype.doDestination = function(dest) {
+      this.dest = dest;
+      this.segmentsComplete = false;
+      this.conditionsComplete = false;
+      this.dealsComplete = false;
+      this.rest.segmentsByPreset(1, this.trip.doSegments);
+      this.rest.conditionsBySegments(this.trip.condSegs(), this.trip.doConditions);
+      return this.rest.deals(this.deals.latlon(), this.deals.segments(), this.deals.doDeals);
+    };
+
+    App.prototype.checkComplete = function() {
+      if (this.segmentsComplete && this.conditionsComplete && this.dealsComplete) {
+        return this.goOrNoGo(this.dest);
+      }
+    };
+
+    App.prototype.goOrNoGo = function(dest) {
+      if (dest === 'Vail' || dest === 'Winter Park') {
+        this.destination.nogo.show();
+      } else {
+        this.destination.go.show();
+      }
+      return this.trip.createDriveBars();
     };
 
     return App;

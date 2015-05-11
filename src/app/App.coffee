@@ -3,18 +3,23 @@ class App
 
   Util.Export( App, 'app/App' )
 
-  # This kicks of everything   (MTCN): 9763514107
+  # This kicks off everything
   $(document).ready ->
     Util.init()
     Util.app = new App( true, true )
     # Util.log( 'App Created' )
-    return
 
   constructor:( runSimulate=false, runTest=false ) ->
+    @dest               = ''
+    @segmentsComplete   = false
+    @conditionsComplete = false
+    @dealsComplete      = false
+    @direction          = 'West' # or East
 
     # Import Classes
     Stream      = Util.Import( 'app/Stream'     )
     Rest        = Util.Import( 'app/Rest'       )
+    Data        = Util.Import( 'app/Data'       )  # Static class with no need to instaciate
 
     Go          = Util.Import( 'ui/Go'          )
     NoGo        = Util.Import( 'ui/NoGo'        )
@@ -71,8 +76,30 @@ class App
   width:()  -> @ui.width()
   height:() -> @ui.height()
 
-
   id:(    name, type=''       ) -> name + type
   css:(   name, type=''       ) -> name + type
   icon:(  name, type, fa      ) -> name + type + ' fa fa-' + fa
   svgId:( name, type, svgType ) -> @id( name, type+svgType )
+
+
+
+  doDestination:( dest ) ->
+    @dest               = dest
+    @segmentsComplete   = false
+    @conditionsComplete = false
+    @dealsComplete      = false
+    @rest.segmentsByPreset(     1,                   @trip.doSegments   ) # Preset 1
+    @rest.conditionsBySegments(   @trip.condSegs(),  @trip.doConditions )
+    @rest.deals( @deals.latlon(), @deals.segments(), @deals.doDeals     )
+
+  checkComplete:() ->
+    @goOrNoGo( @dest ) if @segmentsComplete and @conditionsComplete and @dealsComplete
+
+  goOrNoGo:( dest ) ->
+    # another fancy piece of logic goes here
+    if dest is 'Vail' or dest is 'Winter Park'
+      @destination.nogo.show()
+    else
+      @destination.go.show()
+    @trip.createDriveBars()
+

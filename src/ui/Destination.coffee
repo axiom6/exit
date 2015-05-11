@@ -29,14 +29,12 @@ class Destination
   subscribe:() ->
     @stream.subscribe( 'Destination', (object) => @selectDestination(object.topic) )
 
-  selectDestination:( destArg ) ->
-    dest = $('#DestinationSelect').find('option:selected').text()
-    Util.log( 'Destination.selectDestination()', dest, destArg )
+  selectDestination:( dest1 ) ->
+    dest2 = $('#DestinationSelect').find('option:selected').text()
+    Util.log( 'Destination.selectDestination()', dest1, dest2 )
     @hideBody()
-    if dest is 'Vail' or dest is 'Winter Park'
-      @nogo.show()
-    else
-      @go.show()
+    @doDestination( dest2 )
+
 
   id:(   name, type     ) -> @app.id(   name, type     )
   css:(  name, type     ) -> @app.css(  name, type     )
@@ -75,3 +73,8 @@ class Destination
 
   showBody:() -> @$destinationBody.show()
   hideBody:() -> @$destinationBody.hide()
+
+
+
+
+
