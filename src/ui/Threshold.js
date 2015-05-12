@@ -18,7 +18,9 @@
       return "<div id=\"" + (this.app.id('Threshold')) + "\"       class=\"" + (this.app.css('Threshold')) + "\">\n   <div id=\"" + (this.app.id('ThresholdAdjust')) + "\" class=\"" + (this.app.css('ThresholdAdjust')) + "\">Adjust Threshold</div>\n   <img src=\"img/app/Threshold.png\">\n</div>";
     };
 
-    Threshold.prototype.layout = function() {};
+    Threshold.prototype.layout = function(orientation) {
+      return Util.noop(orientation);
+    };
 
     Threshold.prototype.show = function() {
       return this.$.show();

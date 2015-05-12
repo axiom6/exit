@@ -249,16 +249,20 @@
     }
 
     Weather.prototype.ready = function() {
-      var i, len, loc, ref;
+      var i, len, loc, ref, results;
       this.$ = $("<div id=\"Weather\" class=\"Weather\"></div>");
       ref = Weather.Locs;
+      results = [];
       for (i = 0, len = ref.length; i < len; i++) {
         loc = ref[i];
-        this.createHtml(loc);
+        results.push(this.createHtml(loc));
       }
+      return results;
     };
 
-    Weather.prototype.layout = function() {};
+    Weather.prototype.layout = function(orientation) {
+      return Util.noop(orientation);
+    };
 
     Weather.prototype.show = function() {};
 
@@ -298,7 +302,7 @@
       f.temperature = Util.toFixed(f.temperature, 0);
       time = Util.toTime(f.time);
       html = "<div   class=\"Weather" + loc.index + "\" style=\"background-color:" + f.style.back + "\">\n  <div class=\"WeatherName\">" + loc.name + "</div>\n  <div class=\"WeatherTime\">" + time + "</div>\n  <i   class=\"WeatherIcon wi " + f.style.icon + "\"></i>\n  <div class=\"WeatherSumm\">" + f.summary + "</div>\n  <div class=\"WeatherTemp\">" + f.temperature + "&deg;F</div>\n</div>";
-      this.$.append(html);
+      return this.$.append(html);
     };
 
     Weather.prototype.forecast = function(loc) {
@@ -313,16 +317,18 @@
       };
       settings.success = (function(_this) {
         return function(json, textStatus, jqXHR) {
+          Util.noop(textStatus, jqXHR);
           return _this.createHtml(loc, json);
         };
       })(this);
       settings.error = function(jqXHR, textStatus, errorThrown) {
+        Util.noop(errorThrown);
         return Util.error('Weather.forcast', {
           url: url,
           text: textStatus
         });
       };
-      $.ajax(settings);
+      return $.ajax(settings);
     };
 
     return Weather;

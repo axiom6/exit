@@ -18,7 +18,9 @@
       return "<div id=\"" + (this.app.id('Navigate')) + "\" class=\"" + (this.app.css('Navigate')) + "\">Navigate</div>";
     };
 
-    Navigate.prototype.layout = function() {};
+    Navigate.prototype.layout = function(orientation) {
+      return Util.noop(orientation);
+    };
 
     Navigate.prototype.show = function() {
       return this.$.show();

@@ -49,7 +49,7 @@
       dest2 = $('#DestinationSelect').find('option:selected').text();
       Util.log('Destination.selectDestination()', dest1, dest2);
       this.hideBody();
-      return this.doDestination(dest2);
+      return this.app.doDestination(dest2);
     };
 
     Destination.prototype.id = function(name, type) {
@@ -68,7 +68,11 @@
       return "<div      id=\"" + (this.id('Destination')) + "\"             class=\"" + (this.css('Destination')) + "\">\n  <div      id=\"" + (this.id('DestinationBody')) + "\"       class=\"" + (this.css('DestinationBody')) + "\">\n   <!--div  id=\"" + (this.id('DestinationLabelInput')) + "\" class=\"" + (this.css('DestinationLabelInput')) + "\">\n     <span  id=\"" + (this.id('DestinationUserLabel')) + "\" class=\"" + (this.css('DestinationUserLabel')) + "\">User:</span>\n     <input id=\"" + (this.id('DestinationUserInput')) + "\" class=\"" + (this.css('DestinationUserInput')) + "\"type=\"text\" name=\"theinput\" />\n   </div-->\n   <div     id=\"" + (this.id('DestinationWhat')) + "\"       class=\"" + (this.css('DestinationWhat')) + "\">What is your</div>\n   <div     id=\"" + (this.id('DestinationDest')) + "\"       class=\"" + (this.css('DestinationDest')) + "\">Destination?</div>\n   <select  id=\"" + (this.id('DestinationSelect')) + "\"     class=\"" + (this.css('DestinationSelect')) + "\"name=\"Desinations\">\n     <option>Denver</option>\n     <option>DIA</option>\n     <option>Idaho Springs</option>\n     <option>Georgetown</option>\n     <option>Silverthorn</option>\n     <option>Dillon</option>\n     <option>Frisco</option>\n     <option>Keystone</option>\n     <option>Breckinridge</option>\n     <option>Winter Park</option>\n     <option>Copper Mtn</option>\n     <option>Vail</option>\n   </select>\n </div>\n</div>";
     };
 
-    Destination.prototype.layout = function() {};
+    Destination.prototype.layout = function(orientation) {
+      this.go.layout(orientation);
+      this.nogo.layout(orientation);
+      return this.threshold.layout(orientation);
+    };
 
     Destination.prototype.show = function() {
       return this.$.show();

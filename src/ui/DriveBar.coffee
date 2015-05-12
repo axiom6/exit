@@ -4,8 +4,11 @@ class DriveBar
   Util.Export( DriveBar, 'ui/DriveBar' )
 
   constructor:( @app, @stream, @ext ) ->
-    @hPercent = 0.2 # Needs to match DriveBar CSS at 20%
     @name = 'DriveBar'
+    @heightPC = if @ext  is 'Road' then 0.55 else 0.30
+    @portPC   = if @ext  is 'Road' then 0.30 else 0.50
+    @landPC   = if @ext  is 'Road' then 0.50 else 0.20
+    @topPC    = if @ext  is 'Road' then 3.00 else 1.00
 
   html:() ->
     @htmlId = @app.id(@name,@ext)                                          # For createSvg()
@@ -13,53 +16,78 @@ class DriveBar
     @$      = $(htm)
     htm
 
-  # DriveBar has a postReady does not have a ready() method since it is embedded
-  postReady:() ->
-    [@svg,@$svg,@g,@$g] = @createSvg( @$, @htmlId, @name, @ext, @app.width(), @app.height()*@hPercent )
+  svgWidth:()   -> @app.width()  * 0.92 # Needs to match 92% in App.less
+  svgHeight:()  -> @app.height() * @heightPC # Needs to match 30% or 55% in App.less
+  barHeight:()  -> if @app.ui.orientation is 'Portrait' then @svgHeight()*@portPC        else @svgHeight()*@landPC
+  barTop:()     -> if @app.ui.orientation is 'Portrait' then @barHeight()*@portPC*@topPC else @barHeight()*@landPC*@topPC
 
-  layout:() ->
+
+# DriveBar has a postReady does not have a ready() method since it is embedded
+  postReady:() ->
+    [@svg,@$svg,@g,@$g,@gw,@gh,@y0] = @createSvg( @$, @htmlId, @name, @ext, @svgWidth(), @svgHeight(), @barTop() )
+
+  layout:( orientation ) ->
+    Util.log( 'Drive.layout()', @ext, orientation, @svgWidth(), @svgHeight(), @barHeight(), @barTop() )
+    @svg.attr( "width", @svgWidth() ).attr( 'height', @svgHeight() )
+    xs = if @gw > 0 then @svgWidth()  / @gw else 1.0
+    ys = if @gh > 0 then @svgHeight() / @gh else 1.0
+    dy = @y0 - @barTop()
+    @g.attr( 'transform', "scale(#{xs},#{ys}) translate(0,#{dy})" )
+    @y0 = @barTop()
+    return
 
   show:() ->
 
   hide:() ->
 
 # d3 Svg dependency
-  createSvg:( $, htmlId, name, ext, width, height ) ->
+  createSvg:( $, htmlId, name, ext, width, height, barTop ) ->
     svgId = @app.svgId(  name, ext, 'Svg' )
     gId   = @app.svgId(  name, ext, 'G'   )
     svg   = d3.select('#'+htmlId).append("svg:svg").attr("id",svgId).attr("width",width).attr("height",height)
     g     = svg.append("svg:g").attr("id",gId) # All tranforms are applied to g
     $svg  = $.find( '#'+svgId )
     $g    = $.find( '#'+gId   )
-    [svg,$svg,g,$g]
+    [svg,$svg,g,$g,width,height,barTop]
 
   createBars:( segments, conditions, Data ) ->
-    DataSegments = if @app.direction is 'West' then Data.WestSegments.features else Data.EastSegments.features
-    n        = DataSegments.length-1
-    mileBeg  = DataSegments[0].beg
-    mileEnd  = DataSegments[n].end
+    Util.log( 'createBars', @ext )
+    features = if @app.direction is 'West' then Data.WestSegments.features else Data.EastSegments.features
+    n        = features.length-1
+    mileBeg  = features[0].properties.beg
+    mileEnd  = features[n].properties.end
+    mileRef  = if @app.direction is 'West' then mileBeg else mileEnd
     distance = Math.abs( mileEnd - mileBeg )
-    pxBeg    = 0
-    pxEnd    = @app.width()
-    pxLen    = pxEnd - pxBeg
-    height   = @app.height()*@hPercent
-    y0       = height * 0.70
-    h        = height * 0.20
+    pxLen    = @svgWidth()
     stroke   = 1
-    for seg in DataSegments
-      beg   = pxLen * seg.beg / distance
-      end   = pxLen * seg.end / distance
-      segId = Util.toInt(seq.id)
-      fill = @fillCondtion( segId, conditions )
-      @rect( @g, segId, beg, y0, end-beg, h, fill, stroke, '' )
+    # Util.log( 'Mile', { mileBeg:mileBeg, mileEnd:mileEnd, distance:distance, pxBeg:pxBeg, pxEnd:pxEnd, height:height, y0:y0, h:h } )
+    for feature in features
+      prop  = feature.properties
+      beg   = pxLen * Math.abs( prop.beg - mileRef ) / distance
+      end   = pxLen * Math.abs( prop.end - mileRef ) / distance
+      segId = Util.toInt(prop.id)
+      fill = @fillConditionCreate( segId, conditions )
+      # Util.log( 'Rect', { segId:segId, beg:beg, end:end, y0:y0, h:h, fill:fill } )
+      @rect( @g, segId, beg, @barTop(), end-beg, @barHeight(), fill, stroke, '' )
+    return
 
-  @fillCondition:( segId, conditions ) ->
+  fillConditionCreate:( segId, conditions ) ->
+    Util.noop( conditions )
+    colors = ['green','yellow','red']
+    colors[segId%3]
+
+  fillConditionUpdate:( segId, conditions ) ->
+    Util.noop( conditions )
+    colors = ['green','yellow','red']
+    colors[(segId+1)%3]
+
+  fillConditionCondition:( segId, conditions ) ->
     for condition in conditions
       if segId is condition.SegmentId
         return @fillColor( condition )
     'green'
 
-  @fillColor:( condition ) ->
+  fillColor:( condition ) ->
     color = 'gray'
     if condition.ExpectedTravelTime is 0 or condition.TravelTime is 0
       color = 'gray'
@@ -72,10 +100,13 @@ class DriveBar
     color
 
   updateBars:( segments, conditions, Data ) ->
-    for seg in DataSegments
-      segId = Util.toInt(seq.id)
-      fill  = @fillCondtion( segId, conditions )
+    features = if @app.direction is 'West' then Data.WestSegments.features else Data.EastSegments.features
+    for feature in features
+      prop  = feature.properties
+      segId = Util.toInt(prop.id)
+      fill  = @fillConditionU( segId, conditions )
       @updateRectFill( segId, fill )
+    return
 
   rect:( g, segId, x0, y0, w, h, fill, stroke, text='' ) ->
     svgId = @app.svgId( @name, segId.toString(), @ext )
@@ -90,4 +121,5 @@ class DriveBar
     rectId = @app.svgId( @name, segId.toString(), @ext )
     rect   = $svg.find('#'+rectId)
     rect.attr( 'fill', fill )
+    return
 

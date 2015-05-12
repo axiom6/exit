@@ -7,17 +7,14 @@
 
     $(document).ready(function() {
       Util.init();
-      return Util.app = new App(true, true);
+      return Util.app = new App(false, false, false);
     });
 
-    function App(runSimulate, runTest) {
+    function App(runRest, runSimulate, runTest) {
       var Advisory, Data, Deals, Destination, Go, Navigate, NoGo, Rest, Road, Simulate, Stream, Test, Threshold, Trip, UI, Weather;
-      if (runSimulate == null) {
-        runSimulate = false;
-      }
-      if (runTest == null) {
-        runTest = false;
-      }
+      this.runRest = runRest != null ? runRest : true;
+      this.runSimulate = runSimulate != null ? runSimulate : false;
+      this.runTest = runTest != null ? runTest : false;
       this.dest = '';
       this.segmentsComplete = false;
       this.conditionsComplete = false;
@@ -54,10 +51,10 @@
       this.ui = new UI(this, this.stream, this.destination, this.trip, this.deals, this.navigate);
       this.ready();
       this.postReady();
-      if (runSimulate) {
+      if (this.runSimulate) {
         this.simulate = new Simulate(this, this.stream);
       }
-      if (runTest) {
+      if (this.runTest) {
         this.test = new Test(this, this.stream);
       }
     }
@@ -106,13 +103,18 @@
     };
 
     App.prototype.doDestination = function(dest) {
+      var initalCompleteStatus;
       this.dest = dest;
-      this.segmentsComplete = false;
-      this.conditionsComplete = false;
-      this.dealsComplete = false;
-      this.rest.segmentsByPreset(1, this.trip.doSegments);
-      this.rest.conditionsBySegments(this.trip.condSegs(), this.trip.doConditions);
-      return this.rest.deals(this.deals.latlon(), this.deals.segments(), this.deals.doDeals);
+      initalCompleteStatus = !this.runRest;
+      this.segmentsComplete = initalCompleteStatus;
+      this.conditionsComplete = initalCompleteStatus;
+      this.dealsComplete = initalCompleteStatus;
+      if (this.runRest) {
+        this.rest.segmentsByPreset(1, this.trip.doSegments);
+        this.rest.conditionsBySegments(this.trip.condSegs(), this.trip.doConditions);
+        this.rest.deals(this.deals.latLon(), this.deals.segments(), this.deals.doDeals);
+      }
+      return this.checkComplete();
     };
 
     App.prototype.checkComplete = function() {
@@ -122,12 +124,12 @@
     };
 
     App.prototype.goOrNoGo = function(dest) {
+      this.trip.createDriveBars();
       if (dest === 'Vail' || dest === 'Winter Park') {
-        this.destination.nogo.show();
+        return this.destination.nogo.show();
       } else {
-        this.destination.go.show();
+        return this.destination.go.show();
       }
-      return this.trip.createDriveBars();
     };
 
     return App;

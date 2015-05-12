@@ -16,8 +16,8 @@ class Road
   postReady:() ->
     @driveBar.postReady()
 
-  layout:() ->
+  layout:( orientation ) ->
+    @driveBar.layout( orientation )
 
-  show:() ->
-
-  hide:() ->
+  show:() -> @$.show()
+  hide:() -> @$.hide()

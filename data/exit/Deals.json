@@ -1,0 +1,232 @@
+[
+  {
+    "_id": "554e9e85832984e8494389cc",
+    "userId": "jesseporter19@gmail.com",
+    "itemsConverted": 0,
+    "active": true,
+    "itemsPushed": 1,
+    "dateExpires": "2015-06-08T23:55:49.833Z",
+    "dateUpdated": "2015-05-09T23:55:49.833Z",
+    "dateAdded": "2015-05-09T23:55:49.833Z",
+    "maxCoupon": 100,
+    "__v": 0,
+    "dealData": {
+      "onSegments": [
+        {
+          "_id": "554e9e85832984e8494389d0",
+          "segmentId": 33
+        },
+        {
+          "_id": "554e9e85832984e8494389cf",
+          "segmentId": 34
+        },
+        {
+          "_id": "554e9e85832984e8494389ce",
+          "segmentId": 27
+        },
+        {
+          "_id": "554e9e85832984e8494389cd",
+          "segmentId": 28
+        }
+      ],
+      "lon": -106.09752,
+      "lat": 39.574431,
+      "businessName": "Frisco Coffee Shop",
+      "name": "Warm up! - 50% OFF Espresso",
+      "triggers": {
+        "distance": "2",
+        "traffic": "3",
+        "roadConditions": "5"
+      }
+    }
+  },
+  {
+    "_id": "554e9e98832984e8494389d1",
+    "userId": "jesseporter19@gmail.com",
+    "itemsConverted": 0,
+    "active": true,
+    "itemsPushed": 1,
+    "dateExpires": "2015-06-08T23:56:08.828Z",
+    "dateUpdated": "2015-05-09T23:56:08.828Z",
+    "dateAdded": "2015-05-09T23:56:08.828Z",
+    "maxCoupon": 100,
+    "__v": 0,
+    "dealData": {
+      "onSegments": [
+        {
+          "_id": "554e9e98832984e8494389d5",
+          "segmentId": 33
+        },
+        {
+          "_id": "554e9e98832984e8494389d4",
+          "segmentId": 34
+        },
+        {
+          "_id": "554e9e98832984e8494389d3",
+          "segmentId": 27
+        },
+        {
+          "_id": "554e9e98832984e8494389d2",
+          "segmentId": 28
+        }
+      ],
+      "lon": -106.09752,
+      "lat": 39.574431,
+      "businessName": "Frisco Coffee Shop",
+      "name": "FREE Coffee with Snack Purchase",
+      "triggers": {
+        "distance": "3",
+        "traffic": "2",
+        "roadConditions": "8"
+      }
+    }
+  },
+  {
+    "_id": "554e9fae832984e8494389d8",
+    "userId": "biz@georgetown.com",
+    "itemsConverted": 0,
+    "active": true,
+    "itemsPushed": 1,
+    "dateExpires": "2015-06-09T00:00:46.447Z",
+    "dateUpdated": "2015-05-10T00:00:46.447Z",
+    "dateAdded": "2015-05-10T00:00:46.447Z",
+    "maxCoupon": 100,
+    "__v": 0,
+    "dealData": {
+      "onSegments": [
+        {
+          "_id": "554e9fae832984e8494389da",
+          "segmentId": 22
+        },
+        {
+          "_id": "554e9fae832984e8494389d9",
+          "segmentId": 39
+        }
+      ],
+      "lon": -105.697504,
+      "lat": 39.706098,
+      "businessName": "Georgetown Hotel",
+      "name": "50% off Hotel Stay Tonight",
+      "triggers": {
+        "distance": "3",
+        "traffic": "3",
+        "roadConditions": "8"
+      }
+    }
+  },
+  {
+    "_id": "554ea082832984e8494389dc",
+    "userId": "biz@eastvail.com",
+    "itemsConverted": 0,
+    "active": true,
+    "itemsPushed": 1,
+    "dateExpires": "2015-06-09T00:04:18.294Z",
+    "dateUpdated": "2015-05-10T00:04:18.294Z",
+    "dateAdded": "2015-05-10T00:04:18.294Z",
+    "maxCoupon": 100,
+    "__v": 0,
+    "dealData": {
+      "onSegments": [
+        {
+          "_id": "554ea082832984e8494389de",
+          "segmentId": 32
+        },
+        {
+          "_id": "554ea082832984e8494389dd",
+          "segmentId": 31
+        }
+      ],
+      "lon": -106.374195,
+      "lat": 39.640264,
+      "businessName": "East Vail Pizza",
+      "name": "FREE Pizza for your trip!",
+      "triggers": {
+        "distance": "3",
+        "traffic": "1",
+        "roadConditions": "8"
+      }
+    }
+  },
+  {
+    "_id": "554ea0ad832984e8494389df",
+    "userId": "biz@eastvail.com",
+    "itemsConverted": 0,
+    "active": true,
+    "itemsPushed": 1,
+    "dateExpires": "2015-06-09T00:05:01.862Z",
+    "dateUpdated": "2015-05-10T00:05:01.862Z",
+    "dateAdded": "2015-05-10T00:05:01.862Z",
+    "maxCoupon": 20,
+    "__v": 0,
+    "dealData": {
+      "onSegments": [
+        {
+          "_id": "554ea0ad832984e8494389e1",
+          "segmentId": 32
+        },
+        {
+          "_id": "554ea0ad832984e8494389e0",
+          "segmentId": 31
+        }
+      ],
+      "lon": -106.374195,
+      "lat": 39.640264,
+      "businessName": "East Vail Pizza",
+      "name": "FREE Soda with Pizza Purchase",
+      "triggers": {
+        "distance": "3",
+        "traffic": "3",
+        "roadConditions": "7"
+      }
+    }
+  },
+  {
+    "_id": "554ea1a9832984e8494389e3",
+    "userId": "biz@westdenver.com",
+    "itemsConverted": 0,
+    "active": true,
+    "itemsPushed": 1,
+    "dateExpires": "2015-06-09T00:09:13.092Z",
+    "dateUpdated": "2015-05-10T00:09:13.092Z",
+    "dateAdded": "2015-05-10T00:09:13.092Z",
+    "maxCoupon": 25,
+    "__v": 0,
+    "dealData": {
+      "onSegments": [
+        {
+          "_id": "554ea1a9832984e8494389e9",
+          "segmentId": 269
+        },
+        {
+          "_id": "554ea1a9832984e8494389e8",
+          "segmentId": 45
+        },
+        {
+          "_id": "554ea1a9832984e8494389e7",
+          "segmentId": 44
+        },
+        {
+          "_id": "554ea1a9832984e8494389e6",
+          "segmentId": 16
+        },
+        {
+          "_id": "554ea1a9832984e8494389e5",
+          "segmentId": 17
+        },
+        {
+          "_id": "554ea1a9832984e8494389e4",
+          "segmentId": 266
+        }
+      ],
+      "lon": -105.158425,
+      "lat": 39.732204,
+      "businessName": "West Denver Diner",
+      "name": "Take it Easy - 50% off Dinner at",
+      "triggers": {
+        "distance": "2",
+        "traffic": "2",
+        "roadConditions": "8"
+      }
+    }
+  }
+]

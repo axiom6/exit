@@ -6,7 +6,7 @@ class Rest
   constructor:( @app, @stream  ) ->
     @baseURL       = "http://104.154.46.117/"
     @jessURL       = "https://exit-now-admin-jesseporter32.c9.io/"
-    @currURL       = @jessURL
+    @currURL       = @baseURL
     @segmentURL    = @currURL + "api/segment"
     @conditionsURL = @currURL + "api/state"
     @dealsURL      = @currURL + "api/deals"
@@ -41,6 +41,10 @@ class Rest
     url  = "#{@dealsURL}?segments=#{csv}&loc=#{latlon[0]},#{latlon[1]}"
     @get( url, 'Deals', args, callback )
 
+  dealsByUrl:( url, callback ) ->
+    Util.log( 'isCall', typeof(callback), callback? )
+    @get( url, 'Deals', {}, callback )
+
   # Needs work
   accept:( userId, dealId, convert ) ->
     args = { userId:userId, dealId:dealId, convert:convert }
@@ -48,7 +52,7 @@ class Rest
     @post( url, 'Accept', args, callback )
 
   get:( url, from, args, callback ) ->
-    settings = { url:url, type:'GET', dataType:@cors,  contentType:'application/json; charset=utf-8' }
+    settings = { url:url, type:'GET', dataType:@cors, contentType:'application/json; charset=utf-8' }
     settings.success = ( json, textStatus, jqXHR ) =>
       Util.noop( textStatus, jqXHR )
       callback( args, json )

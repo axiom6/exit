@@ -25,7 +25,10 @@
       return this.driveBar.postReady();
     };
 
-    NoGo.prototype.layout = function() {};
+    NoGo.prototype.layout = function(orientation) {
+      Util.noop(orientation);
+      return this.driveBar.layout(orientation);
+    };
 
     NoGo.prototype.show = function() {
       return this.$.show();

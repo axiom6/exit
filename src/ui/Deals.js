@@ -6,10 +6,12 @@
   Deals = (function() {
     Util.Export(Deals, 'ui/Deals');
 
-    function Deals(app, model) {
+    function Deals(app, stream) {
       this.app = app;
-      this.model = model;
+      this.stream = stream;
+      this.callDeals = bind(this.callDeals, this);
       this.doDeals = bind(this.doDeals, this);
+      this.gritterId = 0;
     }
 
     Deals.prototype.ready = function() {
@@ -20,7 +22,9 @@
       return "<div id=\"" + (this.app.id('Deals')) + "\" class=\"" + (this.app.css('Deals')) + "\">Deals</div>";
     };
 
-    Deals.prototype.layout = function() {};
+    Deals.prototype.layout = function(orientation) {
+      return Util.noop(orientation);
+    };
 
     Deals.prototype.show = function() {
       return this.$.show();
@@ -49,6 +53,15 @@
       return this.app.checkComplete();
     };
 
+    Deals.prototype.dataDeals = function() {
+      return this.rest = this.app.rest.dealsByUrl('http://localhost:63342/Exit-Now-App/data/exit/deals.json', this.callDeals);
+    };
+
+    Deals.prototype.callDeals = function(args, deals) {
+      Util.noop(args);
+      return this.popupMultipleDeals('EXIT NOW!', 'Traffic is slow ahead', 'ETA +2.5 hrs', deals);
+    };
+
     Deals.prototype.segments = function() {
       return [31, 32, 33, 34, 272, 273, 36, 37, 39, 40, 41, 276, 277, 268, 269, 44, 45];
     };
@@ -56,6 +69,76 @@
     Deals.prototype.latLon = function() {
       return [39.644407, -106.378767];
     };
+
+    Deals.prototype.showMeMyDeals = function() {
+      return this.dataDeals();
+    };
+
+    Deals.prototype.popupMike = function() {
+      return this.popup('EXIT NOW!', 'Traffic is slow ahead', 'ETA +2.5 hrs', 'Stop now for ', 'FREE DINNER');
+    };
+
+    Deals.prototype.popupMultipleDeals = function(title, traffic, eta, deals) {
+      var dataId, deal, html, i, len, opts;
+      dataId = "IAMEXITING1";
+      this.gritterId++;
+      opts = {};
+      opts.title = "<div style=\"text-align:center; font-size:2.0em;\"><div>" + title + "</div></div>";
+      opts.text = "<div style=\"text-align:center; font-size:1.0em;\">\n<div><span>" + traffic + "</span><span style=\"font-weight:bold;\">" + eta + "</span></div>";
+      for (i = 0, len = deals.length; i < len; i++) {
+        deal = deals[i];
+        opts.text += "<hr/>\n<div style=\"font-size:0.9em;\">" + deal.dealData.name + "</div>\n<div style=\"font-size:0.9em;\">" + deal.dealData.businessName + "</div>";
+      }
+      html = this.iAmExiting(dataId);
+      opts.text += html;
+      opts.class_name = "gritter-light";
+      opts.sticky = true;
+      return this.deal(opts, dataId, this.gritterId);
+    };
+
+    Deals.prototype.iAmExiting = function(dataId) {
+      return "<div style=\"margin-top:0.5em;\"><span dataid=\"" + dataId + "\" style=\"font-size:0.9em; padding:0.3em; background-color:#658552; color:white;\">I'M EXITING</span></div></div>";
+    };
+
+    Deals.prototype.popup = function(title, traffic, eta, stop, reward) {
+      var dataId, opts;
+      dataId = "IAMEXITING1";
+      this.gritterId++;
+      opts = {};
+      opts.title = "<div style=\"text-align:center; font-size:2.0em;\"><div>" + title + "</div></div><hr/>";
+      opts.text = "<div style=\"text-align:center; font-size:1.0em;\">\n<div><span>" + traffic + "</span><span style=\"font-weight:bold;\">" + eta + "</span></div>\n<div style=\"font-size:0.9em;\"><span>" + stop + "<span style=\"font-weight:bold;\">" + reward + "</span></div>";
+      opts.text += this.iAmExiting() + "</div>";
+      opts.class_name = "gritter-light";
+      opts.sticky = true;
+      return this.deal(opts, dataId, this.gritterId);
+    };
+
+    Deals.prototype.deal = function(opts, dataId, gritterId) {
+      this.gritter(opts);
+      return this.enableClick(dataId, gritterId);
+    };
+
+    Deals.prototype.enableClick = function(dataId, gritterId) {
+      return $("[dataid=" + dataId + "]").click(function() {
+        Util.log("I'M EXITING");
+        return $.gritter.remove(gritterId);
+      });
+    };
+
+    Deals.prototype.gritter = function(opts) {
+      return $.gritter.add(opts);
+    };
+
+
+    /*
+      $.gritter.add({
+        title: 'This is a regular notice!', // (string | mandatory) the heading of the notification
+        text:                               // (string | mandatory) the text inside the notification
+        image: 'bigger.png',                // (string | optional) the image to display on the left
+        sticky: false,                      // (bool | optional) if you want it to fade out on its own or just sit there
+        time: 8000,                         // (int | optional) the time you want it to be alive for before fading out (milliseconds)
+        class_name: 'my-class',             // (string | optional) the class
+     */
 
     return Deals;
 

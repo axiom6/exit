@@ -25,11 +25,17 @@
       return this.driveBar.postReady();
     };
 
-    Road.prototype.layout = function() {};
+    Road.prototype.layout = function(orientation) {
+      return this.driveBar.layout(orientation);
+    };
 
-    Road.prototype.show = function() {};
+    Road.prototype.show = function() {
+      return this.$.show();
+    };
 
-    Road.prototype.hide = function() {};
+    Road.prototype.hide = function() {
+      return this.$.hide();
+    };
 
     return Road;
 

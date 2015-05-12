@@ -149,9 +149,9 @@ body {
   left: 4%;
   top: 4%;
   width: 92%;
-  height: 24%;
+  height: 26%;
+  max-height: 26%;
   display: table;
-  font-size: 7.0em;
   font-weight: bold;
   background-color: white;
   color: #658552;
@@ -162,10 +162,10 @@ body {
 }
 .GoDeals {
   position: absolute;
-  left: 3%;
-  top: 32%;
-  width: 94%;
-  height: 45%;
+  left: 4%;
+  top: 34%;
+  width: 92%;
+  height: 36%;
   font-size: 1.5em;
   background-color: #678754;
   color: white;
@@ -173,9 +173,9 @@ body {
 .GoDrive {
   position: absolute;
   left: 0;
-  bottom: 0;
+  top: 70%;
   width: 100%;
-  height: 125px;
+  height: 30%;
 }
 .NoGo {
   display: none;
@@ -185,7 +185,7 @@ body {
   left: 4%;
   top: 4%;
   width: 92%;
-  height: 24%;
+  height: 26%;
   display: table;
   font-size: 5.0em;
   font-weight: bold;
@@ -199,18 +199,18 @@ body {
 .NoGoDeals {
   position: absolute;
   left: 4%;
-  top: 32%;
+  top: 34%;
   width: 92%;
-  height: 45%;
+  height: 36%;
   font-size: 1.5em;
   background-color: white;
 }
 .NoGoDrive {
   position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 125px;
+  left: 4%;
+  top: 70%;
+  width: 92%;
+  height: 30%;
 }
 .Advisory {
   display: none;
@@ -315,10 +315,10 @@ body {
 }
 .Road {
   position: absolute;
-  left: 0;
+  left: 4%;
   top: 45%;
-  width: 100%;
-  height: 25%;
+  width: 92%;
+  height: 55%;
   background-color: beige;
 }
 .DriveBar {
@@ -326,7 +326,7 @@ body {
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 20%;
+  height: 100%;
   background-color: #658552;
 }
 .Deals {

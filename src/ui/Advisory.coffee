@@ -11,7 +11,8 @@ class Advisory
   html:() ->
     """<div id="#{@app.id('Advisory')}" class="#{@app.css('Advisory')}"></div>"""
 
-  layout:() ->
+  layout:( orientation ) ->
+    Util.noop( orientation )
 
   show:() ->
 

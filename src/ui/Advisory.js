@@ -18,7 +18,9 @@
       return "<div id=\"" + (this.app.id('Advisory')) + "\" class=\"" + (this.app.css('Advisory')) + "\"></div>";
     };
 
-    Advisory.prototype.layout = function() {};
+    Advisory.prototype.layout = function(orientation) {
+      return Util.noop(orientation);
+    };
 
     Advisory.prototype.show = function() {};
 

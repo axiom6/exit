@@ -24,7 +24,9 @@ class NoGo
   postReady:() ->
     @driveBar.postReady()
 
-  layout:() ->
+  layout:( orientation ) ->
+    Util.noop( orientation )
+    @driveBar.layout( orientation )
 
   show:() -> @$.show()
   hide:() -> @$.hide()

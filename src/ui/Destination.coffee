@@ -33,7 +33,7 @@ class Destination
     dest2 = $('#DestinationSelect').find('option:selected').text()
     Util.log( 'Destination.selectDestination()', dest1, dest2 )
     @hideBody()
-    @doDestination( dest2 )
+    @app.doDestination( dest2 )
 
 
   id:(   name, type     ) -> @app.id(   name, type     )
@@ -66,7 +66,10 @@ class Destination
         </div>
        </div>"""
 
-  layout:() ->
+  layout:( orientation ) ->
+    @go       .layout( orientation )
+    @nogo     .layout( orientation )
+    @threshold.layout( orientation )
 
   show:() -> @$.show()
   hide:() -> @$.hide()

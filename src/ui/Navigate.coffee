@@ -11,7 +11,8 @@ class Navigate
   html:() ->
     """<div id="#{@app.id('Navigate')}" class="#{@app.css('Navigate')}">Navigate</div>"""
 
-  layout:() ->
+  layout:( orientation ) ->
+    Util.noop( orientation )
 
   show:() -> @$.show()
 

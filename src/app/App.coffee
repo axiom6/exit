@@ -6,15 +6,16 @@ class App
   # This kicks off everything
   $(document).ready ->
     Util.init()
-    Util.app = new App( true, true )
+    Util.app = new App( false, false, false )
     # Util.log( 'App Created' )
 
-  constructor:( runSimulate=false, runTest=false ) ->
+  constructor:( @runRest=true, @runSimulate=false, @runTest=false ) ->
     @dest               = ''
     @segmentsComplete   = false
     @conditionsComplete = false
     @dealsComplete      = false
     @direction          = 'West' # or East
+
 
     # Import Classes
     Stream      = Util.Import( 'app/Stream'     )
@@ -59,8 +60,8 @@ class App
     @postReady()
 
     # Run simulations and tests
-    @simulate   = new Simulate(      @, @stream ) if runSimulate
-    @test       = new Test(          @, @stream ) if runTest
+    @simulate   = new Simulate(      @, @stream ) if @runSimulate
+    @test       = new Test(          @, @stream ) if @runTest
 
   ready:() ->
     @destination.ready()
@@ -81,25 +82,27 @@ class App
   icon:(  name, type, fa      ) -> name + type + ' fa fa-' + fa
   svgId:( name, type, svgType ) -> @id( name, type+svgType )
 
-
-
   doDestination:( dest ) ->
-    @dest               = dest
-    @segmentsComplete   = false
-    @conditionsComplete = false
-    @dealsComplete      = false
-    @rest.segmentsByPreset(     1,                   @trip.doSegments   ) # Preset 1
-    @rest.conditionsBySegments(   @trip.condSegs(),  @trip.doConditions )
-    @rest.deals( @deals.latlon(), @deals.segments(), @deals.doDeals     )
+    @dest                = dest
+    initalCompleteStatus = not @runRest
+    @segmentsComplete    = initalCompleteStatus
+    @conditionsComplete  = initalCompleteStatus
+    @dealsComplete       = initalCompleteStatus
+    if @runRest
+      @rest.segmentsByPreset(     1,                   @trip.doSegments   ) # Preset 1
+      @rest.conditionsBySegments(   @trip.condSegs(),  @trip.doConditions )
+      @rest.deals( @deals.latLon(), @deals.segments(), @deals.doDeals     )
+    @checkComplete()
 
   checkComplete:() ->
     @goOrNoGo( @dest ) if @segmentsComplete and @conditionsComplete and @dealsComplete
 
   goOrNoGo:( dest ) ->
     # another fancy piece of logic goes here
+    @trip.createDriveBars()
     if dest is 'Vail' or dest is 'Winter Park'
       @destination.nogo.show()
     else
       @destination.go.show()
-    @trip.createDriveBars()
+
 

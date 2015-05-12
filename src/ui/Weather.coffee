@@ -15,19 +15,14 @@ class Weather
     { key:"VailPass",     index:7, lon:-106.216071, lat:39.531042, name:"Vail Pass"      }
     { key:"Vail",         index:8, lon:-106.378767, lat:39.644407, name:"Vail"           } ]
 
-  @Locs = [
-    { key:"EastTunnel",   index:3, lon:-105.891111, lat:39.681757, name:"East Tunnel"    }
-    { key:"WestTunnel",   index:4, lon:-105.878342, lat:39.692400, name:"West Tunnel"    }
-    { key:"VailPass",     index:7, lon:-106.216071, lat:39.531042, name:"Vail Pass"      } ]
-
-  @Locs[0].fore = { time:1430776040, summary:'Overcast',   fcIcon:'cloudy', style:{ back:'silver', icon:'wi-cloudy' }, precipProbability:0.01, precipType:'rain', temperature:44.16, windSpeed:5.7, cloudCover:0.99  }
+  @Locs[0].fore = { time:1430776040, summary:'Overcast',   fcIcon:'cloudy', style:{ back:'silver', icon:'wi-cloudy'  }, precipProbability:0.01, precipType:'rain', temperature:44.16, windSpeed:5.7, cloudCover:0.99  }
   @Locs[1].fore = { time:1430776040, summary:'Drizzle',    fcIcon:'rain',   style:{ back:'silver', icon:'wi-showers' }, precipProbability:0.67, precipType:'rain', temperature:43.61, windSpeed:6.3, cloudCover:0.89  }
-  @Locs[2].fore = { time:1430776040, summary:'Overcast',   fcIcon:'cloudy', style:{ back:'silver', icon:'wi-cloudy' }, precipProbability:0.19, precipType:'rain', temperature:39.49, windSpeed:6.9, cloudCover:0.97  }
-  @Locs[3].fore = { time:1430776040, summary:'Overcast',   fcIcon:'cloudy', style:{ back:'silver', icon:'wi-cloudy' }, precipProbability:0.21, precipType:'rain', temperature:39.57, windSpeed:6.82, cloudCover:0.97 }
-  @Locs[4].fore = { time:1430776040, summary:'Light Rain', fcIcon:'rain',   style:{ back:'silver', icon:'wi-rain'   }, precipProbability:1,    precipType:'rain', temperature:47.4,  windSpeed:6.89, cloudCover:0.85 }
-  @Locs[5].fore = { time:1430776040, summary:'Light Rain', fcIcon:'rain',   style:{ back:'silver', icon:'wi-rain'   }, precipProbability:1,    precipType:'rain', temperature:46.92, windSpeed:3.44, cloudCover:1    }
-  @Locs[6].fore = { time:1430776041, summary:'Drizzle',    fcIcon:'rain',   style:{ back:'silver', icon:'wi-showers'   }, precipProbability:0.53, precipType:'rain', temperature:47.29, windSpeed:3.94, cloudCover:0.94 }
-  @Locs[7].fore = { time:1430776041, summary:'Light Rain', fcIcon:'rain',   style:{ back:'silver', icon:'wi-rain'   }, precipProbability:1,    precipType:'rain', temperature:44.83, windSpeed:2.43, cloudCover:0.87 }
+  @Locs[2].fore = { time:1430776040, summary:'Overcast',   fcIcon:'cloudy', style:{ back:'silver', icon:'wi-cloudy'  }, precipProbability:0.19, precipType:'rain', temperature:39.49, windSpeed:6.9, cloudCover:0.97  }
+  @Locs[3].fore = { time:1430776040, summary:'Overcast',   fcIcon:'cloudy', style:{ back:'silver', icon:'wi-cloudy'  }, precipProbability:0.21, precipType:'rain', temperature:39.57, windSpeed:6.82, cloudCover:0.97 }
+  @Locs[4].fore = { time:1430776040, summary:'Light Rain', fcIcon:'rain',   style:{ back:'silver', icon:'wi-rain'    }, precipProbability:1,    precipType:'rain', temperature:47.4,  windSpeed:6.89, cloudCover:0.85 }
+  @Locs[5].fore = { time:1430776040, summary:'Light Rain', fcIcon:'rain',   style:{ back:'silver', icon:'wi-rain'    }, precipProbability:1,    precipType:'rain', temperature:46.92, windSpeed:3.44, cloudCover:1    }
+  @Locs[6].fore = { time:1430776041, summary:'Drizzle',    fcIcon:'rain',   style:{ back:'silver', icon:'wi-showers' }, precipProbability:0.53, precipType:'rain', temperature:47.29, windSpeed:3.94, cloudCover:0.94 }
+  @Locs[7].fore = { time:1430776041, summary:'Light Rain', fcIcon:'rain',   style:{ back:'silver', icon:'wi-rain'    }, precipProbability:1,    precipType:'rain', temperature:44.83, windSpeed:2.43, cloudCover:0.87 }
 
   @Icons = {}
   @Icons['clear-day']           = { back:'lightblue',      icon:'wi-day-cloudy' }
@@ -50,9 +45,9 @@ class Weather
     @$ = $( """<div id="Weather" class="Weather"></div>""" )
     for loc in Weather.Locs
       @createHtml( loc ) # @forecast( loc )
-    return
 
-  layout:() ->
+  layout:( orientation ) ->
+    Util.noop( orientation )
 
   show:() ->
 
@@ -60,7 +55,7 @@ class Weather
 
 
   exitJSON:(  json ) ->
-    ej = {}           # Exit Now JSON forecast
+    ej = {}            # Exit Now JSON forecast
     fc = json.currently # The current forecast data point
     ej.time              = fc.time
     ej.summary           = fc.summary
@@ -91,7 +86,6 @@ class Weather
                 <div class="WeatherTemp">#{f.temperature}&deg;F</div>
               </div>"""
     @$.append( html )
-    return
 
 
   # A numerical value between 0 and 1 (inclusive) representing the percentage of sky occluded by clouds.
@@ -102,11 +96,12 @@ class Weather
     url = """https://api.forecast.io/forecast/#{key}/#{loc.lat},#{loc.lon}"""
     settings = { url:url, type:'GET', dataType:'jsonp', contentType:'text/plain' }
     settings.success = ( json, textStatus, jqXHR ) =>
+      Util.noop( textStatus, jqXHR )
       @createHtml( loc, json )
     settings.error = ( jqXHR, textStatus, errorThrown ) ->
-      Util.error('Weather.forcast', { url:url, text:textStatus } )
+        Util.noop( errorThrown )
+        Util.error('Weather.forcast', { url:url, text:textStatus } )
     $.ajax( settings )
-    return
 
 
 

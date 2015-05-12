@@ -14,7 +14,8 @@ class Threshold
        <img src="img/app/Threshold.png">
     </div>"""
 
-  layout:() ->
+  layout:( orientation ) ->
+    Util.noop( orientation )
 
   show:() -> @$.show()
   hide:() -> @$.hide()

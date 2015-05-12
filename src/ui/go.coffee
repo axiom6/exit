@@ -6,9 +6,12 @@ class Go
   constructor:( @app, @stream ) ->
     DriveBar  = Util.Import( 'ui/DriveBar')
     @driveBar = new DriveBar( @app, @stream, 'Go' )
+    @first = true
 
   ready:() ->
     @$ = $( @html() )
+    @$GoBanner     = @$.find('#GoBanner'    )
+    @$GoBannerText = @$.find('#GoBannerText')
 
   html:() ->
     """<div id="#{@app.id('Go')}"         class="#{@app.css('Go')}">
@@ -24,8 +27,17 @@ class Go
 
   postReady:() ->
     @driveBar.postReady()
+    @goSize()
 
-  layout:() ->
+  goSize:() ->
+    fontSize = if @first then @app.height() * @$GoBanner.height() * 0.0065 else @$GoBanner.height() * 0.65
+    Util.log( '@$GoBanner.height()', { ah:@app.height(), gh:@$GoBanner.height(), fs:fontSize } )
+    @$GoBannerText.css( { fontSize:fontSize+'px' })
+    @first = false
+
+  layout:( orientation ) ->
+    @goSize()
+    @driveBar.layout( orientation )
 
   show:() -> @$.show()
   hide:() -> @$.hide()

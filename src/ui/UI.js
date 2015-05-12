@@ -12,6 +12,8 @@
       this.trip = trip;
       this.deals = deals;
       this.navigate = navigate;
+      this.orientation = 'Portrait';
+      this.lastSelect = null;
     }
 
     UI.prototype.ready = function() {
@@ -28,8 +30,6 @@
       this.$tripIcon = this.$.find('#TripIcon');
       this.$dealsIcon = this.$.find('#DealsIcon');
       this.$namigateIcon = this.$.find('#NavigateIcon');
-      this.lastSelect = null;
-      this.orientation = 'Portrait';
       this.$IconsHover.mouseenter((function(_this) {
         return function() {
           return _this.$Icons.show();
@@ -40,7 +40,6 @@
           return _this.$Icons.hide();
         };
       })(this));
-      this.gritterId = 0;
       this.publish();
       this.subscribe();
       return this.select('Destination');
@@ -69,7 +68,10 @@
       $('body').css({
         "background-image": "url(" + url + ")"
       });
-      return $('#App').attr('class', "App" + orientation);
+      $('#App').attr('class', "App" + orientation);
+      this.destination.layout(orientation);
+      this.trip.layout(orientation);
+      return this.deals.layout(orientation);
     };
 
     UI.prototype.show = function() {};
@@ -101,7 +103,6 @@
     };
 
     UI.prototype.select = function(name) {
-      var dataId, opts;
       if (this.lastSelect != null) {
         this.lastSelect.hide();
       }
@@ -114,14 +115,7 @@
           break;
         case 'Deals':
           this.lastSelect = this.deals;
-          dataId = "IAMEXITING1";
-          this.gritterId++;
-          opts = {};
-          opts.title = "<div style=\"text-align:center; font-size:2.0em;\"><div>EXIT NOW!</div></div><hr/>";
-          opts.text = "<div style=\"text-align:center; font-size:1.0em;\">\n  <div><span>Traffic is slow ahead, </span><span style=\"font-weight:bold;\">ETA +2.5 hrs</span></div>\n  <div style=\"font-size:0.9em;\"><span>Stop now for <span style=\"font-weight:bold;\">FREE DINNER</span></div>\n  <div style=\"margin-top:0.5em;\">\n    <span dataid=\"" + dataId + "\" style=\"font-size:0.9em; padding:0.3em; background-color:#658552; color:white;\">I'M EXITING</span>\n  </div>\n</div>";
-          opts.class_name = "gritter-light";
-          opts.sticky = true;
-          this.deal(opts, dataId, this.gritterId);
+          this.deals.showMeMyDeals();
           break;
         case 'Navigate':
           this.lastSelect = this.navigate;
@@ -137,18 +131,6 @@
     UI.prototype.orient = function() {
       this.orientation = this.orientation === 'Portrait' ? 'Landscape' : 'Portrait';
       return this.layout(this.orientation);
-    };
-
-    UI.prototype.deal = function(opts, dataId, gritterId) {
-      this.gritter(opts);
-      return $("[dataid=" + dataId + "]").click(function() {
-        Util.log("I'M EXITING");
-        return $.gritter.remove(gritterId);
-      });
-    };
-
-    UI.prototype.gritter = function(opts) {
-      return $.gritter.add(opts);
     };
 
     UI.prototype.width = function() {
@@ -174,17 +156,6 @@
       }
       return h;
     };
-
-
-    /*
-      $.gritter.add({
-        title: 'This is a regular notice!', // (string | mandatory) the heading of the notification
-        text:                               // (string | mandatory) the text inside the notification
-        image: 'bigger.png',                // (string | optional) the image to display on the left
-        sticky: false,                      // (bool | optional) if you want it to fade out on its own or just sit there
-        time: 8000,                         // (int | optional) the time you want it to be alive for before fading out (milliseconds)
-        class_name: 'my-class',             // (string | optional) the class
-     */
 
     return UI;
 
