@@ -25,6 +25,20 @@ class DriveBar
 # DriveBar has a postReady does not have a ready() method since it is embedded
   postReady:() ->
     [@svg,@$svg,@g,@$g,@gw,@gh,@y0] = @createSvg( @$, @htmlId, @name, @ext, @svgWidth(), @svgHeight(), @barTop() )
+    @subscribe()
+
+  subscribe:() ->
+    @stream.subscribe( 'Location',   (object) => @onLocation(   object.content ) )
+    @stream.subscribe( 'Orient',     (object) =>     @layout(   object.content ) )
+    @stream.subscribe( 'Conditions', (object) => @onConditions( object.content ) )
+
+  onLocation:( latlon ) ->
+    Util.log( 'DriveBar.onLocation()', @ext, latlon )
+
+  onConditions:( conditions ) ->
+    for condition in conditions
+      Util.log( 'DriveBar.onConditions()', condition )
+
 
   layout:( orientation ) ->
     Util.log( 'Drive.layout()', @ext, orientation, @svgWidth(), @svgHeight(), @barHeight(), @barTop() )

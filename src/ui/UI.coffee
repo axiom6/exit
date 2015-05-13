@@ -25,7 +25,7 @@ class UI
     @$Icons     .mouseleave( () => @$Icons.hide() )
     @publish()
     @subscribe()
-    #@push( 'Select', 'Trip', 'UI' )
+    #@push( 'Select', 'Destination', 'UI' ) # We push the first screen selection to be destionaion
     @select( 'Destination' )
 
   id:(   name, type     ) -> @app.id(   name, type     )
@@ -49,9 +49,9 @@ class UI
     url = "img/app/phone6x12#{orientation}.png"
     $('body').css( { "background-image":"url(#{url})" } )
     $('#App').attr( 'class', "App#{orientation}" )
-    @destination.layout( orientation )
-    @trip.layout(  orientation )
-    @deals.layout( orientation )
+    #@destination.layout( orientation )
+    #@trip.layout(  orientation )
+    #@deals.layout( orientation )
 
   show:() ->
 
@@ -61,11 +61,12 @@ class UI
     @stream.publish( 'Select', @$destinationIcon, 'click', 'Destination', 'UI' )
     @stream.publish( 'Select', @$tripIcon,        'click', 'Trip',        'UI' )
     @stream.publish( 'Select', @$dealsIcon,       'click', 'Deals',       'UI' )
-    @stream.publish( 'Orient', @$namigateIcon,    'click', 'Orient',      'UI' )
+    @stream.publish( 'Select', @$namigateIcon,    'click', 'Navigate',    'UI' )
+    #@stream.publish( 'Orient', @$namigateIcon,    'click', @orientation,  'UI' )
 
   subscribe:() ->
-    @stream.subscribe( 'Select', (object) => @select(object.topic) )
-    @stream.subscribe( 'Orient', (object) => @orient() )
+    @stream.subscribe( 'Select', (object) => @select(object.content) )
+    @stream.subscribe( 'Orient', (object) => @layout(object.content) )
 
   push:( subject, topic, from ) ->
     @stream.push( subject, topic, from )
@@ -77,11 +78,13 @@ class UI
         @lastSelect = @destination
       when 'Trip'
         @lastSelect = @trip
+        @app.simulate.generateLocationsFromMilePosts( 1000 ) if @app.simulate?
       when 'Deals'
         @lastSelect = @deals
         @deals.showMeMyDeals()
       when 'Navigate'
         @lastSelect = @navigate
+        @orient()
       else
         Util.error( "UI.select unknown name", name )
     if @lastSelect?
@@ -89,7 +92,9 @@ class UI
 
   orient:() ->
     @orientation = if @orientation is 'Portrait' then 'Landscape' else 'Portrait'
-    @layout( @orientation )
+    Util.log( 'UI.orient() new', @orientation )
+    #@stream.push('Orient', @orientation, 'UI' )
+
 
   width:()  ->
     w1 = if @$? then @$.width() else 0

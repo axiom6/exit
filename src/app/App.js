@@ -7,7 +7,7 @@
 
     $(document).ready(function() {
       Util.init();
-      return Util.app = new App(false, false, false);
+      return Util.app = new App(false, true, false);
     });
 
     function App(runRest, runSimulate, runTest) {

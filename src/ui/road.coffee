@@ -9,6 +9,10 @@ class Road
 
   ready:() ->
     @$ = $( @html() )
+    @subscribe()
+
+  subscribe:() ->
+    @stream.subscribe( 'Orient', (object) =>  @layout(object.content) )
 
   html:() ->
     """<div id="#{@app.id('Road')}" class="#{@app.css('Road')}">#{@driveBar.html('Trip')}</div>"""
@@ -17,7 +21,7 @@ class Road
     @driveBar.postReady()
 
   layout:( orientation ) ->
-    @driveBar.layout( orientation )
+    Util.log( 'Road.layout()', orientation )
 
   show:() -> @$.show()
   hide:() -> @$.hide()

@@ -15,15 +15,12 @@
     }
 
     Deals.prototype.ready = function() {
-      return this.$ = $(this.html());
+      this.$ = $(this.html());
+      return this.subscribe();
     };
 
     Deals.prototype.html = function() {
       return "<div id=\"" + (this.app.id('Deals')) + "\" class=\"" + (this.app.css('Deals')) + "\">Deals</div>";
-    };
-
-    Deals.prototype.layout = function(orientation) {
-      return Util.noop(orientation);
     };
 
     Deals.prototype.show = function() {
@@ -32,6 +29,66 @@
 
     Deals.prototype.hide = function() {
       return this.$.hide();
+    };
+
+    Deals.prototype.subscribe = function() {
+      this.stream.subscribe('Destination', (function(_this) {
+        return function(object) {
+          return _this.onDestination(object.content);
+        };
+      })(this));
+      this.stream.subscribe('Location', (function(_this) {
+        return function(object) {
+          return _this.onLocation(object.content);
+        };
+      })(this));
+      this.stream.subscribe('Orient', (function(_this) {
+        return function(object) {
+          return _this.layout(object.content);
+        };
+      })(this));
+      this.stream.subscribe('Deals', (function(_this) {
+        return function(object) {
+          return _this.onDeals(object.content);
+        };
+      })(this));
+      return this.stream.subscribe('Conditions', (function(_this) {
+        return function(object) {
+          return _this.onConditions(object.content);
+        };
+      })(this));
+    };
+
+    Deals.prototype.onDestination = function(destination) {
+      return Util.log('Deals.onDestination()', destination);
+    };
+
+    Deals.prototype.onLocation = function(latlon) {
+      return Util.log('Deals.onLocation() latlon', latlon);
+    };
+
+    Deals.prototype.layout = function(orientation) {
+      return Util.log('Deals.layout()', orientation);
+    };
+
+    Deals.prototype.onDeals = function(deals) {
+      var deal, i, len, results;
+      results = [];
+      for (i = 0, len = deals.length; i < len; i++) {
+        deal = deals[i];
+        results.push(Util.log('Deals.onDeals()', deal));
+      }
+      return results;
+    };
+
+    Deals.prototype.onConditions = function(conditions) {
+      var condition, i, len, results;
+      results = [];
+      for (i = 0, len = conditions.length; i < len; i++) {
+        condition = conditions[i];
+        results.push(Util.log('DriveBar.onConditions()', condition));
+      }
+      return results;
     };
 
     Deals.prototype.doDeals = function(args, deals) {
@@ -58,7 +115,7 @@
     };
 
     Deals.prototype.callDeals = function(args, deals) {
-      Util.noop(args);
+      this.stream.push('Deals', deals, 'Deals');
       return this.popupMultipleDeals('EXIT NOW!', 'Traffic is slow ahead', 'ETA +2.5 hrs', deals);
     };
 

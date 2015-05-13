@@ -18,23 +18,23 @@ class Destination
     @go.postReady()
     @nogo.postReady()
     @publish()
+    @subscribe()
 
   # publish is called by
   publish:() ->
     @$destinationBody   = @$.find('#DestinationBody'  )
     @$destinationSelect = @$.find('#DestinationSelect')
     @stream.publish( 'Destination', @$destinationSelect, 'change', 'Destination', 'Destination' )
-    @subscribe()
 
   subscribe:() ->
-    @stream.subscribe( 'Destination', (object) => @selectDestination(object.topic) )
+    @stream.subscribe( 'Destination', (object) => @selectDestination(object.content) )
+    @stream.subscribe( 'Orient',      (object) => @layout(object.content) )
 
   selectDestination:( dest1 ) ->
     dest2 = $('#DestinationSelect').find('option:selected').text()
     Util.log( 'Destination.selectDestination()', dest1, dest2 )
     @hideBody()
     @app.doDestination( dest2 )
-
 
   id:(   name, type     ) -> @app.id(   name, type     )
   css:(  name, type     ) -> @app.css(  name, type     )
@@ -67,9 +67,11 @@ class Destination
        </div>"""
 
   layout:( orientation ) ->
-    @go       .layout( orientation )
-    @nogo     .layout( orientation )
-    @threshold.layout( orientation )
+    Util.log( 'Destination.layout()', orientation )
+    # Not needed
+    #@go       .layout( orientation )
+    #@nogo     .layout( orientation )
+    #@threshold.layout( orientation )
 
   show:() -> @$.show()
   hide:() -> @$.hide()

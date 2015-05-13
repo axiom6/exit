@@ -6,58 +6,117 @@ class Stream
   constructor:( @app ) ->
     Util.error( 'Stream rxjs-jquery not defined' ) if not $().bindAsObservable? # Special case
     @subjects = {}
-    @subjects['Select']      = new Rx.Subject()
-    @subjects['Orient']      = new Rx.Subject()
-    @subjects['Destination'] = new Rx.Subject()
+    @subjects['Select']              = new Rx.Subject()
+    @subjects['Orient']              = new Rx.Subject()
+    @subjects['Destination']         = new Rx.Subject()
+    @subjects['Location']            = new Rx.Subject()
+    @subjects['Segments']            = new Rx.Subject()
+    @subjects['Deals']               = new Rx.Subject()
+    @subjects['Conditions']          = new Rx.Subject()
+    @subjects['RequestSegmentBy']    = new Rx.Subject()
+    @subjects['RequestConditionsBy'] = new Rx.Subject()
+    @subjects['RequestDealsBy']      = new Rx.Subject()
+    @test1()
+    @test2()
 
+  fibonacci:() ->
+    fn1 = 1
+    fn2 = 1
+    while (1)
+      current = fn2;
+      fn2 = fn1
+      fn1 = fn1 + current
+      yield current
 
-  getSubject:( prop, warn=false ) ->
-    if @subjects[prop]?
-       @subjects[prop]
+  test2:() ->
+    source    = Rx.Observable.from(@fibonacci()).take(10)
+    subject   = @getSubject( 'Location' )
+    subscribe = source.subscribe(subject) #subscribe( (x) -> Util.log('fib',x) )
+    Util.noop( subscribe )
+
+  test1:() ->
+    array = [1,2,3,4,5,6,7,8,9]
+    @subjects[  'TestLocation'] = new Rx.Subject()
+    @subscribe( 'TextLocation', (object) => @onTestLocation( object.content ) )
+    @push(      'TestLocation', 'LatLon', 'Stream.Test')
+
+  push:( name, content, from) ->
+    object  = @createObject( content, from )
+    source  = Rx.Observable.from( object )
+
+    subject = @getSubject( name )
+    source.subscribe(subject)
+    return
+
+  onTestLocation:( content ) ->
+    Util.log( 'Stream.onLocation()', content )
+
+  # Get a subject by name. Create a new one if need with a warning
+  getSubject:( name, warn=false ) ->
+    if @subjects[name]?
+       @subjects[name]
     else
-      Util.warn( 'App.Pub.getSubject() unknown subject so returning new subject for', prop ) if warn
-      @subjects[prop] = new Rx.Subject()
-    @subjects[prop]
+      Util.warn( 'App.Pub.getSubject() unknown subject so returning new subject for', name ) if warn
+      @subjects[name] = new Rx.Subject()
+    @subjects[name]
 
-  publish:( prop, jqSel, eventType, topic, from ) ->
-    subject = @getSubject(  prop )
-    object  = { from:from, topic:topic }
-    #Util.log( 'Stream.publish()', prop, object )
+  # Create object payload in a uniform way for subject
+  # Note 'from' is just for debugging
+  createObject:( content, from ) ->
+    { from:from, content:content }
+
+  # Convience method for validating and extracting an object's content
+  getContent:( object ) ->
+    content = {}
+    if not object?
+      Util.error( 'Stream.getContent() object null or undefined' )
+    else if not object.content?
+      from = if object.from? then from else 'unknown'
+      Util.error( 'Stream.getContent() content null or undefined from', from )
+    else
+      content = object.content
+    content
+
+  # Publishes object through rxjs-jquery event for a jQuerySelector dom element
+  publish:( name, jQuerySelector, eventType, content, from ) ->
+    subject = @getSubject(  name )
+    object  = @createObject( content, from )
     onNext = ( event ) =>
       @processEvent(  event )
       object.value = event.target.value  if eventType isnt 'click'
-      #Util.log( 'App.Pub.publish.onNext', prop, object )
       subject.onNext( object )
-    @subscribeEvent( onNext, jqSel, eventType, object )
+    @subscribeEvent( onNext, jQuerySelector, eventType, object )
     subject
 
-  # onThis does not always work with CoffeeScript class object so best to pass onNext( topic ) as a closure
-  subscribe:( prop, onNext ) ->
-    subject = @getSubject( prop, false ) # Many subscribers come before publishers
+  # onThis does not always work with CoffeeScript class object so best to pass onNext( content ) as a closure
+  subscribe:( name, onNext ) ->
+    subject = @getSubject( name, false ) # Many subscribers come before publishers
     subscription = subject.subscribe( onNext, @onError, @onComplete )
     subscription
 
-  push:( prop, topic, from ) ->
-    subject = @getSubject(  prop )
-    object  = { from:from, topic:topic }
-    onNext  = () ->
-      subject.onNext( object )
-    subject.subscribe( onNext, @onError, @onComplete ) # What is needed here
+  # Push and ubject onto a subject
+  push1:( name, content, src ) ->
+    object     = @createObject( content, src )
+    Rx.Observable.from(s)
+    subject    = @getSubject(  name )
+    observable = subject.asObservable()
 
-  createRxJQuery:( jqSel, object ) ->
-    if Util.isJQuery( jqSel )
-      jqSel
-    else if Util.isStr( jqSel )
-      $(jqSel)
+    observable.publish( object )
+
+  createRxJQuery:(    jQuerySelector, object ) ->
+    if Util.isJQuery( jQuerySelector )
+      jQuerySelector
+    else if Util.isStr( jQuerySelector )
+      $(jQuerySelector)
     else
-      Util.error('App.Pub.createRxJQuery( jqSel )', object, typeof(jqSel), 'jqSel is neither jQuery object nor selector' )
+      Util.error('App.Pub.createRxJQuery( jqSel )', object, typeof(jQuerySelector), 'jqSel is neither jQuery object nor selector' )
       $()
 
   onError:( error ) ->
-    Util.error( 'App.Pub.onError()', error )
+    Util.error( 'Stream.onError()', error )
 
   onComplete:() ->
-    Util.log(   'App.Pub.onComplete()', 'Completed' )
+    Util.log(   'Stream.onComplete()', 'Completed' )
 
   subscribeEvent:( onNext, jqSel, eventType, object ) ->
     rxjq          = @createRxJQuery( jqSel, object )
@@ -68,35 +127,3 @@ class Stream
   processEvent:( event ) ->
     event?.stopPropagation()                   # Will need to look into preventDefault
     event?.preventDefault()
-
-  toggleNavbTocs:( jqSel, from ) ->
-    onNext = ( event ) =>
-      @processEvent( event )
-      @app.toggleNavbTocs()
-    @subscribeEvent( onNext, jqSel, 'click', 'toggleNavbTocs', from )
-
-  drag:( jqSel ) ->
-
-    dragTarget = @createRxJQuery( jqSel )  # Note $jQuery has to be made reative with rxjs-jquery
-
-    # Get the three major events
-    mouseup   =  dragTarget.bindAsObservable("mouseup"  ).publish().refCount()
-    mousemove = $(document).bindAsObservable("mousemove").publish().refCount()
-    mousedown =  dragTarget.bindAsObservable("mousedown").publish().refCount().map( (event) -> # calculate offsets when mouse down
-      event.preventDefault()
-      left: event.clientX - dragTarget.offset().left
-      top:  event.clientY - dragTarget.offset().top  )
-
-    # Combine mouse down with mouse move until mouse up
-    mousedrag = mousedown.selectMany( (offset) ->
-
-      # calculate offsets from mouse down to mouse moves
-      mousemove.map( (pos) ->
-        left: pos.clientX - offset.left
-        top:  pos.clientY - offset.top
-      ).takeUntil mouseup )
-
-    # Update position
-    subscription = mousedrag.subscribe( (pos) ->
-      dragTarget.css( { top:pos.top, left:pos.left } )
-      return )

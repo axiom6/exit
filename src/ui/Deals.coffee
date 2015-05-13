@@ -8,16 +8,39 @@ class Deals
 
   ready:() ->
     @$ = $( @html() )
+    @subscribe()
 
   html:() ->
     """<div id="#{@app.id('Deals')}" class="#{@app.css('Deals')}">Deals</div>"""
 
-  layout:( orientation ) ->
-    Util.noop( orientation )
-
   show:() -> @$.show()
 
   hide:() -> @$.hide()
+
+  subscribe:() ->
+    @stream.subscribe( 'Destination', (object) => @onDestination(object.content) )
+    @stream.subscribe( 'Location',    (object) =>    @onLocation(object.content) )
+    @stream.subscribe( 'Orient',      (object) =>        @layout(object.content) )
+    @stream.subscribe( 'Deals',       (object) =>       @onDeals(object.content) )
+    @stream.subscribe( 'Conditions',  (object) => @onConditions( object.content) )
+
+
+  onDestination:( destination ) ->
+    Util.log( 'Deals.onDestination()', destination )
+
+  onLocation:( latlon ) ->
+    Util.log( 'Deals.onLocation() latlon', latlon )
+
+  layout:( orientation ) ->
+    Util.log( 'Deals.layout()', orientation )
+
+  onDeals:( deals ) ->
+    for deal in deals
+      Util.log( 'Deals.onDeals()', deal )
+
+  onConditions:( conditions ) ->
+    for condition in conditions
+      Util.log( 'DriveBar.onConditions()', condition )
 
   doDeals:( args, deals ) =>
     Util.log( 'logDeals args',  args )
@@ -32,7 +55,7 @@ class Deals
     @rest = @app.rest.dealsByUrl( 'http://localhost:63342/Exit-Now-App/data/exit/deals.json', @callDeals )
 
   callDeals:( args, deals ) =>
-    Util.noop( args )
+    @stream.push( 'Deals', deals, 'Deals' )
     @popupMultipleDeals( 'EXIT NOW!', 'Traffic is slow ahead', 'ETA +2.5 hrs', deals )
 
   segments:() ->

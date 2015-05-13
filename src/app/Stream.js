@@ -14,30 +14,103 @@
       this.subjects['Select'] = new Rx.Subject();
       this.subjects['Orient'] = new Rx.Subject();
       this.subjects['Destination'] = new Rx.Subject();
+      this.subjects['Location'] = new Rx.Subject();
+      this.subjects['Segments'] = new Rx.Subject();
+      this.subjects['Deals'] = new Rx.Subject();
+      this.subjects['Conditions'] = new Rx.Subject();
+      this.subjects['RequestSegmentBy'] = new Rx.Subject();
+      this.subjects['RequestConditionsBy'] = new Rx.Subject();
+      this.subjects['RequestDealsBy'] = new Rx.Subject();
+      this.test1();
+      this.test2();
     }
 
-    Stream.prototype.getSubject = function(prop, warn) {
+    Stream.prototype.fibonacci = function*() {
+      var current, fn1, fn2, results;
+      fn1 = 1;
+      fn2 = 1;
+      results = [];
+      while (1.) {
+        current = fn2;
+        fn2 = fn1;
+        fn1 = fn1 + current;
+        results.push((yield current));
+      }
+      return results;
+    };
+
+    Stream.prototype.test2 = function() {
+      var source, subject, subscribe;
+      source = Rx.Observable.from(this.fibonacci()).take(10);
+      subject = this.getSubject('Location');
+      subscribe = source.subscribe(subject);
+      return Util.noop(subscribe);
+    };
+
+    Stream.prototype.test1 = function() {
+      var array;
+      array = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+      this.subjects['TestLocation'] = new Rx.Subject();
+      this.subscribe('TextLocation', (function(_this) {
+        return function(object) {
+          return _this.onTestLocation(object.content);
+        };
+      })(this));
+      return this.push('TestLocation', 'LatLon', 'Stream.Test');
+    };
+
+    Stream.prototype.push = function(name, content, from) {
+      var object, source, subject;
+      object = this.createObject(content, from);
+      source = Rx.Observable.from(object);
+      subject = this.getSubject(name);
+      source.subscribe(subject);
+    };
+
+    Stream.prototype.onTestLocation = function(content) {
+      return Util.log('Stream.onLocation()', content);
+    };
+
+    Stream.prototype.getSubject = function(name, warn) {
       if (warn == null) {
         warn = false;
       }
-      if (this.subjects[prop] != null) {
-        this.subjects[prop];
+      if (this.subjects[name] != null) {
+        this.subjects[name];
       } else {
         if (warn) {
-          Util.warn('App.Pub.getSubject() unknown subject so returning new subject for', prop);
+          Util.warn('App.Pub.getSubject() unknown subject so returning new subject for', name);
         }
-        this.subjects[prop] = new Rx.Subject();
+        this.subjects[name] = new Rx.Subject();
       }
-      return this.subjects[prop];
+      return this.subjects[name];
     };
 
-    Stream.prototype.publish = function(prop, jqSel, eventType, topic, from) {
-      var object, onNext, subject;
-      subject = this.getSubject(prop);
-      object = {
+    Stream.prototype.createObject = function(content, from) {
+      return {
         from: from,
-        topic: topic
+        content: content
       };
+    };
+
+    Stream.prototype.getContent = function(object) {
+      var content, from;
+      content = {};
+      if (object == null) {
+        Util.error('Stream.getContent() object null or undefined');
+      } else if (object.content == null) {
+        from = object.from != null ? from : 'unknown';
+        Util.error('Stream.getContent() content null or undefined from', from);
+      } else {
+        content = object.content;
+      }
+      return content;
+    };
+
+    Stream.prototype.publish = function(name, jQuerySelector, eventType, content, from) {
+      var object, onNext, subject;
+      subject = this.getSubject(name);
+      object = this.createObject(content, from);
       onNext = (function(_this) {
         return function(event) {
           _this.processEvent(event);
@@ -47,47 +120,43 @@
           return subject.onNext(object);
         };
       })(this);
-      this.subscribeEvent(onNext, jqSel, eventType, object);
+      this.subscribeEvent(onNext, jQuerySelector, eventType, object);
       return subject;
     };
 
-    Stream.prototype.subscribe = function(prop, onNext) {
+    Stream.prototype.subscribe = function(name, onNext) {
       var subject, subscription;
-      subject = this.getSubject(prop, false);
+      subject = this.getSubject(name, false);
       subscription = subject.subscribe(onNext, this.onError, this.onComplete);
       return subscription;
     };
 
-    Stream.prototype.push = function(prop, topic, from) {
-      var object, onNext, subject;
-      subject = this.getSubject(prop);
-      object = {
-        from: from,
-        topic: topic
-      };
-      onNext = function() {
-        return subject.onNext(object);
-      };
-      return subject.subscribe(onNext, this.onError, this.onComplete);
+    Stream.prototype.push1 = function(name, content, src) {
+      var object, observable, subject;
+      object = this.createObject(content, src);
+      Rx.Observable.from(s);
+      subject = this.getSubject(name);
+      observable = subject.asObservable();
+      return observable.publish(object);
     };
 
-    Stream.prototype.createRxJQuery = function(jqSel, object) {
-      if (Util.isJQuery(jqSel)) {
-        return jqSel;
-      } else if (Util.isStr(jqSel)) {
-        return $(jqSel);
+    Stream.prototype.createRxJQuery = function(jQuerySelector, object) {
+      if (Util.isJQuery(jQuerySelector)) {
+        return jQuerySelector;
+      } else if (Util.isStr(jQuerySelector)) {
+        return $(jQuerySelector);
       } else {
-        Util.error('App.Pub.createRxJQuery( jqSel )', object, typeof jqSel, 'jqSel is neither jQuery object nor selector');
+        Util.error('App.Pub.createRxJQuery( jqSel )', object, typeof jQuerySelector, 'jqSel is neither jQuery object nor selector');
         return $();
       }
     };
 
     Stream.prototype.onError = function(error) {
-      return Util.error('App.Pub.onError()', error);
+      return Util.error('Stream.onError()', error);
     };
 
     Stream.prototype.onComplete = function() {
-      return Util.log('App.Pub.onComplete()', 'Completed');
+      return Util.log('Stream.onComplete()', 'Completed');
     };
 
     Stream.prototype.subscribeEvent = function(onNext, jqSel, eventType, object) {
@@ -103,45 +172,6 @@
         event.stopPropagation();
       }
       return event != null ? event.preventDefault() : void 0;
-    };
-
-    Stream.prototype.toggleNavbTocs = function(jqSel, from) {
-      var onNext;
-      onNext = (function(_this) {
-        return function(event) {
-          _this.processEvent(event);
-          return _this.app.toggleNavbTocs();
-        };
-      })(this);
-      return this.subscribeEvent(onNext, jqSel, 'click', 'toggleNavbTocs', from);
-    };
-
-    Stream.prototype.drag = function(jqSel) {
-      var dragTarget, mousedown, mousedrag, mousemove, mouseup, subscription;
-      dragTarget = this.createRxJQuery(jqSel);
-      mouseup = dragTarget.bindAsObservable("mouseup").publish().refCount();
-      mousemove = $(document).bindAsObservable("mousemove").publish().refCount();
-      mousedown = dragTarget.bindAsObservable("mousedown").publish().refCount().map(function(event) {
-        event.preventDefault();
-        return {
-          left: event.clientX - dragTarget.offset().left,
-          top: event.clientY - dragTarget.offset().top
-        };
-      });
-      mousedrag = mousedown.selectMany(function(offset) {
-        return mousemove.map(function(pos) {
-          return {
-            left: pos.clientX - offset.left,
-            top: pos.clientY - offset.top
-          };
-        }).takeUntil(mouseup);
-      });
-      return subscription = mousedrag.subscribe(function(pos) {
-        dragTarget.css({
-          top: pos.top,
-          left: pos.left
-        });
-      });
     };
 
     return Stream;

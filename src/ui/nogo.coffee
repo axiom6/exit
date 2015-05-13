@@ -9,6 +9,19 @@ class NoGo
 
   ready:() ->
     @$ = $( @html() )
+    @subscribe()
+
+  subscribe:() ->
+    @stream.subscribe( 'Orient', (object) =>  @layout(object.content) )
+    @stream.subscribe( 'Deals',  (object) => @onDeals(object.content) )
+
+  layout:( orientation ) ->
+    Util.log( 'NoGo.layout()', orientation )
+    #@driveBar.layout( orientation )
+
+  onDeals:( deals ) ->
+    for deal in deals
+      Util.log( 'NoGo.onDeals()', deal )
 
   html:() ->
     """<div      id="#{@app.id('NoGo')}"          class="#{@app.css('NoGo')}">
@@ -24,9 +37,7 @@ class NoGo
   postReady:() ->
     @driveBar.postReady()
 
-  layout:( orientation ) ->
-    Util.noop( orientation )
-    @driveBar.layout( orientation )
+
 
   show:() -> @$.show()
   hide:() -> @$.hide()

@@ -14,7 +14,35 @@
     }
 
     NoGo.prototype.ready = function() {
-      return this.$ = $(this.html());
+      this.$ = $(this.html());
+      return this.subscribe();
+    };
+
+    NoGo.prototype.subscribe = function() {
+      this.stream.subscribe('Orient', (function(_this) {
+        return function(object) {
+          return _this.layout(object.content);
+        };
+      })(this));
+      return this.stream.subscribe('Deals', (function(_this) {
+        return function(object) {
+          return _this.onDeals(object.content);
+        };
+      })(this));
+    };
+
+    NoGo.prototype.layout = function(orientation) {
+      return Util.log('NoGo.layout()', orientation);
+    };
+
+    NoGo.prototype.onDeals = function(deals) {
+      var deal, i, len, results;
+      results = [];
+      for (i = 0, len = deals.length; i < len; i++) {
+        deal = deals[i];
+        results.push(Util.log('NoGo.onDeals()', deal));
+      }
+      return results;
     };
 
     NoGo.prototype.html = function() {
@@ -23,11 +51,6 @@
 
     NoGo.prototype.postReady = function() {
       return this.driveBar.postReady();
-    };
-
-    NoGo.prototype.layout = function(orientation) {
-      Util.noop(orientation);
-      return this.driveBar.layout(orientation);
     };
 
     NoGo.prototype.show = function() {

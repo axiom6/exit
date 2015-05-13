@@ -17,7 +17,36 @@
     Go.prototype.ready = function() {
       this.$ = $(this.html());
       this.$GoBanner = this.$.find('#GoBanner');
-      return this.$GoBannerText = this.$.find('#GoBannerText');
+      this.$GoBannerText = this.$.find('#GoBannerText');
+      return this.subscribe();
+    };
+
+    Go.prototype.subscribe = function() {
+      this.stream.subscribe('Orient', (function(_this) {
+        return function(object) {
+          return _this.layout(object.content);
+        };
+      })(this));
+      return this.stream.subscribe('Deals', (function(_this) {
+        return function(object) {
+          return _this.onDeals(object.content);
+        };
+      })(this));
+    };
+
+    Go.prototype.layout = function(orientation) {
+      Util.log('Go.layout()', orientation);
+      return this.goSize();
+    };
+
+    Go.prototype.onDeals = function(deals) {
+      var deal, i, len, results;
+      results = [];
+      for (i = 0, len = deals.length; i < len; i++) {
+        deal = deals[i];
+        results.push(Util.log('Go.onDeals()', deal));
+      }
+      return results;
     };
 
     Go.prototype.html = function() {
@@ -41,11 +70,6 @@
         fontSize: fontSize + 'px'
       });
       return this.first = false;
-    };
-
-    Go.prototype.layout = function(orientation) {
-      this.goSize();
-      return this.driveBar.layout(orientation);
     };
 
     Go.prototype.show = function() {

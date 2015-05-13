@@ -68,10 +68,7 @@
       $('body').css({
         "background-image": "url(" + url + ")"
       });
-      $('#App').attr('class', "App" + orientation);
-      this.destination.layout(orientation);
-      this.trip.layout(orientation);
-      return this.deals.layout(orientation);
+      return $('#App').attr('class', "App" + orientation);
     };
 
     UI.prototype.show = function() {};
@@ -82,18 +79,18 @@
       this.stream.publish('Select', this.$destinationIcon, 'click', 'Destination', 'UI');
       this.stream.publish('Select', this.$tripIcon, 'click', 'Trip', 'UI');
       this.stream.publish('Select', this.$dealsIcon, 'click', 'Deals', 'UI');
-      return this.stream.publish('Orient', this.$namigateIcon, 'click', 'Orient', 'UI');
+      return this.stream.publish('Select', this.$namigateIcon, 'click', 'Navigate', 'UI');
     };
 
     UI.prototype.subscribe = function() {
       this.stream.subscribe('Select', (function(_this) {
         return function(object) {
-          return _this.select(object.topic);
+          return _this.select(object.content);
         };
       })(this));
       return this.stream.subscribe('Orient', (function(_this) {
         return function(object) {
-          return _this.orient();
+          return _this.layout(object.content);
         };
       })(this));
     };
@@ -112,6 +109,9 @@
           break;
         case 'Trip':
           this.lastSelect = this.trip;
+          if (this.app.simulate != null) {
+            this.app.simulate.generateLocationsFromMilePosts(1000);
+          }
           break;
         case 'Deals':
           this.lastSelect = this.deals;
@@ -119,6 +119,7 @@
           break;
         case 'Navigate':
           this.lastSelect = this.navigate;
+          this.orient();
           break;
         default:
           Util.error("UI.select unknown name", name);
@@ -130,7 +131,7 @@
 
     UI.prototype.orient = function() {
       this.orientation = this.orientation === 'Portrait' ? 'Landscape' : 'Portrait';
-      return this.layout(this.orientation);
+      return Util.log('UI.orient() new', this.orientation);
     };
 
     UI.prototype.width = function() {

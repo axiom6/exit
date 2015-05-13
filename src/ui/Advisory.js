@@ -11,15 +11,33 @@
     }
 
     Advisory.prototype.ready = function() {
-      return this.$ = $(this.html());
+      this.$ = $(this.html());
+      return this.subscribe();
+    };
+
+    Advisory.prototype.subscribe = function() {
+      this.stream.subscribe('Location', (function(_this) {
+        return function(object) {
+          return _this.onLocation(object.content);
+        };
+      })(this));
+      return this.stream.subscribe('Orient', (function(_this) {
+        return function(object) {
+          return _this.layout(object.content);
+        };
+      })(this));
+    };
+
+    Advisory.prototype.onLocation = function(latlon) {
+      return Util.log('Advisory.onLocation()', this.ext, latlon);
+    };
+
+    Advisory.prototype.layout = function(orientation) {
+      return Util.log('Advisory.layout()', orientation);
     };
 
     Advisory.prototype.html = function() {
       return "<div id=\"" + (this.app.id('Advisory')) + "\" class=\"" + (this.app.css('Advisory')) + "\"></div>";
-    };
-
-    Advisory.prototype.layout = function(orientation) {
-      return Util.noop(orientation);
     };
 
     Advisory.prototype.show = function() {};

@@ -26,20 +26,25 @@
     Destination.prototype.postReady = function() {
       this.go.postReady();
       this.nogo.postReady();
-      return this.publish();
+      this.publish();
+      return this.subscribe();
     };
 
     Destination.prototype.publish = function() {
       this.$destinationBody = this.$.find('#DestinationBody');
       this.$destinationSelect = this.$.find('#DestinationSelect');
-      this.stream.publish('Destination', this.$destinationSelect, 'change', 'Destination', 'Destination');
-      return this.subscribe();
+      return this.stream.publish('Destination', this.$destinationSelect, 'change', 'Destination', 'Destination');
     };
 
     Destination.prototype.subscribe = function() {
-      return this.stream.subscribe('Destination', (function(_this) {
+      this.stream.subscribe('Destination', (function(_this) {
         return function(object) {
-          return _this.selectDestination(object.topic);
+          return _this.selectDestination(object.content);
+        };
+      })(this));
+      return this.stream.subscribe('Orient', (function(_this) {
+        return function(object) {
+          return _this.layout(object.content);
         };
       })(this));
     };
@@ -69,9 +74,7 @@
     };
 
     Destination.prototype.layout = function(orientation) {
-      this.go.layout(orientation);
-      this.nogo.layout(orientation);
-      return this.threshold.layout(orientation);
+      return Util.log('Destination.layout()', orientation);
     };
 
     Destination.prototype.show = function() {

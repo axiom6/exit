@@ -8,7 +8,23 @@
     function Simulate(app, stream) {
       this.app = app;
       this.stream = stream;
+      this.Data = Util.Import('app/Data');
     }
+
+    Simulate.prototype.generateLocationsFromMilePosts = function(delay) {
+      var Milepost, feature, i, lat, latlon, len, lon, ref, time;
+      time = 0;
+      ref = this.Data.MilePosts.features;
+      for (i = 0, len = ref.length; i < len; i++) {
+        feature = ref[i];
+        Milepost = feature.properties.Milepost;
+        lat = feature.geometry.coordinates[1];
+        lon = feature.geometry.coordinates[0];
+        latlon = [lat, lon];
+        time += delay;
+        this.stream.push('Location', latlon, "" + Milepost);
+      }
+    };
 
     return Simulate;
 

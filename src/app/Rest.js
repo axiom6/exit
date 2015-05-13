@@ -20,7 +20,38 @@
       this.conditionsURL = this.currURL + "api/state";
       this.dealsURL = this.currURL + "api/deals";
       this.cors = 'json';
+      this.subscribe();
     }
+
+    Rest.prototype.subscribe = function() {
+      this.stream.subscribe('RequestSegments', (function(_this) {
+        return function(object) {
+          return _this.requestSegmentsBy(object.content);
+        };
+      })(this));
+      this.stream.subscribe('RequestConditionsBy', (function(_this) {
+        return function(object) {
+          return _this.requestConditionsBy(object.content);
+        };
+      })(this));
+      return this.stream.subscribe('RequestDealsBy', (function(_this) {
+        return function(object) {
+          return _this.requestDealsBy(object.content);
+        };
+      })(this));
+    };
+
+    Rest.requestSegmentsBy = function(query) {
+      return Util.log('Stream.requestSegmentsBy', query);
+    };
+
+    Rest.requestConditionsBy = function(query) {
+      return Util.log('Stream.requestConditionsBy', query);
+    };
+
+    Rest.requestDealsBy = function(query) {
+      return Util.log('Stream.requestDealsBy', query);
+    };
 
     Rest.prototype.segmentsByLatLon = function(slat, slon, elat, elon, callback) {
       var args, url;

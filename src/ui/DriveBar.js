@@ -50,7 +50,40 @@
 
     DriveBar.prototype.postReady = function() {
       var ref;
-      return ref = this.createSvg(this.$, this.htmlId, this.name, this.ext, this.svgWidth(), this.svgHeight(), this.barTop()), this.svg = ref[0], this.$svg = ref[1], this.g = ref[2], this.$g = ref[3], this.gw = ref[4], this.gh = ref[5], this.y0 = ref[6], ref;
+      ref = this.createSvg(this.$, this.htmlId, this.name, this.ext, this.svgWidth(), this.svgHeight(), this.barTop()), this.svg = ref[0], this.$svg = ref[1], this.g = ref[2], this.$g = ref[3], this.gw = ref[4], this.gh = ref[5], this.y0 = ref[6];
+      return this.subscribe();
+    };
+
+    DriveBar.prototype.subscribe = function() {
+      this.stream.subscribe('Location', (function(_this) {
+        return function(object) {
+          return _this.onLocation(object.content);
+        };
+      })(this));
+      this.stream.subscribe('Orient', (function(_this) {
+        return function(object) {
+          return _this.layout(object.content);
+        };
+      })(this));
+      return this.stream.subscribe('Conditions', (function(_this) {
+        return function(object) {
+          return _this.onConditions(object.content);
+        };
+      })(this));
+    };
+
+    DriveBar.prototype.onLocation = function(latlon) {
+      return Util.log('DriveBar.onLocation()', this.ext, latlon);
+    };
+
+    DriveBar.prototype.onConditions = function(conditions) {
+      var condition, i, len, results;
+      results = [];
+      for (i = 0, len = conditions.length; i < len; i++) {
+        condition = conditions[i];
+        results.push(Util.log('DriveBar.onConditions()', condition));
+      }
+      return results;
     };
 
     DriveBar.prototype.layout = function(orientation) {

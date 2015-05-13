@@ -11,6 +11,22 @@ class Rest
     @conditionsURL = @currURL + "api/state"
     @dealsURL      = @currURL + "api/deals"
     @cors          = 'json' # jsonp for different origin
+    @subscribe()
+
+  subscribe:() ->
+    @stream.subscribe( 'RequestSegments',     (object) =>  @requestSegmentsBy(   object.content ) )
+    @stream.subscribe( 'RequestConditionsBy', (object) =>  @requestConditionsBy( object.content ) )
+    @stream.subscribe( 'RequestDealsBy',      (object) =>  @requestDealsBy(      object.content ) )
+
+
+  @requestSegmentsBy:( query ) ->
+    Util.log( 'Stream.requestSegmentsBy', query )
+
+  @requestConditionsBy:( query ) ->
+    Util.log( 'Stream.requestConditionsBy', query )
+
+  @requestDealsBy:( query ) ->
+    Util.log( 'Stream.requestDealsBy', query )
 
   segmentsByLatLon:( slat, slon, elat, elon, callback ) ->
     args = { slat:slat, slon:slon, elat:elat, elon:elon }

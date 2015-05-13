@@ -14,7 +14,16 @@
     }
 
     Road.prototype.ready = function() {
-      return this.$ = $(this.html());
+      this.$ = $(this.html());
+      return this.subscribe();
+    };
+
+    Road.prototype.subscribe = function() {
+      return this.stream.subscribe('Orient', (function(_this) {
+        return function(object) {
+          return _this.layout(object.content);
+        };
+      })(this));
     };
 
     Road.prototype.html = function() {
@@ -26,7 +35,7 @@
     };
 
     Road.prototype.layout = function(orientation) {
-      return this.driveBar.layout(orientation);
+      return Util.log('Road.layout()', orientation);
     };
 
     Road.prototype.show = function() {

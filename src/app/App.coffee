@@ -6,7 +6,7 @@ class App
   # This kicks off everything
   $(document).ready ->
     Util.init()
-    Util.app = new App( false, false, false )
+    Util.app = new App( false, true, false )
     # Util.log( 'App Created' )
 
   constructor:( @runRest=true, @runSimulate=false, @runTest=false ) ->
@@ -104,5 +104,3 @@ class App
       @destination.nogo.show()
     else
       @destination.go.show()
-
-

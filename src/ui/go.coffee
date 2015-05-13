@@ -12,6 +12,21 @@ class Go
     @$ = $( @html() )
     @$GoBanner     = @$.find('#GoBanner'    )
     @$GoBannerText = @$.find('#GoBannerText')
+    @subscribe()
+
+  subscribe:() ->
+    @stream.subscribe( 'Orient', (object) =>  @layout(object.content) )
+    @stream.subscribe( 'Deals',  (object) => @onDeals(object.content) )
+
+
+  layout:( orientation ) ->
+    Util.log( 'Go.layout()', orientation )
+    @goSize()
+    #@driveBar.layout( orientation ) # Not needed
+
+  onDeals:( deals ) ->
+    for deal in deals
+      Util.log( 'Go.onDeals()', deal )
 
   html:() ->
     """<div id="#{@app.id('Go')}"         class="#{@app.css('Go')}">
@@ -35,9 +50,6 @@ class Go
     @$GoBannerText.css( { fontSize:fontSize+'px' })
     @first = false
 
-  layout:( orientation ) ->
-    @goSize()
-    @driveBar.layout( orientation )
 
   show:() -> @$.show()
   hide:() -> @$.hide()

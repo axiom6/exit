@@ -5,21 +5,30 @@
   Navigate = (function() {
     Util.Export(Navigate, 'ui/Navigate');
 
-    function Navigate(app, model) {
+    function Navigate(app, stream) {
       this.app = app;
-      this.model = model;
+      this.stream = stream;
     }
 
     Navigate.prototype.ready = function() {
-      return this.$ = $(this.html());
+      this.$ = $(this.html());
+      return this.subscribe();
+    };
+
+    Navigate.prototype.subscribe = function() {
+      return this.stream.subscribe('Orient', (function(_this) {
+        return function(object) {
+          return _this.layout(object.content);
+        };
+      })(this));
+    };
+
+    Navigate.prototype.layout = function(orientation) {
+      return Util.log('Navigate.layout()', orientation);
     };
 
     Navigate.prototype.html = function() {
       return "<div id=\"" + (this.app.id('Navigate')) + "\" class=\"" + (this.app.css('Navigate')) + "\">Navigate</div>";
-    };
-
-    Navigate.prototype.layout = function(orientation) {
-      return Util.noop(orientation);
     };
 
     Navigate.prototype.show = function() {
