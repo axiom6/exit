@@ -6,15 +6,20 @@ class App
   # This kicks off everything
   $(document).ready ->
     Util.init()
-    Util.app = new App( false, true, false )
+    Util.app = new App( true, false, false, false )
     # Util.log( 'App Created' )
 
-  constructor:( @runRest=true, @runSimulate=false, @runTest=false ) ->
+  constructor:( @runDemo=true, @runRest=true, @runSimulate=false, @runTest=false ) ->
     @dest               = ''
+    @subjectNames       = ['Select','Orient','Destination','eta','Location','TakeDeal','ArriveAtDeal',
+                           'Segments','Deals','Conditions',
+                           'RequestSegmentBy','RequestConditionsBy','RequestDealsBy']
     @segmentsComplete   = false
     @conditionsComplete = false
     @dealsComplete      = false
+    @firstRestRequestsComplete = false
     @direction          = 'West' # or East
+    @eta                = 141 # Expressed in minutes
 
 
     # Import Classes
@@ -40,7 +45,7 @@ class App
     Test        = Util.Import( 'app/Test'       )
 
     # Instantiate main App classes
-    @stream     = new Stream(        @ )
+    @stream     = new Stream(        @, @subjectNames )
     @rest       = new Rest(          @, @stream )
 
     # Instantiate UI class
@@ -59,7 +64,8 @@ class App
     @ready()
     @postReady()
 
-    # Run simulations and tests
+    # Run Demos, simulations and/or tests
+    @deals.dataDeals()                            if @runDemo
     @simulate   = new Simulate(      @, @stream ) if @runSimulate
     @test       = new Test(          @, @stream ) if @runTest
 
@@ -73,29 +79,39 @@ class App
   postReady:() ->
     @destination.postReady()
     @trip.postReady()
+    @subscribe()
 
-  width:()  -> @ui.width()
-  height:() -> @ui.height()
+  subscribe:() ->
+    @stream.subscribe( 'Destination', (object) => @onDestination(object.content) )
 
-  id:(    name, type=''       ) -> name + type
-  css:(   name, type=''       ) -> name + type
-  icon:(  name, type, fa      ) -> name + type + ' fa fa-' + fa
-  svgId:( name, type, svgType ) -> @id( name, type+svgType )
+  updateETA:( conditions ) ->
+    @eta = 0
+    for condition in conditions
+      @eta += conditions.Condition.TravelTime
+    @stream.push( 'ETA', @eta, 'App' )
 
-  doDestination:( dest ) ->
+  etaHoursMins:() ->
+    Util.toInt(@eta/60) + ' Hours ' + @eta%60 + ' Mins'
+
+  onDestination:( dest ) ->
+    Util.log( 'App.onDestination', dest )
     @dest                = dest
     initalCompleteStatus = not @runRest
     @segmentsComplete    = initalCompleteStatus
     @conditionsComplete  = initalCompleteStatus
     @dealsComplete       = initalCompleteStatus
-    if @runRest
+    if @runRest and not @firstRestRequestsComplete
       @rest.segmentsByPreset(     1,                   @trip.doSegments   ) # Preset 1
       @rest.conditionsBySegments(   @trip.condSegs(),  @trip.doConditions )
       @rest.deals( @deals.latLon(), @deals.segments(), @deals.doDeals     )
     @checkComplete()
 
+  # checkComplete is call three times when each status completed is changed
+  # goOrNoGo is then only called once
   checkComplete:() ->
-    @goOrNoGo( @dest ) if @segmentsComplete and @conditionsComplete and @dealsComplete
+    if @segmentsComplete and @conditionsComplete and @dealsComplete
+       @firstRestRequestsComplete = true
+       @goOrNoGo( @dest )
 
   goOrNoGo:( dest ) ->
     # another fancy piece of logic goes here
@@ -104,3 +120,11 @@ class App
       @destination.nogo.show()
     else
       @destination.go.show()
+
+  width:()  -> @ui.width()
+  height:() -> @ui.height()
+
+  id:(    name, type=''       ) -> name + type
+  css:(   name, type=''       ) -> name + type
+  icon:(  name, type, fa      ) -> name + type + ' fa fa-' + fa
+  svgId:( name, type, svgType ) -> @id( name, type+svgType )

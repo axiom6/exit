@@ -5,71 +5,20 @@
   Stream = (function() {
     Util.Export(Stream, 'app/Stream');
 
-    function Stream(app) {
+    function Stream(app, subjectNames) {
+      var i, len, name, ref;
       this.app = app;
+      this.subjectNames = subjectNames;
       if ($().bindAsObservable == null) {
         Util.error('Stream rxjs-jquery not defined');
       }
       this.subjects = {};
-      this.subjects['Select'] = new Rx.Subject();
-      this.subjects['Orient'] = new Rx.Subject();
-      this.subjects['Destination'] = new Rx.Subject();
-      this.subjects['Location'] = new Rx.Subject();
-      this.subjects['Segments'] = new Rx.Subject();
-      this.subjects['Deals'] = new Rx.Subject();
-      this.subjects['Conditions'] = new Rx.Subject();
-      this.subjects['RequestSegmentBy'] = new Rx.Subject();
-      this.subjects['RequestConditionsBy'] = new Rx.Subject();
-      this.subjects['RequestDealsBy'] = new Rx.Subject();
-      this.test1();
-      this.test2();
-    }
-
-    Stream.prototype.fibonacci = function*() {
-      var current, fn1, fn2, results;
-      fn1 = 1;
-      fn2 = 1;
-      results = [];
-      while (1.) {
-        current = fn2;
-        fn2 = fn1;
-        fn1 = fn1 + current;
-        results.push((yield current));
+      ref = this.subjectNames;
+      for (i = 0, len = ref.length; i < len; i++) {
+        name = ref[i];
+        this.subjects[name] = new Rx.Subject();
       }
-      return results;
-    };
-
-    Stream.prototype.test2 = function() {
-      var source, subject, subscribe;
-      source = Rx.Observable.from(this.fibonacci()).take(10);
-      subject = this.getSubject('Location');
-      subscribe = source.subscribe(subject);
-      return Util.noop(subscribe);
-    };
-
-    Stream.prototype.test1 = function() {
-      var array;
-      array = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-      this.subjects['TestLocation'] = new Rx.Subject();
-      this.subscribe('TextLocation', (function(_this) {
-        return function(object) {
-          return _this.onTestLocation(object.content);
-        };
-      })(this));
-      return this.push('TestLocation', 'LatLon', 'Stream.Test');
-    };
-
-    Stream.prototype.push = function(name, content, from) {
-      var object, source, subject;
-      object = this.createObject(content, from);
-      source = Rx.Observable.from(object);
-      subject = this.getSubject(name);
-      source.subscribe(subject);
-    };
-
-    Stream.prototype.onTestLocation = function(content) {
-      return Util.log('Stream.onLocation()', content);
-    };
+    }
 
     Stream.prototype.getSubject = function(name, warn) {
       if (warn == null) {
@@ -79,7 +28,7 @@
         this.subjects[name];
       } else {
         if (warn) {
-          Util.warn('App.Pub.getSubject() unknown subject so returning new subject for', name);
+          Util.warn('Stream.getSubject() unknown subject so returning new subject for', name);
         }
         this.subjects[name] = new Rx.Subject();
       }
@@ -115,29 +64,25 @@
         return function(event) {
           _this.processEvent(event);
           if (eventType !== 'click') {
-            object.value = event.target.value;
+            object.content = event.target.value;
           }
           return subject.onNext(object);
         };
       })(this);
       this.subscribeEvent(onNext, jQuerySelector, eventType, object);
-      return subject;
     };
 
     Stream.prototype.subscribe = function(name, onNext) {
-      var subject, subscription;
+      var subject;
       subject = this.getSubject(name, false);
-      subscription = subject.subscribe(onNext, this.onError, this.onComplete);
-      return subscription;
+      subject.subscribe(onNext, this.onError, this.onComplete);
     };
 
-    Stream.prototype.push1 = function(name, content, src) {
-      var object, observable, subject;
-      object = this.createObject(content, src);
-      Rx.Observable.from(s);
+    Stream.prototype.push = function(name, content, from) {
+      var object, subject;
       subject = this.getSubject(name);
-      observable = subject.asObservable();
-      return observable.publish(object);
+      object = this.createObject(content, from);
+      subject.onNext(object);
     };
 
     Stream.prototype.createRxJQuery = function(jQuerySelector, object) {
@@ -160,18 +105,19 @@
     };
 
     Stream.prototype.subscribeEvent = function(onNext, jqSel, eventType, object) {
-      var observable, rxjq, subscription;
+      var observable, rxjq;
       rxjq = this.createRxJQuery(jqSel, object);
       observable = rxjq.bindAsObservable(eventType);
-      subscription = observable.subscribe(onNext, this.onError, this.onComplete);
-      return subscription;
+      observable.subscribe(onNext, this.onError, this.onComplete);
     };
 
     Stream.prototype.processEvent = function(event) {
       if (event != null) {
         event.stopPropagation();
       }
-      return event != null ? event.preventDefault() : void 0;
+      if (event != null) {
+        event.preventDefault();
+      }
     };
 
     return Stream;

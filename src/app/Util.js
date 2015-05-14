@@ -833,7 +833,7 @@ Util = (function() {
   Util.toInt = function(arg) {
     switch (typeof arg) {
       case 'number':
-        return arg;
+        return Math.floor(arg);
       case 'string':
         return parseInt(arg);
       default:

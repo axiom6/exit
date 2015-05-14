@@ -42,38 +42,8 @@
       })(this));
       this.publish();
       this.subscribe();
-      return this.select('Destination');
+      return this.stream.push('Select', 'Destination', 'UI');
     };
-
-    UI.prototype.id = function(name, type) {
-      return this.app.id(name, type);
-    };
-
-    UI.prototype.css = function(name, type) {
-      return this.app.css(name, type);
-    };
-
-    UI.prototype.icon = function(name, type, fa) {
-      return this.app.icon(name, type, fa);
-    };
-
-    UI.prototype.html = function() {
-      return "<div      id=\"" + (this.id('UI')) + "\"                  class=\"" + (this.css('UI')) + "\">\n <div    id=\"" + (this.id('IconsHover')) + "\"          class=\"" + (this.css('IconsHover')) + "\"></div>\n <div    id=\"" + (this.id('Icons')) + "\"               class=\"" + (this.css('Icons')) + "\">\n    <div id=\"" + (this.id('Destination', 'Icon')) + "\"  class=\"" + (this.css('Destination', 'Icon')) + "\"><div><i class=\"fa fa-picture-o\"></i></div></div>\n    <div id=\"" + (this.id('Trip', 'Icon')) + "\"  class=\"" + (this.css('Trip', 'Icon')) + "\"><div><i class=\"fa fa-road\"></i></div></div>\n    <div id=\"" + (this.id('Deals', 'Icon')) + "\"  class=\"" + (this.css('Deals', 'Icon')) + "\"><div><i class=\"fa fa-trophy\"></i></div></div>\n    <div id=\"" + (this.id('Navigate', 'Icon')) + "\"  class=\"" + (this.css('Navigate', 'Icon')) + "\"><div><i class=\"fa fa-street-view\"></i></div></div>\n </div>\n <div id=\"" + (this.id('View')) + "\" class=\"" + (this.css('View')) + "\"></div>\n</div>";
-    };
-
-    UI.prototype.layout = function(orientation) {
-      var url;
-      Util.log('UI.layout', orientation);
-      url = "img/app/phone6x12" + orientation + ".png";
-      $('body').css({
-        "background-image": "url(" + url + ")"
-      });
-      return $('#App').attr('class', "App" + orientation);
-    };
-
-    UI.prototype.show = function() {};
-
-    UI.prototype.hide = function() {};
 
     UI.prototype.publish = function() {
       this.stream.publish('Select', this.$destinationIcon, 'click', 'Destination', 'UI');
@@ -95,9 +65,44 @@
       })(this));
     };
 
-    UI.prototype.push = function(subject, topic, from) {
-      return this.stream.push(subject, topic, from);
+    UI.prototype.id = function(name, type) {
+      return this.app.id(name, type);
     };
+
+    UI.prototype.css = function(name, type) {
+      return this.app.css(name, type);
+    };
+
+    UI.prototype.icon = function(name, type, fa) {
+      return this.app.icon(name, type, fa);
+    };
+
+    UI.prototype.html = function() {
+      return "<div      id=\"" + (this.id('UI')) + "\"                  class=\"" + (this.css('UI')) + "\">\n <div    id=\"" + (this.id('IconsHover')) + "\"          class=\"" + (this.css('IconsHover')) + "\"></div>\n <div    id=\"" + (this.id('Icons')) + "\"               class=\"" + (this.css('Icons')) + "\">\n    <div id=\"" + (this.id('Destination', 'Icon')) + "\"  class=\"" + (this.css('Destination', 'Icon')) + "\"><div><i class=\"fa fa-picture-o\"></i></div></div>\n    <div id=\"" + (this.id('Trip', 'Icon')) + "\"  class=\"" + (this.css('Trip', 'Icon')) + "\"><div><i class=\"fa fa-road\"></i></div></div>\n    <div id=\"" + (this.id('Deals', 'Icon')) + "\"  class=\"" + (this.css('Deals', 'Icon')) + "\"><div><i class=\"fa fa-trophy\"></i></div></div>\n    <div id=\"" + (this.id('Navigate', 'Icon')) + "\"  class=\"" + (this.css('Navigate', 'Icon')) + "\"><div><i class=\"fa fa-street-view\"></i></div></div>\n </div>\n <div id=\"" + (this.id('View')) + "\" class=\"" + (this.css('View')) + "\"></div>\n</div>";
+    };
+
+    UI.prototype.orient = function(orientation) {
+      if (orientation != null) {
+        this.orientation = orientation;
+      } else {
+        this.orientation = this.orientation === 'Portrait' ? 'Landscape' : 'Portrait';
+      }
+      Util.log('UI.orient() new', this.orientation);
+    };
+
+    UI.prototype.layout = function(orientation) {
+      var url;
+      Util.log('UI.layout', orientation);
+      url = "img/app/phone6x12" + orientation + ".png";
+      $('body').css({
+        "background-image": "url(" + url + ")"
+      });
+      return $('#App').attr('class', "App" + orientation);
+    };
+
+    UI.prototype.show = function() {};
+
+    UI.prototype.hide = function() {};
 
     UI.prototype.select = function(name) {
       if (this.lastSelect != null) {
@@ -109,29 +114,27 @@
           break;
         case 'Trip':
           this.lastSelect = this.trip;
+          this.orient('Landscape');
+          this.layout('Landscape');
+          this.trip.layout('Landscape');
           if (this.app.simulate != null) {
             this.app.simulate.generateLocationsFromMilePosts(1000);
           }
           break;
         case 'Deals':
           this.lastSelect = this.deals;
-          this.deals.showMeMyDeals();
           break;
         case 'Navigate':
-          this.lastSelect = this.navigate;
-          this.orient();
           break;
         default:
           Util.error("UI.select unknown name", name);
       }
       if (this.lastSelect != null) {
-        return this.lastSelect.show();
+        this.lastSelect.show();
+        if (this.orientation === 'Landscape' && name !== 'Trip') {
+          return this.layout('Portrait');
+        }
       }
-    };
-
-    UI.prototype.orient = function() {
-      this.orientation = this.orientation === 'Portrait' ? 'Landscape' : 'Portrait';
-      return Util.log('UI.orient() new', this.orientation);
     };
 
     UI.prototype.width = function() {

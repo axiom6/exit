@@ -1,8 +1,13 @@
 
+
+
+# Static data for demo that will be gradually be replaced with dynamic data from the server
+
 class Data
 
   Util.Export( Data, 'app/Data' )
 
+  @Destinations   =  ['Denver','DIA','Idaho Springs','Georgetown','Silverthorn','Dillon','Frisco','Keystone','Breckinridge','Winter Park','Vail']
 
   @EastSegmentIds = [31,32,33,34,272,273,36,37,39,40,41,276,277,268,269,44,45]
 

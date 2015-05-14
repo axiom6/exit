@@ -4,8 +4,8 @@ class UI
   Util.Export( UI, 'ui/UI' )
 
   constructor:( @app, @stream, @destination, @trip, @deals, @navigate ) ->
-    @orientation = 'Portrait'
-    @lastSelect  = null
+    @orientation    = 'Portrait'
+    @lastSelect     = null
 
   ready:() ->
     @$ = $( @html() )
@@ -25,8 +25,17 @@ class UI
     @$Icons     .mouseleave( () => @$Icons.hide() )
     @publish()
     @subscribe()
-    #@push( 'Select', 'Destination', 'UI' ) # We push the first screen selection to be destionaion
-    @select( 'Destination' )
+    @stream.push( 'Select', 'Destination', 'UI' ) # We push the first screen selection to be Destionaion
+
+  publish:() ->
+    @stream.publish( 'Select', @$destinationIcon, 'click', 'Destination', 'UI' )
+    @stream.publish( 'Select', @$tripIcon,        'click', 'Trip',        'UI' )
+    @stream.publish( 'Select', @$dealsIcon,       'click', 'Deals',       'UI' )
+    @stream.publish( 'Select', @$namigateIcon,    'click', 'Navigate',    'UI' )
+
+  subscribe:() ->
+    @stream.subscribe( 'Select', (object) => @select(object.content) )
+    @stream.subscribe( 'Orient', (object) => @layout(object.content) )
 
   id:(   name, type     ) -> @app.id(   name, type     )
   css:(  name, type     ) -> @app.css(  name, type     )
@@ -44,32 +53,24 @@ class UI
          <div id="#{@id('View')}" class="#{@css('View')}"></div>
         </div>"""
 
+  orient:( orientation ) ->
+    if orientation?
+      @orientation = orientation
+    else
+      @orientation = if @orientation is 'Portrait' then 'Landscape' else 'Portrait'
+    Util.log( 'UI.orient() new', @orientation )
+    #@stream.push('Orient', @orientation, 'UI' )   # This push will call UI.layout() here along with all 'Oriant' subscribers
+    return
+
   layout:( orientation ) ->
     Util.log( 'UI.layout', orientation )
     url = "img/app/phone6x12#{orientation}.png"
     $('body').css( { "background-image":"url(#{url})" } )
     $('#App').attr( 'class', "App#{orientation}" )
-    #@destination.layout( orientation )
-    #@trip.layout(  orientation )
-    #@deals.layout( orientation )
 
   show:() ->
 
   hide:() ->
-
-  publish:() ->
-    @stream.publish( 'Select', @$destinationIcon, 'click', 'Destination', 'UI' )
-    @stream.publish( 'Select', @$tripIcon,        'click', 'Trip',        'UI' )
-    @stream.publish( 'Select', @$dealsIcon,       'click', 'Deals',       'UI' )
-    @stream.publish( 'Select', @$namigateIcon,    'click', 'Navigate',    'UI' )
-    #@stream.publish( 'Orient', @$namigateIcon,    'click', @orientation,  'UI' )
-
-  subscribe:() ->
-    @stream.subscribe( 'Select', (object) => @select(object.content) )
-    @stream.subscribe( 'Orient', (object) => @layout(object.content) )
-
-  push:( subject, topic, from ) ->
-    @stream.push( subject, topic, from )
 
   select:( name ) ->
     @lastSelect.hide() if @lastSelect?
@@ -78,23 +79,20 @@ class UI
         @lastSelect = @destination
       when 'Trip'
         @lastSelect = @trip
+        @orient(      'Landscape' )
+        @layout(      'Landscape' )
+        @trip.layout( 'Landscape' )
         @app.simulate.generateLocationsFromMilePosts( 1000 ) if @app.simulate?
       when 'Deals'
         @lastSelect = @deals
-        @deals.showMeMyDeals()
       when 'Navigate'
-        @lastSelect = @navigate
-        @orient()
+        #@lastSelect = @navigate
+        #@orient()
       else
         Util.error( "UI.select unknown name", name )
     if @lastSelect?
        @lastSelect.show()
-
-  orient:() ->
-    @orientation = if @orientation is 'Portrait' then 'Landscape' else 'Portrait'
-    Util.log( 'UI.orient() new', @orientation )
-    #@stream.push('Orient', @orientation, 'UI' )
-
+       @layout( 'Portrait' ) if @orientation is 'Landscape' and name isnt 'Trip'
 
   width:()  ->
     w1 = if @$? then @$.width() else 0

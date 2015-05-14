@@ -497,8 +497,8 @@ class Util
 
   @toInt:( arg ) ->
     switch typeof(arg)
-      when 'number' then arg
-      when 'string' then parseInt(arg)
+      when 'number' then Math.floor(arg)
+      when 'string' then  parseInt(arg)
       else 0
 
   @toCap:( str ) -> str.charAt(0).toUpperCase() + str.substring(1)

@@ -166,6 +166,7 @@ body {
   top: 34%;
   width: 92%;
   height: 36%;
+  overflow: auto;
   font-size: 1.5em;
   background-color: #678754;
   color: white;
@@ -202,6 +203,7 @@ body {
   top: 34%;
   width: 92%;
   height: 36%;
+  overflow: auto;
   font-size: 1.5em;
   background-color: white;
 }

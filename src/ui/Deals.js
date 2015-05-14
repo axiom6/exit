@@ -9,9 +9,13 @@
     function Deals(app, stream) {
       this.app = app;
       this.stream = stream;
-      this.callDeals = bind(this.callDeals, this);
       this.doDeals = bind(this.doDeals, this);
+      this.callDeals = bind(this.callDeals, this);
+      this.setDealData = bind(this.setDealData, this);
       this.gritterId = 0;
+      this.uom = 'em';
+      this.dealsData = [];
+      this.isVisible = false;
     }
 
     Deals.prototype.ready = function() {
@@ -20,14 +24,18 @@
     };
 
     Deals.prototype.html = function() {
-      return "<div id=\"" + (this.app.id('Deals')) + "\" class=\"" + (this.app.css('Deals')) + "\">Deals</div>";
+      return "<div id=\"" + (this.app.id('Deals')) + "\" class=\"" + (this.app.css('Deals')) + "\"></div>";
     };
 
     Deals.prototype.show = function() {
-      return this.$.show();
+      this.isVisible = true;
+      this.$.show();
+      return $('#gritter-notice-wrapper').show();
     };
 
     Deals.prototype.hide = function() {
+      this.isVisible = false;
+      $('#gritter-notice-wrapper').hide();
       return this.$.hide();
     };
 
@@ -72,13 +80,10 @@
     };
 
     Deals.prototype.onDeals = function(deals) {
-      var deal, i, len, results;
-      results = [];
-      for (i = 0, len = deals.length; i < len; i++) {
-        deal = deals[i];
-        results.push(Util.log('Deals.onDeals()', deal));
+      this.popupMultipleDeals('EXIT NOW!', 'Traffic is slow ', "ETA " + (this.app.etaHoursMins()), deals);
+      if (!this.isVisible) {
+        return $('#gritter-notice-wrapper').hide();
       }
-      return results;
     };
 
     Deals.prototype.onConditions = function(conditions) {
@@ -91,111 +96,145 @@
       return results;
     };
 
-    Deals.prototype.doDeals = function(args, deals) {
-      var d, dd, i, len;
-      Util.log('logDeals args', args);
-      Util.log('logDeals deals', deals.length);
-      for (i = 0, len = deals.length; i < len; i++) {
-        d = deals[i];
-        dd = d.dealData;
-        Util.log('  ', {
-          segmentId: dd.segmentId,
-          lat: d.lat,
-          lon: d.lon,
-          buiness: d.businessName,
-          description: d.name
-        });
-      }
-      this.app.dealsComplete = true;
-      return this.app.checkComplete();
+    Deals.prototype.getGoDeals = function() {
+      return this.dealsData;
+    };
+
+    Deals.prototype.getNoGoDeals = function() {
+      return this.dealsData;
+    };
+
+    Deals.prototype.getDeals = function() {
+      return this.dealsData;
     };
 
     Deals.prototype.dataDeals = function() {
-      return this.rest = this.app.rest.dealsByUrl('http://localhost:63342/Exit-Now-App/data/exit/deals.json', this.callDeals);
+      if (this.dealsData.length === 0) {
+        return this.app.rest.dealsByUrl('http://localhost:63342/Exit-Now-App/data/exit/deals.json', this.callDeals);
+      }
+    };
+
+    Deals.prototype.setDealData = function(args, deals) {
+      return this.dealsData = deals;
     };
 
     Deals.prototype.callDeals = function(args, deals) {
-      this.stream.push('Deals', deals, 'Deals');
-      return this.popupMultipleDeals('EXIT NOW!', 'Traffic is slow ahead', 'ETA +2.5 hrs', deals);
-    };
-
-    Deals.prototype.segments = function() {
-      return [31, 32, 33, 34, 272, 273, 36, 37, 39, 40, 41, 276, 277, 268, 269, 44, 45];
-    };
-
-    Deals.prototype.latLon = function() {
-      return [39.644407, -106.378767];
-    };
-
-    Deals.prototype.showMeMyDeals = function() {
-      return this.dataDeals();
-    };
-
-    Deals.prototype.popupMike = function() {
-      return this.popup('EXIT NOW!', 'Traffic is slow ahead', 'ETA +2.5 hrs', 'Stop now for ', 'FREE DINNER');
+      this.dealsData = deals;
+      return this.stream.push('Deals', deals, 'Deals');
     };
 
     Deals.prototype.popupMultipleDeals = function(title, traffic, eta, deals) {
-      var dataId, deal, html, i, len, opts;
-      dataId = "IAMEXITING1";
-      this.gritterId++;
-      opts = {};
-      opts.title = "<div style=\"text-align:center; font-size:2.0em;\"><div>" + title + "</div></div>";
-      opts.text = "<div style=\"text-align:center; font-size:1.0em;\">\n<div><span>" + traffic + "</span><span style=\"font-weight:bold;\">" + eta + "</span></div>";
+      var deal, i, len, opts, results;
+      opts = this.dealsOptsHtml(title, traffic, eta, deals);
+      opts.class_name = "gritter-light";
+      opts.sticky = true;
+      this.gritter(opts);
+      results = [];
       for (i = 0, len = deals.length; i < len; i++) {
         deal = deals[i];
-        opts.text += "<hr/>\n<div style=\"font-size:0.9em;\">" + deal.dealData.name + "</div>\n<div style=\"font-size:0.9em;\">" + deal.dealData.businessName + "</div>";
+        results.push(this.enableTakeDealClick(deal._id));
       }
-      html = this.iAmExiting(dataId);
-      opts.text += html;
-      opts.class_name = "gritter-light";
-      opts.sticky = true;
-      return this.deal(opts, dataId, this.gritterId);
+      return results;
     };
 
-    Deals.prototype.iAmExiting = function(dataId) {
-      return "<div style=\"margin-top:0.5em;\"><span dataid=\"" + dataId + "\" style=\"font-size:0.9em; padding:0.3em; background-color:#658552; color:white;\">I'M EXITING</span></div></div>";
+    Deals.prototype.fs = function(size) {
+      return size + this.uom;
     };
 
-    Deals.prototype.popup = function(title, traffic, eta, stop, reward) {
-      var dataId, opts;
-      dataId = "IAMEXITING1";
-      this.gritterId++;
+    Deals.prototype.dealsOptsHtml = function(title, traffic, eta, deals) {
+      var deal, i, len, opts;
+      this.uom = 'em';
       opts = {};
-      opts.title = "<div style=\"text-align:center; font-size:2.0em;\"><div>" + title + "</div></div><hr/>";
-      opts.text = "<div style=\"text-align:center; font-size:1.0em;\">\n<div><span>" + traffic + "</span><span style=\"font-weight:bold;\">" + eta + "</span></div>\n<div style=\"font-size:0.9em;\"><span>" + stop + "<span style=\"font-weight:bold;\">" + reward + "</span></div>";
-      opts.text += this.iAmExiting() + "</div>";
-      opts.class_name = "gritter-light";
-      opts.sticky = true;
-      return this.deal(opts, dataId, this.gritterId);
+      opts.title = this.dealsTitle(title, 2.0);
+      opts.text = this.dealsTrafficEta(traffic, eta, 1.3);
+      for (i = 0, len = deals.length; i < len; i++) {
+        deal = deals[i];
+        opts.text += this.dealHtml(deal, 1.2, true);
+      }
+      opts.text += "</div>";
+      return opts;
     };
 
-    Deals.prototype.deal = function(opts, dataId, gritterId) {
-      this.gritter(opts);
-      return this.enableClick(dataId, gritterId);
+    Deals.prototype.goDealsHtml = function(deals) {
+      var deal, html, i, len;
+      this.uom = 'em';
+      html = '';
+      for (i = 0, len = deals.length; i < len; i++) {
+        deal = deals[i];
+        html += this.dealHtml(deal, 0.7, false);
+      }
+      html += "</div>";
+      return html;
     };
 
-    Deals.prototype.enableClick = function(dataId, gritterId) {
-      return $("[dataid=" + dataId + "]").click(function() {
-        Util.log("I'M EXITING");
-        return $.gritter.remove(gritterId);
-      });
+    Deals.prototype.dealsTitle = function(title, fontSize) {
+      return "<div style=\"text-align:center;\">\n<div style=\"font-size:" + (this.fs(fontSize)) + ";\">" + title + "</div>";
+    };
+
+    Deals.prototype.dealsTrafficEta = function(traffic, eta, fontSize) {
+      return "<div style=\"font-size:" + (this.fs(fontSize)) + ";\"><span>" + traffic + "</span><span style=\"font-weight:bold;\"> " + eta + "</span></div>";
+    };
+
+    Deals.prototype.dealHtml = function(deal, fontSize, take) {
+      var html, padding, takeSize;
+      padding = 0.2 * fontSize;
+      takeSize = 0.6 * fontSize;
+      html = "<hr  style=\"margin:" + (this.fs(padding)) + "\"</hr>";
+      html += "<div style=\"font-size:" + (this.fs(fontSize)) + ";\">" + deal.dealData.name + "</div>\n<div style=\"font-size:" + (this.fs(fontSize)) + ";\"><span>" + deal.dealData.businessName + "</span>" + (this.takeDeal(deal._id, takeSize, padding, take)) + "</div>";
+      return html;
+    };
+
+    Deals.prototype.takeDeal = function(dealId, fontSize, padding, take) {
+      var style;
+      if (take) {
+        style = "font-size:" + (this.fs(fontSize)) + "; margin-left:" + (this.fs(fontSize)) + "; padding:" + (this.fs(padding)) + "; border-radius:" + (this.fs(padding * 2)) + "; background-color:#658552; color:white;";
+        return "<span dataid=\"" + dealId + "\" style=\"" + style + "\">Take Deal</span>";
+      } else {
+        return '';
+      }
+    };
+
+    Deals.prototype.enableTakeDealClick = function(dealId) {
+      return $("[dataid=" + dealId + "]").click((function(_this) {
+        return function() {
+          Util.log('Deal.TakeDeal', dealId);
+          return _this.stream.push('TakeDeal', dealId, 'Deal');
+        };
+      })(this));
     };
 
     Deals.prototype.gritter = function(opts) {
       return $.gritter.add(opts);
     };
 
+    Deals.prototype.iAmExiting = function(dataId) {
+      return "<div style=\"margin-top:0.5em;\"><span dataid=\"" + dataId + "\" style=\"font-size:0.9em; padding:0.3em; background-color:#658552; color:white;\">I'M EXITING</span></div></div>";
+    };
 
-    /*
-      $.gritter.add({
-        title: 'This is a regular notice!', // (string | mandatory) the heading of the notification
-        text:                               // (string | mandatory) the text inside the notification
-        image: 'bigger.png',                // (string | optional) the image to display on the left
-        sticky: false,                      // (bool | optional) if you want it to fade out on its own or just sit there
-        time: 8000,                         // (int | optional) the time you want it to be alive for before fading out (milliseconds)
-        class_name: 'my-class',             // (string | optional) the class
-     */
+    Deals.prototype.doDeals = function(args, deals) {
+      Util.log('logDeals args', args);
+
+      /*
+      Util.log( 'logDeals deals', deals.length )
+      for d in deals
+        dd = d.dealData
+        Util.log( '  ', { segmentId:dd.segmentId, lat:d.lat, lon:d.lon,  buiness:d.businessName, description:d.name } )
+       */
+      this.app.dealsComplete = true;
+      return this.app.checkComplete();
+    };
+
+    Deals.prototype.deal = function(opts, dataId, gritterId) {
+      this.gritter(opts);
+      return this.enableIamExitingClick(dataId, gritterId);
+    };
+
+    Deals.prototype.enableIamExitingClick = function(dataId, gritterId) {
+      return $("[dataid=" + dataId + "]").click(function() {
+        Util.log("I'M EXITING");
+        return $.gritter.remove(gritterId);
+      });
+    };
 
     return Deals;
 

@@ -11,6 +11,8 @@
       this.go = go;
       this.nogo = nogo;
       this.threshold = threshold;
+      this.Data = Util.Import('app/Data');
+      this.destinations = this.Data.Destinations;
     }
 
     Destination.prototype.ready = function() {
@@ -20,7 +22,9 @@
       this.$ = $(this.html());
       this.$.append(this.go.$);
       this.$.append(this.nogo.$);
-      return this.$.append(this.threshold.$);
+      this.$.append(this.threshold.$);
+      this.$destinationBody = this.$.find('#DestinationBody');
+      return this.$destinationSelect = this.$.find('#DestinationSelect');
     };
 
     Destination.prototype.postReady = function() {
@@ -31,15 +35,13 @@
     };
 
     Destination.prototype.publish = function() {
-      this.$destinationBody = this.$.find('#DestinationBody');
-      this.$destinationSelect = this.$.find('#DestinationSelect');
       return this.stream.publish('Destination', this.$destinationSelect, 'change', 'Destination', 'Destination');
     };
 
     Destination.prototype.subscribe = function() {
       this.stream.subscribe('Destination', (function(_this) {
         return function(object) {
-          return _this.selectDestination(object.content);
+          return _this.onDestination(object.content);
         };
       })(this));
       return this.stream.subscribe('Orient', (function(_this) {
@@ -49,10 +51,15 @@
       })(this));
     };
 
-    Destination.prototype.selectDestination = function(dest1) {
-      var dest2;
-      dest2 = $('#DestinationSelect').find('option:selected').text();
-      Util.log('Destination.selectDestination()', dest1, dest2);
+    Destination.prototype.onDestination = function(dest) {
+      this.hideBody();
+      return Util.log('Destination.@onDestination()', dest);
+    };
+
+    Destination.prototype.selectDestination = function() {
+      var dest;
+      dest = $('#DestinationSelect').find('option:selected').text();
+      Util.log('Destination.selectDestination()', dest);
       this.hideBody();
       return this.app.doDestination(dest2);
     };
@@ -70,7 +77,15 @@
     };
 
     Destination.prototype.html = function() {
-      return "<div      id=\"" + (this.id('Destination')) + "\"             class=\"" + (this.css('Destination')) + "\">\n  <div      id=\"" + (this.id('DestinationBody')) + "\"       class=\"" + (this.css('DestinationBody')) + "\">\n   <!--div  id=\"" + (this.id('DestinationLabelInput')) + "\" class=\"" + (this.css('DestinationLabelInput')) + "\">\n     <span  id=\"" + (this.id('DestinationUserLabel')) + "\" class=\"" + (this.css('DestinationUserLabel')) + "\">User:</span>\n     <input id=\"" + (this.id('DestinationUserInput')) + "\" class=\"" + (this.css('DestinationUserInput')) + "\"type=\"text\" name=\"theinput\" />\n   </div-->\n   <div     id=\"" + (this.id('DestinationWhat')) + "\"       class=\"" + (this.css('DestinationWhat')) + "\">What is your</div>\n   <div     id=\"" + (this.id('DestinationDest')) + "\"       class=\"" + (this.css('DestinationDest')) + "\">Destination?</div>\n   <select  id=\"" + (this.id('DestinationSelect')) + "\"     class=\"" + (this.css('DestinationSelect')) + "\"name=\"Desinations\">\n     <option>Denver</option>\n     <option>DIA</option>\n     <option>Idaho Springs</option>\n     <option>Georgetown</option>\n     <option>Silverthorn</option>\n     <option>Dillon</option>\n     <option>Frisco</option>\n     <option>Keystone</option>\n     <option>Breckinridge</option>\n     <option>Winter Park</option>\n     <option>Copper Mtn</option>\n     <option>Vail</option>\n   </select>\n </div>\n</div>";
+      var destination, htm, i, len, ref;
+      htm = "<div      id=\"" + (this.id('Destination')) + "\"             class=\"" + (this.css('Destination')) + "\">\n<div      id=\"" + (this.id('DestinationBody')) + "\"       class=\"" + (this.css('DestinationBody')) + "\">\n <!--div  id=\"" + (this.id('DestinationLabelInput')) + "\" class=\"" + (this.css('DestinationLabelInput')) + "\">\n   <span  id=\"" + (this.id('DestinationUserLabel')) + "\" class=\"" + (this.css('DestinationUserLabel')) + "\">User:</span>\n   <input id=\"" + (this.id('DestinationUserInput')) + "\" class=\"" + (this.css('DestinationUserInput')) + "\"type=\"text\" name=\"theinput\" />\n </div-->\n <div     id=\"" + (this.id('DestinationWhat')) + "\"       class=\"" + (this.css('DestinationWhat')) + "\">What is your</div>\n <div     id=\"" + (this.id('DestinationDest')) + "\"       class=\"" + (this.css('DestinationDest')) + "\">Destination?</div>\n <select  id=\"" + (this.id('DestinationSelect')) + "\"     class=\"" + (this.css('DestinationSelect')) + "\"name=\"Desinations\">";
+      ref = this.destinations;
+      for (i = 0, len = ref.length; i < len; i++) {
+        destination = ref[i];
+        htm += "<option>" + destination + "</option>";
+      }
+      htm += "</select></div></div>";
+      return htm;
     };
 
     Destination.prototype.layout = function(orientation) {

@@ -15,7 +15,14 @@
 
     NoGo.prototype.ready = function() {
       this.$ = $(this.html());
+      this.$NoGoBanner = this.$.find('#NoGoBanner');
+      this.$NoGoBannerText = this.$.find('#NoGoBannerText');
+      this.$NoGoDeals = this.$.find('#NoGoDeals');
       return this.subscribe();
+    };
+
+    NoGo.prototype.html = function() {
+      return "<div      id=\"" + (this.app.id('NoGo')) + "\"          class=\"" + (this.app.css('NoGo')) + "\">\n  <div   id=\"" + (this.app.id('NoGoBanner')) + "\"     class=\"" + (this.app.css('NoGoBanner')) + "\">\n    <div id=\"" + (this.app.id('NoGoBannerText')) + "\" class=\"" + (this.app.css('NoGoBannerText')) + "\">NO GO</div>\n  </div>\n  <div id=\"" + (this.app.id('NoGoDeals')) + "\"       class=\"" + (this.app.css('NoGoDeals')) + "\">\n    <div>50% off Hotel</div>\n  </div>\n  <div id=\"" + (this.app.id('NoGoDrive')) + "\" class=\"" + (this.app.css('NoGoDrive')) + "\">" + (this.driveBar.html('NoGo')) + "</div>\n</div>";
     };
 
     NoGo.prototype.subscribe = function() {
@@ -32,25 +39,28 @@
     };
 
     NoGo.prototype.layout = function(orientation) {
-      return Util.log('NoGo.layout()', orientation);
+      Util.log('NoGo.layout()', orientation);
+      return this.noGoSize();
     };
 
     NoGo.prototype.onDeals = function(deals) {
-      var deal, i, len, results;
-      results = [];
-      for (i = 0, len = deals.length; i < len; i++) {
-        deal = deals[i];
-        results.push(Util.log('NoGo.onDeals()', deal));
-      }
-      return results;
-    };
-
-    NoGo.prototype.html = function() {
-      return "<div      id=\"" + (this.app.id('NoGo')) + "\"          class=\"" + (this.app.css('NoGo')) + "\">\n  <div   id=\"" + (this.app.id('NoGoBanner')) + "\"     class=\"" + (this.app.css('NoGoBanner')) + "\">\n    <div id=\"" + (this.app.id('NoGoBannerText')) + "\" class=\"" + (this.app.css('NoGoBannerText')) + "\">NO GO</div>\n  </div>\n  <div id=\"" + (this.app.id('NoGoODeals')) + "\"       class=\"" + (this.app.css('NoGoDeals')) + "\">\n    <div>50% off Hotel</div>\n  </div>\n  <div id=\"" + (this.app.id('NoGoDrive')) + "\" class=\"" + (this.app.css('NoGoDrive')) + "\">" + (this.driveBar.html('NoGo')) + "</div>\n</div>";
+      var html;
+      this.$NoGoDeals.empty();
+      html = this.app.deals.goDealsHtml(deals);
+      return this.$NoGoDeals.append(html);
     };
 
     NoGo.prototype.postReady = function() {
       return this.driveBar.postReady();
+    };
+
+    NoGo.prototype.noGoSize = function() {
+      var fontSize;
+      fontSize = this.first ? this.app.height() * this.$NoGoBanner.height() * 0.0065 : this.$NoGoBanner.height() * 0.65;
+      this.$NoGoBannerText.css({
+        fontSize: fontSize + 'px'
+      });
+      return this.first = false;
     };
 
     NoGo.prototype.show = function() {

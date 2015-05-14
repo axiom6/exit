@@ -3,60 +3,19 @@ class Stream
 
   Util.Export( Stream, 'app/Stream' )
 
-  constructor:( @app ) ->
+  constructor:( @app, @subjectNames ) ->
     Util.error( 'Stream rxjs-jquery not defined' ) if not $().bindAsObservable? # Special case
     @subjects = {}
-    @subjects['Select']              = new Rx.Subject()
-    @subjects['Orient']              = new Rx.Subject()
-    @subjects['Destination']         = new Rx.Subject()
-    @subjects['Location']            = new Rx.Subject()
-    @subjects['Segments']            = new Rx.Subject()
-    @subjects['Deals']               = new Rx.Subject()
-    @subjects['Conditions']          = new Rx.Subject()
-    @subjects['RequestSegmentBy']    = new Rx.Subject()
-    @subjects['RequestConditionsBy'] = new Rx.Subject()
-    @subjects['RequestDealsBy']      = new Rx.Subject()
-    @test1()
-    @test2()
+    for name in @subjectNames
+      @subjects[name] = new Rx.Subject()
 
-  fibonacci:() ->
-    fn1 = 1
-    fn2 = 1
-    while (1)
-      current = fn2;
-      fn2 = fn1
-      fn1 = fn1 + current
-      yield current
-
-  test2:() ->
-    source    = Rx.Observable.from(@fibonacci()).take(10)
-    subject   = @getSubject( 'Location' )
-    subscribe = source.subscribe(subject) #subscribe( (x) -> Util.log('fib',x) )
-    Util.noop( subscribe )
-
-  test1:() ->
-    array = [1,2,3,4,5,6,7,8,9]
-    @subjects[  'TestLocation'] = new Rx.Subject()
-    @subscribe( 'TextLocation', (object) => @onTestLocation( object.content ) )
-    @push(      'TestLocation', 'LatLon', 'Stream.Test')
-
-  push:( name, content, from) ->
-    object  = @createObject( content, from )
-    source  = Rx.Observable.from( object )
-
-    subject = @getSubject( name )
-    source.subscribe(subject)
-    return
-
-  onTestLocation:( content ) ->
-    Util.log( 'Stream.onLocation()', content )
 
   # Get a subject by name. Create a new one if need with a warning
   getSubject:( name, warn=false ) ->
     if @subjects[name]?
        @subjects[name]
     else
-      Util.warn( 'App.Pub.getSubject() unknown subject so returning new subject for', name ) if warn
+      Util.warn( 'Stream.getSubject() unknown subject so returning new subject for', name ) if warn
       @subjects[name] = new Rx.Subject()
     @subjects[name]
 
@@ -83,25 +42,21 @@ class Stream
     object  = @createObject( content, from )
     onNext = ( event ) =>
       @processEvent(  event )
-      object.value = event.target.value  if eventType isnt 'click'
+      object.content = event.target.value  if eventType isnt 'click'
       subject.onNext( object )
     @subscribeEvent( onNext, jQuerySelector, eventType, object )
-    subject
+    return
 
-  # onThis does not always work with CoffeeScript class object so best to pass onNext( content ) as a closure
   subscribe:( name, onNext ) ->
     subject = @getSubject( name, false ) # Many subscribers come before publishers
-    subscription = subject.subscribe( onNext, @onError, @onComplete )
-    subscription
+    subject.subscribe( onNext, @onError, @onComplete )
+    return
 
-  # Push and ubject onto a subject
-  push1:( name, content, src ) ->
-    object     = @createObject( content, src )
-    Rx.Observable.from(s)
-    subject    = @getSubject(  name )
-    observable = subject.asObservable()
-
-    observable.publish( object )
+  push:( name, content, from ) ->
+    subject = @getSubject(  name )
+    object  = @createObject( content, from )
+    subject.onNext( object )
+    return
 
   createRxJQuery:(    jQuerySelector, object ) ->
     if Util.isJQuery( jQuerySelector )
@@ -121,9 +76,10 @@ class Stream
   subscribeEvent:( onNext, jqSel, eventType, object ) ->
     rxjq          = @createRxJQuery( jqSel, object )
     observable    = rxjq.bindAsObservable( eventType )
-    subscription  = observable.subscribe( onNext, @onError, @onComplete )
-    subscription
+    observable.subscribe( onNext, @onError, @onComplete )
+    return
 
   processEvent:( event ) ->
     event?.stopPropagation()                   # Will need to look into preventDefault
     event?.preventDefault()
+    return

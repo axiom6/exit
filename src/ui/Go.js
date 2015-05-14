@@ -18,7 +18,12 @@
       this.$ = $(this.html());
       this.$GoBanner = this.$.find('#GoBanner');
       this.$GoBannerText = this.$.find('#GoBannerText');
+      this.$GoDeals = this.$.find('#GoDeals');
       return this.subscribe();
+    };
+
+    Go.prototype.html = function() {
+      return "<div id=\"" + (this.app.id('Go')) + "\"         class=\"" + (this.app.css('Go')) + "\">\n  <div   id=\"" + (this.app.id('GoBanner')) + "\"     class=\"" + (this.app.css('GoBanner')) + "\">\n    <div id=\"" + (this.app.id('GoBannerText')) + "\" class=\"" + (this.app.css('GoBannerText')) + "\">GO</div>\n  </div>\n  <div id=\"" + (this.app.id('GoDeals')) + "\"  class=\"" + (this.app.css('GoDeals')) + "\">\n    <div>11 deals at your destination</div>\n    <div>get going to beat traffic!</div>\n  </div>\n  <div id=\"" + (this.app.id('GoDrive')) + "\" class=\"" + (this.app.css('GoDrive')) + "\">" + (this.driveBar.html('Go')) + "</div>\n</div>";
     };
 
     Go.prototype.subscribe = function() {
@@ -40,17 +45,10 @@
     };
 
     Go.prototype.onDeals = function(deals) {
-      var deal, i, len, results;
-      results = [];
-      for (i = 0, len = deals.length; i < len; i++) {
-        deal = deals[i];
-        results.push(Util.log('Go.onDeals()', deal));
-      }
-      return results;
-    };
-
-    Go.prototype.html = function() {
-      return "<div id=\"" + (this.app.id('Go')) + "\"         class=\"" + (this.app.css('Go')) + "\">\n  <div   id=\"" + (this.app.id('GoBanner')) + "\"     class=\"" + (this.app.css('GoBanner')) + "\">\n    <div id=\"" + (this.app.id('GoBannerText')) + "\" class=\"" + (this.app.css('GoBannerText')) + "\">GO</div>\n  </div>\n  <div id=\"" + (this.app.id('GoDeals')) + "\"  class=\"" + (this.app.css('GoDeals')) + "\">\n    <div>11 deals at your destination</div>\n    <div>get going to beat traffic!</div>\n  </div>\n  <div id=\"" + (this.app.id('GoDrive')) + "\" class=\"" + (this.app.css('GoDrive')) + "\">" + (this.driveBar.html('Go')) + "</div>\n</div>";
+      var html;
+      this.$GoDeals.empty();
+      html = this.app.deals.goDealsHtml(deals);
+      return this.$GoDeals.append(html);
     };
 
     Go.prototype.postReady = function() {
@@ -61,11 +59,6 @@
     Go.prototype.goSize = function() {
       var fontSize;
       fontSize = this.first ? this.app.height() * this.$GoBanner.height() * 0.0065 : this.$GoBanner.height() * 0.65;
-      Util.log('@$GoBanner.height()', {
-        ah: this.app.height(),
-        gh: this.$GoBanner.height(),
-        fs: fontSize
-      });
       this.$GoBannerText.css({
         fontSize: fontSize + 'px'
       });

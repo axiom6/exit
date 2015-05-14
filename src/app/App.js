@@ -7,19 +7,23 @@
 
     $(document).ready(function() {
       Util.init();
-      return Util.app = new App(false, true, false);
+      return Util.app = new App(true, false, false, false);
     });
 
-    function App(runRest, runSimulate, runTest) {
+    function App(runDemo, runRest, runSimulate, runTest) {
       var Advisory, Data, Deals, Destination, Go, Navigate, NoGo, Rest, Road, Simulate, Stream, Test, Threshold, Trip, UI, Weather;
+      this.runDemo = runDemo != null ? runDemo : true;
       this.runRest = runRest != null ? runRest : true;
       this.runSimulate = runSimulate != null ? runSimulate : false;
       this.runTest = runTest != null ? runTest : false;
       this.dest = '';
+      this.subjectNames = ['Select', 'Orient', 'Destination', 'eta', 'Location', 'TakeDeal', 'ArriveAtDeal', 'Segments', 'Deals', 'Conditions', 'RequestSegmentBy', 'RequestConditionsBy', 'RequestDealsBy'];
       this.segmentsComplete = false;
       this.conditionsComplete = false;
       this.dealsComplete = false;
+      this.firstRestRequestsComplete = false;
       this.direction = 'West';
+      this.eta = 141;
       Stream = Util.Import('app/Stream');
       Rest = Util.Import('app/Rest');
       Data = Util.Import('app/Data');
@@ -36,7 +40,7 @@
       UI = Util.Import('ui/UI');
       Simulate = Util.Import('app/Simulate');
       Test = Util.Import('app/Test');
-      this.stream = new Stream(this);
+      this.stream = new Stream(this, this.subjectNames);
       this.rest = new Rest(this, this.stream);
       this.go = new Go(this, this.stream);
       this.nogo = new NoGo(this, this.stream);
@@ -51,6 +55,9 @@
       this.ui = new UI(this, this.stream, this.destination, this.trip, this.deals, this.navigate);
       this.ready();
       this.postReady();
+      if (this.runDemo) {
+        this.deals.dataDeals();
+      }
       if (this.runSimulate) {
         this.simulate = new Simulate(this, this.stream);
       }
@@ -69,7 +76,62 @@
 
     App.prototype.postReady = function() {
       this.destination.postReady();
-      return this.trip.postReady();
+      this.trip.postReady();
+      return this.subscribe();
+    };
+
+    App.prototype.subscribe = function() {
+      return this.stream.subscribe('Destination', (function(_this) {
+        return function(object) {
+          return _this.onDestination(object.content);
+        };
+      })(this));
+    };
+
+    App.prototype.updateETA = function(conditions) {
+      var condition, i, len;
+      this.eta = 0;
+      for (i = 0, len = conditions.length; i < len; i++) {
+        condition = conditions[i];
+        this.eta += conditions.Condition.TravelTime;
+      }
+      return this.stream.push('ETA', this.eta, 'App');
+    };
+
+    App.prototype.etaHoursMins = function() {
+      return Util.toInt(this.eta / 60) + ' Hours ' + this.eta % 60 + ' Mins';
+    };
+
+    App.prototype.onDestination = function(dest) {
+      var initalCompleteStatus;
+      Util.log('App.onDestination', dest);
+      this.dest = dest;
+      initalCompleteStatus = !this.runRest;
+      this.segmentsComplete = initalCompleteStatus;
+      this.conditionsComplete = initalCompleteStatus;
+      this.dealsComplete = initalCompleteStatus;
+      if (this.runRest && !this.firstRestRequestsComplete) {
+        this.rest.segmentsByPreset(1, this.trip.doSegments);
+        this.rest.conditionsBySegments(this.trip.condSegs(), this.trip.doConditions);
+        this.rest.deals(this.deals.latLon(), this.deals.segments(), this.deals.doDeals);
+      }
+      return this.checkComplete();
+    };
+
+    App.prototype.checkComplete = function() {
+      if (this.segmentsComplete && this.conditionsComplete && this.dealsComplete) {
+        this.firstRestRequestsComplete = true;
+        return this.goOrNoGo(this.dest);
+      }
+    };
+
+    App.prototype.goOrNoGo = function(dest) {
+      this.trip.createDriveBars();
+      if (dest === 'Vail' || dest === 'Winter Park') {
+        return this.destination.nogo.show();
+      } else {
+        return this.destination.go.show();
+      }
     };
 
     App.prototype.width = function() {
@@ -100,36 +162,6 @@
 
     App.prototype.svgId = function(name, type, svgType) {
       return this.id(name, type + svgType);
-    };
-
-    App.prototype.doDestination = function(dest) {
-      var initalCompleteStatus;
-      this.dest = dest;
-      initalCompleteStatus = !this.runRest;
-      this.segmentsComplete = initalCompleteStatus;
-      this.conditionsComplete = initalCompleteStatus;
-      this.dealsComplete = initalCompleteStatus;
-      if (this.runRest) {
-        this.rest.segmentsByPreset(1, this.trip.doSegments);
-        this.rest.conditionsBySegments(this.trip.condSegs(), this.trip.doConditions);
-        this.rest.deals(this.deals.latLon(), this.deals.segments(), this.deals.doDeals);
-      }
-      return this.checkComplete();
-    };
-
-    App.prototype.checkComplete = function() {
-      if (this.segmentsComplete && this.conditionsComplete && this.dealsComplete) {
-        return this.goOrNoGo(this.dest);
-      }
-    };
-
-    App.prototype.goOrNoGo = function(dest) {
-      this.trip.createDriveBars();
-      if (dest === 'Vail' || dest === 'Winter Park') {
-        return this.destination.nogo.show();
-      } else {
-        return this.destination.go.show();
-      }
     };
 
     return App;

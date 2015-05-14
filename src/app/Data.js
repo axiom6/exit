@@ -7,6 +7,8 @@
 
     Util.Export(Data, 'app/Data');
 
+    Data.Destinations = ['Denver', 'DIA', 'Idaho Springs', 'Georgetown', 'Silverthorn', 'Dillon', 'Frisco', 'Keystone', 'Breckinridge', 'Winter Park', 'Vail'];
+
     Data.EastSegmentIds = [31, 32, 33, 34, 272, 273, 36, 37, 39, 40, 41, 276, 277, 268, 269, 44, 45];
 
     Data.WestSegmentIds = [16, 17, 266, 267, 274, 275, 20, 21, 22, 23, 24, 25, 270, 271, 27, 28, 29, 30];
