@@ -11,7 +11,10 @@
     }
 
     Threshold.prototype.ready = function() {
-      this.$ = $(this.html());
+      return this.$ = $(this.html());
+    };
+
+    Threshold.prototype.postReady = function() {
       return this.subscribe();
     };
 
@@ -24,7 +27,7 @@
     };
 
     Threshold.prototype.layout = function(orientation) {
-      return Util.log('Threshold.layout()', orientation);
+      return Util.dbg('Threshold.layout()', orientation);
     };
 
     Threshold.prototype.html = function() {

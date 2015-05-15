@@ -101,7 +101,7 @@
     };
 
     Stream.prototype.onComplete = function() {
-      return Util.log('Stream.onComplete()', 'Completed');
+      return Util.dbg('Stream.onComplete()', 'Completed');
     };
 
     Stream.prototype.subscribeEvent = function(onNext, jqSel, eventType, object) {

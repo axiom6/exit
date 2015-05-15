@@ -13,6 +13,20 @@
 
     Data.WestSegmentIds = [16, 17, 266, 267, 274, 275, 20, 21, 22, 23, 24, 25, 270, 271, 27, 28, 29, 30];
 
+    Data.WestBegLatLon = [39.713024, -105.194595];
+
+    Data.WestEndLatLon = [39.539680, -106.215126];
+
+    Data.Preset1Ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+
+    Data.Preset2Ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
+
+    Data.Preset3Ids = [1, 2, 3, 4, 5, 6, 7];
+
+    Data.Preset4Ids = [1, 2, 3, 4, 5];
+
+    Data.Preset5Ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
     Data.DealSegmentIds = [];
 
     Data.EastSegments = {

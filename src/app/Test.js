@@ -14,7 +14,7 @@
     }
 
     Test.prototype.rest = function() {
-      Util.log('Test.rest() ------------');
+      Util.dbg('Test.rest() ------------');
       this.rest = this.app.rest;
       this.segments = [31, 32, 33, 34, 272, 273, 36, 37, 39, 40, 41, 276, 277, 268, 269, 44, 45];
       this.rest.segmentsByPreset(1, this.rest.logSegments);
@@ -36,14 +36,14 @@
     };
 
     Test.prototype.onTestLocation = function(object) {
-      return Util.log('Test.Stream.onLocation()', object.content, object.from);
+      return Util.dbg('Test.Stream.onLocation()', object.content, object.from);
     };
 
     Test.prototype.streamFibonacci = function() {
       var source;
       source = Rx.Observable.from(this.fibonacci()).take(10);
       return source.subscribe(function(x) {
-        return Util.log('Text.Stream.Fibonacci()', x);
+        return Util.dbg('Text.Stream.Fibonacci()', x);
       });
     };
 

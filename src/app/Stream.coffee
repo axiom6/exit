@@ -71,7 +71,7 @@ class Stream
     Util.error( 'Stream.onError()', error )
 
   onComplete:() ->
-    Util.log(   'Stream.onComplete()', 'Completed' )
+    Util.dbg(   'Stream.onComplete()', 'Completed' )
 
   subscribeEvent:( onNext, jqSel, eventType, object ) ->
     rxjq          = @createRxJQuery( jqSel, object )

@@ -10,7 +10,7 @@
       this.app = app;
       this.stream = stream;
       DriveBar = Util.Import('ui/DriveBar');
-      this.driveBar = new DriveBar(this.app, this.stream, 'NoGo');
+      this.driveBar = new DriveBar(this.app, this.stream, 'NoGo', this);
     }
 
     NoGo.prototype.ready = function() {
@@ -18,6 +18,11 @@
       this.$NoGoBanner = this.$.find('#NoGoBanner');
       this.$NoGoBannerText = this.$.find('#NoGoBannerText');
       this.$NoGoDeals = this.$.find('#NoGoDeals');
+      return this.driveBar.ready();
+    };
+
+    NoGo.prototype.postReady = function() {
+      this.driveBar.postReady();
       return this.subscribe();
     };
 
@@ -39,7 +44,7 @@
     };
 
     NoGo.prototype.layout = function(orientation) {
-      Util.log('NoGo.layout()', orientation);
+      Util.dbg('NoGo.layout()', orientation);
       return this.noGoSize();
     };
 
@@ -48,10 +53,6 @@
       this.$NoGoDeals.empty();
       html = this.app.deals.goDealsHtml(deals);
       return this.$NoGoDeals.append(html);
-    };
-
-    NoGo.prototype.postReady = function() {
-      return this.driveBar.postReady();
     };
 
     NoGo.prototype.noGoSize = function() {

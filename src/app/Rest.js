@@ -13,6 +13,7 @@
       this.logDeals = bind(this.logDeals, this);
       this.logConditions = bind(this.logConditions, this);
       this.logSegments = bind(this.logSegments, this);
+      this.dataURL = 'http://localhost:63342/Exit-Now-App/data/exit/';
       this.baseURL = "http://104.154.46.117/";
       this.jessURL = "https://exit-now-admin-jesseporter32.c9.io/";
       this.currURL = this.baseURL;
@@ -20,6 +21,7 @@
       this.conditionsURL = this.currURL + "api/state";
       this.dealsURL = this.currURL + "api/deals";
       this.cors = 'json';
+      this.retryFroms = {};
       this.subscribe();
     }
 
@@ -42,15 +44,15 @@
     };
 
     Rest.requestSegmentsBy = function(query) {
-      return Util.log('Stream.requestSegmentsBy', query);
+      return Util.dbg('Stream.requestSegmentsBy', query);
     };
 
     Rest.requestConditionsBy = function(query) {
-      return Util.log('Stream.requestConditionsBy', query);
+      return Util.dbg('Stream.requestConditionsBy', query);
     };
 
     Rest.requestDealsBy = function(query) {
-      return Util.log('Stream.requestDealsBy', query);
+      return Util.dbg('Stream.requestDealsBy', query);
     };
 
     Rest.prototype.segmentsByLatLon = function(slat, slon, elat, elon, callback) {
@@ -108,7 +110,7 @@
     };
 
     Rest.prototype.dealsByUrl = function(url, callback) {
-      Util.log('isCall', typeof callback, callback != null);
+      Util.dbg('isCall', typeof callback, callback != null);
       return this.get(url, 'Deals', {}, callback);
     };
 
@@ -137,14 +139,21 @@
           return callback(args, json);
         };
       })(this);
-      settings.error = function(jqXHR, textStatus, errorThrown) {
-        Util.noop(errorThrown);
-        return Util.error('Rest.' + from, {
-          url: url,
-          args: args,
-          text: textStatus
-        });
-      };
+      settings.error = (function(_this) {
+        return function(jqXHR, textStatus, errorThrown) {
+          Util.noop(errorThrown);
+          Util.error('Rest.' + from, {
+            url: url,
+            args: args,
+            text: textStatus
+          });
+          if (_this.app.retryData && _this.app.model.needData && _this.retryFroms[from]) {
+            _this.cors = 'json';
+            _this.get(_this.dataURL + from + '.json', from, args, callback);
+          }
+          return _this.retryFroms[from] = false;
+        };
+      })(this);
       return $.ajax(settings);
     };
 
@@ -163,13 +172,15 @@
           }
         };
       })(this);
-      settings.error = function(jqXHR, textStatus, errorThrown) {
-        Util.noop(errorThrown);
-        return Util.error('Rest.' + from, {
-          url: url,
-          text: textStatus
-        });
-      };
+      settings.error = (function(_this) {
+        return function(jqXHR, textStatus, errorThrown) {
+          Util.noop(errorThrown);
+          return Util.error('Rest.' + from, {
+            url: url,
+            text: textStatus
+          });
+        };
+      })(this);
       return $.ajax(settings);
     };
 
@@ -186,13 +197,13 @@
     Rest.prototype.logSegments = function(args, obj) {
       var i, id, len1, num, ref, results, segment, segments;
       segments = obj.segments;
-      Util.log('logSegments args', args);
-      Util.log('logSegments segs', segments.length);
+      Util.dbg('logSegments args', args);
+      Util.dbg('logSegments segs', segments.length);
       results = [];
       for (i = 0, len1 = segments.length; i < len1; i++) {
         segment = segments[i];
         ref = this.segIdNum(segment), id = ref[0], num = ref[1];
-        results.push(Util.log('logSegment', {
+        results.push(Util.dbg('logSegment', {
           id: id,
           num: num,
           name: segment.name
@@ -219,31 +230,31 @@
 
     Rest.prototype.logConditions = function(args, conditions) {
       var c, cc, i, len1, results;
-      Util.log('logConditions args', args);
-      Util.log('logConditions conds', conditions.length);
+      Util.dbg('logConditions args', args);
+      Util.dbg('logConditions conds', conditions.length);
       results = [];
       for (i = 0, len1 = conditions.length; i < len1; i++) {
         c = conditions[i];
         cc = c.Conditions;
-        Util.log('  condition', {
+        Util.dbg('  condition', {
           SegmentId: c.SegmentId,
           TravelTime: cc.TravelTime,
           AverageSpeed: cc.AverageSpeed
         });
-        results.push(Util.log('  weather', cc.Weather));
+        results.push(Util.dbg('  weather', cc.Weather));
       }
       return results;
     };
 
     Rest.prototype.logDeals = function(args, deals) {
       var d, dd, i, len1, results;
-      Util.log('logDeals args', args);
-      Util.log('logDeals deals', deals.length);
+      Util.dbg('logDeals args', args);
+      Util.dbg('logDeals deals', deals.length);
       results = [];
       for (i = 0, len1 = deals.length; i < len1; i++) {
         d = deals[i];
         dd = d.dealData;
-        results.push(Util.log('  ', {
+        results.push(Util.dbg('  ', {
           segmentId: dd.segmentId,
           lat: d.lat,
           lon: d.lon,
@@ -257,9 +268,9 @@
     Rest.prototype.jsonParse = function(url, from, args, json, callback) {
       var error, objs;
       json = json.toString().replace(/(\r\n|\n|\r)/gm, "");
-      Util.log('--------------------------');
-      Util.log(json);
-      Util.log('--------------------------');
+      Util.dbg('--------------------------');
+      Util.dbg(json);
+      Util.dbg('--------------------------');
       try {
         objs = JSON.parse(json);
         return callback(args, objs);

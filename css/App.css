@@ -38,7 +38,7 @@ body {
   left: 0;
   top: 0;
   width: 100%;
-  height: 13%;
+  height: 10%;
   display: none;
   background: black;
   color: white;
@@ -48,35 +48,39 @@ body {
 }
 .DestinationIcon {
   position: absolute;
-  left: 6.25%;
+  left: 0;
   top: 0;
-  width: 12.5%;
+  width: 25.00%;
   height: 94%;
   z-index: 5;
+  text-align: center;
+}
+.RecommendationIcon {
+  position: absolute;
+  left: 25.00%;
+  top: 0;
+  width: 25.00%;
+  height: 94%;
+  z-index: 5;
+  text-align: center;
 }
 .TripIcon {
   position: absolute;
-  left: 31.25%;
+  left: 50.00%;
   top: 0;
-  width: 12.5%;
+  width: 25.00%;
   height: 94%;
   z-index: 5;
+  text-align: center;
 }
 .DealsIcon {
   position: absolute;
-  left: 56.25%;
+  left: 75.00%;
   top: 0;
-  width: 12.5%;
+  width: 25.00%;
   height: 94%;
   z-index: 5;
-}
-.NavigateIcon {
-  position: absolute;
-  left: 81.25%;
-  top: 0;
-  width: 12.5%;
-  height: 94%;
-  z-index: 5;
+  text-align: center;
 }
 .Icons > div {
   display: table;
@@ -84,6 +88,9 @@ body {
 .Icons > div > div {
   display: table-cell;
   vertical-align: middle;
+}
+.Icons > div > div > div {
+  font-size: 0.3em;
 }
 .View {
   position: absolute;
@@ -141,8 +148,14 @@ body {
   display: none;
 }
 .Go {
+  position: absolute;
+  left: 0;
+  top: 0%;
+  width: 100%;
+  height: 100%;
   display: none;
   background-color: #658552;
+  text-align: center;
 }
 .GoBanner {
   position: absolute;
@@ -179,7 +192,14 @@ body {
   height: 30%;
 }
 .NoGo {
+  position: absolute;
+  left: 0;
+  top: 0%;
+  width: 100%;
+  height: 100%;
   display: none;
+  background-color: #658552;
+  text-align: center;
 }
 .NoGoBanner {
   position: absolute;
@@ -317,9 +337,9 @@ body {
 }
 .Road {
   position: absolute;
-  left: 4%;
+  left: 0;
   top: 45%;
-  width: 92%;
+  width: 100%;
   height: 55%;
   background-color: beige;
 }

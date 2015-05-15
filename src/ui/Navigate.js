@@ -11,7 +11,10 @@
     }
 
     Navigate.prototype.ready = function() {
-      this.$ = $(this.html());
+      return this.$ = $(this.html());
+    };
+
+    Navigate.prototype.postReady = function() {
       return this.subscribe();
     };
 
@@ -24,7 +27,7 @@
     };
 
     Navigate.prototype.layout = function(orientation) {
-      return Util.log('Navigate.layout()', orientation);
+      return Util.dbg('Navigate.layout()', orientation);
     };
 
     Navigate.prototype.html = function() {

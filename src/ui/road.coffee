@@ -5,10 +5,14 @@ class Road
 
   constructor:( @app, @stream ) ->
     DriveBar  = Util.Import( 'ui/DriveBar')
-    @driveBar = new DriveBar( @app, @stream, 'Road' )
+    @driveBar = new DriveBar( @app, @stream, 'Road', @ )
 
   ready:() ->
     @$ = $( @html() )
+    @driveBar.ready()
+
+  postReady:() ->
+    @driveBar.postReady()
     @subscribe()
 
   subscribe:() ->
@@ -17,11 +21,6 @@ class Road
   html:() ->
     """<div id="#{@app.id('Road')}" class="#{@app.css('Road')}">#{@driveBar.html('Trip')}</div>"""
 
-  postReady:() ->
-    @driveBar.postReady()
-
   layout:( orientation ) ->
-    Util.log( 'Road.layout()', orientation )
-
-  show:() -> @$.show()
-  hide:() -> @$.hide()
+    Util.dbg( 'Road.layout()', orientation )
+    @driveBar.layout( orientation )

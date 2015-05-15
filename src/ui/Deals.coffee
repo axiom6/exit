@@ -11,6 +11,8 @@ class Deals
 
   ready:() ->
     @$ = $( @html() )
+
+  postReady:() ->
     @subscribe()
 
   html:() ->
@@ -34,21 +36,23 @@ class Deals
     @stream.subscribe( 'Conditions',  (object) => @onConditions( object.content) )
 
   onDestination:( destination ) ->
-    Util.log( 'Deals.onDestination()', destination )
+    Util.dbg( 'Deals.onDestination()', destination )
 
   onLocation:( latlon ) ->
-    Util.log( 'Deals.onLocation() latlon', latlon )
+    Util.dbg( 'Deals.onLocation() latlon', latlon )
 
   layout:( orientation ) ->
-    Util.log( 'Deals.layout()', orientation )
+    Util.dbg( 'Deals.layout()', orientation )
+
+  latLon:() ->
+    [39.574431,-106.09752]
 
   onDeals:( deals ) ->
     @popupMultipleDeals( 'EXIT NOW!', 'Traffic is slow ', "ETA #{@app.etaHoursMins()}", deals )
     $('#gritter-notice-wrapper').hide() if not @isVisible
 
   onConditions:( conditions ) ->
-    for condition in conditions
-      Util.log( 'DriveBar.onConditions()', condition )
+    Util.dbg( 'Deals.onConditions()' )
 
   getGoDeals:()   -> @dealsData
   getNoGoDeals:() -> @dealsData
@@ -56,7 +60,7 @@ class Deals
 
   dataDeals:() ->
     if @dealsData.length == 0
-      @app.rest.dealsByUrl( 'http://localhost:63342/Exit-Now-App/data/exit/deals.json', @callDeals )
+      @app.rest.dealsByUrl( 'http://localhost:63342/Exit-Now-App/data/exit/Deals.json', @callDeals )
 
   setDealData:( args, deals ) =>
     @dealsData = deals
@@ -117,7 +121,7 @@ class Deals
 
   enableTakeDealClick:( dealId ) ->
     $("[dataid=#{dealId}]").click( () =>
-      Util.log( 'Deal.TakeDeal', dealId )
+      Util.dbg( 'Deal.TakeDeal', dealId )
       @stream.push(  'TakeDeal', dealId, 'Deal' ) )
 
   gritter:( opts ) ->
@@ -126,22 +130,11 @@ class Deals
   iAmExiting:( dataId ) ->
     """<div style="margin-top:0.5em;"><span dataid="#{dataId}" style="font-size:0.9em; padding:0.3em; background-color:#658552; color:white;">I'M EXITING</span></div></div>"""
 
-  doDeals:( args, deals ) =>
-    Util.log( 'logDeals args',  args )
-    ###
-    Util.log( 'logDeals deals', deals.length )
-    for d in deals
-      dd = d.dealData
-      Util.log( '  ', { segmentId:dd.segmentId, lat:d.lat, lon:d.lon,  buiness:d.businessName, description:d.name } )
-    ###
-    @app.dealsComplete = true
-    @app.checkComplete()
-
   deal:( opts, dataId, gritterId ) ->
     @gritter( opts )
     @enableIamExitingClick( dataId, gritterId )
 
   enableIamExitingClick:( dataId, gritterId ) ->
     $("[dataid=#{dataId}]").click( () ->
-      Util.log( "I'M EXITING" )
+      Util.dbg( "I'M EXITING" )
       $.gritter.remove( gritterId ) )

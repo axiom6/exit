@@ -4,6 +4,7 @@ class Rest
   Util.Export( Rest, 'app/Rest' )
 
   constructor:( @app, @stream  ) ->
+    @dataURL       = 'http://localhost:63342/Exit-Now-App/data/exit/'
     @baseURL       = "http://104.154.46.117/"
     @jessURL       = "https://exit-now-admin-jesseporter32.c9.io/"
     @currURL       = @baseURL
@@ -11,6 +12,7 @@ class Rest
     @conditionsURL = @currURL + "api/state"
     @dealsURL      = @currURL + "api/deals"
     @cors          = 'json' # jsonp for different origin
+    @retryFroms    = {}
     @subscribe()
 
   subscribe:() ->
@@ -20,13 +22,13 @@ class Rest
 
 
   @requestSegmentsBy:( query ) ->
-    Util.log( 'Stream.requestSegmentsBy', query )
+    Util.dbg( 'Stream.requestSegmentsBy', query )
 
   @requestConditionsBy:( query ) ->
-    Util.log( 'Stream.requestConditionsBy', query )
+    Util.dbg( 'Stream.requestConditionsBy', query )
 
   @requestDealsBy:( query ) ->
-    Util.log( 'Stream.requestDealsBy', query )
+    Util.dbg( 'Stream.requestDealsBy', query )
 
   segmentsByLatLon:( slat, slon, elat, elon, callback ) ->
     args = { slat:slat, slon:slon, elat:elat, elon:elon }
@@ -58,7 +60,7 @@ class Rest
     @get( url, 'Deals', args, callback )
 
   dealsByUrl:( url, callback ) ->
-    Util.log( 'isCall', typeof(callback), callback? )
+    Util.dbg( 'isCall', typeof(callback), callback? )
     @get( url, 'Deals', {}, callback )
 
   # Needs work
@@ -72,9 +74,15 @@ class Rest
     settings.success = ( json, textStatus, jqXHR ) =>
       Util.noop( textStatus, jqXHR )
       callback( args, json )
-    settings.error = ( jqXHR, textStatus, errorThrown ) ->
+    settings.error = ( jqXHR, textStatus, errorThrown ) =>
       Util.noop( errorThrown )
       Util.error( 'Rest.'+from, { url:url, args:args, text:textStatus } )
+      # This either incredably brilliant or dumb
+      if @app.retryData and @app.model.needData and @retryFroms[from]
+        @cors = 'json'
+        @get( @dataURL+from+'.json', from, args, callback )
+      @retryFroms[from] = false
+
     $.ajax( settings )
 
   # Needs work
@@ -83,7 +91,7 @@ class Rest
     settings.success = ( response, textStatus, jqXHR ) =>
       Util.noop( textStatus, jqXHR )
       callback( args, response ) if callback?
-    settings.error = ( jqXHR, textStatus, errorThrown ) ->
+    settings.error = ( jqXHR, textStatus, errorThrown ) =>
       Util.noop( errorThrown )
       Util.error( 'Rest.'+from, { url:url, text:textStatus } )
     $.ajax( settings )
@@ -96,11 +104,11 @@ class Rest
 
   logSegments:( args, obj ) =>
     segments = obj.segments
-    Util.log( 'logSegments args', args )
-    Util.log( 'logSegments segs', segments.length )
+    Util.dbg( 'logSegments args', args )
+    Util.dbg( 'logSegments segs', segments.length )
     for segment in segments
       [id,num] = @segIdNum( segment )
-      Util.log( 'logSegment', { id:id, num:num, name:segment.name } )
+      Util.dbg( 'logSegment', { id:id, num:num, name:segment.name } )
 
   segIdNum:( segment ) ->
     id  = ""
@@ -113,26 +121,26 @@ class Rest
     [id,num]
 
   logConditions:( args, conditions ) =>
-    Util.log( 'logConditions args',  args )
-    Util.log( 'logConditions conds', conditions.length )
+    Util.dbg( 'logConditions args',  args )
+    Util.dbg( 'logConditions conds', conditions.length )
     for c in conditions
       cc = c.Conditions
-      Util.log( '  condition', { SegmentId:c.SegmentId, TravelTime:cc.TravelTime, AverageSpeed:cc.AverageSpeed } )
-      Util.log( '  weather', cc.Weather )
+      Util.dbg( '  condition', { SegmentId:c.SegmentId, TravelTime:cc.TravelTime, AverageSpeed:cc.AverageSpeed } )
+      Util.dbg( '  weather', cc.Weather )
 
   logDeals:( args, deals ) =>
-    Util.log( 'logDeals args',  args )
-    Util.log( 'logDeals deals', deals.length )
+    Util.dbg( 'logDeals args',  args )
+    Util.dbg( 'logDeals deals', deals.length )
     for d in deals
       dd = d.dealData
-      Util.log( '  ', { segmentId:dd.segmentId, lat:d.lat, lon:d.lon,  buiness:d.businessName, description:d.name } )
+      Util.dbg( '  ', { segmentId:dd.segmentId, lat:d.lat, lon:d.lon,  buiness:d.businessName, description:d.name } )
 
   # Deprecated
   jsonParse:( url, from, args, json, callback ) ->
     json = json.toString().replace(/(\r\n|\n|\r)/gm,"")  # Remove all line breaks
-    Util.log( '--------------------------' )
-    Util.log( json )
-    Util.log( '--------------------------' )
+    Util.dbg( '--------------------------' )
+    Util.dbg( json )
+    Util.dbg( '--------------------------' )
     try
       objs = JSON.parse(json)
       callback( args, objs )

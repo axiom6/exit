@@ -9,7 +9,6 @@
     function Deals(app, stream) {
       this.app = app;
       this.stream = stream;
-      this.doDeals = bind(this.doDeals, this);
       this.callDeals = bind(this.callDeals, this);
       this.setDealData = bind(this.setDealData, this);
       this.gritterId = 0;
@@ -19,7 +18,10 @@
     }
 
     Deals.prototype.ready = function() {
-      this.$ = $(this.html());
+      return this.$ = $(this.html());
+    };
+
+    Deals.prototype.postReady = function() {
       return this.subscribe();
     };
 
@@ -68,15 +70,19 @@
     };
 
     Deals.prototype.onDestination = function(destination) {
-      return Util.log('Deals.onDestination()', destination);
+      return Util.dbg('Deals.onDestination()', destination);
     };
 
     Deals.prototype.onLocation = function(latlon) {
-      return Util.log('Deals.onLocation() latlon', latlon);
+      return Util.dbg('Deals.onLocation() latlon', latlon);
     };
 
     Deals.prototype.layout = function(orientation) {
-      return Util.log('Deals.layout()', orientation);
+      return Util.dbg('Deals.layout()', orientation);
+    };
+
+    Deals.prototype.latLon = function() {
+      return [39.574431, -106.09752];
     };
 
     Deals.prototype.onDeals = function(deals) {
@@ -87,13 +93,7 @@
     };
 
     Deals.prototype.onConditions = function(conditions) {
-      var condition, i, len, results;
-      results = [];
-      for (i = 0, len = conditions.length; i < len; i++) {
-        condition = conditions[i];
-        results.push(Util.log('DriveBar.onConditions()', condition));
-      }
-      return results;
+      return Util.dbg('Deals.onConditions()');
     };
 
     Deals.prototype.getGoDeals = function() {
@@ -110,7 +110,7 @@
 
     Deals.prototype.dataDeals = function() {
       if (this.dealsData.length === 0) {
-        return this.app.rest.dealsByUrl('http://localhost:63342/Exit-Now-App/data/exit/deals.json', this.callDeals);
+        return this.app.rest.dealsByUrl('http://localhost:63342/Exit-Now-App/data/exit/Deals.json', this.callDeals);
       }
     };
 
@@ -197,7 +197,7 @@
     Deals.prototype.enableTakeDealClick = function(dealId) {
       return $("[dataid=" + dealId + "]").click((function(_this) {
         return function() {
-          Util.log('Deal.TakeDeal', dealId);
+          Util.dbg('Deal.TakeDeal', dealId);
           return _this.stream.push('TakeDeal', dealId, 'Deal');
         };
       })(this));
@@ -211,19 +211,6 @@
       return "<div style=\"margin-top:0.5em;\"><span dataid=\"" + dataId + "\" style=\"font-size:0.9em; padding:0.3em; background-color:#658552; color:white;\">I'M EXITING</span></div></div>";
     };
 
-    Deals.prototype.doDeals = function(args, deals) {
-      Util.log('logDeals args', args);
-
-      /*
-      Util.log( 'logDeals deals', deals.length )
-      for d in deals
-        dd = d.dealData
-        Util.log( '  ', { segmentId:dd.segmentId, lat:d.lat, lon:d.lon,  buiness:d.businessName, description:d.name } )
-       */
-      this.app.dealsComplete = true;
-      return this.app.checkComplete();
-    };
-
     Deals.prototype.deal = function(opts, dataId, gritterId) {
       this.gritter(opts);
       return this.enableIamExitingClick(dataId, gritterId);
@@ -231,7 +218,7 @@
 
     Deals.prototype.enableIamExitingClick = function(dataId, gritterId) {
       return $("[dataid=" + dataId + "]").click(function() {
-        Util.log("I'M EXITING");
+        Util.dbg("I'M EXITING");
         return $.gritter.remove(gritterId);
       });
     };

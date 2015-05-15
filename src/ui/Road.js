@@ -10,11 +10,16 @@
       this.app = app;
       this.stream = stream;
       DriveBar = Util.Import('ui/DriveBar');
-      this.driveBar = new DriveBar(this.app, this.stream, 'Road');
+      this.driveBar = new DriveBar(this.app, this.stream, 'Road', this);
     }
 
     Road.prototype.ready = function() {
       this.$ = $(this.html());
+      return this.driveBar.ready();
+    };
+
+    Road.prototype.postReady = function() {
+      this.driveBar.postReady();
       return this.subscribe();
     };
 
@@ -30,20 +35,9 @@
       return "<div id=\"" + (this.app.id('Road')) + "\" class=\"" + (this.app.css('Road')) + "\">" + (this.driveBar.html('Trip')) + "</div>";
     };
 
-    Road.prototype.postReady = function() {
-      return this.driveBar.postReady();
-    };
-
     Road.prototype.layout = function(orientation) {
-      return Util.log('Road.layout()', orientation);
-    };
-
-    Road.prototype.show = function() {
-      return this.$.show();
-    };
-
-    Road.prototype.hide = function() {
-      return this.$.hide();
+      Util.dbg('Road.layout()', orientation);
+      return this.driveBar.layout(orientation);
     };
 
     return Road;

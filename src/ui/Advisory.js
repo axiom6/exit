@@ -11,7 +11,10 @@
     }
 
     Advisory.prototype.ready = function() {
-      this.$ = $(this.html());
+      return this.$ = $(this.html());
+    };
+
+    Advisory.prototype.postReady = function() {
       return this.subscribe();
     };
 
@@ -29,20 +32,16 @@
     };
 
     Advisory.prototype.onLocation = function(latlon) {
-      return Util.log('Advisory.onLocation()', this.ext, latlon);
+      return Util.dbg('Advisory.onLocation()', this.ext, latlon);
     };
 
     Advisory.prototype.layout = function(orientation) {
-      return Util.log('Advisory.layout()', orientation);
+      return Util.dbg('Advisory.layout()', orientation);
     };
 
     Advisory.prototype.html = function() {
       return "<div id=\"" + (this.app.id('Advisory')) + "\" class=\"" + (this.app.css('Advisory')) + "\"></div>";
     };
-
-    Advisory.prototype.show = function() {};
-
-    Advisory.prototype.hide = function() {};
 
     return Advisory;
 

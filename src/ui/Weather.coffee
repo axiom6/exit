@@ -39,20 +39,35 @@ class Weather
   @Icons['thunderstorm']        = { back:'darkslategray',  icon:'wi-thunderstorm' }
   @Icons['tornado']             = { back:'black',          icon:'wi-tornado' }
 
-  constructor:( @app ) ->
+  constructor:( @app, @stream ) ->
 
   ready:() ->
     @$ = $( """<div id="Weather" class="Weather"></div>""" )
     for loc in Weather.Locs
       @createHtml( loc ) # @forecast( loc )
 
+  postReady:() ->
+    @subscribe()
+
+  # Trip subscribe to the full Monty of change
+  subscribe:() ->
+    @stream.subscribe( 'Destination', (object) => @onDestination(object.content) )
+    @stream.subscribe( 'Location',    (object) =>    @onLocation(object.content) )
+    @stream.subscribe( 'Conditions',  (object) => @onConditions( object.content) )
+
+  onDestination:( destination ) ->
+    Util.dbg( 'Weather.onDestination()', destination )
+
+  onLocation:( latlon ) ->
+    Util.dbg( 'Weather.onLocation() latlon', latlon )
+
   layout:( orientation ) ->
-    Util.noop( orientation )
+    Util.dbg( 'Weather.layout() latlon', orientation )
 
-  show:() ->
-
-  hide:() ->
-
+# For now the DriveBars handle most of the changing conditions
+  onConditions:( conditions ) ->
+    Util.noop(   conditions )
+    Util.dbg( 'Weather.onConditions()' )
 
   exitJSON:(  json ) ->
     ej = {}            # Exit Now JSON forecast
@@ -67,7 +82,7 @@ class Weather
     ej.temperature       = Util.toFixed(fc.temperature,0) # Farenheit
     ej.windSpeed         = fc.windSpeed
     ej.cloudCover        = fc.cloudCover
-    Util.log( ej )
+    Util.dbg( ej )
     ej
 
   createHtml:( loc, json=null ) ->
@@ -77,8 +92,8 @@ class Weather
     else
       f = loc.fore
     f.temperature = Util.toFixed(f.temperature,0)
-    time          = Util.toTime( f.time )
-    html = """<div   class="Weather#{loc.index}" style="background-color:#{f.style.back}">
+    time          = Util.toTime( f.time )   # {f.style.back}
+    html = """<div   class="Weather#{loc.index}" style="background-color:beige">
                 <div class="WeatherName">#{loc.name}</div>
                 <div class="WeatherTime">#{time}</div>
                 <i   class="WeatherIcon wi #{f.style.icon}"></i>

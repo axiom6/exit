@@ -7,13 +7,15 @@ class Threshold
 
   ready:() ->
     @$ = $( @html() )
+
+  postReady:() ->
     @subscribe()
 
   subscribe:() ->
     @stream.subscribe( 'Orient', (object) =>  @layout(object.content) )
 
   layout:( orientation ) ->
-    Util.log( 'Threshold.layout()', orientation )
+    Util.dbg( 'Threshold.layout()', orientation )
 
   html:() ->
     """<div id="#{@app.id('Threshold')}"       class="#{@app.css('Threshold')}">

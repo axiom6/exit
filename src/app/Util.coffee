@@ -126,7 +126,7 @@ class Util
   @Export:( module, path, dbg=false ) ->
     Util.setModule( module, path )
     define( path, () -> module ) if define?
-    Util.dbg( 'Util.Export', path ) if dbg
+    Util.log( 'Util.Export', path ) if dbg
     module
 
   # First lookup module from modules associative array
@@ -167,7 +167,7 @@ class Util
     return
 
   @getModule:( path, dbg=false ) ->
-    Util.dbg( 'getNodule', path ) if dbg
+    Util.log( 'getNodule', path ) if dbg
     module = Util.modules[path]
     if not module?
       Util.error('Util.getModule() module not defined for path', path )
@@ -259,11 +259,9 @@ class Util
   # Conditional log arguments through console
   @dbg:() ->
     return if not Util.debug
-    str = ""
-    for i in [0...arguments.length]
-      str += Util.toStr(arguments[i]) + " "
+    str = Util.toStrArgs( '', arguments )
     Util.consoleLog( str )
-    #@gritter( { title:'Debug', time:2000 }, str )
+    #@gritter( { title:'Log', time:2000 }, str )
     return
 
   # Log Error and arguments through console and Gritter

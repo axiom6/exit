@@ -5,31 +5,24 @@
   Destination = (function() {
     Util.Export(Destination, 'ui/Destination');
 
-    function Destination(app, stream, go, nogo, threshold) {
+    function Destination(app, stream, threshold) {
       this.app = app;
       this.stream = stream;
-      this.go = go;
-      this.nogo = nogo;
       this.threshold = threshold;
       this.Data = Util.Import('app/Data');
       this.destinations = this.Data.Destinations;
     }
 
     Destination.prototype.ready = function() {
-      this.go.ready();
-      this.nogo.ready();
       this.threshold.ready();
       this.$ = $(this.html());
-      this.$.append(this.go.$);
-      this.$.append(this.nogo.$);
       this.$.append(this.threshold.$);
       this.$destinationBody = this.$.find('#DestinationBody');
       return this.$destinationSelect = this.$.find('#DestinationSelect');
     };
 
     Destination.prototype.postReady = function() {
-      this.go.postReady();
-      this.nogo.postReady();
+      this.threshold.postReady();
       this.publish();
       return this.subscribe();
     };
@@ -52,16 +45,7 @@
     };
 
     Destination.prototype.onDestination = function(dest) {
-      this.hideBody();
-      return Util.log('Destination.@onDestination()', dest);
-    };
-
-    Destination.prototype.selectDestination = function() {
-      var dest;
-      dest = $('#DestinationSelect').find('option:selected').text();
-      Util.log('Destination.selectDestination()', dest);
-      this.hideBody();
-      return this.app.doDestination(dest2);
+      return Util.dbg('Destination.@onDestination()', dest);
     };
 
     Destination.prototype.id = function(name, type) {
@@ -89,7 +73,7 @@
     };
 
     Destination.prototype.layout = function(orientation) {
-      return Util.log('Destination.layout()', orientation);
+      return Util.dbg('Destination.layout()', orientation);
     };
 
     Destination.prototype.show = function() {

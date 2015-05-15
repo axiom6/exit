@@ -5,28 +5,20 @@ class Go
 
   constructor:( @app, @stream ) ->
     DriveBar  = Util.Import( 'ui/DriveBar')
-    @driveBar = new DriveBar( @app, @stream, 'Go' )
+    @driveBar = new DriveBar( @app, @stream, 'Go', @ )
     @first = true
 
   ready:() ->
     @$ = $( @html() )
     @$GoBanner     = @$.find('#GoBanner'    )
     @$GoBannerText = @$.find('#GoBannerText')
-    @subscribe()
+    @$GoDeals      = @$.find('#GoDeals'     )
+    @driveBar.ready()
 
-  subscribe:() ->
-    @stream.subscribe( 'Orient', (object) =>  @layout(object.content) )
-    @stream.subscribe( 'Deals',  (object) => @onDeals(object.content) )
-
-
-  layout:( orientation ) ->
-    Util.log( 'Go.layout()', orientation )
+  postReady:() ->
+    @driveBar.postReady()
     @goSize()
-    #@driveBar.layout( orientation ) # Not needed
-
-  onDeals:( deals ) ->
-    for deal in deals
-      Util.log( 'Go.onDeals()', deal )
+    @subscribe()
 
   html:() ->
     """<div id="#{@app.id('Go')}"         class="#{@app.css('Go')}">
@@ -40,16 +32,24 @@ class Go
          <div id="#{@app.id('GoDrive')}" class="#{@app.css('GoDrive')}">#{@driveBar.html('Go')}</div>
        </div>"""
 
-  postReady:() ->
-    @driveBar.postReady()
+  subscribe:() ->
+    @stream.subscribe( 'Orient', (object) =>  @layout(object.content) )
+    @stream.subscribe( 'Deals',  (object) => @onDeals(object.content) )
+
+  layout:( orientation ) ->
+    Util.dbg( 'Go.layout()', orientation )
     @goSize()
+
+  onDeals:( deals ) ->
+    @$GoDeals.empty()
+    html = @app.deals.goDealsHtml( deals )
+    @$GoDeals.append( html )
 
   goSize:() ->
     fontSize = if @first then @app.height() * @$GoBanner.height() * 0.0065 else @$GoBanner.height() * 0.65
-    Util.log( '@$GoBanner.height()', { ah:@app.height(), gh:@$GoBanner.height(), fs:fontSize } )
+    #Util.dbg( '@$GoBanner.height()', { ah:@app.height(), gh:@$GoBanner.height(), fs:fontSize } )
     @$GoBannerText.css( { fontSize:fontSize+'px' })
     @first = false
-
 
   show:() -> @$.show()
   hide:() -> @$.hide()

@@ -251,7 +251,7 @@ Util = (function() {
       });
     }
     if (dbg) {
-      Util.dbg('Util.Export', path);
+      Util.log('Util.Export', path);
     }
     return module;
   };
@@ -303,7 +303,7 @@ Util = (function() {
       dbg = false;
     }
     if (dbg) {
-      Util.dbg('getNodule', path);
+      Util.log('getNodule', path);
     }
     module = Util.modules[path];
     if (module == null) {
@@ -436,14 +436,11 @@ Util = (function() {
   };
 
   Util.dbg = function() {
-    var i, j, ref, str;
+    var str;
     if (!Util.debug) {
       return;
     }
-    str = "";
-    for (i = j = 0, ref = arguments.length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
-      str += Util.toStr(arguments[i]) + " ";
-    }
+    str = Util.toStrArgs('', arguments);
     Util.consoleLog(str);
   };
 

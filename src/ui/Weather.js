@@ -244,8 +244,9 @@
       icon: 'wi-tornado'
     };
 
-    function Weather(app) {
+    function Weather(app, stream) {
       this.app = app;
+      this.stream = stream;
     }
 
     Weather.prototype.ready = function() {
@@ -260,13 +261,44 @@
       return results;
     };
 
-    Weather.prototype.layout = function(orientation) {
-      return Util.noop(orientation);
+    Weather.prototype.postReady = function() {
+      return this.subscribe();
     };
 
-    Weather.prototype.show = function() {};
+    Weather.prototype.subscribe = function() {
+      this.stream.subscribe('Destination', (function(_this) {
+        return function(object) {
+          return _this.onDestination(object.content);
+        };
+      })(this));
+      this.stream.subscribe('Location', (function(_this) {
+        return function(object) {
+          return _this.onLocation(object.content);
+        };
+      })(this));
+      return this.stream.subscribe('Conditions', (function(_this) {
+        return function(object) {
+          return _this.onConditions(object.content);
+        };
+      })(this));
+    };
 
-    Weather.prototype.hide = function() {};
+    Weather.prototype.onDestination = function(destination) {
+      return Util.dbg('Weather.onDestination()', destination);
+    };
+
+    Weather.prototype.onLocation = function(latlon) {
+      return Util.dbg('Weather.onLocation() latlon', latlon);
+    };
+
+    Weather.prototype.layout = function(orientation) {
+      return Util.dbg('Weather.layout() latlon', orientation);
+    };
+
+    Weather.prototype.onConditions = function(conditions) {
+      Util.noop(conditions);
+      return Util.dbg('Weather.onConditions()');
+    };
 
     Weather.prototype.exitJSON = function(json) {
       var ej, fc;
@@ -284,7 +316,7 @@
       ej.temperature = Util.toFixed(fc.temperature, 0);
       ej.windSpeed = fc.windSpeed;
       ej.cloudCover = fc.cloudCover;
-      Util.log(ej);
+      Util.dbg(ej);
       return ej;
     };
 
@@ -301,7 +333,7 @@
       }
       f.temperature = Util.toFixed(f.temperature, 0);
       time = Util.toTime(f.time);
-      html = "<div   class=\"Weather" + loc.index + "\" style=\"background-color:" + f.style.back + "\">\n  <div class=\"WeatherName\">" + loc.name + "</div>\n  <div class=\"WeatherTime\">" + time + "</div>\n  <i   class=\"WeatherIcon wi " + f.style.icon + "\"></i>\n  <div class=\"WeatherSumm\">" + f.summary + "</div>\n  <div class=\"WeatherTemp\">" + f.temperature + "&deg;F</div>\n</div>";
+      html = "<div   class=\"Weather" + loc.index + "\" style=\"background-color:beige\">\n  <div class=\"WeatherName\">" + loc.name + "</div>\n  <div class=\"WeatherTime\">" + time + "</div>\n  <i   class=\"WeatherIcon wi " + f.style.icon + "\"></i>\n  <div class=\"WeatherSumm\">" + f.summary + "</div>\n  <div class=\"WeatherTemp\">" + f.temperature + "&deg;F</div>\n</div>";
       return this.$.append(html);
     };
 

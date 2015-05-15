@@ -25,7 +25,7 @@ class Visual
     s = n.toString()
     if  0 <= n && n <= 9 then s = '&nbsp;&nbsp;' + s
     if 10 <= n && n <=99 then s = '&nbsp;'  + s
-    #Util.log( 'pad', { s:'|'+s+'|', n:n,  } )
+    #Util.dbg( 'pad', { s:'|'+s+'|', n:n,  } )
     s
 
   @dec:( f )      -> Math.round(f*100) / 100
@@ -86,7 +86,7 @@ class Visual
       Util.error( 'Visual.cssRgb() unknown CSS color', str )
     rgb
 
-  # Util.log( 'Visual.cssRgb', toks.length, { r:toks[1], g:toks[2], b:toks[3] } )
+  # Util.dbg( 'Visual.cssRgb', toks.length, { r:toks[1], g:toks[2], b:toks[3] } )
 
   @rgbToHsi:( rgb ) ->
     sum = Visual.sumRgb( rgb )

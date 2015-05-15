@@ -5,27 +5,28 @@ class App
 
   # This kicks off everything
   $(document).ready ->
+    Util.debug = true # Controls Util.dbg() debugging
     Util.init()
-    Util.app = new App( true, false, false, false )
-    # Util.log( 'App Created' )
+    Util.app = new App( false, true, true, false, false )
+    # Util.dbg( 'App Created' )
 
-  constructor:( @runDemo=true, @runRest=true, @runSimulate=false, @runTest=false ) ->
+  # @retryData implies that we access static data from data/exit folder up server failure in Rest Class - good for demos
+  constructor:( @runDemo=true, @runRest=true, @retryData, @runSimulate=false, @runTest=false ) ->
+
+    # Initialize instance parameters
     @dest               = ''
     @subjectNames       = ['Select','Orient','Destination','eta','Location','TakeDeal','ArriveAtDeal',
                            'Segments','Deals','Conditions',
                            'RequestSegmentBy','RequestConditionsBy','RequestDealsBy']
-    @segmentsComplete   = false
-    @conditionsComplete = false
-    @dealsComplete      = false
-    @firstRestRequestsComplete = false
     @direction          = 'West' # or East
     @eta                = 141 # Expressed in minutes
-
+    @recommendation     = 'Go'
 
     # Import Classes
     Stream      = Util.Import( 'app/Stream'     )
     Rest        = Util.Import( 'app/Rest'       )
     Data        = Util.Import( 'app/Data'       )  # Static class with no need to instaciate
+    Model       = Util.Import( 'app/Model'      )
 
     Go          = Util.Import( 'ui/Go'          )
     NoGo        = Util.Import( 'ui/NoGo'        )
@@ -47,19 +48,20 @@ class App
     # Instantiate main App classes
     @stream     = new Stream(        @, @subjectNames )
     @rest       = new Rest(          @, @stream )
+    @model      = new Model(         @, @stream, @rest )
 
     # Instantiate UI class
     @go          = new Go(           @, @stream )
     @nogo        = new NoGo(         @, @stream )
     @threshold   = new Threshold(    @, @stream )
-    @destination = new Destination(  @, @stream, @go, @nogo, @threshold )
+    @destination = new Destination(  @, @stream, @threshold )
     @road        = new Road(         @, @stream )
     @weather     = new Weather(      @, @stream )
     @advisory    = new Advisory(     @, @stream )
     @trip        = new Trip(         @, @stream, @road, @weather, @advisory )
     @deals       = new Deals(        @, @stream )
     @navigate    = new Navigate(     @, @stream )
-    @ui          = new UI(           @, @stream, @destination, @trip, @deals, @navigate )
+    @ui          = new UI(           @, @stream, @destination, @go, @nogo, @trip, @deals, @navigate )
 
     @ready()
     @postReady()
@@ -70,7 +72,10 @@ class App
     @test       = new Test(          @, @stream ) if @runTest
 
   ready:() ->
+    @model.ready()
     @destination.ready()
+    @go.ready()
+    @nogo.ready()
     @trip.ready()
     @deals.ready()
     @navigate.ready()
@@ -78,48 +83,37 @@ class App
 
   postReady:() ->
     @destination.postReady()
+    @go.postReady()
+    @nogo.postReady()
     @trip.postReady()
+    @deals.postReady()
+    @navigate.postReady()
     @subscribe()
 
   subscribe:() ->
-    @stream.subscribe( 'Destination', (object) => @onDestination(object.content) )
+    @stream.subscribe( 'Destination', (object) => @goOrNoGo( object.content) )
+    @stream.subscribe( 'Conditions ', (object) => @updateETA(object.content) )
 
   updateETA:( conditions ) ->
     @eta = 0
     for condition in conditions
       @eta += conditions.Condition.TravelTime
+    Util.dbg( 'App.updateETA()', @etaHoursMins() )
     @stream.push( 'ETA', @eta, 'App' )
 
   etaHoursMins:() ->
     Util.toInt(@eta/60) + ' Hours ' + @eta%60 + ' Mins'
 
-  onDestination:( dest ) ->
-    Util.log( 'App.onDestination', dest )
-    @dest                = dest
-    initalCompleteStatus = not @runRest
-    @segmentsComplete    = initalCompleteStatus
-    @conditionsComplete  = initalCompleteStatus
-    @dealsComplete       = initalCompleteStatus
-    if @runRest and not @firstRestRequestsComplete
-      @rest.segmentsByPreset(     1,                   @trip.doSegments   ) # Preset 1
-      @rest.conditionsBySegments(   @trip.condSegs(),  @trip.doConditions )
-      @rest.deals( @deals.latLon(), @deals.segments(), @deals.doDeals     )
-    @checkComplete()
-
-  # checkComplete is call three times when each status completed is changed
-  # goOrNoGo is then only called once
-  checkComplete:() ->
-    if @segmentsComplete and @conditionsComplete and @dealsComplete
-       @firstRestRequestsComplete = true
-       @goOrNoGo( @dest )
-
-  goOrNoGo:( dest ) ->
+  goOrNoGo:( dest ) =>
     # another fancy piece of logic goes here
-    @trip.createDriveBars()
     if dest is 'Vail' or dest is 'Winter Park'
-      @destination.nogo.show()
+      if @recommendation = 'Go'
+         @recommendation = 'NoGo'
+         @ui.changeRecommendation('NoGo')
     else
-      @destination.go.show()
+      if @recommendation = 'NoGo'
+         @recommendation = 'Go'
+         @ui.changeRecommendation('Go')
 
   width:()  -> @ui.width()
   height:() -> @ui.height()

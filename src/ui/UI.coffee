@@ -3,24 +3,28 @@ class UI
 
   Util.Export( UI, 'ui/UI' )
 
-  constructor:( @app, @stream, @destination, @trip, @deals, @navigate ) ->
+  constructor:( @app, @stream, @destination, @go, @nogo, @trip, @deals, @navigate ) ->
     @orientation    = 'Portrait'
-    @lastSelect     = null
+    @lastSelect     = @destination
 
   ready:() ->
     @$ = $( @html() )
     $('#App').append(@$)
     @$view = @$.find('#View')
     @$view.append(@destination.$)
+    @$view.append(@go.$)
+    @$view.append(@nogo.$)
     @$view.append(@trip.$)
     @$view.append(@deals.$)
     @$view.append(@navigate.$)
-    @$IconsHover      =  @$.find('#IconsHover')
-    @$Icons           =  @$.find('#Icons')
-    @$destinationIcon =  @$.find('#DestinationIcon')
-    @$tripIcon        =  @$.find('#TripIcon')
-    @$dealsIcon       =  @$.find('#DealsIcon')
-    @$namigateIcon    =  @$.find('#NavigateIcon')
+    @$IconsHover         =  @$.find('#IconsHover')
+    @$Icons              =  @$.find('#Icons')
+    @$destinationIcon    =  @$.find('#DestinationIcon')
+    @$recommendationIcon =  @$.find('#RecommendationIcon')
+    @$recommendationFA   =  @$.find('#RecommendationFA')
+    @$tripIcon           =  @$.find('#TripIcon')
+    @$dealsIcon          =  @$.find('#DealsIcon')
+    @$namigateIcon       =  @$.find('#NavigateIcon')
     @$IconsHover.mouseenter( () => @$Icons.show() )
     @$Icons     .mouseleave( () => @$Icons.hide() )
     @publish()
@@ -28,10 +32,10 @@ class UI
     @stream.push( 'Select', 'Destination', 'UI' ) # We push the first screen selection to be Destionaion
 
   publish:() ->
-    @stream.publish( 'Select', @$destinationIcon, 'click', 'Destination', 'UI' )
-    @stream.publish( 'Select', @$tripIcon,        'click', 'Trip',        'UI' )
-    @stream.publish( 'Select', @$dealsIcon,       'click', 'Deals',       'UI' )
-    @stream.publish( 'Select', @$namigateIcon,    'click', 'Navigate',    'UI' )
+    @stream.publish( 'Select', @$destinationIcon,    'click', 'Destination',    'UI' )
+    @stream.publish( 'Select', @$recommendationIcon, 'click', 'Recommendation', 'UI' )
+    @stream.publish( 'Select', @$tripIcon,           'click', 'Trip',           'UI' )
+    @stream.publish( 'Select', @$dealsIcon,          'click', 'Deals',          'UI' )
 
   subscribe:() ->
     @stream.subscribe( 'Select', (object) => @select(object.content) )
@@ -42,28 +46,36 @@ class UI
   icon:( name, type, fa ) -> @app.icon( name, type, fa )
 
   html:() ->
-    """<div      id="#{@id('UI')}"                  class="#{@css('UI')}">
-         <div    id="#{@id('IconsHover')}"          class="#{@css('IconsHover')}"></div>
-         <div    id="#{@id('Icons')}"               class="#{@css('Icons')}">
-            <div id="#{@id('Destination','Icon')}"  class="#{@css('Destination','Icon')}"><div><i class="fa fa-picture-o"></i></div></div>
-            <div id="#{@id('Trip',       'Icon')}"  class="#{@css('Trip',       'Icon')}"><div><i class="fa fa-road"></i></div></div>
-            <div id="#{@id('Deals',      'Icon')}"  class="#{@css('Deals',      'Icon')}"><div><i class="fa fa-trophy"></i></div></div>
-            <div id="#{@id('Navigate',   'Icon')}"  class="#{@css('Navigate',   'Icon')}"><div><i class="fa fa-street-view"></i></div></div>
+    """<div      id="#{@id('UI')}"                     class="#{@css('UI')}">
+         <div    id="#{@id('IconsHover')}"             class="#{@css('IconsHover')}"></div>
+         <div    id="#{@id('Icons')}"                  class="#{@css('Icons')}">
+            <div>
+              <div id="#{@id('Destination',   'Icon')}"  class="#{@css('Destination',   'Icon')}"><i class="fa fa-picture-o"></i><div>Destination</div></div>
+              <div id="#{@id('Recommendation','Icon')}"  class="#{@css('Recommendation','Icon')}"><i class="fa fa-thumbs-up" id="RecommendationFA"></i><div>Recommendation</div></div>
+              <div id="#{@id('Trip',          'Icon')}"  class="#{@css('Trip',          'Icon')}"><i class="fa fa-road"></i><div>Trip</div></div>
+              <div id="#{@id('Deals',         'Icon')}"  class="#{@css('Deals',         'Icon')}"><i class="fa fa-trophy"></i><div>Deals</div></div>
+            </div>
          </div>
          <div id="#{@id('View')}" class="#{@css('View')}"></div>
         </div>"""
+
+  changeRecommendation:( recommendation ) ->
+    @select( recommendation )
+    faClass = if recommendation is 'Go' then 'fa fa-thumbs-up' else 'fa fa-thumbs-down'
+    @$recommendationFA.attr( 'class', faClass )
+    return
 
   orient:( orientation ) ->
     if orientation?
       @orientation = orientation
     else
       @orientation = if @orientation is 'Portrait' then 'Landscape' else 'Portrait'
-    Util.log( 'UI.orient() new', @orientation )
+    Util.dbg( 'UI.orient() new', @orientation )
     #@stream.push('Orient', @orientation, 'UI' )   # This push will call UI.layout() here along with all 'Oriant' subscribers
     return
 
-  layout:( orientation ) ->
-    Util.log( 'UI.layout', orientation )
+  layout:( orientation ) =>
+    Util.dbg( 'UI.layout', orientation )
     url = "img/app/phone6x12#{orientation}.png"
     $('body').css( { "background-image":"url(#{url})" } )
     $('#App').attr( 'class', "App#{orientation}" )
@@ -72,11 +84,14 @@ class UI
 
   hide:() ->
 
-  select:( name ) ->
+  select:( name ) =>
+    # Util.dbg( 'UI.Select() Beg', name, @lastSelect.$.attr('id') )
     @lastSelect.hide() if @lastSelect?
     switch name
       when 'Destination'
         @lastSelect = @destination
+      when 'Recommendation', 'Go', 'NoGo'
+        @lastSelect = if @app.recommendation is 'Go' then @go else @nogo
       when 'Trip'
         @lastSelect = @trip
         @orient(      'Landscape' )
@@ -85,14 +100,13 @@ class UI
         @app.simulate.generateLocationsFromMilePosts( 1000 ) if @app.simulate?
       when 'Deals'
         @lastSelect = @deals
-      when 'Navigate'
-        #@lastSelect = @navigate
-        #@orient()
       else
         Util.error( "UI.select unknown name", name )
-    if @lastSelect?
-       @lastSelect.show()
-       @layout( 'Portrait' ) if @orientation is 'Landscape' and name isnt 'Trip'
+
+    # Util.dbg( 'UI.Select() End', name, @lastSelect.$.attr('id') )
+    @layout( 'Portrait' ) if @orientation is 'Landscape' and name isnt 'Trip'
+    @lastSelect.show()
+    return
 
   width:()  ->
     w1 = if @$? then @$.width() else 0
@@ -101,7 +115,7 @@ class UI
       w = if @orientation is 'Portrait' then 300 else 500
     else
       w = w1
-    # Util.log( 'UI.width()', w, w1 )
+    # Util.dbg( 'UI.width()', w, w1 )
     w
 
   height:() ->
@@ -111,7 +125,7 @@ class UI
       h = if @orientation is 'Portrait' then 500 else 300
     else
       h = h1
-    # Util.log( 'UI.height()', h, h1 )
+    # Util.dbg( 'UI.height()', h, h1 )
     h
 
 

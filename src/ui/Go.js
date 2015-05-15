@@ -10,7 +10,7 @@
       this.app = app;
       this.stream = stream;
       DriveBar = Util.Import('ui/DriveBar');
-      this.driveBar = new DriveBar(this.app, this.stream, 'Go');
+      this.driveBar = new DriveBar(this.app, this.stream, 'Go', this);
       this.first = true;
     }
 
@@ -19,6 +19,12 @@
       this.$GoBanner = this.$.find('#GoBanner');
       this.$GoBannerText = this.$.find('#GoBannerText');
       this.$GoDeals = this.$.find('#GoDeals');
+      return this.driveBar.ready();
+    };
+
+    Go.prototype.postReady = function() {
+      this.driveBar.postReady();
+      this.goSize();
       return this.subscribe();
     };
 
@@ -40,7 +46,7 @@
     };
 
     Go.prototype.layout = function(orientation) {
-      Util.log('Go.layout()', orientation);
+      Util.dbg('Go.layout()', orientation);
       return this.goSize();
     };
 
@@ -49,11 +55,6 @@
       this.$GoDeals.empty();
       html = this.app.deals.goDealsHtml(deals);
       return this.$GoDeals.append(html);
-    };
-
-    Go.prototype.postReady = function() {
-      this.driveBar.postReady();
-      return this.goSize();
     };
 
     Go.prototype.goSize = function() {

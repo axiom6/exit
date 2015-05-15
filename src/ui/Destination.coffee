@@ -3,24 +3,19 @@ class Destination
 
   Util.Export( Destination, 'ui/Destination' )
 
-  constructor:( @app, @stream, @go, @nogo, @threshold ) ->
+  constructor:( @app, @stream, @threshold ) ->
     @Data = Util.Import( 'app/Data' )
     @destinations = @Data.Destinations # For now we access destinations from static data
 
   ready:() ->
-    @go.ready()
-    @nogo.ready()
     @threshold.ready()
     @$ = $( @html() )
-    @$.append( @go.$   )
-    @$.append( @nogo.$      )
     @$.append( @threshold.$  )
     @$destinationBody   = @$.find('#DestinationBody'  )
     @$destinationSelect = @$.find('#DestinationSelect')
 
   postReady:() ->
-    @go.postReady()
-    @nogo.postReady()
+    @threshold.postReady()
     @publish()
     @subscribe()
 
@@ -33,15 +28,7 @@ class Destination
     @stream.subscribe( 'Orient',      (object) => @layout(object.content) )
 
   onDestination:( dest ) ->
-    @hideBody()
-    Util.log( 'Destination.@onDestination()', dest )
-
-  # Superceded by @stream.publish( 'Destination', @$destinationSelect, 'change', 'Destination', 'Destination' )
-  selectDestination:() ->
-    dest = $('#DestinationSelect').find('option:selected').text()
-    Util.log( 'Destination.selectDestination()', dest )
-    @hideBody()
-    @app.doDestination( dest2 )
+    Util.dbg( 'Destination.@onDestination()', dest )
 
   id:(   name, type     ) -> @app.id(   name, type     )
   css:(  name, type     ) -> @app.css(  name, type     )
@@ -62,7 +49,7 @@ class Destination
     htm
 
   layout:( orientation ) ->
-    Util.log( 'Destination.layout()', orientation )
+    Util.dbg( 'Destination.layout()', orientation )
     # Not needed
     #@go       .layout( orientation )
     #@nogo     .layout( orientation )

@@ -13,15 +13,17 @@ body { background-image:url("../img/app/phone6x12Portrait.png");
 .IconsHover        { position:absolute; left:    0;  top:0;  width:100%;  height: 4%;
                      background:transparent; z-index:3; }
 
-.Icons            { position:absolute; left:    0;  top:0;  width:100%;  height: 13%; display:none;
+.Icons            { position:absolute; left:    0;  top:0;  width:100%;  height: 10%; display:none;
                     background:black; color:white; font-size:36px; border:1px solid black; z-index:4; }
-.DestinationIcon  { position:absolute; left: 6.25%; top:0; width:12.5%; height:94%; z-index:5; }
-.TripIcon         { position:absolute; left:31.25%; top:0; width:12.5%; height:94%; z-index:5; }
-.DealsIcon        { position:absolute; left:56.25%; top:0; width:12.5%; height:94%; z-index:5; }
-.NavigateIcon     { position:absolute; left:81.25%; top:0; width:12.5%; height:94%; z-index:5; }
+.DestinationIcon    { position:absolute; left:    0;  top:0; width:25.00%; height:94%; z-index:5; text-align:center;}
+.RecommendationIcon { position:absolute; left:25.00%; top:0; width:25.00%; height:94%; z-index:5; text-align:center;}
+.TripIcon           { position:absolute; left:50.00%; top:0; width:25.00%; height:94%; z-index:5; text-align:center;}
+.DealsIcon          { position:absolute; left:75.00%; top:0; width:25.00%; height:94%; z-index:5; text-align:center;}
 
-.Icons > div        { display:table; }                                // CSS Hack with table and
-.Icons > div > div  { display:table-cell; vertical-align:middle; }    // table-cell vertical middle
+
+.Icons > div             { display:table; }                                // CSS Hack with table and
+.Icons > div > div       { display:table-cell; vertical-align:middle; }    // table-cell vertical middle
+.Icons > div > div > div { font-size:0.3em; }
 
 .View             { position:absolute; left:0; top:0%; width:100%; height:100%; background:white; }
 
@@ -43,7 +45,8 @@ body { background-image:url("../img/app/phone6x12Portrait.png");
 
 .Threshold        { display:none; }
 
-.Go               { display:none;     background-color:#658552; }
+.Go               { position:absolute; left:0; top:0%; width:100%; height:100%;
+                    display:none; background-color:#658552; text-align:center; }
 
 .GoBanner         { position:absolute; left:4%; top:4%; width:92%; height:26%; max-height:26%; display:table;        // 30%
                     font-weight:bold; background-color:white; color:#658552;   }
@@ -55,7 +58,8 @@ body { background-image:url("../img/app/phone6x12Portrait.png");
 
 .GoDrive          { position:absolute; left:0; top:70%; width:100%; height:30%; }                     // 30%
 
-.NoGo             { display:none; }  // E2492F
+.NoGo             { position:absolute; left:0; top:0%; width:100%; height:100%;
+                    display:none; background-color:#658552; text-align:center; }
 
 .NoGoBanner       { position:absolute; left:4%; top:4%; width:92%; height:26%;  display:table;       // 30%
                     font-size:5.0em; font-weight:bold; background-color:#E2492F; color:white; }
@@ -69,7 +73,6 @@ body { background-image:url("../img/app/phone6x12Portrait.png");
 
 .Advisory         { display:none; }
 
-
 .Weather          { position:absolute; left:0;     top:0; width:100%;  height:45%; font-family: 'Open Sans Condensed', sans-serif; font-weight:700; font-size:1.0em; }
 .Weather1         { position:absolute; left:0;     top:0; width:12.5%; height:100%;  border:1px solid; text-align:center; }
 .Weather2         { position:absolute; left:12.5%; top:0; width:12.5%; height:100%;  border:1px solid; text-align:center; }
@@ -80,17 +83,15 @@ body { background-image:url("../img/app/phone6x12Portrait.png");
 .Weather7         { position:absolute; left:75.0%; top:0; width:12.5%; height:100%;  border:1px solid; text-align:center; }
 .Weather8         { position:absolute; left:87.5%; top:0; width:12.5%; height:100%;  border:1px solid; text-align:center; }
 
-
 .WeatherName { font-size:0.9em; }
 .WeatherName { font-size:0.9em; }
 .WeatherIcon { font-size:2.5em; }
 .WeatherSumm { font-size:1.0em; padding-top:0.2em; }
 .WeatherTemp { font-size:1.5em; }
 
-.Road             { position:absolute; left:4%; top:45%; width:92%;  height:55%;    background-color:beige;   }
+.Road             { position:absolute; left:0; top:45%; width:100%;  height:55%;    background-color:beige;   }
 
 .DriveBar         { position:absolute; left:0; bottom:0; width:100%;  height:100%;  background-color:#658552; }
-
 
 .Deals            { display:none; }
 .Navi             { display:none; }

@@ -7,6 +7,8 @@ class Advisory
 
   ready:() ->
     @$ = $( @html() )
+
+  postReady:() ->
     @subscribe()
 
   subscribe:() ->
@@ -14,15 +16,10 @@ class Advisory
     @stream.subscribe( 'Orient',   (object) =>     @layout(object.content) )
 
   onLocation:( latlon ) ->
-    Util.log( 'Advisory.onLocation()', @ext, latlon )
+    Util.dbg( 'Advisory.onLocation()', @ext, latlon )
 
   layout:( orientation ) ->
-    Util.log( 'Advisory.layout()', orientation )
+    Util.dbg( 'Advisory.layout()', orientation )
 
   html:() ->
     """<div id="#{@app.id('Advisory')}" class="#{@app.css('Advisory')}"></div>"""
-
-
-  show:() ->
-
-  hide:() ->

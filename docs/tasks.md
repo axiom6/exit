@@ -2,17 +2,18 @@
 ## App
 |   |   |    |   |   |   |
 | - | - | -  | - | - | - |
-| **Deals**           | Triggers    | Geo Fence      | Bus Button | Gritter    |            | 
+
 | **Drive Bar**       | Scenario    | Layout         | Segemnts   | Annotation | Transform  | 
-| **Event**           | Scenario    | Navigate       | Swipe      | Resize     |            |
 | **Simulate**        | LanLngTime  | Speeds / Conds | Weather    | Roadblocks | Deals      | 
-| **Mobile**          | Cordova     | Events         |            |            | Responsive | 
+| **Event**           | Scenario    | Navigate       | Swipe      | Resize     |            |
+| **Deals**           | Triggers    | Geo Fence      | Bus Button | Gritter    |            | 
 | **Test**            | Rest        | Destination    | Trip       | Deals      |            |
 | **Contest**         | JUdging     | Shots          | Doc        | GitHub     |            | 
 
 ## Add Ons
 |   |   |    |   |   |   |
 | - | - | -  | - | - | - |
+| **Mobile**          | Cordova     | Events         |            |            | Responsive | 
 | **Speeds / Conds**  | DIA Edwards | Breckinridge   | Winterpark | Keystone   | A-Basin    |
 | **Trip**            | Road        | Weather        | Adivsory   |            |            |
 | **Predict**         | ETA         |   Go           |  NoGo      | Explain    | Roadblocks |
@@ -26,6 +27,8 @@
 | **Destination**     | Login       | Go             | NoGo       | Threshold  |            |
 | **CSS**             |  Icons      | Wireframe      | Gradients  | Media      |            |
 | **Rest**            | Speeds      | Conditions     | Deals      | Advisorys  | Geo Fence  |
+| **Deals**           |             |                | Bus Button | Gritter    |            | 
+| **UI**              | Icons       |                |            |            |            |
 
 ## Post App
 |   |   |    |   |   |   |
