@@ -8,7 +8,7 @@ class Navigate
   ready:() ->
     @$ = $( @html() )
 
-  postReady:() ->
+  position:() ->
     @subscribe()
 
   subscribe:() ->

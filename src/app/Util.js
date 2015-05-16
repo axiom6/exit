@@ -838,6 +838,17 @@ Util = (function() {
     }
   };
 
+  Util.toFloat = function(arg) {
+    switch (typeof arg) {
+      case 'number':
+        return arg;
+      case 'string':
+        return parseFloat(arg);
+      default:
+        return 0;
+    }
+  };
+
   Util.toCap = function(str) {
     return str.charAt(0).toUpperCase() + str.substring(1);
   };

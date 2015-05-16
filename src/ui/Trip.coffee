@@ -16,10 +16,10 @@ class Trip
     @$.append( @weather.$   )
     @$.append( @road.$      )
 
-  postReady:() ->
-    @road.postReady()
-    @weather.postReady()
-    @advisory.postReady()
+  position:() ->
+    @road.position()
+    @weather.position()
+    @advisory.position()
     @subscribe()
 
   # Trip subscribe to the full Monty of change

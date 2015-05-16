@@ -25,10 +25,10 @@
       return this.$.append(this.road.$);
     };
 
-    Trip.prototype.postReady = function() {
-      this.road.postReady();
-      this.weather.postReady();
-      this.advisory.postReady();
+    Trip.prototype.position = function() {
+      this.road.position();
+      this.weather.position();
+      this.advisory.position();
       return this.subscribe();
     };
 

@@ -21,7 +21,7 @@
       this.runTest = runTest != null ? runTest : false;
       this.goOrNoGo = bind(this.goOrNoGo, this);
       this.dest = '';
-      this.subjectNames = ['Select', 'Orient', 'Destination', 'eta', 'Location', 'TakeDeal', 'ArriveAtDeal', 'Segments', 'Deals', 'Conditions', 'RequestSegmentBy', 'RequestConditionsBy', 'RequestDealsBy'];
+      this.subjectNames = ['Select', 'Orient', 'Destination', 'ETA', 'Location', 'TakeDeal', 'ArriveAtDeal', 'Segments', 'Deals', 'Conditions', 'RequestSegmentBy', 'RequestConditionsBy', 'RequestDealsBy'];
       this.direction = 'West';
       this.eta = 141;
       this.recommendation = 'Go';
@@ -57,7 +57,7 @@
       this.navigate = new Navigate(this, this.stream);
       this.ui = new UI(this, this.stream, this.destination, this.go, this.nogo, this.trip, this.deals, this.navigate);
       this.ready();
-      this.postReady();
+      this.position();
       if (this.runDemo) {
         this.deals.dataDeals();
       }
@@ -80,13 +80,13 @@
       return this.ui.ready();
     };
 
-    App.prototype.postReady = function() {
-      this.destination.postReady();
-      this.go.postReady();
-      this.nogo.postReady();
-      this.trip.postReady();
-      this.deals.postReady();
-      this.navigate.postReady();
+    App.prototype.position = function() {
+      this.destination.position();
+      this.go.position();
+      this.nogo.position();
+      this.trip.position();
+      this.deals.position();
+      this.navigate.position();
       return this.subscribe();
     };
 

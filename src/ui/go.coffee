@@ -5,7 +5,7 @@ class Go
 
   constructor:( @app, @stream ) ->
     DriveBar  = Util.Import( 'ui/DriveBar')
-    @driveBar = new DriveBar( @app, @stream, 'Go', @ )
+    @driveBar = new DriveBar( @app, @stream, 'Go', @, 'Portrait' )
     @first = true
 
   ready:() ->
@@ -15,8 +15,8 @@ class Go
     @$GoDeals      = @$.find('#GoDeals'     )
     @driveBar.ready()
 
-  postReady:() ->
-    @driveBar.postReady()
+  position:() ->
+    @driveBar.position()
     @goSize()
     @subscribe()
 

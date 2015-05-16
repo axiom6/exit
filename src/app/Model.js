@@ -147,6 +147,31 @@
       return this.checkComplete();
     };
 
+    Model.prototype.getDealsBySegId = function(segId) {
+      var deal, i, len1, ref, segDeals;
+      segDeals = [];
+      ref = this.deals;
+      for (i = 0, len1 = ref.length; i < len1; i++) {
+        deal = ref[i];
+        if (this.dealHasSegId(deal, segId)) {
+          segDeals.push(deal);
+        }
+      }
+      return segDeals;
+    };
+
+    Model.prototype.dealHasSegId = function(deal, segId) {
+      var i, len1, ref, seq;
+      ref = deal.dealData.onSegments;
+      for (i = 0, len1 = ref.length; i < len1; i++) {
+        seq = ref[i];
+        if (seq.segmentId === segId) {
+          return true;
+        }
+      }
+      return false;
+    };
+
     Model.prototype.getSegmentIds = function() {
       return this.segmentIds;
     };

@@ -10,7 +10,7 @@
       this.app = app;
       this.stream = stream;
       DriveBar = Util.Import('ui/DriveBar');
-      this.driveBar = new DriveBar(this.app, this.stream, 'NoGo', this);
+      this.driveBar = new DriveBar(this.app, this.stream, 'NoGo', this, 'Portrait');
     }
 
     NoGo.prototype.ready = function() {
@@ -21,8 +21,8 @@
       return this.driveBar.ready();
     };
 
-    NoGo.prototype.postReady = function() {
-      this.driveBar.postReady();
+    NoGo.prototype.position = function() {
+      this.driveBar.position();
       return this.subscribe();
     };
 

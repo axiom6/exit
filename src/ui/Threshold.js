@@ -14,7 +14,7 @@
       return this.$ = $(this.html());
     };
 
-    Threshold.prototype.postReady = function() {
+    Threshold.prototype.position = function() {
       return this.subscribe();
     };
 

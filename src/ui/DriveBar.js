@@ -6,11 +6,12 @@
   DriveBar = (function() {
     Util.Export(DriveBar, 'ui/DriveBar');
 
-    function DriveBar(app, stream, ext1, parent) {
+    function DriveBar(app, stream, ext1, parent, orientation1) {
       this.app = app;
       this.stream = stream;
       this.ext = ext1;
       this.parent = parent;
+      this.orientation = orientation1;
       this.onConditions = bind(this.onConditions, this);
       this.Data = Util.Import('app/Data');
       this.name = 'DriveBar';
@@ -27,9 +28,11 @@
 
     DriveBar.prototype.ready = function() {};
 
-    DriveBar.prototype.postReady = function() {
+    DriveBar.prototype.position = function() {
       var ref;
       ref = this.createSvg(this.$, this.htmlId, this.name, this.ext, this.svgWidth(), this.svgHeight(), this.barTop()), this.svg = ref[0], this.$svg = ref[1], this.g = ref[2], this.$g = ref[3], this.gw = ref[4], this.gh = ref[5], this.y0 = ref[6];
+      this.left = this.parent.$.offset().left;
+      this.top = this.parent.$.offset().top;
       return this.subscribe();
     };
 
@@ -64,27 +67,22 @@
     };
 
     DriveBar.prototype.layout = function(orientation) {
-      var xs, ys;
-      this.orientation = orientation;
-      this.svg.attr("width", this.svgWidth()).attr('height', this.svgHeight());
-      xs = this.gw > 0 ? this.gw / this.svgWidth() : 1.0;
-      ys = 1.0;
-      this.g.attr('transform', "scale(" + xs + "," + ys + ")");
+      Util.noop(orientation);
     };
 
     DriveBar.prototype.svgWidth = function() {
-      if (this.ext !== 'Road') {
+      if (this.orientation === 'Portrait') {
         return this.app.width() * 0.92;
       } else {
-        return 640;
+        return this.app.height();
       }
     };
 
     DriveBar.prototype.svgHeight = function() {
-      if (this.ext !== 'Road') {
-        return this.parent.$.height() * 0.33;
+      if (this.orientation === 'Portrait') {
+        return this.app.height() * 0.33;
       } else {
-        return 200;
+        return this.app.width() * 0.50;
       }
     };
 
@@ -108,27 +106,42 @@
     };
 
     DriveBar.prototype.createBars = function(segments, conditions, Data) {
-      var beg, distance, end, feature, features, fill, i, len, mileBeg, mileEnd, mileRef, n, prop, pxLen, segId, thick;
+      var beg, end, eta, feature, features, fill, h, i, len, n, prop, segId, thick, w, x, y;
       Util.dbg('createBars', this.ext);
       features = this.app.direction === 'West' ? Data.WestSegments.features : Data.EastSegments.features;
       n = features.length - 1;
-      mileBeg = features[0].properties.beg;
-      mileEnd = features[n].properties.end;
-      mileRef = this.app.direction === 'West' ? mileBeg : mileEnd;
-      distance = Math.abs(mileEnd - mileBeg);
-      pxLen = this.ext !== 'Road' ? this.svgWidth() : this.app.height();
+      this.mileBeg = Util.toFloat(features[0].properties.beg);
+      this.mileEnd = Util.toFloat(features[n].properties.end);
+      this.mileRef = this.app.direction === 'West' ? this.mileBeg : this.mileEnd;
+      this.distRel = this.mileEnd - this.mileBeg;
+      this.distance = Math.abs(this.mileEnd - this.mileBeg);
       thick = 1;
+      x = 0;
+      y = this.barTop();
+      w = this.svgWidth();
+      h = this.barHeight();
+      eta = this.app.etaHoursMins();
+      this.createTravelTime(this.g, x, y, w, h, eta);
       for (i = 0, len = features.length; i < len; i++) {
         feature = features[i];
         prop = feature.properties;
-        beg = pxLen * Math.abs(prop.beg - mileRef) / distance;
-        end = pxLen * Math.abs(prop.end - mileRef) / distance;
+        beg = w * Math.abs(prop.beg - this.mileRef) / this.distance;
+        end = w * Math.abs(prop.end - this.mileRef) / this.distance;
         segId = Util.toInt(prop.id);
         fill = this.fillCondition(segId, conditions);
-        this.rect(this.g, segId, beg, this.barTop(), end - beg, this.barHeight(), fill, 'black', thick, '');
+        this.rect(this.g, segId, beg, y, end - beg, h, fill, 'black', thick, '');
         this.created = true;
       }
-      this.rect(this.g, this.ext + 'Border', 0, this.barTop(), pxLen, this.barHeight(), 'transparent', 'white', thick * 4, '');
+    };
+
+    DriveBar.prototype.createTravelTime = function(g, x, y, w, h, eta) {
+      var fontSize, fontSizePx;
+      fontSize = 18;
+      fontSizePx = fontSize + 'px';
+      g.append("svg:text").text('START').attr("x", 4).attr("y", y - fontSize).attr('fill', 'white').attr("text-anchor", "start").attr("font-size", fontSizePx).attr("font-family", "Droid Sans");
+      g.append("svg:text").text('TRAVEL TIME').attr("x", w / 2).attr("y", y - fontSize * 2.2).attr('fill', 'white').attr("text-anchor", "middle").attr("font-size", fontSizePx).attr("font-family", "Droid Sans");
+      g.append("svg:text").text(eta).attr("x", w / 2).attr("y", y - fontSize).attr('fill', 'white').attr("text-anchor", "middle").attr("font-size", fontSizePx).attr("font-family", "Droid Sans");
+      return g.append("svg:text").text('END').attr("x", w - 4).attr("y", y - fontSize).attr('fill', 'white').attr("text-anchor", "end").attr("font-size", fontSizePx).attr("font-family", "Droid Sans");
     };
 
     DriveBar.prototype.fillCondition = function(segId, conditions) {
@@ -182,14 +195,37 @@
     };
 
     DriveBar.prototype.rect = function(g, segId, x0, y0, w, h, fill, stroke, thick, text) {
-      var svgId;
-      if (text == null) {
-        text = '';
-      }
+      var onClick, svgId;
       svgId = this.app.svgId(this.name, segId.toString(), this.ext);
-      g.append("svg:rect").attr('id', svgId).attr("x", x0).attr("y", y0).attr("width", w).attr("height", h).attr("fill", fill).attr("stroke", stroke).attr("stroke-width", thick);
+      onClick = (function(_this) {
+        return function() {
+          x = d3.mouse(this)[0];
+          var mile, mile1, mile2;
+          mile1 = _this.mileRef + _this.distRel * x0 / _this.svgWidth();
+          mile = _this.mileRef + _this.distRel * x / _this.svgWidth();
+          mile2 = _this.mileRef + _this.distRel * (x0 + w) / _this.svgWidth();
+          Util.dbg('DriveBar.rect()', {
+            segId: segId,
+            mile1: Util.toFixed(mile1, 1),
+            mile: Util.toFixed(mile, 1),
+            mile2: Util.toFixed(mile2, 1)
+          });
+          return _this.doSeqmentDeals(segId, mile);
+        };
+      })(this);
+      g.append("svg:rect").attr('id', svgId).attr("x", x0).attr("y", y0).attr("width", w).attr("height", h).attr('segId', segId).attr("fill", fill).attr("stroke", stroke).attr("stroke-width", thick).on('click', onClick);
       if (text !== '') {
-        g.append("svg:text").text(text).attr("x", x0 + w / 2).attr("y", y0 + h / 2 + 2).attr('fill', this.textFill(fill)).attr("text-anchor", "middle").attr("font-size", "4px").attr("font-family", "Arial");
+        g.append("svg:text").text(text).attr("x", x0 + w / 2).attr("y", y0 + h / 2 + 2).attr('fill', fill).attr("text-anchor", "middle").attr("font-size", "4px").attr("font-family", "Arial");
+      }
+    };
+
+    DriveBar.prototype.doSeqmentDeals = function(segId, mile) {
+      var deals, exit;
+      deals = this.app.model.getDealsBySegId(segId);
+      exit = Util.toInt(mile);
+      if (deals.length > 0) {
+        this.app.deals.popupMultipleDeals('Deals', "for Exit ", "" + exit, deals);
+        return $('#gritter-notice-wrapper').show();
       }
     };
 
@@ -198,6 +234,15 @@
       rectId = this.app.svgId(this.name, segId.toString(), this.ext);
       rect = $svg.find('#' + rectId);
       rect.attr('fill', fill);
+    };
+
+    DriveBar.prototype.layout2 = function(orientation) {
+      var xs, ys;
+      this.orientation = orientation;
+      this.svg.attr("width", this.svgWidth()).attr('height', this.svgHeight());
+      xs = this.gw > 0 ? this.gw / this.svgWidth() : 1.0;
+      ys = 1.0;
+      this.g.attr('transform', "scale(" + xs + "," + ys + ")");
     };
 
     return DriveBar;

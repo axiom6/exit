@@ -15,7 +15,7 @@ class App
 
     # Initialize instance parameters
     @dest               = ''
-    @subjectNames       = ['Select','Orient','Destination','eta','Location','TakeDeal','ArriveAtDeal',
+    @subjectNames       = ['Select','Orient','Destination','ETA','Location','TakeDeal','ArriveAtDeal',
                            'Segments','Deals','Conditions',
                            'RequestSegmentBy','RequestConditionsBy','RequestDealsBy']
     @direction          = 'West' # or East
@@ -64,7 +64,7 @@ class App
     @ui          = new UI(           @, @stream, @destination, @go, @nogo, @trip, @deals, @navigate )
 
     @ready()
-    @postReady()
+    @position()
 
     # Run Demos, simulations and/or tests
     @deals.dataDeals()                            if @runDemo
@@ -81,13 +81,13 @@ class App
     @navigate.ready()
     @ui.ready()
 
-  postReady:() ->
-    @destination.postReady()
-    @go.postReady()
-    @nogo.postReady()
-    @trip.postReady()
-    @deals.postReady()
-    @navigate.postReady()
+  position:() ->
+    @destination.position()
+    @go.position()
+    @nogo.position()
+    @trip.position()
+    @deals.position()
+    @navigate.position()
     @subscribe()
 
   subscribe:() ->

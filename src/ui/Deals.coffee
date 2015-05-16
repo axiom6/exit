@@ -12,7 +12,7 @@ class Deals
   ready:() ->
     @$ = $( @html() )
 
-  postReady:() ->
+  position:() ->
     @subscribe()
 
   html:() ->
@@ -21,11 +21,11 @@ class Deals
   show:() ->
     @isVisible = true
     @$.show()
-    $('#gritter-notice-wrapper').show()
+    #$('#gritter-notice-wrapper').show()
 
   hide:() ->
     @isVisible = false
-    $('#gritter-notice-wrapper').hide()
+    #$('#gritter-notice-wrapper').hide()
     @$.hide()
 
   subscribe:() ->
@@ -48,8 +48,8 @@ class Deals
     [39.574431,-106.09752]
 
   onDeals:( deals ) ->
-    @popupMultipleDeals( 'EXIT NOW!', 'Traffic is slow ', "ETA #{@app.etaHoursMins()}", deals )
-    $('#gritter-notice-wrapper').hide() if not @isVisible
+    #@popupMultipleDeals( 'EXIT NOW!', 'Traffic is slow ', "ETA #{@app.etaHoursMins()}", deals )
+    #$('#gritter-notice-wrapper').hide() if not @isVisible
 
   onConditions:( conditions ) ->
     Util.dbg( 'Deals.onConditions()' )

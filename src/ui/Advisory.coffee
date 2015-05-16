@@ -8,7 +8,7 @@ class Advisory
   ready:() ->
     @$ = $( @html() )
 
-  postReady:() ->
+  position:() ->
     @subscribe()
 
   subscribe:() ->

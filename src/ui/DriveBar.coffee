@@ -3,10 +3,10 @@ class DriveBar
 
   Util.Export( DriveBar, 'ui/DriveBar' )
 
-  constructor:( @app, @stream, @ext, @parent ) ->
-    @Data        = Util.Import( 'app/Data' )
-    @name        = 'DriveBar'
-    @created     = false
+  constructor:( @app, @stream, @ext, @parent, @orientation ) ->
+    @Data    = Util.Import( 'app/Data' )
+    @name    = 'DriveBar'
+    @created = false
 
   html:() ->
     @htmlId = @app.id(@name,@ext)                                          # For createSvg()
@@ -16,8 +16,10 @@ class DriveBar
 
   ready:() ->
 
-  postReady:() ->
+  position:() ->
     [@svg,@$svg,@g,@$g,@gw,@gh,@y0] = @createSvg( @$, @htmlId, @name, @ext, @svgWidth(),  @svgHeight(), @barTop() )
+    @left = @parent.$.offset().left
+    @top  = @parent.$.offset().top
     @subscribe()
 
   subscribe:() ->
@@ -34,18 +36,19 @@ class DriveBar
     else
       @updateBars( @app.model.segments, conditions, @Data )
 
+  # layout changes base on orientation not working
   layout:( orientation ) ->
-    @orientation = orientation
-    @svg.attr( "width", @svgWidth() ).attr( 'height', @svgHeight() )
-    xs = if @gw > 0 then @gw / @svgWidth() else 1.0
-    ys = 1.0
-    @g.attr( 'transform', "scale(#{xs},#{ys})" )
+    Util.noop( orientation )
     return
 
-  svgWidth:()   -> if @ext isnt 'Road' then @app.width()  * 0.92    else 640                     # Needs to match 92% in App.less
-  svgHeight:()  -> if @ext isnt 'Road' then @parent.$.height()*0.33 else 200
+  # The svg methods are hacked up do to layout:( orientation ) change orientation difficulties
+  svgWidth:()   -> if @orientation is 'Portrait' then @app.width()  * 0.92 else @app.height()
+  svgHeight:()  -> if @orientation is 'Portrait' then @app.height() * 0.33 else @app.width() * 0.50
   barHeight:()  -> @svgHeight() * 0.33
   barTop:()     -> @svgHeight() * 0.50
+
+  #svgWidth:()   -> if @ext isnt 'Road' then @app.width()  * 0.92    else 640                     # Needs to match 92% in App.less
+  #svgHeight:()  -> if @ext isnt 'Road' then @parent.$.height()*0.33 else 200
 
   # d3 Svg dependency
   createSvg:( $, htmlId, name, ext, width, height, barTop ) ->
@@ -59,25 +62,43 @@ class DriveBar
 
   createBars:( segments, conditions, Data ) ->
     Util.dbg( 'createBars', @ext )
-    features = if @app.direction is 'West' then Data.WestSegments.features else Data.EastSegments.features
-    n        = features.length-1
-    mileBeg  = features[0].properties.beg
-    mileEnd  = features[n].properties.end
-    mileRef  = if @app.direction is 'West' then mileBeg else mileEnd
-    distance = Math.abs( mileEnd - mileBeg )
-    pxLen    = if @ext isnt 'Road'then @svgWidth() else @app.height()
-    thick  = 1
+    features  = if @app.direction is 'West' then Data.WestSegments.features else Data.EastSegments.features
+    n         = features.length-1
+    @mileBeg  = Util.toFloat(features[0].properties.beg)
+    @mileEnd  = Util.toFloat(features[n].properties.end)
+    @mileRef  = if @app.direction is 'West' then @mileBeg else @mileEnd
+    @distRel  = @mileEnd - @mileBeg
+    @distance = Math.abs( @mileEnd - @mileBeg )
+    thick    = 1
+    x        = 0
+    y        = @barTop()
+    w        = @svgWidth()
+    h        = @barHeight()
+    eta      = @app.etaHoursMins()
+    @createTravelTime( @g, x, y, w, h, eta )
     for feature in features
       prop  = feature.properties
-      beg   = pxLen * Math.abs( prop.beg - mileRef ) / distance
-      end   = pxLen * Math.abs( prop.end - mileRef ) / distance
+      beg   = w * Math.abs( prop.beg - @mileRef ) / @distance
+      end   = w * Math.abs( prop.end - @mileRef ) / @distance
       segId = Util.toInt(prop.id)
       fill = @fillCondition( segId, conditions )
       # Util.dbg( 'Rect', { segId:segId, beg:beg, end:end, y0:y0, h:h, fill:fill } )
-      @rect( @g, segId, beg, @barTop(), end-beg, @barHeight(), fill, 'black', thick, '' )
+      @rect( @g, segId, beg, y, end-beg, h, fill, 'black', thick, '' )
       @created  = true
-    @rect( @g, @ext+'Border', 0, @barTop(), pxLen, @barHeight(), 'transparent', 'white', thick*4, '' )
+    #@rect( @g, @ext+'Border', x, y, w, h, 'transparent', 'white', thick*4, '' )
     return
+
+  createTravelTime:( g, x, y, w, h, eta ) ->
+    fontSize  = 18
+    fontSizePx = fontSize + 'px'
+    g.append("svg:text").text('START').attr("x",4).attr("y",y-fontSize).attr('fill','white')
+     .attr("text-anchor","start").attr("font-size",fontSizePx).attr("font-family","Droid Sans")
+    g.append("svg:text").text('TRAVEL TIME').attr("x",w/2).attr("y",y-fontSize*2.2 ).attr('fill','white')
+     .attr("text-anchor","middle").attr("font-size",fontSizePx).attr("font-family","Droid Sans")
+    g.append("svg:text").text(eta).attr("x",w/2).attr("y",  y-fontSize ).attr('fill','white')
+     .attr("text-anchor","middle").attr("font-size",fontSizePx).attr("font-family","Droid Sans")
+    g.append("svg:text").text('END').attr("x",w-4).attr("y",y-fontSize ).attr('fill','white')
+     .attr("text-anchor","end").attr("font-size",fontSizePx).attr("font-family","Droid Sans")
 
   fillCondition:( segId, conditions ) ->
     Conditions = @getConditions( segId, conditions )
@@ -108,18 +129,43 @@ class DriveBar
       @updateRectFill( segId, fill )
     return
 
-  rect:( g, segId, x0, y0, w, h, fill, stroke, thick, text='' ) ->
+  rect:( g, segId, x0, y0, w, h, fill, stroke, thick, text ) ->
     svgId = @app.svgId( @name, segId.toString(), @ext )
-    g.append("svg:rect").attr('id',svgId).attr("x",x0).attr("y",y0).attr("width",w).attr("height",h)
+    onClick = () =>
+      `x = d3.mouse(this)[0]`
+      mile1 = @mileRef + @distRel *  x0    / @svgWidth()
+      mile  = @mileRef + @distRel *  x     / @svgWidth()
+      mile2 = @mileRef + @distRel * (x0+w) / @svgWidth()
+      Util.dbg( 'DriveBar.rect()', { segId:segId, mile1:Util.toFixed(mile1,1),  mile:Util.toFixed(mile,1), mile2:Util.toFixed(mile2,1) } )
+      @doSeqmentDeals(segId,mile)
+    g.append("svg:rect").attr('id',svgId).attr("x",x0).attr("y",y0).attr("width",w).attr("height",h).attr('segId',segId)
      .attr("fill",fill).attr("stroke",stroke).attr("stroke-width",thick)
+     .on('click',onClick) #.on('mouseover',onMouseOver)
+
     if text isnt ''
-      g.append("svg:text").text(text).attr("x",x0+w/2).attr("y",y0+h/2+2).attr('fill',@textFill(fill))
+      g.append("svg:text").text(text).attr("x",x0+w/2).attr("y",y0+h/2+2).attr('fill',fill)
        .attr("text-anchor","middle").attr("font-size","4px").attr("font-family","Arial")
     return
+
+  doSeqmentDeals:( segId, mile ) ->
+    deals = @app.model.getDealsBySegId( segId )
+    exit  = Util.toInt(mile)
+    if deals.length > 0
+      @app.deals.popupMultipleDeals( 'Deals', "for Exit ", "#{exit}", deals )
+      $('#gritter-notice-wrapper').show()
 
   updateRectFill:( segId, fill ) ->
     rectId = @app.svgId( @name, segId.toString(), @ext )
     rect   = $svg.find('#'+rectId)
     rect.attr( 'fill', fill )
+    return
+
+  # Transform version
+  layout2:( orientation ) ->
+    @orientation = orientation
+    @svg.attr( "width", @svgWidth() ).attr( 'height', @svgHeight() )
+    xs = if @gw > 0 then @gw / @svgWidth() else 1.0
+    ys = 1.0
+    @g.attr( 'transform', "scale(#{xs},#{ys})" )
     return
 

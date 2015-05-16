@@ -14,7 +14,7 @@
       return this.$ = $(this.html());
     };
 
-    Navigate.prototype.postReady = function() {
+    Navigate.prototype.position = function() {
       return this.subscribe();
     };
 

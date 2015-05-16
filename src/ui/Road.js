@@ -10,7 +10,7 @@
       this.app = app;
       this.stream = stream;
       DriveBar = Util.Import('ui/DriveBar');
-      this.driveBar = new DriveBar(this.app, this.stream, 'Road', this);
+      this.driveBar = new DriveBar(this.app, this.stream, 'Road', this, 'Landscape');
     }
 
     Road.prototype.ready = function() {
@@ -18,8 +18,8 @@
       return this.driveBar.ready();
     };
 
-    Road.prototype.postReady = function() {
-      this.driveBar.postReady();
+    Road.prototype.position = function() {
+      this.driveBar.position();
       return this.subscribe();
     };
 

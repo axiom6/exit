@@ -499,6 +499,12 @@ class Util
       when 'string' then  parseInt(arg)
       else 0
 
+  @toFloat:( arg ) ->
+    switch typeof(arg)
+      when 'number' then arg
+      when 'string' then parseFloat(arg)
+      else 0
+
   @toCap:( str ) -> str.charAt(0).toUpperCase() + str.substring(1)
   @unCap:( str ) -> str.charAt(0).toLowerCase() + str.substring(1)
 

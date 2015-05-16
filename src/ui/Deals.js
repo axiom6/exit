@@ -21,7 +21,7 @@
       return this.$ = $(this.html());
     };
 
-    Deals.prototype.postReady = function() {
+    Deals.prototype.position = function() {
       return this.subscribe();
     };
 
@@ -31,13 +31,11 @@
 
     Deals.prototype.show = function() {
       this.isVisible = true;
-      this.$.show();
-      return $('#gritter-notice-wrapper').show();
+      return this.$.show();
     };
 
     Deals.prototype.hide = function() {
       this.isVisible = false;
-      $('#gritter-notice-wrapper').hide();
       return this.$.hide();
     };
 
@@ -85,12 +83,7 @@
       return [39.574431, -106.09752];
     };
 
-    Deals.prototype.onDeals = function(deals) {
-      this.popupMultipleDeals('EXIT NOW!', 'Traffic is slow ', "ETA " + (this.app.etaHoursMins()), deals);
-      if (!this.isVisible) {
-        return $('#gritter-notice-wrapper').hide();
-      }
-    };
+    Deals.prototype.onDeals = function(deals) {};
 
     Deals.prototype.onConditions = function(conditions) {
       return Util.dbg('Deals.onConditions()');

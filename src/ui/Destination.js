@@ -21,8 +21,8 @@
       return this.$destinationSelect = this.$.find('#DestinationSelect');
     };
 
-    Destination.prototype.postReady = function() {
-      this.threshold.postReady();
+    Destination.prototype.position = function() {
+      this.threshold.position();
       this.publish();
       return this.subscribe();
     };

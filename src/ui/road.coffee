@@ -5,14 +5,14 @@ class Road
 
   constructor:( @app, @stream ) ->
     DriveBar  = Util.Import( 'ui/DriveBar')
-    @driveBar = new DriveBar( @app, @stream, 'Road', @ )
+    @driveBar = new DriveBar( @app, @stream, 'Road', @, 'Landscape' )
 
   ready:() ->
     @$ = $( @html() )
     @driveBar.ready()
 
-  postReady:() ->
-    @driveBar.postReady()
+  position:() ->
+    @driveBar.position()
     @subscribe()
 
   subscribe:() ->

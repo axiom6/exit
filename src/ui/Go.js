@@ -10,7 +10,7 @@
       this.app = app;
       this.stream = stream;
       DriveBar = Util.Import('ui/DriveBar');
-      this.driveBar = new DriveBar(this.app, this.stream, 'Go', this);
+      this.driveBar = new DriveBar(this.app, this.stream, 'Go', this, 'Portrait');
       this.first = true;
     }
 
@@ -22,8 +22,8 @@
       return this.driveBar.ready();
     };
 
-    Go.prototype.postReady = function() {
-      this.driveBar.postReady();
+    Go.prototype.position = function() {
+      this.driveBar.position();
       this.goSize();
       return this.subscribe();
     };

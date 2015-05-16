@@ -261,7 +261,7 @@
       return results;
     };
 
-    Weather.prototype.postReady = function() {
+    Weather.prototype.position = function() {
       return this.subscribe();
     };
 

@@ -46,7 +46,7 @@ class Weather
     for loc in Weather.Locs
       @createHtml( loc ) # @forecast( loc )
 
-  postReady:() ->
+  position:() ->
     @subscribe()
 
   # Trip subscribe to the full Monty of change

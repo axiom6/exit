@@ -14,7 +14,7 @@
       return this.$ = $(this.html());
     };
 
-    Advisory.prototype.postReady = function() {
+    Advisory.prototype.position = function() {
       return this.subscribe();
     };
 

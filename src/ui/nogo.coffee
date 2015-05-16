@@ -5,7 +5,7 @@ class NoGo
 
   constructor:( @app, @stream ) ->
     DriveBar  = Util.Import( 'ui/DriveBar')
-    @driveBar = new DriveBar( @app, @stream, 'NoGo', @ )
+    @driveBar = new DriveBar( @app, @stream, 'NoGo', @, 'Portrait' )
 
   ready:() ->
     @$ = $( @html() )
@@ -14,8 +14,8 @@ class NoGo
     @$NoGoDeals      = @$.find('#NoGoDeals'     )
     @driveBar.ready()
 
-  postReady:() ->
-    @driveBar.postReady()
+  position:() ->
+    @driveBar.position()
     #@noGoSize()
     @subscribe()
 

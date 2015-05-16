@@ -8,7 +8,7 @@ class Threshold
   ready:() ->
     @$ = $( @html() )
 
-  postReady:() ->
+  position:() ->
     @subscribe()
 
   subscribe:() ->

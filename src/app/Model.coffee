@@ -103,6 +103,17 @@ class Model
     @dealsComplete = true
     @checkComplete()
 
+  getDealsBySegId:( segId ) ->
+    segDeals = []
+    for deal in @deals when @dealHasSegId(deal,segId)
+      segDeals.push( deal )
+    segDeals
+
+  dealHasSegId:( deal, segId ) ->
+    for seq in deal.dealData.onSegments
+      return true if seq.segmentId is segId
+    false
+
   getSegmentIds:() ->
     # if @segmentIdsReturned.length > 0 then @segmentIdsReturned else @segmentIds
     @segmentIds

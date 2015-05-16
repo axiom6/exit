@@ -14,8 +14,8 @@ class Destination
     @$destinationBody   = @$.find('#DestinationBody'  )
     @$destinationSelect = @$.find('#DestinationSelect')
 
-  postReady:() ->
-    @threshold.postReady()
+  position:() ->
+    @threshold.position()
     @publish()
     @subscribe()
 
