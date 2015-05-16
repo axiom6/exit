@@ -15,12 +15,7 @@ class Data
   @WestBegLatLon  = [39.713024,-105.194595]
   @WestEndLatLon  = [39.539680,-106.215126]
 
-  # Presets on severy
-  @Preset1Ids = [ 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 ]
-  @Preset2Ids = [ 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17 ]
-  @Preset3Ids = [ 1,2,3,4,5,6,7 ]
-  @Preset4Ids = [ 1,2,3,4,5 ]
-  @Preset5Ids = [ 1,2,3,4,5,6,7,8,9,10,11,12 ]
+  @eastSegmentsURL = "http://104.154.46.117/api/state?segments=31,32,33,34,272,273,36,37,39,40,41,276,277,268,269,44,45"
 
 
   @DealSegmentIds = []
