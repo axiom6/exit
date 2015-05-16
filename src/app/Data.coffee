@@ -9,13 +9,16 @@ class Data
 
   @Destinations   =  ['Denver','DIA','Idaho Springs','Georgetown','Silverthorn','Dillon','Frisco','Keystone','Breckinridge','Winter Park','Vail']
 
-  @EastSegmentIds = [31,32,33,34,272,273,36,37,39,40,41,276,277,268,269,44,45]       # Preset 1, 2
+  @WestSegmentIds = [16,17,266,267,274,275,20,21,22,23,24,25,270,271,27,28,29,30]
+  @EastSegmentIds = [31,32,33,34,272,273,36,37,39,40,41,276,277,268,269,44,45]
 
-  @WestSegmentIds = [16,17,266,267,274,275,20,21,22,23,24,25,270,271,27,28,29,30]    #
+  @WestSegmentsURL = "http://104.154.46.117/api/state?segments=16,17,266,267,274,275,20,21,22,23,24,25,270,271,27,28,29,30"
+  @EastSegmentsURL = "http://104.154.46.117/api/state?segments=31,32,33,34,272,273,36,37,39,40,41,276,277,268,269,44,45"
+
   @WestBegLatLon  = [39.713024,-105.194595]
   @WestEndLatLon  = [39.539680,-106.215126]
 
-  @eastSegmentsURL = "http://104.154.46.117/api/state?segments=31,32,33,34,272,273,36,37,39,40,41,276,277,268,269,44,45"
+  @gitPush = "git push https://github.com/GoCodeColorado/Exit-Now-App"
 
 
   @DealSegmentIds = []
