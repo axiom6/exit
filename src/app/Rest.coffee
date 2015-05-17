@@ -40,6 +40,12 @@ class Rest
     url  = "#{@segmentURL}?start=1,1&end=1,1&preset=#{preset}"
     @get( url, 'Segments', args, callback )
 
+  segmentsBySegments:( segments, callback ) ->
+    args = { segments:segments }
+    csv  = @toCsv( segments )
+    url  = "#{@segmentURL}?segments=#{csv}"
+    @get( url, 'Segments', args, callback )
+
   conditionsBySegments:( segments, callback ) ->
     args = { segments:segments }
     csv  = @toCsv( segments )

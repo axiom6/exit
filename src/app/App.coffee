@@ -14,7 +14,8 @@ class App
   constructor:( @runDemo=true, @runRest=true, @retryData, @runSimulate=false, @runTest=false ) ->
 
     # Initialize instance parameters
-    @dest               = ''
+    @source             = undefined  # Dumb
+    @dest               = undefined  # Dumb
     @subjectNames       = ['Select','Orient','Destination','ETA','Location','TakeDeal','ArriveAtDeal',
                            'Segments','Deals','Conditions',
                            'RequestSegmentBy','RequestConditionsBy','RequestDealsBy']
@@ -91,8 +92,9 @@ class App
     @subscribe()
 
   subscribe:() ->
-    @stream.subscribe( 'Destination', (object) => @goOrNoGo( object.content) )
-    @stream.subscribe( 'Conditions ', (object) => @updateETA(object.content) )
+    @stream.subscribe( 'Source',      (object) => @onSource(      object.content ) )
+    @stream.subscribe( 'Destination', (object) => @onDestination( object.content ) )
+    @stream.subscribe( 'Conditions ', (object) => @updateETA(     object.content ) )
 
   updateETA:( conditions ) ->
     @eta = 0
@@ -104,7 +106,15 @@ class App
   etaHoursMins:() ->
     Util.toInt(@eta/60) + ' Hours ' + @eta%60 + ' Mins'
 
-  goOrNoGo:( dest ) =>
+  onSource:( source ) ->
+    @goOrNoGo( source, destination )
+    Util.dbg( 'Destination.onSource()', source )
+
+  onDestination:( destination ) ->
+    @goOrNoGo( source, destination )
+    Util.dbg( 'Destination.onDestination()', destination )
+
+  goOrNoGo:( source, destination ) =>
     # another fancy piece of logic goes here
     if dest is 'Vail' or dest is 'Winter Park'
       if @recommendation = 'Go'

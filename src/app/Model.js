@@ -57,7 +57,7 @@
       this.conditionsComplete = initalCompleteStatus;
       this.dealsComplete = initalCompleteStatus;
       if (this.app.runRest && this.first) {
-        this.rest.segmentsByLatLon(this.blat, this.blon, this.elat, this.elon, this.doSegments);
+        this.rest.segmentsBySegments(this.segmentIds, this.doSegments);
         this.rest.conditionsBySegments(this.segmentIds, this.doConditions);
         return this.rest.deals(this.app.deals.latLon(), this.segmentIds, this.doDeals);
       }

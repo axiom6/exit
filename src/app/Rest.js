@@ -76,6 +76,16 @@
       return this.get(url, 'Segments', args, callback);
     };
 
+    Rest.prototype.segmentsBySegments = function(segments, callback) {
+      var args, csv, url;
+      args = {
+        segments: segments
+      };
+      csv = this.toCsv(segments);
+      url = this.segmentURL + "?segments=" + csv;
+      return this.get(url, 'Segments', args, callback);
+    };
+
     Rest.prototype.conditionsBySegments = function(segments, callback) {
       var args, csv, url;
       args = {

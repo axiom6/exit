@@ -7,7 +7,17 @@ class Data
 
   Util.Export( Data, 'app/Data' )
 
-  @Destinations   =  ['Denver','DIA','Idaho Springs','Georgetown','Silverthorn','Dillon','Frisco','Keystone','Breckinridge','Winter Park','Vail']
+  @scenario1 = { preset:1, dir:'East', beg:"Vail",       end:"C-470",      begCDOT:"East Vail to Vail Pass",             endCDOT:"Morrison / Heritage to C-470" }
+  @scenario2 = { preset:2, dir:'West', beg:"6 Ave",      end:"Vail",       begCDOT:"US 6 to C-470",                      endCDOT:"East Vail to Vail Pass" }
+  @scenario3 = { preset:3, dir:'East', beg:"Vail",       end:"Bakerville", begCDOT:"East Vail to Vail Pass",             endCDOT:"Loveland to Bakerville" }
+  @scenario4 = { preset:4, dir:'West', beg:"Georgetown", end:"Frisco",     begCDOT:"Georgetown to Bakerville",           endCDOT:"Silverthorne to Frisco (Main St)" }
+  @scenario5 = { preset:5, dir:'East', beg:"Frisco",     end:"Morrison",   begCDOT:"Frisco (Main St) to Silverthorne",   endCDOT:"Lookout Mountain to Morrison / Heritage" }
+  @scenario6 = { preset:6, dir:'East', beg:"Frisco",     end:"Bakerville",   begCDOT:"Frisco (Main St) to Silverthorne", endCDOT:"Loveland to Bakerville" }
+
+  @Destinations       =  ['','6 Ave','Morrison',  'Idaho Springs','Georgetown', 'Silverthorne','Frisco',       'Copper Mtn', 'Vail' ]
+
+  @DestinationsWest   =  ['6 Ave','Morrison',  'Idaho Springs','Georgetown',   'Silverthorne','Frisco',        'Copper Mtn', 'Vail' ]
+  @DestinationsEast   =  ['Vail', 'Copper Mtn','Frisco',        'Silverthorne','Georgetown',  'Idaho Springs', 'Morrison',   '6 Ave']
 
   @WestSegmentIds = [16,17,266,267,274,275,20,21,22,23,24,25,270,271,27,28,29,30]
   @EastSegmentIds = [31,32,33,34,272,273,36,37,39,40,41,276,277,268,269,44,45]

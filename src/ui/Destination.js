@@ -10,6 +10,7 @@
       this.stream = stream;
       this.threshold = threshold;
       this.Data = Util.Import('app/Data');
+      this.sources = this.Data.Destinations;
       this.destinations = this.Data.Destinations;
     }
 
@@ -18,6 +19,7 @@
       this.$ = $(this.html());
       this.$.append(this.threshold.$);
       this.$destinationBody = this.$.find('#DestinationBody');
+      this.$sourceSelect = this.$.find('#SourceSelect');
       return this.$destinationSelect = this.$.find('#DestinationSelect');
     };
 
@@ -28,10 +30,16 @@
     };
 
     Destination.prototype.publish = function() {
+      this.stream.publish('Source', this.$sourceSelect, 'change', 'Source', 'Source');
       return this.stream.publish('Destination', this.$destinationSelect, 'change', 'Destination', 'Destination');
     };
 
     Destination.prototype.subscribe = function() {
+      this.stream.subscribe('Destination', (function(_this) {
+        return function(object) {
+          return _this.onSource(object.content);
+        };
+      })(this));
       this.stream.subscribe('Destination', (function(_this) {
         return function(object) {
           return _this.onDestination(object.content);
@@ -42,6 +50,10 @@
           return _this.layout(object.content);
         };
       })(this));
+    };
+
+    Destination.prototype.onSource = function(source) {
+      return Util.dbg('Destination.@@onSource()', source);
     };
 
     Destination.prototype.onDestination = function(dest) {
@@ -61,11 +73,17 @@
     };
 
     Destination.prototype.html = function() {
-      var destination, htm, i, len, ref;
-      htm = "<div      id=\"" + (this.id('Destination')) + "\"             class=\"" + (this.css('Destination')) + "\">\n<div      id=\"" + (this.id('DestinationBody')) + "\"       class=\"" + (this.css('DestinationBody')) + "\">\n <!--div  id=\"" + (this.id('DestinationLabelInput')) + "\" class=\"" + (this.css('DestinationLabelInput')) + "\">\n   <span  id=\"" + (this.id('DestinationUserLabel')) + "\" class=\"" + (this.css('DestinationUserLabel')) + "\">User:</span>\n   <input id=\"" + (this.id('DestinationUserInput')) + "\" class=\"" + (this.css('DestinationUserInput')) + "\"type=\"text\" name=\"theinput\" />\n </div-->\n <div     id=\"" + (this.id('DestinationWhat')) + "\"       class=\"" + (this.css('DestinationWhat')) + "\">What is your</div>\n <div     id=\"" + (this.id('DestinationDest')) + "\"       class=\"" + (this.css('DestinationDest')) + "\">Destination?</div>\n <select  id=\"" + (this.id('DestinationSelect')) + "\"     class=\"" + (this.css('DestinationSelect')) + "\"name=\"Desinations\">";
-      ref = this.destinations;
+      var destination, htm, i, j, len, len1, ref, ref1, source;
+      htm = "<div      id=\"" + (this.id('Destination')) + "\"             class=\"" + (this.css('Destination')) + "\">\n<div      id=\"" + (this.id('DestinationBody')) + "\"         class=\"" + (this.css('DestinationBody')) + "\">\n <!--div  id=\"" + (this.id('DestinationLabelInput')) + "\" class=\"" + (this.css('DestinationLabelInput')) + "\">\n   <span  id=\"" + (this.id('DestinationUserLabel')) + "\" class=\"" + (this.css('DestinationUserLabel')) + "\">User:</span>\n   <input id=\"" + (this.id('DestinationUserInput')) + "\" class=\"" + (this.css('DestinationUserInput')) + "\"type=\"text\" name=\"theinput\" />\n </div-->\n <div     id=\"" + (this.id('SourceWhat')) + "\"            class=\"" + (this.css('SourceWhat')) + "\">Where are You Now?</div>\n <select  id=\"" + (this.id('SourceSelect')) + "\"          class=\"" + (this.css('SourceSelect')) + "\"name=\"Sources\">";
+      ref = this.sources;
       for (i = 0, len = ref.length; i < len; i++) {
-        destination = ref[i];
+        source = ref[i];
+        htm += "<option>" + source + "</option>";
+      }
+      htm += "</select></div>\n<div     id=\"" + (this.id('DestinationWhat')) + "\"       class=\"" + (this.css('DestinationWhat')) + "\">What is your</div>\n<div     id=\"" + (this.id('DestinationDest')) + "\"       class=\"" + (this.css('DestinationDest')) + "\">Destination?</div>\n<select  id=\"" + (this.id('DestinationSelect')) + "\"     class=\"" + (this.css('DestinationSelect')) + "\"name=\"Desinations\">";
+      ref1 = this.destinations;
+      for (j = 0, len1 = ref1.length; j < len1; j++) {
+        destination = ref1[j];
         htm += "<option>" + destination + "</option>";
       }
       htm += "</select></div></div>";

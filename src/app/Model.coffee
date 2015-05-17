@@ -49,9 +49,9 @@ class Model
     @conditionsComplete  = initalCompleteStatus
     @dealsComplete       = initalCompleteStatus
     if @app.runRest and @first
-      @rest.segmentsByLatLon( @blat, @blon, @elat, @elon, @doSegments   )
-      @rest.conditionsBySegments(      @segmentIds,       @doConditions )
-      @rest.deals( @app.deals.latLon(), @segmentIds,      @doDeals      )
+      @rest.segmentsBySegments(         @segmentIds,  @doSegments   )
+      @rest.conditionsBySegments(       @segmentIds,  @doConditions )
+      @rest.deals( @app.deals.latLon(), @segmentIds,  @doDeals      )
 
   # checkComplete is call three times when each status completed is changed
   # goOrNoGo is then only called once

@@ -7,25 +7,79 @@
 
     Util.Export(Data, 'app/Data');
 
-    Data.Destinations = ['Denver', 'DIA', 'Idaho Springs', 'Georgetown', 'Silverthorn', 'Dillon', 'Frisco', 'Keystone', 'Breckinridge', 'Winter Park', 'Vail'];
+    Data.scenario1 = {
+      preset: 1,
+      dir: 'East',
+      beg: "Vail",
+      end: "C-470",
+      begCDOT: "East Vail to Vail Pass",
+      endCDOT: "Morrison / Heritage to C-470"
+    };
+
+    Data.scenario2 = {
+      preset: 2,
+      dir: 'West',
+      beg: "6 Ave",
+      end: "Vail",
+      begCDOT: "US 6 to C-470",
+      endCDOT: "East Vail to Vail Pass"
+    };
+
+    Data.scenario3 = {
+      preset: 3,
+      dir: 'East',
+      beg: "Vail",
+      end: "Bakerville",
+      begCDOT: "East Vail to Vail Pass",
+      endCDOT: "Loveland to Bakerville"
+    };
+
+    Data.scenario4 = {
+      preset: 4,
+      dir: 'West',
+      beg: "Georgetown",
+      end: "Frisco",
+      begCDOT: "Georgetown to Bakerville",
+      endCDOT: "Silverthorne to Frisco (Main St)"
+    };
+
+    Data.scenario5 = {
+      preset: 5,
+      dir: 'East',
+      beg: "Frisco",
+      end: "Morrison",
+      begCDOT: "Frisco (Main St) to Silverthorne",
+      endCDOT: "Lookout Mountain to Morrison / Heritage"
+    };
+
+    Data.scenario6 = {
+      preset: 6,
+      dir: 'East',
+      beg: "Frisco",
+      end: "Bakerville",
+      begCDOT: "Frisco (Main St) to Silverthorne",
+      endCDOT: "Loveland to Bakerville"
+    };
+
+    Data.Destinations = ['', '6 Ave', 'Morrison', 'Idaho Springs', 'Georgetown', 'Silverthorne', 'Frisco', 'Copper Mtn', 'Vail'];
+
+    Data.DestinationsWest = ['6 Ave', 'Morrison', 'Idaho Springs', 'Georgetown', 'Silverthorne', 'Frisco', 'Copper Mtn', 'Vail'];
+
+    Data.DestinationsEast = ['Vail', 'Copper Mtn', 'Frisco', 'Silverthorne', 'Georgetown', 'Idaho Springs', 'Morrison', '6 Ave'];
+
+    Data.WestSegmentIds = [16, 17, 266, 267, 274, 275, 20, 21, 22, 23, 24, 25, 270, 271, 27, 28, 29, 30];
 
     Data.EastSegmentIds = [31, 32, 33, 34, 272, 273, 36, 37, 39, 40, 41, 276, 277, 268, 269, 44, 45];
 
-    Data.WestSegmentIds = [16, 17, 266, 267, 274, 275, 20, 21, 22, 23, 24, 25, 270, 271, 27, 28, 29, 30];
+    Data.WestSegmentsURL = "http://104.154.46.117/api/state?segments=16,17,266,267,274,275,20,21,22,23,24,25,270,271,27,28,29,30";
+
+    Data.EastSegmentsURL = "http://104.154.46.117/api/state?segments=31,32,33,34,272,273,36,37,39,40,41,276,277,268,269,44,45";
 
     Data.WestBegLatLon = [39.713024, -105.194595];
 
     Data.WestEndLatLon = [39.539680, -106.215126];
 
-    Data.Preset1Ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
-
-    Data.Preset2Ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
-
-    Data.Preset3Ids = [1, 2, 3, 4, 5, 6, 7];
-
-    Data.Preset4Ids = [1, 2, 3, 4, 5];
-
-    Data.Preset5Ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    Data.gitPush = "git push https://github.com/GoCodeColorado/Exit-Now-App";
 
     Data.DealSegmentIds = [];
 

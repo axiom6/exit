@@ -215,7 +215,7 @@
       })(this);
       g.append("svg:rect").attr('id', svgId).attr("x", x0).attr("y", y0).attr("width", w).attr("height", h).attr('segId', segId).attr("fill", fill).attr("stroke", stroke).attr("stroke-width", thick).on('click', onClick);
       if (text !== '') {
-        g.append("svg:text").text(text).attr("x", x0 + w / 2).attr("y", y0 + h / 2 + 2).attr('fill', fill).attr("text-anchor", "middle").attr("font-size", "4px").attr("font-family", "Arial");
+        g.append("svg:text").text(text).attr("x", x0 + w / 2).attr("y", y0 + h / 2 + 2).attr('fill', fill).attr("text-anchor", "middle").attr("font-size", "4px").attr("font-family", "Droid Sans");
       }
     };
 

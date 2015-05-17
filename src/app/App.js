@@ -20,7 +20,8 @@
       this.runSimulate = runSimulate != null ? runSimulate : false;
       this.runTest = runTest != null ? runTest : false;
       this.goOrNoGo = bind(this.goOrNoGo, this);
-      this.dest = '';
+      this.source = void 0;
+      this.dest = void 0;
       this.subjectNames = ['Select', 'Orient', 'Destination', 'ETA', 'Location', 'TakeDeal', 'ArriveAtDeal', 'Segments', 'Deals', 'Conditions', 'RequestSegmentBy', 'RequestConditionsBy', 'RequestDealsBy'];
       this.direction = 'West';
       this.eta = 141;
@@ -91,9 +92,14 @@
     };
 
     App.prototype.subscribe = function() {
+      this.stream.subscribe('Source', (function(_this) {
+        return function(object) {
+          return _this.onSource(object.content);
+        };
+      })(this));
       this.stream.subscribe('Destination', (function(_this) {
         return function(object) {
-          return _this.goOrNoGo(object.content);
+          return _this.onDestination(object.content);
         };
       })(this));
       return this.stream.subscribe('Conditions ', (function(_this) {
@@ -118,7 +124,17 @@
       return Util.toInt(this.eta / 60) + ' Hours ' + this.eta % 60 + ' Mins';
     };
 
-    App.prototype.goOrNoGo = function(dest) {
+    App.prototype.onSource = function(source) {
+      this.goOrNoGo(source, destination);
+      return Util.dbg('Destination.onSource()', source);
+    };
+
+    App.prototype.onDestination = function(destination) {
+      this.goOrNoGo(source, destination);
+      return Util.dbg('Destination.onDestination()', destination);
+    };
+
+    App.prototype.goOrNoGo = function(source, destination) {
       if (dest === 'Vail' || dest === 'Winter Park') {
         if (this.recommendation = 'Go') {
           this.recommendation = 'NoGo';

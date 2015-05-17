@@ -144,7 +144,7 @@ class DriveBar
 
     if text isnt ''
       g.append("svg:text").text(text).attr("x",x0+w/2).attr("y",y0+h/2+2).attr('fill',fill)
-       .attr("text-anchor","middle").attr("font-size","4px").attr("font-family","Arial")
+       .attr("text-anchor","middle").attr("font-size","4px").attr("font-family","Droid Sans")
     return
 
   doSeqmentDeals:( segId, mile ) ->

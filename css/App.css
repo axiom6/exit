@@ -110,6 +110,31 @@ body {
   background-color: #658552;
   text-align: center;
 }
+.SourceLabelInput {
+  padding-top: 1.0em;
+}
+.SourceUserLabel {
+  font-size: 1.0em;
+  font-weight: bold;
+}
+.SourceUserInput {
+  font-size: 1.0em;
+  font-weight: bold;
+}
+.SourceWhat {
+  font-size: 2.5em;
+  font-weight: bold;
+  padding-top: 0.5em;
+}
+.SourceDest {
+  font-size: 2.5em;
+  font-weight: bold;
+  padding-bottom: 0.5em;
+}
+.SourceSelect {
+  font-size: 1.0em;
+  font-weight: bold;
+}
 .DestinationLabelInput {
   padding-top: 1.0em;
 }
