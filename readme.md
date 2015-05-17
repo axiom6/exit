@@ -1,5 +1,5 @@
 
-# Code Review Docs in /docs
+# Code Review Docs in [/docs](https://github.com/GoCodeColorado/Exit-Now-App/tree/master/docs)
 
 It is recommended that the docs be read in the following order:  
 2.[userguide.md](https://github.com/GoCodeColorado/Exit-Now-App/blob/master/docs/1.userguide.md)     
