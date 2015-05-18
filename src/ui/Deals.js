@@ -40,9 +40,9 @@
     };
 
     Deals.prototype.subscribe = function() {
-      this.stream.subscribe('Destination', (function(_this) {
+      this.stream.subscribe('Trip', (function(_this) {
         return function(object) {
-          return _this.onDestination(object.content);
+          return _this.onTrip(object.content);
         };
       })(this));
       this.stream.subscribe('Location', (function(_this) {
@@ -50,25 +50,15 @@
           return _this.onLocation(object.content);
         };
       })(this));
-      this.stream.subscribe('Orient', (function(_this) {
+      return this.stream.subscribe('Orient', (function(_this) {
         return function(object) {
           return _this.layout(object.content);
         };
       })(this));
-      this.stream.subscribe('Deals', (function(_this) {
-        return function(object) {
-          return _this.onDeals(object.content);
-        };
-      })(this));
-      return this.stream.subscribe('Conditions', (function(_this) {
-        return function(object) {
-          return _this.onConditions(object.content);
-        };
-      })(this));
     };
 
-    Deals.prototype.onDestination = function(destination) {
-      return Util.dbg('Deals.onDestination()', destination);
+    Deals.prototype.onTrip = function(trip) {
+      return Util.dbg('Deals.onTrip()');
     };
 
     Deals.prototype.onLocation = function(latlon) {

@@ -51,12 +51,12 @@ class Weather
 
   # Trip subscribe to the full Monty of change
   subscribe:() ->
-    @stream.subscribe( 'Destination', (object) => @onDestination(object.content) )
+    #@stream.subscribe( 'Trip',        (object) =>        @onTrip(object.content) )
     @stream.subscribe( 'Location',    (object) =>    @onLocation(object.content) )
-    @stream.subscribe( 'Conditions',  (object) => @onConditions( object.content) )
+    #@stream.subscribe( 'Conditions',  (object) => @onConditions( object.content) )
 
-  onDestination:( destination ) ->
-    Util.dbg( 'Weather.onDestination()', destination )
+  onTrip:( trip ) ->
+    Util.dbg( 'Weather.onTrip()', trip )
 
   onLocation:( latlon ) ->
     Util.dbg( 'Weather.onLocation() latlon', latlon )

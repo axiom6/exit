@@ -29,14 +29,14 @@ class Deals
     @$.hide()
 
   subscribe:() ->
-    @stream.subscribe( 'Destination', (object) => @onDestination(object.content) )
+    @stream.subscribe( 'Trip',        (object) =>        @onTrip(object.content) )
     @stream.subscribe( 'Location',    (object) =>    @onLocation(object.content) )
     @stream.subscribe( 'Orient',      (object) =>        @layout(object.content) )
-    @stream.subscribe( 'Deals',       (object) =>       @onDeals(object.content) )
-    @stream.subscribe( 'Conditions',  (object) => @onConditions( object.content) )
+    #@stream.subscribe( 'Deals',       (object) =>       @onDeals(object.content) )
+    #@stream.subscribe( 'Conditions',  (object) => @onConditions( object.content) )
 
-  onDestination:( destination ) ->
-    Util.dbg( 'Deals.onDestination()', destination )
+  onTrip:( trip ) ->
+    Util.dbg( 'Deals.onTrip()' )
 
   onLocation:( latlon ) ->
     Util.dbg( 'Deals.onLocation() latlon', latlon )

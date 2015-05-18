@@ -7,6 +7,24 @@
 
     Util.Export(Data, 'app/Data');
 
+    Data.Destinations = ['', 'Denver', 'Idaho Springs', 'Georgetown', 'Silverthorne', 'Frisco', 'Copper Mtn', 'Vail', 'NoGo'];
+
+    Data.DestinationsSegIds = {
+      "Denver": [16, 45],
+      "Morrison": [17, 44],
+      "Idaho Springs": [21, 41],
+      "Georgetown": [23, 39],
+      "Silverthorne": [27, 272],
+      "Frisco": [28, 34],
+      "Copper Mtn": [29, 33],
+      "Vail": [30, 31],
+      "NoGo": [30, 16]
+    };
+
+    Data.DestinationsWest = ['Denver', 'Morrison', 'Idaho Springs', 'Georgetown', 'Silverthorne', 'Frisco', 'Copper Mtn', 'Vail'];
+
+    Data.DestinationsEast = ['Vail', 'Copper Mtn', 'Frisco', 'Silverthorne', 'Georgetown', 'Idaho Springs', 'Morrison', 'Denver'];
+
     Data.scenario1 = {
       preset: 1,
       dir: 'East',
@@ -19,7 +37,7 @@
     Data.scenario2 = {
       preset: 2,
       dir: 'West',
-      beg: "6 Ave",
+      beg: "Denver",
       end: "Vail",
       begCDOT: "US 6 to C-470",
       endCDOT: "East Vail to Vail Pass"
@@ -60,12 +78,6 @@
       begCDOT: "Frisco (Main St) to Silverthorne",
       endCDOT: "Loveland to Bakerville"
     };
-
-    Data.Destinations = ['', '6 Ave', 'Morrison', 'Idaho Springs', 'Georgetown', 'Silverthorne', 'Frisco', 'Copper Mtn', 'Vail'];
-
-    Data.DestinationsWest = ['6 Ave', 'Morrison', 'Idaho Springs', 'Georgetown', 'Silverthorne', 'Frisco', 'Copper Mtn', 'Vail'];
-
-    Data.DestinationsEast = ['Vail', 'Copper Mtn', 'Frisco', 'Silverthorne', 'Georgetown', 'Idaho Springs', 'Morrison', '6 Ave'];
 
     Data.WestSegmentIds = [16, 17, 266, 267, 274, 275, 20, 21, 22, 23, 24, 25, 270, 271, 27, 28, 29, 30];
 

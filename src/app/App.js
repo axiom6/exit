@@ -19,13 +19,11 @@
       this.retryData = retryData;
       this.runSimulate = runSimulate != null ? runSimulate : false;
       this.runTest = runTest != null ? runTest : false;
-      this.goOrNoGo = bind(this.goOrNoGo, this);
+      this.onDestination = bind(this.onDestination, this);
+      this.onSource = bind(this.onSource, this);
       this.source = void 0;
       this.dest = void 0;
-      this.subjectNames = ['Select', 'Orient', 'Destination', 'ETA', 'Location', 'TakeDeal', 'ArriveAtDeal', 'Segments', 'Deals', 'Conditions', 'RequestSegmentBy', 'RequestConditionsBy', 'RequestDealsBy'];
-      this.direction = 'West';
-      this.eta = 141;
-      this.recommendation = 'Go';
+      this.subjectNames = ['Select', 'Orient', 'Source', 'Destination', 'Trip', 'Recommendation', 'ETA', 'Location', 'TakeDeal', 'ArriveAtDeal', 'Segments', 'Deals', 'Conditions', 'RequestSegmentBy', 'RequestConditionsBy', 'RequestDealsBy'];
       Stream = Util.Import('app/Stream');
       Rest = Util.Import('app/Rest');
       Data = Util.Import('app/Data');
@@ -97,55 +95,27 @@
           return _this.onSource(object.content);
         };
       })(this));
-      this.stream.subscribe('Destination', (function(_this) {
+      return this.stream.subscribe('Destination', (function(_this) {
         return function(object) {
           return _this.onDestination(object.content);
         };
       })(this));
-      return this.stream.subscribe('Conditions ', (function(_this) {
-        return function(object) {
-          return _this.updateETA(object.content);
-        };
-      })(this));
-    };
-
-    App.prototype.updateETA = function(conditions) {
-      var condition, i, len;
-      this.eta = 0;
-      for (i = 0, len = conditions.length; i < len; i++) {
-        condition = conditions[i];
-        this.eta += conditions.Condition.TravelTime;
-      }
-      Util.dbg('App.updateETA()', this.etaHoursMins());
-      return this.stream.push('ETA', this.eta, 'App');
-    };
-
-    App.prototype.etaHoursMins = function() {
-      return Util.toInt(this.eta / 60) + ' Hours ' + this.eta % 60 + ' Mins';
     };
 
     App.prototype.onSource = function(source) {
-      this.goOrNoGo(source, destination);
-      return Util.dbg('Destination.onSource()', source);
+      this.source = source;
+      if (this.dest != null) {
+        this.model.createTrip(this.source, this.dest);
+      }
+      return Util.dbg('App.onSource()', source);
     };
 
     App.prototype.onDestination = function(destination) {
-      this.goOrNoGo(source, destination);
-      return Util.dbg('Destination.onDestination()', destination);
-    };
-
-    App.prototype.goOrNoGo = function(source, destination) {
-      if (dest === 'Vail' || dest === 'Winter Park') {
-        if (this.recommendation = 'Go') {
-          this.recommendation = 'NoGo';
-          return this.ui.changeRecommendation('NoGo');
-        }
-      } else {
-        if (this.recommendation = 'NoGo') {
-          this.recommendation = 'Go';
-          return this.ui.changeRecommendation('Go');
-        }
+      this.dest = destination;
+      if (this.source != null) {
+        this.model.createTrip(this.source, this.dest);
       }
+      return Util.dbg('App.onDestination()', destination);
     };
 
     App.prototype.width = function() {

@@ -13,15 +13,14 @@ class App
   # @retryData implies that we access static data from data/exit folder up server failure in Rest Class - good for demos
   constructor:( @runDemo=true, @runRest=true, @retryData, @runSimulate=false, @runTest=false ) ->
 
-    # Initialize instance parameters
+    # Initialize Trip parameters
+
     @source             = undefined  # Dumb
     @dest               = undefined  # Dumb
-    @subjectNames       = ['Select','Orient','Destination','ETA','Location','TakeDeal','ArriveAtDeal',
+
+    @subjectNames       = ['Select','Orient','Source','Destination','Trip','Recommendation','ETA','Location','TakeDeal','ArriveAtDeal',
                            'Segments','Deals','Conditions',
                            'RequestSegmentBy','RequestConditionsBy','RequestDealsBy']
-    @direction          = 'West' # or East
-    @eta                = 141 # Expressed in minutes
-    @recommendation     = 'Go'
 
     # Import Classes
     Stream      = Util.Import( 'app/Stream'     )
@@ -94,36 +93,20 @@ class App
   subscribe:() ->
     @stream.subscribe( 'Source',      (object) => @onSource(      object.content ) )
     @stream.subscribe( 'Destination', (object) => @onDestination( object.content ) )
-    @stream.subscribe( 'Conditions ', (object) => @updateETA(     object.content ) )
 
-  updateETA:( conditions ) ->
-    @eta = 0
-    for condition in conditions
-      @eta += conditions.Condition.TravelTime
-    Util.dbg( 'App.updateETA()', @etaHoursMins() )
-    @stream.push( 'ETA', @eta, 'App' )
 
-  etaHoursMins:() ->
-    Util.toInt(@eta/60) + ' Hours ' + @eta%60 + ' Mins'
 
-  onSource:( source ) ->
-    @goOrNoGo( source, destination )
-    Util.dbg( 'Destination.onSource()', source )
+  onSource:( source ) =>
+    @source = source
+    @model.createTrip( @source, @dest ) if @dest?
+    Util.dbg( 'App.onSource()', source )
 
-  onDestination:( destination ) ->
-    @goOrNoGo( source, destination )
-    Util.dbg( 'Destination.onDestination()', destination )
+  onDestination:( destination ) =>
+    @dest = destination
+    @model.createTrip( @source, @dest ) if @source?
+    Util.dbg( 'App.onDestination()', destination )
 
-  goOrNoGo:( source, destination ) =>
-    # another fancy piece of logic goes here
-    if dest is 'Vail' or dest is 'Winter Park'
-      if @recommendation = 'Go'
-         @recommendation = 'NoGo'
-         @ui.changeRecommendation('NoGo')
-    else
-      if @recommendation = 'NoGo'
-         @recommendation = 'Go'
-         @ui.changeRecommendation('Go')
+
 
   width:()  -> @ui.width()
   height:() -> @ui.height()

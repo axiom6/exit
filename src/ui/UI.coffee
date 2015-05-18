@@ -60,6 +60,7 @@ class UI
         </div>"""
 
   changeRecommendation:( recommendation ) ->
+    Util.dbg( 'UI.changeRecommendation', recommendation)
     @select( recommendation )
     faClass = if recommendation is 'Go' then 'fa fa-thumbs-up' else 'fa fa-thumbs-down'
     @$recommendationFA.attr( 'class', faClass )
@@ -91,7 +92,7 @@ class UI
       when 'Destination'
         @lastSelect = @destination
       when 'Recommendation', 'Go', 'NoGo'
-        @lastSelect = if @app.recommendation is 'Go' then @go else @nogo
+        @lastSelect = if name is 'Go' then @go else @nogo
       when 'Trip'
         @lastSelect = @trip
         @orient(      'Landscape' )

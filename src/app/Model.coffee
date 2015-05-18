@@ -29,83 +29,91 @@ class Model
     @rest.retryFroms['Segments']   = true
     @rest.retryFroms['Conditions'] = true
     @rest.retryFroms['Deals']      = true
-    
-    # Actual Data
-    @segments           = {}                   # Road  segment geometry
-    @conditions         = []                   # Speed segment with road  and weather (Forecast.io) condtions
-    @deals              = []                   # Deals
 
   ready:() ->
     @subscribe()
 
   subscribe:() ->
-    @stream.subscribe( 'Destination', (object) => @onDestination(object.content) )
+    # @stream.subscribe( 'Trip', (object) => @onTrip(object.content) )
 
-  onDestination:( dest ) ->
-    Util.dbg( 'Model.onDestination', dest )
-    @app.dest            = dest
+# The Trip parameter calculation process here needs to be refactored
+  createTrip:( source, destination ) ->
+    direction = @directionSourceDestination( source )
+    preset     = 2
+    begSeg     = @segWest( source      )
+    endSeg     = @segEast( destination )
+    segmentIds = @Data.WestSegmentIds
+    if direction is 'East'
+      preset     = 1
+      begSeg     = @segEast( source      )
+      endSeg     = @segEast( destination )
+      segmentIds = @Data.EastSegmentIds
+    trip = { source:source, destination:destination, direction:direction, preset:preset, begSeg:begSeg, endSeg:endSeg, segmentIds:segmentIds, recommendation:'?', eta:141 }
+    @doTrip( trip )
+    return
+
+  doTrip:( trip ) ->
+    Util.dbg( 'Model.doTrip', trip )
+    @trip = trip
     initalCompleteStatus = not @app.runRest
     @segmentsComplete    = initalCompleteStatus
     @conditionsComplete  = initalCompleteStatus
     @dealsComplete       = initalCompleteStatus
     if @app.runRest and @first
-      @rest.segmentsBySegments(         @segmentIds,  @doSegments   )
-      @rest.conditionsBySegments(       @segmentIds,  @doConditions )
-      @rest.deals( @app.deals.latLon(), @segmentIds,  @doDeals      )
+      @rest.segmentsByPreset(           trip.preset,      @doSegments   )
+      @rest.conditionsBySegments(       trip.segmentIds,  @doConditions )
+      @rest.deals( @app.deals.latLon(), trip.segmentIds,  @doDeals      )
 
   # checkComplete is call three times when each status completed is changed
   # goOrNoGo is then only called once
   checkComplete:() =>
     if @segmentsComplete and @conditionsComplete and @dealsComplete and @first
       # Push out all models together on the first full completion
-      @stream.push( 'Segments',   @segments,   'Model' )
-      @stream.push( 'Conditions', @conditions, 'Model' )
-      @stream.push( 'Deals',      @deals,      'Model' )
+      # @stream.push( 'Segments',   @trip.segments,   'Model' )
+      # @stream.push( 'Conditions', @trip.conditions, 'Model' )
+      # @stream.push( 'Deals',      @trip.deals,      'Model' )
       @first    = false
       @needData = false
-      @app.goOrNoGo( @dest )
+      @launchTrip()
 
-  doSegments:( args, obj ) =>
-    @segments   = obj.segments
-    @segmentIdsReturned = []
-    Util.dbg( 'logSegments args', args )
-    for own key, seg of @segments
+  launchTrip:( ) ->
+    Util.dbg( 'Model.launchTrip() ', @trip.segments.segments['id16'].StartMileMarker)
+    @trip.eta            = Util.toFloat(@trip.segments.travelTime) # @eta( @trip )
+    Util.log( 'eta', @trip.eta )
+    @trip.recommendation = @recommendation( @trip )
+    @logTrip( 'launchTrip()', @trip )
+    @app.ui.changeRecommendation( @trip.recommendation )
+    @stream.push( 'Trip', @trip, 'Model' )
+
+  logTrip:( name, trip ) ->
+    Util.dbg( 'Model.'+name, { source:trip.source, destination:trip.destination, direction:trip.direction, preset:trip.preset, begSeg:trip.begSeg, endSeg:trip.endSeg, recommendation:trip.recommendation, eta:trip.eta } )
+
+
+  doSegments:( args, segments ) =>
+    @trip.segments = segments
+    Util.dbg( 'Model.doSegments() segs ',      segments.segments['id16'].StartMileMarker)
+    Util.dbg( 'Model.doSegments() trip', @trip.segments.segments['id16'].StartMileMarker)
+    @trip.segmentIdsReturned = []
+    for own key, seg of @trip.segments.segments
       [id,num]  = @segIdNum( key )  # name:seg[id].name
-      @segmentIdsReturned.push( num )
-      Util.dbg( 'logSegment', { id:id, num:num, distance:seg.Length, beg:seg.StartMileMarker, end:seg.EndMileMarker, dir:seg.Direction } ) if @logData
-    Util.dbg( 'logSegment Ids', @segmentIdsReturned )  if @logData
+      @trip.segmentIdsReturned.push( num )
     @segmentsComplete = true
     @checkComplete()
 
   doConditions:( args, conditions ) =>
-    @conditions          = conditions
-    @conditions.segments = args.segments
-    Util.dbg( 'logConditions args',  args, conditions.length )
-    if @logData
-      for c in conditions
-        cc = c.Conditions
-        weather = cc.Weather
-        cc.Weather = {}
-        Util.dbg( '  condition id', SegmentId:c.SegmentId, cc )
-        Util.dbg( '  weather', weather )
-        cc.Weather = weather
+    @trip.conditions          = conditions
+    @trip.conditions.segments = args.segments
     @conditionsComplete = true
     @checkComplete()
 
   doDeals:( args, deals ) =>
-    @deals = deals
-    Util.dbg( 'logDeals args',  args )
-    if @logData
-      Util.dbg( 'logDeals deals', deals.length )
-      for d in deals
-        dd = d.dealData
-        Util.dbg( '  ', { segmentId:dd.segmentId, lat:d.lat, lon:d.lon,  buiness:d.businessName, description:d.name } )
+    @trip.deals = deals
     @dealsComplete = true
     @checkComplete()
 
   getDealsBySegId:( segId ) ->
     segDeals = []
-    for deal in @deals when @dealHasSegId(deal,segId)
+    for deal in @trip.deals when @dealHasSegId(deal,segId)
       segDeals.push( deal )
     segDeals
 
@@ -116,7 +124,7 @@ class Model
 
   getSegmentIds:() ->
     # if @segmentIdsReturned.length > 0 then @segmentIdsReturned else @segmentIds
-    @segmentIds
+    if @trip? then @trip.segmentIds else []
 
   segIdNum:( key ) ->
     id  = ""
@@ -138,5 +146,38 @@ class Model
         num   = key.substring(0,1)
         return [id,num]
     [id,num]
+
+  begSeg:( trip ) ->
+    Util.dbg( 'Model.begSeg() beg', trip.segments.segments['id16'].StartMileMarker)
+    trip.segments.segments['id' + trip.segmentIdsReturned[0]]
+  endSeg:( trip ) -> trip.segments.segments['id' + trip.segmentIdsReturned[trip.segmentIdsReturned.length-1]]
+
+  segDest:( town, i ) =>
+    segTown = @Data.DestinationsSegIds[town]
+    segId   = if segTown? then segTown[i] else @Data.DestinationsSegIds['NoGo'][i]
+    segId
+
+  segWest:( town ) -> @segDest( town, 0 )
+  segEast:( town ) -> @segDest( town, 1 )
+
+  directionSourceDestination:( source, destination ) =>
+    if @Data.Destinations.indexOf(source) >= @Data.Destinations.indexOf(destination)  then 'West' else 'East'
+
+  eta:(trip) =>
+    eta = 0
+    for condition in trip.conditions
+      eta += Util.toFloat(condition.Conditions.TravelTime)
+    eta
+
+  etaHoursMins:( eta ) =>
+    Util.dbg( 'ETA', eta )
+    Util.toInt(eta/60) + ' Hours ' + eta%60 + ' Mins'
+
+  recommendation:( trip  ) =>
+    if trip.source is 'NoGo' or trip.destination is 'NoGo' then 'NoGo' else 'Go'
+
+  getSegments:( begSegId, endSegId, direction ) =>
+    if direction is 'West' then
+
 
 

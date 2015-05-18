@@ -27,15 +27,15 @@ class Destination
     @stream.publish( 'Destination', @$destinationSelect, 'change', 'Destination', 'Destination' )
 
   subscribe:() ->
-    @stream.subscribe( 'Destination', (object) => @onSource(object.content) )
+    @stream.subscribe( 'Source',      (object) => @onSource(object.content) )
     @stream.subscribe( 'Destination', (object) => @onDestination(object.content) )
     @stream.subscribe( 'Orient',      (object) => @layout(object.content) )
 
   onSource:( source ) ->
-    Util.dbg( 'Destination.@@onSource()', source )
+    Util.dbg( 'Destination.onSource()', source )
 
   onDestination:( dest ) ->
-    Util.dbg( 'Destination.@onDestination()', dest )
+    Util.dbg( 'Destination.onDestination()', dest )
 
   id:(   name, type     ) -> @app.id(   name, type     )
   css:(  name, type     ) -> @app.css(  name, type     )

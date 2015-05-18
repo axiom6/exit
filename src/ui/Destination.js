@@ -35,7 +35,7 @@
     };
 
     Destination.prototype.subscribe = function() {
-      this.stream.subscribe('Destination', (function(_this) {
+      this.stream.subscribe('Source', (function(_this) {
         return function(object) {
           return _this.onSource(object.content);
         };
@@ -53,11 +53,11 @@
     };
 
     Destination.prototype.onSource = function(source) {
-      return Util.dbg('Destination.@@onSource()', source);
+      return Util.dbg('Destination.onSource()', source);
     };
 
     Destination.prototype.onDestination = function(dest) {
-      return Util.dbg('Destination.@onDestination()', dest);
+      return Util.dbg('Destination.onDestination()', dest);
     };
 
     Destination.prototype.id = function(name, type) {

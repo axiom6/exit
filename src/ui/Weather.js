@@ -266,25 +266,15 @@
     };
 
     Weather.prototype.subscribe = function() {
-      this.stream.subscribe('Destination', (function(_this) {
-        return function(object) {
-          return _this.onDestination(object.content);
-        };
-      })(this));
-      this.stream.subscribe('Location', (function(_this) {
+      return this.stream.subscribe('Location', (function(_this) {
         return function(object) {
           return _this.onLocation(object.content);
         };
       })(this));
-      return this.stream.subscribe('Conditions', (function(_this) {
-        return function(object) {
-          return _this.onConditions(object.content);
-        };
-      })(this));
     };
 
-    Weather.prototype.onDestination = function(destination) {
-      return Util.dbg('Weather.onDestination()', destination);
+    Weather.prototype.onTrip = function(trip) {
+      return Util.dbg('Weather.onTrip()', trip);
     };
 
     Weather.prototype.onLocation = function(latlon) {
