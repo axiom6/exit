@@ -7,7 +7,7 @@ var Util,
 Util = (function() {
   function Util() {}
 
-  Util.debug = true;
+  Util.debug = false;
 
   Util.count = 0;
 

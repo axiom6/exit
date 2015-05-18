@@ -38,10 +38,10 @@ class Model
 
 # The Trip parameter calculation process here needs to be refactored
   createTrip:( source, destination ) ->
-    direction = @directionSourceDestination( source )
+    direction = @directionSourceDestination( source, destination )
     preset     = 2
     begSeg     = @segWest( source      )
-    endSeg     = @segEast( destination )
+    endSeg     = @segWest( destination )
     segmentIds = @Data.WestSegmentIds
     if direction is 'East'
       preset     = 1
@@ -77,7 +77,8 @@ class Model
       @launchTrip()
 
   launchTrip:( ) ->
-    Util.dbg( 'Model.launchTrip() ', @trip.segments.segments['id16'].StartMileMarker)
+    Util.dbg(  'Model.launchTrip() ', @trip.segments.segments.length )
+    #Util.dbg( 'Model.launchTrip() ', @trip.segments.segments['id16'].StartMileMarker)
     @trip.eta            = Util.toFloat(@trip.segments.travelTime) # @eta( @trip )
     Util.log( 'eta', @trip.eta )
     @trip.recommendation = @recommendation( @trip )
@@ -90,13 +91,23 @@ class Model
 
 
   doSegments:( args, segments ) =>
-    @trip.segments = segments
-    Util.dbg( 'Model.doSegments() segs ',      segments.segments['id16'].StartMileMarker)
-    Util.dbg( 'Model.doSegments() trip', @trip.segments.segments['id16'].StartMileMarker)
+    @trip.segments           = {}
+    @trip.segments.travelTime = segments.travelTime
+    @trip.segments.segments  = []
     @trip.segmentIdsReturned = []
-    for own key, seg of @trip.segments.segments
-      [id,num]  = @segIdNum( key )  # name:seg[id].name
-      @trip.segmentIdsReturned.push( num )
+    hasBeg = false
+    hasEnd = false
+    begSeg = @segTown( @trip.source      )
+    endSeg = @segTown( @trip.destination )
+    Util.dbg( 'begend', begSeg, endSeg )
+    for own key, seg of segments.segments
+      [id,num]  = @segIdNum( key )
+      hasBeg = true if num is begSeg
+      if hasBeg and not hasEnd
+        @trip.segments.segments[id] = seg
+        @trip.segmentIdsReturned.push( num )
+      hasEnd = true if num is endSeg
+      Util.dbg( num, begSeg, endSeg, hasBeg, hasEnd, @trip.segments.segments[id] )
     @segmentsComplete = true
     @checkComplete()
 
@@ -148,9 +159,14 @@ class Model
     [id,num]
 
   begSeg:( trip ) ->
-    Util.dbg( 'Model.begSeg() beg', trip.segments.segments['id16'].StartMileMarker)
-    trip.segments.segments['id' + trip.segmentIdsReturned[0]]
-  endSeg:( trip ) -> trip.segments.segments['id' + trip.segmentIdsReturned[trip.segmentIdsReturned.length-1]]
+    Util.log( 'begSeg', 'id' + trip.begSeg, trip.segments.segments['id' + trip.begSeg] )
+    trip.segments.segments['id' + trip.begSeg ] # trip.segments.segments['id' + trip.segmentIdsReturned[0]]
+
+  endSeg:( trip ) ->
+    Util.log( 'endSeg', 'id' + trip.endSeg, trip.segments.segments['id' + trip.endSeg] )
+    seg = trip.segments.segments['id' + trip.endSeg]
+    seg = trip.segments.segments['id' + 30 ] if not seg?
+    seg
 
   segDest:( town, i ) =>
     segTown = @Data.DestinationsSegIds[town]
@@ -160,8 +176,11 @@ class Model
   segWest:( town ) -> @segDest( town, 0 )
   segEast:( town ) -> @segDest( town, 1 )
 
+  segTown:( town ) -> if @trip.direction is 'West' then @segWest(town) else @segEast(town)
+
   directionSourceDestination:( source, destination ) =>
-    if @Data.Destinations.indexOf(source) >= @Data.Destinations.indexOf(destination)  then 'West' else 'East'
+    Util.log( 'DirectionIndex', @Data.Destinations.indexOf(source), @Data.Destinations.indexOf(destination) )
+    if @Data.Destinations.indexOf(source) <= @Data.Destinations.indexOf(destination)  then 'West' else 'East'
 
   eta:(trip) =>
     eta = 0

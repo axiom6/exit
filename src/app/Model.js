@@ -47,10 +47,10 @@
 
     Model.prototype.createTrip = function(source, destination) {
       var begSeg, direction, endSeg, preset, segmentIds, trip;
-      direction = this.directionSourceDestination(source);
+      direction = this.directionSourceDestination(source, destination);
       preset = 2;
       begSeg = this.segWest(source);
-      endSeg = this.segEast(destination);
+      endSeg = this.segWest(destination);
       segmentIds = this.Data.WestSegmentIds;
       if (direction === 'East') {
         preset = 1;
@@ -96,7 +96,7 @@
     };
 
     Model.prototype.launchTrip = function() {
-      Util.dbg('Model.launchTrip() ', this.trip.segments.segments['id16'].StartMileMarker);
+      Util.dbg('Model.launchTrip() ', this.trip.segments.segments.length);
       this.trip.eta = Util.toFloat(this.trip.segments.travelTime);
       Util.log('eta', this.trip.eta);
       this.trip.recommendation = this.recommendation(this.trip);
@@ -119,17 +119,32 @@
     };
 
     Model.prototype.doSegments = function(args, segments) {
-      var id, key, num, ref, ref1, seg;
-      this.trip.segments = segments;
-      Util.dbg('Model.doSegments() segs ', segments.segments['id16'].StartMileMarker);
-      Util.dbg('Model.doSegments() trip', this.trip.segments.segments['id16'].StartMileMarker);
+      var begSeg, endSeg, hasBeg, hasEnd, id, key, num, ref, ref1, seg;
+      this.trip.segments = {};
+      this.trip.segments.travelTime = segments.travelTime;
+      this.trip.segments.segments = [];
       this.trip.segmentIdsReturned = [];
-      ref = this.trip.segments.segments;
+      hasBeg = false;
+      hasEnd = false;
+      begSeg = this.segTown(this.trip.source);
+      endSeg = this.segTown(this.trip.destination);
+      Util.dbg('begend', begSeg, endSeg);
+      ref = segments.segments;
       for (key in ref) {
         if (!hasProp.call(ref, key)) continue;
         seg = ref[key];
         ref1 = this.segIdNum(key), id = ref1[0], num = ref1[1];
-        this.trip.segmentIdsReturned.push(num);
+        if (num === begSeg) {
+          hasBeg = true;
+        }
+        if (hasBeg && !hasEnd) {
+          this.trip.segments.segments[id] = seg;
+          this.trip.segmentIdsReturned.push(num);
+        }
+        if (num === endSeg) {
+          hasEnd = true;
+        }
+        Util.dbg(num, begSeg, endSeg, hasBeg, hasEnd, this.trip.segments.segments[id]);
       }
       this.segmentsComplete = true;
       return this.checkComplete();
@@ -212,12 +227,18 @@
     };
 
     Model.prototype.begSeg = function(trip) {
-      Util.dbg('Model.begSeg() beg', trip.segments.segments['id16'].StartMileMarker);
-      return trip.segments.segments['id' + trip.segmentIdsReturned[0]];
+      Util.log('begSeg', 'id' + trip.begSeg, trip.segments.segments['id' + trip.begSeg]);
+      return trip.segments.segments['id' + trip.begSeg];
     };
 
     Model.prototype.endSeg = function(trip) {
-      return trip.segments.segments['id' + trip.segmentIdsReturned[trip.segmentIdsReturned.length - 1]];
+      var seg;
+      Util.log('endSeg', 'id' + trip.endSeg, trip.segments.segments['id' + trip.endSeg]);
+      seg = trip.segments.segments['id' + trip.endSeg];
+      if (seg == null) {
+        seg = trip.segments.segments['id' + 30];
+      }
+      return seg;
     };
 
     Model.prototype.segDest = function(town, i) {
@@ -235,8 +256,17 @@
       return this.segDest(town, 1);
     };
 
+    Model.prototype.segTown = function(town) {
+      if (this.trip.direction === 'West') {
+        return this.segWest(town);
+      } else {
+        return this.segEast(town);
+      }
+    };
+
     Model.prototype.directionSourceDestination = function(source, destination) {
-      if (this.Data.Destinations.indexOf(source) >= this.Data.Destinations.indexOf(destination)) {
+      Util.log('DirectionIndex', this.Data.Destinations.indexOf(source), this.Data.Destinations.indexOf(destination));
+      if (this.Data.Destinations.indexOf(source) <= this.Data.Destinations.indexOf(destination)) {
         return 'West';
       } else {
         return 'East';
