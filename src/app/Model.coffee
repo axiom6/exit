@@ -5,9 +5,8 @@ class Model
   Util.Export( Model, 'app/Model' )
 
   constructor:( @app, @stream, @rest ) ->
-
-    @logData     = false
     @Data        = Util.Import( 'app/Data' )  # We occasionally need to key of some static data at this point of the project
+    @Trip        = Util.Import( 'app/Trip' )
     @first       = true                       # Implies we have not acquired enough data to get started
     @source      = '?'
     @destination = '?'
@@ -58,7 +57,7 @@ class Model
     @source      = source
     @destination = destination
     name         = @tripName( @source, @destination )
-    @trips[name] = new Trip( @app, @stream, @model, name, source, destination )
+    @trips[name] = new @Trip( @app, @stream, @, name, source, destination )
     @doTrip( @trips[name] )
     return
 
@@ -68,9 +67,9 @@ class Model
     @conditionsComplete  = initalCompleteStatus
     @dealsComplete       = initalCompleteStatus
     if @app.runRest and @first
-      @rest.segmentsByPreset(           trip.preset,      @doSegments   )
-      @rest.conditionsBySegments(       trip.segmentIds,  @doConditions )
-      @rest.deals( @app.deals.latLon(), trip.segmentIds,  @doDeals      )
+      @rest.segmentsByPreset(             trip.preset,        @doSegments   )
+      @rest.conditionsBySegments(         trip.segmentIdsAll, @doConditions )
+      @rest.deals( @app.dealsUI.latLon(), trip.segmentIdsAll, @doDeals      )
 
   # checkComplete is call three times when each status completed is changed
   # goOrNoGo is then only called once
@@ -86,19 +85,23 @@ class Model
   launchTrip:( ) ->
     trip = @trip()
     trip.launch()
-    @app.ui.changeRecommendation( @trip.recommendation )
-    @stream.push( 'Trip', @trip, 'Model' )
+    @app.ui.changeRecommendation( trip.recommendation )
+    @stream.push( 'Trip', trip, 'Model' )
 
   doSegments:( args, segments ) =>
     trip            = @trip()
     trip.travelTime = segments.travelTime
     trip.segments   = []
     trip.segmentIds = []
-    for own key, seg of segments.segments when trip.spatial.segInTrip( seg, trip )
-      [id,num]  = trip.spatial.segIdNum( key )
-      trip.segments.  push( seg )
-      trip.segmentIds.push( num )
+    for own key, seg of segments.segments
+      [id,num]  = trip.segIdNum( key )
+      # Util.log( 'Model.doSegments id num', { id:id, num:num, beg:seg.StartMileMarker, end:seg.EndMileMarker } )
+      if trip.segInTrip( seg )
+        seg['segId'] = num
+        trip.segments.  push( seg )
+        trip.segmentIds.push( num )
     @segmentsComplete = true
+    Util.log( 'Model.doSegments segmenIds', trip.segmentIds )
     @checkComplete()
 
   doConditions:( args, conditions ) =>

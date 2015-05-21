@@ -21,16 +21,19 @@
     };
 
     Spatial.prototype.segInTrip = function(seg) {
-      var begMileSeg, endMileSeg;
+      var begMileSeg, endMileSeg, inTrip;
       begMileSeg = Util.toFloat(seg.StartMileMarker);
       endMileSeg = Util.toFloat(seg.EndMileMarker);
-      switch (this.trip.direction) {
-        case 'East':
-        case 'North':
-          return this.trip.begMile() <= begMileSeg && endMileSeg <= this.trip.endMile();
-        case 'West' || 'South':
-          return this.trip.begMile() >= begMileSeg && endMileSeg >= this.trip.endMile();
-      }
+      inTrip = (function() {
+        switch (this.trip.direction) {
+          case 'East':
+          case 'North':
+            return this.trip.begMile() - 0.5 <= begMileSeg && endMileSeg <= this.trip.endMile() + 0.5;
+          case 'West' || 'South':
+            return this.trip.begMile() + 0.5 >= begMileSeg && endMileSeg >= this.trip.endMile() - 0.5;
+        }
+      }).call(this);
+      return inTrip;
     };
 
     Spatial.prototype.segIdNum = function(key) {

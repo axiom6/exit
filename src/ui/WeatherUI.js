@@ -252,7 +252,7 @@
     WeatherUI.prototype.ready = function() {
       var i, len, loc, ref, results;
       this.$ = $("<div id=\"Weather\" class=\"Weather\"></div>");
-      ref = Weather.Locs;
+      ref = WeatherUI.Locs;
       results = [];
       for (i = 0, len = ref.length; i < len; i++) {
         loc = ref[i];
@@ -297,7 +297,7 @@
       ej.time = fc.time;
       ej.summary = fc.summary;
       ej.fcIcon = fc.icon;
-      ej.style = Weather.Icons[fc.icon];
+      ej.style = WeatherUI.Icons[fc.icon];
       if (ej.summary === 'Drizzle') {
         ej.style.icon = 'wi-showers';
       }

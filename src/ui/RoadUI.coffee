@@ -4,23 +4,23 @@ class RoadUI
   Util.Export( RoadUI, 'ui/RoadUI' )
 
   constructor:( @app, @stream ) ->
-    DriveBar  = Util.Import( 'ui/DriveBar')
-    @driveBar = new DriveBar( @app, @stream, 'Road', @, 'Landscape' )
+    DriveBarUI  = Util.Import( 'ui/DriveBarUI')
+    @driveBarUI = new DriveBarUI( @app, @stream, 'Road', @, 'Landscape' )
 
   ready:() ->
     @$ = $( @html() )
-    @driveBar.ready()
+    @driveBarUI.ready()
 
   position:() ->
-    @driveBar.position()
+    @driveBarUI.position()
     @subscribe()
 
   subscribe:() ->
     @stream.subscribe( 'Orient', (object) =>  @layout(object.content) )
 
   html:() ->
-    """<div id="#{@app.id('Road')}" class="#{@app.css('Road')}">#{@driveBar.html('Trip')}</div>"""
+    """<div id="#{@app.id('Road')}" class="#{@app.css('Road')}">#{@driveBarUI.html('Trip')}</div>"""
 
   layout:( orientation ) ->
     Util.dbg( 'Road.layout()', orientation )
-    @driveBar.layout( orientation )
+    @driveBarUI.layout( orientation )

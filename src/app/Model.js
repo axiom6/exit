@@ -17,8 +17,8 @@
       this.checkComplete = bind(this.checkComplete, this);
       this.onDestination = bind(this.onDestination, this);
       this.onSource = bind(this.onSource, this);
-      this.logData = false;
       this.Data = Util.Import('app/Data');
+      this.Trip = Util.Import('app/Trip');
       this.first = true;
       this.source = '?';
       this.destination = '?';
@@ -81,7 +81,7 @@
       this.source = source;
       this.destination = destination;
       name = this.tripName(this.source, this.destination);
-      this.trips[name] = new Trip(this.app, this.stream, this.model, name, source, destination);
+      this.trips[name] = new this.Trip(this.app, this.stream, this, name, source, destination);
       this.doTrip(this.trips[name]);
     };
 
@@ -93,8 +93,8 @@
       this.dealsComplete = initalCompleteStatus;
       if (this.app.runRest && this.first) {
         this.rest.segmentsByPreset(trip.preset, this.doSegments);
-        this.rest.conditionsBySegments(trip.segmentIds, this.doConditions);
-        return this.rest.deals(this.app.deals.latLon(), trip.segmentIds, this.doDeals);
+        this.rest.conditionsBySegments(trip.segmentIdsAll, this.doConditions);
+        return this.rest.deals(this.app.dealsUI.latLon(), trip.segmentIdsAll, this.doDeals);
       }
     };
 
@@ -109,8 +109,8 @@
       var trip;
       trip = this.trip();
       trip.launch();
-      this.app.ui.changeRecommendation(this.trip.recommendation);
-      return this.stream.push('Trip', this.trip, 'Model');
+      this.app.ui.changeRecommendation(trip.recommendation);
+      return this.stream.push('Trip', trip, 'Model');
     };
 
     Model.prototype.doSegments = function(args, segments) {
@@ -123,14 +123,15 @@
       for (key in ref) {
         if (!hasProp.call(ref, key)) continue;
         seg = ref[key];
-        if (!(trip.spatial.segInTrip(seg, trip))) {
-          continue;
+        ref1 = trip.segIdNum(key), id = ref1[0], num = ref1[1];
+        if (trip.segInTrip(seg)) {
+          seg['segId'] = num;
+          trip.segments.push(seg);
+          trip.segmentIds.push(num);
         }
-        ref1 = trip.spatial.segIdNum(key), id = ref1[0], num = ref1[1];
-        trip.segments.push(seg);
-        trip.segmentIds.push(num);
       }
       this.segmentsComplete = true;
+      Util.log('Model.doSegments segmenIds', trip.segmentIds);
       return this.checkComplete();
     };
 

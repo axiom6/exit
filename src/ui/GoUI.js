@@ -6,11 +6,11 @@
     Util.Export(GoUI, 'ui/GoUI');
 
     function GoUI(app, stream) {
-      var DriveBar;
+      var DriveBarUI;
       this.app = app;
       this.stream = stream;
-      DriveBar = Util.Import('ui/DriveBar');
-      this.driveBar = new DriveBar(this.app, this.stream, 'Go', this, 'Portrait');
+      DriveBarUI = Util.Import('ui/DriveBarUI');
+      this.driveBarUI = new DriveBarUI(this.app, this.stream, 'Go', this, 'Portrait');
       this.first = true;
     }
 
@@ -19,17 +19,17 @@
       this.$GoBanner = this.$.find('#GoBanner');
       this.$GoBannerText = this.$.find('#GoBannerText');
       this.$GoDeals = this.$.find('#GoDeals');
-      return this.driveBar.ready();
+      return this.driveBarUI.ready();
     };
 
     GoUI.prototype.position = function() {
-      this.driveBar.position();
+      this.driveBarUI.position();
       this.goSize();
       return this.subscribe();
     };
 
     GoUI.prototype.html = function() {
-      return "<div id=\"" + (this.app.id('Go')) + "\"         class=\"" + (this.app.css('Go')) + "\">\n  <div   id=\"" + (this.app.id('GoBanner')) + "\"     class=\"" + (this.app.css('GoBanner')) + "\">\n    <div id=\"" + (this.app.id('GoBannerText')) + "\" class=\"" + (this.app.css('GoBannerText')) + "\">GO</div>\n  </div>\n  <div id=\"" + (this.app.id('GoDeals')) + "\"  class=\"" + (this.app.css('GoDeals')) + "\">\n    <div>11 deals at your destination</div>\n    <div>get going to beat traffic!</div>\n  </div>\n  <div id=\"" + (this.app.id('GoDrive')) + "\" class=\"" + (this.app.css('GoDrive')) + "\">" + (this.driveBar.html('Go')) + "</div>\n</div>";
+      return "<div id=\"" + (this.app.id('Go')) + "\"         class=\"" + (this.app.css('Go')) + "\">\n  <div   id=\"" + (this.app.id('GoBanner')) + "\"     class=\"" + (this.app.css('GoBanner')) + "\">\n    <div id=\"" + (this.app.id('GoBannerText')) + "\" class=\"" + (this.app.css('GoBannerText')) + "\">GO</div>\n  </div>\n  <div id=\"" + (this.app.id('GoDeals')) + "\"  class=\"" + (this.app.css('GoDeals')) + "\">\n    <div>11 deals at your destination</div>\n    <div>get going to beat traffic!</div>\n  </div>\n  <div id=\"" + (this.app.id('GoDrive')) + "\" class=\"" + (this.app.css('GoDrive')) + "\">" + (this.driveBarUI.html('Go')) + "</div>\n</div>";
     };
 
     GoUI.prototype.subscribe = function() {

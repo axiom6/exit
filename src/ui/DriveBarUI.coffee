@@ -58,27 +58,32 @@ class DriveBarUI
     [svg,$svg,g,$g,width,height,barTop]
 
   createBars:( trip, Data ) ->
+    #trip.log( 'DriveBarsUI.createBars' )
     @mileBeg  = trip.begMile()
     @mileEnd  = trip.endMile()
     @mileRef  = if trip.direction is 'West' then @mileBeg else @mileEnd
     @distRel  = @mileEnd - @mileBeg
     @distance = Math.abs( @mileEnd - @mileBeg )
+    Util.dbg( 'DriveBarUI.createBars() 1', { mileBeg:@mileBeg, mileEnd:@mileEnd,  mileRef:@mileRef, distance:@distance } )
     thick    = 1
     x        = 0
     y        = @barTop()
-    w        = @svgWidth()
+    ww       = @svgWidth()
     h        = @barHeight()
-    eta      = @app.model.etaHoursMins(Util.toInt(trip.eta))
-    @createTravelTime( trip, @g, x, y, w, h )
-    @rect( @g, @ext+'Border', x, y, w, h, 'transparent', 'white', thick*4, '' )
-    for own key, seg of trip.segments
-      m1    = Util.toFloat(seg.StartMileMarker)
-      m2    = Util.toFloat(seg.EndMileMarker)
-      beg   = w * Math.abs( m1 - @mileRef ) / @distance
-      end   = w * Math.abs( m2 - @mileRef ) / @distance
-      segId = Util.toInt(key.substring(2))
-      fill = @fillCondition( segId, trip.conditions )
-      @rect( @g, segId, beg, y, end-beg, h, fill, 'black', thick, '' )
+    @createTravelTime( trip, @g, x, y, ww, h )
+    @rect( trip, @g, trip.segments[0], @ext+'Border', x, y, w, h, 'transparent', 'white', thick*4, '' )
+    for seg in trip.segments
+      sm    = Util.toFloat(seg.StartMileMarker)
+      em    = Util.toFloat(seg.EndMileMarker)
+      #m1    = if trip.direction is 'West' then sm else em
+      #m2    = if trip.direction is 'West' then em else sm
+      beg   = ww * Math.abs( sm - @mileRef ) / @distance
+      end   = ww * Math.abs( em - @mileRef ) / @distance
+      x     = if trip.direction is 'West' then beg else end
+      w     = Math.abs( end-beg )
+      fill  = @fillCondition( seg.segId, trip.conditions )
+      Util.dbg( 'DriveBarUI.createBars() 2', { segId:seg.segId, sm:sm, em:em,  x:x, w:w } )
+      @rect( trip, @g, seg, seg.segId, x, y, w, h, fill, 'black', thick, '' )
       @created  = true
     return
 
@@ -96,6 +101,8 @@ class DriveBarUI
 
   fillCondition:( segId, conditions ) ->
     Conditions = @getTheCondition( segId, conditions )
+    AverageSpeed = if Conditions? then Conditions.AverageSpeed else -1.0
+    #Util.dbg( 'DriveBarUI.fillCondition()', { segId:segId, hasConditions:Conditions?, AverageSpeed:AverageSpeed  } )
     return 'gray' if not Conditions? or not Conditions.AverageSpeed?
     @fillSpeed( Conditions.AverageSpeed )
 
@@ -122,13 +129,16 @@ class DriveBarUI
       @updateRectFill( segId, fill )
     return
 
-  rect:( g, segId, x0, y0, w, h, fill, stroke, thick, text ) ->
+  rect:( trip, g, seg, segId, x0, y0, w, h, fill, stroke, thick, text ) ->
+
     svgId = @app.svgId( @name, segId.toString(), @ext )
+
     onClick = () =>
       `x = d3.mouse(this)[0]`
-      mile  = @mileRef + @distRel *  x / @svgWidth()
-      Util.dbg( 'DriveBar.rect()', { segId:segId, mile:Util.toFixed(mile,1) } )
-      @doSeqmentDeals(segId,mile)
+      mile  = @mileRef + @distance *  x / @svgWidth()
+      Util.dbg( 'DriveBar.rect()', { segId:segId, beg:seg.StartMileMarker, mile:Util.toFixed(mile,1), end:seg.EndMileMarker } )
+      @doSeqmentDeals(trip,segId,mile)
+
     g.append("svg:rect").attr('id',svgId).attr("x",x0).attr("y",y0).attr("width",w).attr("height",h).attr('segId',segId)
      .attr("fill",fill).attr("stroke",stroke).attr("stroke-width",thick)
      .on('click',onClick) #.on('mouseover',onMouseOver)
@@ -138,11 +148,11 @@ class DriveBarUI
        .attr("text-anchor","middle").attr("font-size","4px").attr("font-family","Droid Sans")
     return
 
-  doSeqmentDeals:( segId, mile ) ->
-    deals = @app.model.getDealsBySegId( segId )
+  doSeqmentDeals:( trip, segId, mile ) ->
+    deals = trip.getDealsBySegId( segId )
     exit  = Util.toInt(mile)
     if deals.length > 0
-      @app.deals.popupMultipleDeals( 'Deals', "for Exit ", "#{exit}", deals )
+      @app.dealsUI.popupMultipleDeals( 'Deals', "for Exit ", "#{exit}", deals )
       $('#gritter-notice-wrapper').show()
 
   updateRectFill:( segId, fill ) ->

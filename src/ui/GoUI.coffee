@@ -4,8 +4,8 @@ class GoUI
   Util.Export( GoUI, 'ui/GoUI' )
 
   constructor:( @app, @stream ) ->
-    DriveBar  = Util.Import( 'ui/DriveBar')
-    @driveBar = new DriveBar( @app, @stream, 'Go', @, 'Portrait' )
+    DriveBarUI  = Util.Import( 'ui/DriveBarUI')
+    @driveBarUI = new DriveBarUI( @app, @stream, 'Go', @, 'Portrait' )
     @first = true
 
   ready:() ->
@@ -13,10 +13,10 @@ class GoUI
     @$GoBanner     = @$.find('#GoBanner'    )
     @$GoBannerText = @$.find('#GoBannerText')
     @$GoDeals      = @$.find('#GoDeals'     )
-    @driveBar.ready()
+    @driveBarUI.ready()
 
   position:() ->
-    @driveBar.position()
+    @driveBarUI.position()
     @goSize()
     @subscribe()
 
@@ -29,7 +29,7 @@ class GoUI
            <div>11 deals at your destination</div>
            <div>get going to beat traffic!</div>
          </div>
-         <div id="#{@app.id('GoDrive')}" class="#{@app.css('GoDrive')}">#{@driveBar.html('Go')}</div>
+         <div id="#{@app.id('GoDrive')}" class="#{@app.css('GoDrive')}">#{@driveBarUI.html('Go')}</div>
        </div>"""
 
   subscribe:() ->

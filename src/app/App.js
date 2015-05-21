@@ -80,8 +80,7 @@
       this.nogoUI.position();
       this.tripUI.position();
       this.dealsUI.position();
-      this.navigateUI.position();
-      return this.subscribe();
+      return this.navigateUI.position();
     };
 
     App.prototype.width = function() {

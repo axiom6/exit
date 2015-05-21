@@ -16,11 +16,13 @@ class Spatial
   segInTrip:( seg ) ->
     begMileSeg = Util.toFloat(seg.StartMileMarker)
     endMileSeg = Util.toFloat(seg.EndMileMarker)
-    switch @trip.direction
+    inTrip = switch @trip.direction
       when 'East', 'North'
-        @trip.begMile() <= begMileSeg and endMileSeg <= @trip.endMile()
+        @trip.begMile() - 0.5 <= begMileSeg and endMileSeg <= @trip.endMile() + 0.5
       when 'West' or 'South'
-        @trip.begMile() >= begMileSeg and endMileSeg >= @trip.endMile()
+        @trip.begMile() + 0.5 >= begMileSeg and endMileSeg >= @trip.endMile() - 0.5
+    #Util.dbg( 'Spatial.segInTrip 2', { inTrip:inTrip, begMileTrip:@trip.begMile(), begMileSeg:begMileSeg, endMileSeg:endMileSeg, endMileTrip:@trip.endMile() } )
+    inTrip
 
   segIdNum:( key ) ->
     id  = ""

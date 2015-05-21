@@ -1,0 +1,393 @@
+[
+  {
+    "_id": "555dda9149a2b3039f18689d",
+    "CalculatedDate": "2015-05-21T19:14:30.000Z",
+    "SegmentId": 31,
+    "Conditions": {
+      "RoadCondition": 9,
+      "AverageOccupancy": 4,
+      "TypeTrafficFlowTxt": "No Data",
+      "TypeTrafficFlowCd": "5",
+      "IsSlowDown": true,
+      "AverageTrafficFlow": -1,
+      "AverageSpeed": 62,
+      "AverageVolume": 16,
+      "TravelTime": "12",
+      "ExpectedTravelTime": 11,
+      "Weather": {
+        "temperature": 47.97,
+        "summary": "Mostly Cloudy",
+        "time": "2015-05-21T18:01:06.000Z",
+        "icon": "partly-cloudy-day"
+      }
+    }
+  },
+  {
+    "_id": "555dda9149a2b3039f18689e",
+    "CalculatedDate": "2015-05-21T19:14:30.000Z",
+    "SegmentId": 32,
+    "Conditions": {
+      "RoadCondition": 8,
+      "AverageOccupancy": -1,
+      "TypeTrafficFlowTxt": "No Data",
+      "TypeTrafficFlowCd": "5",
+      "IsSlowDown": true,
+      "AverageTrafficFlow": -1,
+      "AverageSpeed": -1,
+      "AverageVolume": -1,
+      "TravelTime": "-1",
+      "ExpectedTravelTime": 5,
+      "Weather": {
+        "temperature": 46.7,
+        "summary": "Light Rain",
+        "time": "2015-05-21T18:01:06.000Z",
+        "icon": "rain"
+      }
+    }
+  },
+  {
+    "_id": "555dda9149a2b3039f18689f",
+    "CalculatedDate": "2015-05-21T19:14:30.000Z",
+    "SegmentId": 33,
+    "Conditions": {
+      "RoadCondition": 8,
+      "AverageOccupancy": 3,
+      "TypeTrafficFlowTxt": "No Data",
+      "TypeTrafficFlowCd": "5",
+      "IsSlowDown": true,
+      "AverageTrafficFlow": -1,
+      "AverageSpeed": 65,
+      "AverageVolume": 26,
+      "TravelTime": "5",
+      "ExpectedTravelTime": 5,
+      "Weather": {
+        "temperature": 47.03,
+        "summary": "Drizzle",
+        "time": "2015-05-21T18:01:07.000Z",
+        "icon": "rain"
+      }
+    }
+  },
+  {
+    "_id": "555dda9149a2b3039f1868a0",
+    "CalculatedDate": "2015-05-21T19:12:30.000Z",
+    "SegmentId": 34,
+    "Conditions": {
+      "RoadCondition": 9,
+      "AverageOccupancy": 3,
+      "TypeTrafficFlowTxt": "No Data",
+      "TypeTrafficFlowCd": "5",
+      "IsSlowDown": true,
+      "AverageTrafficFlow": -1,
+      "AverageSpeed": 65,
+      "AverageVolume": 25,
+      "TravelTime": "4",
+      "ExpectedTravelTime": 4,
+      "Weather": {
+        "temperature": 50.21,
+        "summary": "Mostly Cloudy",
+        "time": "2015-05-21T18:01:07.000Z",
+        "icon": "partly-cloudy-day"
+      }
+    }
+  },
+  {
+    "_id": "555dda9149a2b3039f1868a1",
+    "CalculatedDate": "2015-05-21T19:12:30.000Z",
+    "SegmentId": 272,
+    "Conditions": {
+      "RoadCondition": 8,
+      "AverageOccupancy": 3,
+      "TypeTrafficFlowTxt": "No Data",
+      "TypeTrafficFlowCd": "5",
+      "IsSlowDown": true,
+      "AverageTrafficFlow": -1,
+      "AverageSpeed": 60,
+      "AverageVolume": 22,
+      "TravelTime": "6",
+      "ExpectedTravelTime": 6,
+      "Weather": {
+        "temperature": 50.51,
+        "summary": "Drizzle",
+        "time": "2015-05-21T18:01:07.000Z",
+        "icon": "rain"
+      }
+    }
+  },
+  {
+    "_id": "555dda9149a2b3039f1868a2",
+    "CalculatedDate": "2015-05-21T19:12:30.000Z",
+    "SegmentId": 273,
+    "Conditions": {
+      "RoadCondition": 8,
+      "AverageOccupancy": 6,
+      "TypeTrafficFlowTxt": "No Data",
+      "TypeTrafficFlowCd": "5",
+      "IsSlowDown": true,
+      "AverageTrafficFlow": -1,
+      "AverageSpeed": 60,
+      "AverageVolume": 37,
+      "TravelTime": "3",
+      "ExpectedTravelTime": 3,
+      "Weather": {
+        "temperature": 46.73,
+        "summary": "Light Rain",
+        "time": "2015-05-21T18:01:08.000Z",
+        "icon": "rain"
+      }
+    }
+  },
+  {
+    "_id": "555dda9149a2b3039f1868a3",
+    "CalculatedDate": "2015-05-21T19:12:30.000Z",
+    "SegmentId": 36,
+    "Conditions": {
+      "RoadCondition": 8,
+      "AverageOccupancy": 5,
+      "TypeTrafficFlowTxt": "No Data",
+      "TypeTrafficFlowCd": "5",
+      "IsSlowDown": true,
+      "AverageTrafficFlow": -1,
+      "AverageSpeed": 44,
+      "AverageVolume": 32,
+      "TravelTime": "4",
+      "ExpectedTravelTime": 3,
+      "Weather": {
+        "temperature": 44.68,
+        "summary": "Light Rain",
+        "time": "2015-05-21T18:01:08.000Z",
+        "icon": "rain"
+      }
+    }
+  },
+  {
+    "_id": "555dda9149a2b3039f1868a4",
+    "CalculatedDate": "2015-05-21T19:12:30.000Z",
+    "SegmentId": 37,
+    "Conditions": {
+      "RoadCondition": 8,
+      "AverageOccupancy": 6,
+      "TypeTrafficFlowTxt": "No Data",
+      "TypeTrafficFlowCd": "5",
+      "IsSlowDown": true,
+      "AverageTrafficFlow": -1,
+      "AverageSpeed": 61,
+      "AverageVolume": 35,
+      "TravelTime": "5",
+      "ExpectedTravelTime": 5,
+      "Weather": {
+        "temperature": 45.15,
+        "summary": "Light Rain",
+        "time": "2015-05-21T18:01:08.000Z",
+        "icon": "rain"
+      }
+    }
+  },
+  {
+    "_id": "555dda9149a2b3039f1868a6",
+    "CalculatedDate": "2015-05-21T19:12:30.000Z",
+    "SegmentId": 39,
+    "Conditions": {
+      "RoadCondition": 8,
+      "AverageOccupancy": -1,
+      "TypeTrafficFlowTxt": "No Data",
+      "TypeTrafficFlowCd": "5",
+      "IsSlowDown": true,
+      "AverageTrafficFlow": -1,
+      "AverageSpeed": 58,
+      "AverageVolume": -1,
+      "TravelTime": "5",
+      "ExpectedTravelTime": 4,
+      "Weather": {
+        "temperature": 45.19,
+        "summary": "Drizzle",
+        "time": "2015-05-21T18:01:09.000Z",
+        "icon": "rain"
+      }
+    }
+  },
+  {
+    "_id": "555dda9149a2b3039f1868a7",
+    "CalculatedDate": "2015-05-21T19:12:30.000Z",
+    "SegmentId": 40,
+    "Conditions": {
+      "RoadCondition": 8,
+      "AverageOccupancy": 18,
+      "TypeTrafficFlowTxt": "No Data",
+      "TypeTrafficFlowCd": "5",
+      "IsSlowDown": true,
+      "AverageTrafficFlow": -1,
+      "AverageSpeed": 31,
+      "AverageVolume": 31,
+      "TravelTime": "14",
+      "ExpectedTravelTime": 7,
+      "Weather": {
+        "temperature": 48.31,
+        "summary": "Drizzle",
+        "time": "2015-05-21T18:01:10.000Z",
+        "icon": "rain"
+      }
+    }
+  },
+  {
+    "_id": "555dda9149a2b3039f1868a8",
+    "CalculatedDate": "2015-05-21T19:12:30.000Z",
+    "SegmentId": 41,
+    "Conditions": {
+      "RoadCondition": 9,
+      "AverageOccupancy": 4,
+      "TypeTrafficFlowTxt": "No Data",
+      "TypeTrafficFlowCd": "5",
+      "IsSlowDown": true,
+      "AverageTrafficFlow": -1,
+      "AverageSpeed": 59,
+      "AverageVolume": 32,
+      "TravelTime": "5",
+      "ExpectedTravelTime": 5,
+      "Weather": {
+        "temperature": 47.74,
+        "summary": "Mostly Cloudy",
+        "time": "2015-05-21T18:01:10.000Z",
+        "icon": "partly-cloudy-day"
+      }
+    }
+  },
+  {
+    "_id": "555dda9149a2b3039f1868a9",
+    "CalculatedDate": "2015-05-21T19:12:30.000Z",
+    "SegmentId": 276,
+    "Conditions": {
+      "RoadCondition": 8,
+      "AverageOccupancy": 3,
+      "TypeTrafficFlowTxt": "No Data",
+      "TypeTrafficFlowCd": "5",
+      "IsSlowDown": true,
+      "AverageTrafficFlow": -1,
+      "AverageSpeed": 53,
+      "AverageVolume": 7,
+      "TravelTime": "4",
+      "ExpectedTravelTime": 3,
+      "Weather": {
+        "temperature": 46.28,
+        "summary": "Drizzle",
+        "time": "2015-05-21T18:01:10.000Z",
+        "icon": "rain"
+      }
+    }
+  },
+  {
+    "_id": "555dda9149a2b3039f1868aa",
+    "CalculatedDate": "2015-05-21T19:12:30.000Z",
+    "SegmentId": 277,
+    "Conditions": {
+      "RoadCondition": 9,
+      "AverageOccupancy": 5,
+      "TypeTrafficFlowTxt": "No Data",
+      "TypeTrafficFlowCd": "5",
+      "IsSlowDown": true,
+      "AverageTrafficFlow": -1,
+      "AverageSpeed": 65,
+      "AverageVolume": 35,
+      "TravelTime": "4",
+      "ExpectedTravelTime": 4,
+      "Weather": {
+        "temperature": 48.88,
+        "summary": "Overcast",
+        "time": "2015-05-21T18:01:11.000Z",
+        "icon": "cloudy"
+      }
+    }
+  },
+  {
+    "_id": "555dda9149a2b3039f1868ab",
+    "CalculatedDate": "2015-05-21T19:12:30.000Z",
+    "SegmentId": 268,
+    "Conditions": {
+      "RoadCondition": 9,
+      "AverageOccupancy": 5,
+      "TypeTrafficFlowTxt": "No Data",
+      "TypeTrafficFlowCd": "5",
+      "IsSlowDown": true,
+      "AverageTrafficFlow": -1,
+      "AverageSpeed": 64,
+      "AverageVolume": 57,
+      "TravelTime": "4",
+      "ExpectedTravelTime": 4,
+      "Weather": {
+        "temperature": 49.44,
+        "summary": "Overcast",
+        "time": "2015-05-21T18:01:11.000Z",
+        "icon": "cloudy"
+      }
+    }
+  },
+  {
+    "_id": "555dda9149a2b3039f1868ac",
+    "CalculatedDate": "2015-05-21T19:12:30.000Z",
+    "SegmentId": 269,
+    "Conditions": {
+      "RoadCondition": 9,
+      "AverageOccupancy": -1,
+      "TypeTrafficFlowTxt": "No Data",
+      "TypeTrafficFlowCd": "5",
+      "IsSlowDown": true,
+      "AverageTrafficFlow": -1,
+      "AverageSpeed": 65,
+      "AverageVolume": -1,
+      "TravelTime": "2",
+      "ExpectedTravelTime": 2,
+      "Weather": {
+        "temperature": 48.11,
+        "summary": "Overcast",
+        "time": "2015-05-21T18:01:12.000Z",
+        "icon": "cloudy"
+      }
+    }
+  },
+  {
+    "_id": "555dda9149a2b3039f1868ad",
+    "CalculatedDate": "2015-05-21T19:12:30.000Z",
+    "SegmentId": 44,
+    "Conditions": {
+      "RoadCondition": 9,
+      "AverageOccupancy": -1,
+      "TypeTrafficFlowTxt": "No Data",
+      "TypeTrafficFlowCd": "5",
+      "IsSlowDown": true,
+      "AverageTrafficFlow": -1,
+      "AverageSpeed": 65,
+      "AverageVolume": -1,
+      "TravelTime": "1",
+      "ExpectedTravelTime": 1,
+      "Weather": {
+        "temperature": 48.1,
+        "summary": "Overcast",
+        "time": "2015-05-21T18:01:12.000Z",
+        "icon": "cloudy"
+      }
+    }
+  },
+  {
+    "_id": "555dda9149a2b3039f1868ae",
+    "CalculatedDate": "2015-05-21T19:12:30.000Z",
+    "SegmentId": 45,
+    "Conditions": {
+      "RoadCondition": 9,
+      "AverageOccupancy": 3,
+      "TypeTrafficFlowTxt": "No Data",
+      "TypeTrafficFlowCd": "5",
+      "IsSlowDown": true,
+      "AverageTrafficFlow": -1,
+      "AverageSpeed": 65,
+      "AverageVolume": 50,
+      "TravelTime": "1",
+      "ExpectedTravelTime": 1,
+      "Weather": {
+        "temperature": 48.53,
+        "summary": "Overcast",
+        "time": "2015-05-21T18:01:12.000Z",
+        "icon": "cloudy"
+      }
+    }
+  }
+]

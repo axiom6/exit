@@ -43,7 +43,7 @@ class WeatherUI
 
   ready:() ->
     @$ = $( """<div id="Weather" class="Weather"></div>""" )
-    for loc in Weather.Locs
+    for loc in WeatherUI.Locs
       @createHtml( loc ) # @forecast( loc )
 
   position:() ->
@@ -75,7 +75,7 @@ class WeatherUI
     ej.time              = fc.time
     ej.summary           = fc.summary
     ej.fcIcon            = fc.icon  
-    ej.style             = Weather.Icons[fc.icon]
+    ej.style             = WeatherUI.Icons[fc.icon]
     ej.style.icon        = 'wi-showers' if ej.summary is 'Drizzle'
     ej.precipProbability = fc.precipProbability
     ej.precipType        = fc.precipType #rain, snow, sleet

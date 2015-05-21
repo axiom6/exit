@@ -4,18 +4,18 @@ class NoGoUI
   Util.Export( NoGoUI, 'ui/NoGoUI' )
 
   constructor:( @app, @stream ) ->
-    DriveBar  = Util.Import( 'ui/DriveBar')
-    @driveBar = new DriveBar( @app, @stream, 'NoGo', @, 'Portrait' )
+    DriveBarUI  = Util.Import( 'ui/DriveBarUI')
+    @driveBarUI = new DriveBarUI( @app, @stream, 'NoGo', @, 'Portrait' )
 
   ready:() ->
     @$ = $( @html() )
     @$NoGoBanner     = @$.find('#NoGoBanner'    )
     @$NoGoBannerText = @$.find('#NoGoBannerText')
     @$NoGoDeals      = @$.find('#NoGoDeals'     )
-    @driveBar.ready()
+    @driveBarUI.ready()
 
   position:() ->
-    @driveBar.position()
+    @driveBarUI.position()
     #@noGoSize()
     @subscribe()
 
@@ -27,7 +27,7 @@ class NoGoUI
          <div id="#{@app.id('NoGoDeals')}"       class="#{@app.css('NoGoDeals')}">
            <div>50% off Hotel</div>
          </div>
-         <div id="#{@app.id('NoGoDrive')}" class="#{@app.css('NoGoDrive')}">#{@driveBar.html('NoGo')}</div>
+         <div id="#{@app.id('NoGoDrive')}" class="#{@app.css('NoGoDrive')}">#{@driveBarUI.html('NoGo')}</div>
        </div>"""
 
   subscribe:() ->

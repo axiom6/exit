@@ -7,12 +7,12 @@
 
     Town.roles = ['Source', 'AlongTheWay', 'Destination'];
 
-    function Town(trip, name1, role) {
+    function Town(trip, name, role) {
       this.trip = trip;
-      this.name = name1;
+      this.name = name;
       this.role = role;
       this.Data = Util.Import('app/Data');
-      this.mile = this.Data.DestinationsMile[name];
+      this.mile = this.Data.DestinationsMile[this.name];
     }
 
     return Town;

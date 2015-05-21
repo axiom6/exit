@@ -81,7 +81,6 @@ class App
     @tripUI.position()
     @dealsUI.position()
     @navigateUI.position()
-    @subscribe()
 
   width:()  -> @ui.width()
   height:() -> @ui.height()

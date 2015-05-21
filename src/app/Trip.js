@@ -6,19 +6,19 @@
   Trip = (function() {
     Util.Export(Trip, 'app/Trip');
 
-    function Trip(app, stream, model, name, source1, destination1) {
+    function Trip(app, stream, model, name, source, destination) {
       this.app = app;
       this.stream = stream;
       this.model = model;
       this.name = name;
-      this.source = source1;
-      this.destination = destination1;
+      this.source = source;
+      this.destination = destination;
       this.makeRecommendation = bind(this.makeRecommendation, this);
       this.etaHoursMins = bind(this.etaHoursMins, this);
       this.etaFromCondtions = bind(this.etaFromCondtions, this);
       this.Data = Util.Import('app/Data');
-      this.Spatial = Util.Import('spp/Spatial');
-      this.Town = Util.Import('spp/Town');
+      this.Spatial = Util.Import('app/Spatial');
+      this.Town = Util.Import('app/Town');
       this.eta = -1;
       this.travelTime = -1;
       this.recommendation = '?';
@@ -29,11 +29,11 @@
       this.segments = {};
       this.conditions = [];
       this.deals = [];
-      this.begTown = new this.Town(this, source, 'Source');
-      this.endTown = new this.Town(this, destination, 'Destination');
+      this.begTown = new this.Town(this, this.source, 'Source');
+      this.endTown = new this.Town(this, this.destination, 'Destination');
       this.spatial = new this.Spatial(this.app, this.stream, this);
-      this.direction = this.spatial.direction(source, destination);
-      this.initByDirection(direction);
+      this.direction = this.spatial.direction(this.source, this.destination);
+      this.initByDirection(this.direction);
     }
 
     Trip.prototype.initByDirection = function(direction) {
@@ -55,6 +55,14 @@
 
     Trip.prototype.endMile = function() {
       return this.endTown.mile;
+    };
+
+    Trip.prototype.segInTrip = function(seg) {
+      return this.spatial.segInTrip(seg);
+    };
+
+    Trip.prototype.segIdNum = function(key) {
+      return this.spatial.segIdNum(key);
     };
 
     Trip.prototype.launch = function() {
@@ -89,7 +97,7 @@
     Trip.prototype.getDealsBySegId = function(segId) {
       var deal, i, len, ref, segDeals;
       segDeals = [];
-      ref = this.trip.deals;
+      ref = this.deals;
       for (i = 0, len = ref.length; i < len; i++) {
         deal = ref[i];
         if (this.dealHasSegId(deal, segId)) {
@@ -117,8 +125,6 @@
         destination: this.destination,
         direction: this.direction,
         preset: this.preset,
-        begSeg: this.begSeg,
-        endSeg: this.endSeg,
         recommendation: this.recommendation,
         eta: this.eta,
         travelTime: this.travelTime

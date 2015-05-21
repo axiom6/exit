@@ -6,11 +6,11 @@
     Util.Export(NoGoUI, 'ui/NoGoUI');
 
     function NoGoUI(app, stream) {
-      var DriveBar;
+      var DriveBarUI;
       this.app = app;
       this.stream = stream;
-      DriveBar = Util.Import('ui/DriveBar');
-      this.driveBar = new DriveBar(this.app, this.stream, 'NoGo', this, 'Portrait');
+      DriveBarUI = Util.Import('ui/DriveBarUI');
+      this.driveBarUI = new DriveBarUI(this.app, this.stream, 'NoGo', this, 'Portrait');
     }
 
     NoGoUI.prototype.ready = function() {
@@ -18,16 +18,16 @@
       this.$NoGoBanner = this.$.find('#NoGoBanner');
       this.$NoGoBannerText = this.$.find('#NoGoBannerText');
       this.$NoGoDeals = this.$.find('#NoGoDeals');
-      return this.driveBar.ready();
+      return this.driveBarUI.ready();
     };
 
     NoGoUI.prototype.position = function() {
-      this.driveBar.position();
+      this.driveBarUI.position();
       return this.subscribe();
     };
 
     NoGoUI.prototype.html = function() {
-      return "<div      id=\"" + (this.app.id('NoGo')) + "\"          class=\"" + (this.app.css('NoGo')) + "\">\n  <div   id=\"" + (this.app.id('NoGoBanner')) + "\"     class=\"" + (this.app.css('NoGoBanner')) + "\">\n    <div id=\"" + (this.app.id('NoGoBannerText')) + "\" class=\"" + (this.app.css('NoGoBannerText')) + "\">NO GO</div>\n  </div>\n  <div id=\"" + (this.app.id('NoGoDeals')) + "\"       class=\"" + (this.app.css('NoGoDeals')) + "\">\n    <div>50% off Hotel</div>\n  </div>\n  <div id=\"" + (this.app.id('NoGoDrive')) + "\" class=\"" + (this.app.css('NoGoDrive')) + "\">" + (this.driveBar.html('NoGo')) + "</div>\n</div>";
+      return "<div      id=\"" + (this.app.id('NoGo')) + "\"          class=\"" + (this.app.css('NoGo')) + "\">\n  <div   id=\"" + (this.app.id('NoGoBanner')) + "\"     class=\"" + (this.app.css('NoGoBanner')) + "\">\n    <div id=\"" + (this.app.id('NoGoBannerText')) + "\" class=\"" + (this.app.css('NoGoBannerText')) + "\">NO GO</div>\n  </div>\n  <div id=\"" + (this.app.id('NoGoDeals')) + "\"       class=\"" + (this.app.css('NoGoDeals')) + "\">\n    <div>50% off Hotel</div>\n  </div>\n  <div id=\"" + (this.app.id('NoGoDrive')) + "\" class=\"" + (this.app.css('NoGoDrive')) + "\">" + (this.driveBarUI.html('NoGo')) + "</div>\n</div>";
     };
 
     NoGoUI.prototype.subscribe = function() {

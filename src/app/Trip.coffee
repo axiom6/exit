@@ -6,8 +6,8 @@ class Trip
   constructor:( @app, @stream, @model, @name, @source, @destination  ) ->
 
     @Data           = Util.Import( 'app/Data'    )
-    @Spatial        = Util.Import( 'spp/Spatial' )
-    @Town           = Util.Import( 'spp/Town'    )
+    @Spatial        = Util.Import( 'app/Spatial' )
+    @Town           = Util.Import( 'app/Town'    )
 
     @eta            = -1
     @travelTime     = -1 # Set by travelTime in preset Segments
@@ -21,11 +21,11 @@ class Trip
     @conditions     = []
     @deals          = []
 
-    @begTown        = new @Town( @, source,      'Source'      )
-    @endTown        = new @Town( @, destination, 'Destination' )
+    @begTown        = new @Town( @, @source,      'Source'      )
+    @endTown        = new @Town( @, @destination, 'Destination' )
     @spatial        = new @Spatial( @app, @stream, @ )
-    @direction      = @spatial.direction( source, destination )
-    @initByDirection( direction )
+    @direction      = @spatial.direction( @source, @destination )
+    @initByDirection( @direction )
 
   initByDirection:( direction ) ->
     switch direction
@@ -46,6 +46,12 @@ class Trip
   endMile:() ->
     @endTown.mile
 
+  segInTrip:( seg ) ->
+    @spatial.segInTrip( seg )
+
+  segIdNum:( key ) ->
+    @spatial.segIdNum( key )
+
   launch:() ->
     @eta            = @etaFromCondtions()
     @recommendation = @makeRecommendation()
@@ -65,7 +71,7 @@ class Trip
 
   getDealsBySegId:( segId ) ->
     segDeals = []
-    for deal in @trip.deals when @dealHasSegId(deal,segId)
+    for deal in @deals when @dealHasSegId( deal, segId )
       segDeals.push( deal )
     segDeals
 
@@ -75,4 +81,4 @@ class Trip
     false
 
   log:( caller ) ->
-    Util.dbg( caller, { source:@source, destination:@destination, direction:@direction, preset:@preset, begSeg:@begSeg, endSeg:@endSeg, recommendation:@recommendation, eta:@eta, travelTime:@travelTime } )
+    Util.dbg( caller, { source:@source, destination:@destination, direction:@direction, preset:@preset, recommendation:@recommendation, eta:@eta, travelTime:@travelTime } )
