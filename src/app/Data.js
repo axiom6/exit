@@ -9,27 +9,26 @@
 
     Data.Destinations = ['', 'Denver', 'Idaho Springs', 'Georgetown', 'Silverthorne', 'Frisco', 'Copper Mtn', 'Vail', 'NoGo'];
 
-    Data.DestinationsSegIds = {
-      "Denver": [16, 45],
-      "Morrison": [17, 44],
-      "Idaho Springs": [21, 41],
-      "Georgetown": [23, 39],
-      "Silverthorne": [27, 272],
-      "Frisco": [28, 34],
-      "Copper Mtn": [29, 33],
-      "Vail": [30, 31],
+    Data.DestinationsMile = {
+      "Denver": 260.79,
+      "Idaho Springs": 239.70,
+      "Georgetown": 227.90,
+      "Silverthorne": 205.50,
+      "Frisco": 200.70,
+      "Copper Mtn": 195.40,
+      "Vail": 177.00,
       "NoGo": [30, 16]
     };
 
-    Data.DestinationsWest = ['Denver', 'Morrison', 'Idaho Springs', 'Georgetown', 'Silverthorne', 'Frisco', 'Copper Mtn', 'Vail'];
+    Data.DestinationsWest = ['Denver', 'Idaho Springs', 'Georgetown', 'Silverthorne', 'Frisco', 'Copper Mtn', 'Vail'];
 
-    Data.DestinationsEast = ['Vail', 'Copper Mtn', 'Frisco', 'Silverthorne', 'Georgetown', 'Idaho Springs', 'Morrison', 'Denver'];
+    Data.DestinationsEast = ['Vail', 'Copper Mtn', 'Frisco', 'Silverthorne', 'Georgetown', 'Idaho Springs', 'Denver'];
 
     Data.scenario1 = {
       preset: 1,
       dir: 'East',
       beg: "Vail",
-      end: "C-470",
+      end: "Denver",
       begCDOT: "East Vail to Vail Pass",
       endCDOT: "Morrison / Heritage to C-470"
     };

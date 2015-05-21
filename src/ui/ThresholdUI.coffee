@@ -1,7 +1,7 @@
 
-class Threshold
+class ThresholdUI
 
-  Util.Export( Threshold, 'ui/Threshold' )
+  Util.Export( ThresholdUI, 'ui/ThresholdUI' )
 
   constructor:( @app, @stream ) ->
 

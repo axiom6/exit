@@ -1,7 +1,7 @@
 
-class Go
+class GoUI
 
-  Util.Export( Go, 'ui/Go' )
+  Util.Export( GoUI, 'ui/GoUI' )
 
   constructor:( @app, @stream ) ->
     DriveBar  = Util.Import( 'ui/DriveBar')

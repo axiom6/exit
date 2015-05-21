@@ -1,7 +1,7 @@
 
-class DriveBar
+class DriveBarUI
 
-  Util.Export( DriveBar, 'ui/DriveBar' )
+  Util.Export( DriveBarUI, 'ui/DriveBarUI' )
 
   constructor:( @app, @stream, @ext, @parent, @orientation ) ->
     @Data    = Util.Import( 'app/Data' )
@@ -47,9 +47,6 @@ class DriveBar
   barHeight:()  -> @svgHeight() * 0.33
   barTop:()     -> @svgHeight() * 0.50
 
-  #svgWidth:()   -> if @ext isnt 'Road' then @app.width()  * 0.92    else 640                     # Needs to match 92% in App.less
-  #svgHeight:()  -> if @ext isnt 'Road' then @parent.$.height()*0.33 else 200
-
   # d3 Svg dependency
   createSvg:( $, htmlId, name, ext, width, height, barTop ) ->
     svgId = @app.svgId(  name, ext, 'Svg' )
@@ -61,9 +58,8 @@ class DriveBar
     [svg,$svg,g,$g,width,height,barTop]
 
   createBars:( trip, Data ) ->
-    Util.dbg( 'createBars', @ext )
-    @mileBeg  = Util.toFloat(@app.model.begSeg(trip).StartMileMarker)
-    @mileEnd  = Util.toFloat(@app.model.endSeg(trip).EndMileMarker)
+    @mileBeg  = trip.begMile()
+    @mileEnd  = trip.endMile()
     @mileRef  = if trip.direction is 'West' then @mileBeg else @mileEnd
     @distRel  = @mileEnd - @mileBeg
     @distance = Math.abs( @mileEnd - @mileBeg )
@@ -73,42 +69,39 @@ class DriveBar
     w        = @svgWidth()
     h        = @barHeight()
     eta      = @app.model.etaHoursMins(Util.toInt(trip.eta))
-    @createTravelTime( @g, x, y, w, h, eta )
-    for own key, seg of trip.segments.segments
+    @createTravelTime( trip, @g, x, y, w, h )
+    @rect( @g, @ext+'Border', x, y, w, h, 'transparent', 'white', thick*4, '' )
+    for own key, seg of trip.segments
       m1    = Util.toFloat(seg.StartMileMarker)
       m2    = Util.toFloat(seg.EndMileMarker)
       beg   = w * Math.abs( m1 - @mileRef ) / @distance
       end   = w * Math.abs( m2 - @mileRef ) / @distance
       segId = Util.toInt(key.substring(2))
       fill = @fillCondition( segId, trip.conditions )
-      # Util.dbg( 'Rect', { segId:segId, beg:beg, end:end, y0:y0, h:h, fill:fill } )
       @rect( @g, segId, beg, y, end-beg, h, fill, 'black', thick, '' )
       @created  = true
-    #@rect( @g, @ext+'Border', x, y, w, h, 'transparent', 'white', thick*4, '' )
     return
 
-  createTravelTime:( g, x, y, w, h, eta ) ->
+  createTravelTime:( trip, g, x, y, w, h ) ->
     fontSize  = 18
     fontSizePx = fontSize + 'px'
-    g.append("svg:text").text(@app.source).attr("x",4).attr("y",y-fontSize).attr('fill','white')
+    g.append("svg:text").text(trip.source).attr("x",4).attr("y",y-fontSize).attr('fill','white')
      .attr("text-anchor","start").attr("font-size",fontSizePx).attr("font-family","Droid Sans")
     g.append("svg:text").text('TRAVEL TIME').attr("x",w/2).attr("y",y-fontSize*2.2 ).attr('fill','white')
      .attr("text-anchor","middle").attr("font-size",fontSizePx).attr("font-family","Droid Sans")
-    g.append("svg:text").text(eta).attr("x",w/2).attr("y",  y-fontSize ).attr('fill','white')
+    g.append("svg:text").text(trip.etaHoursMins()).attr("x",w/2).attr("y",  y-fontSize ).attr('fill','white')
      .attr("text-anchor","middle").attr("font-size",fontSizePx).attr("font-family","Droid Sans")
-    g.append("svg:text").text(@app.dest).attr("x",w-4).attr("y",y-fontSize ).attr('fill','white')
+    g.append("svg:text").text(trip.destination).attr("x",w-4).attr("y",y-fontSize ).attr('fill','white')
      .attr("text-anchor","end").attr("font-size",fontSizePx).attr("font-family","Droid Sans")
 
   fillCondition:( segId, conditions ) ->
     Conditions = @getTheCondition( segId, conditions )
-    #Util.dbg( 'Conditions', conditions.length, Conditions )
     return 'gray' if not Conditions? or not Conditions.AverageSpeed?
     @fillSpeed( Conditions.AverageSpeed )
 
   # Brute force array interation
   getTheCondition:( segId, conditions ) ->
     for condition in conditions
-      #Util.dbg( 'getTheCondition', segId, condition.SegmentId, condition.Conditions.AverageSpeed )
       if condition.SegmentId? and condition.Conditions?
         return condition.Conditions if segId is condition.SegmentId
     undefined
@@ -129,22 +122,12 @@ class DriveBar
       @updateRectFill( segId, fill )
     return
 
-  updateBars2:( trip, Data ) ->
-    Util.dbg( 'updateBars', @ext )
-    for condition in trip.conditions
-      segId = Util.toInt(condition.SegmentId)
-      fill  = @fillCondition( segId, trip.conditions )
-      @updateRectFill( segId, fill )
-    return
-
   rect:( g, segId, x0, y0, w, h, fill, stroke, thick, text ) ->
     svgId = @app.svgId( @name, segId.toString(), @ext )
     onClick = () =>
       `x = d3.mouse(this)[0]`
-      mile1 = @mileRef + @distRel *  x0    / @svgWidth()
-      mile  = @mileRef + @distRel *  x     / @svgWidth()
-      mile2 = @mileRef + @distRel * (x0+w) / @svgWidth()
-      #Util.dbg( 'DriveBar.rect()', { segId:segId, mile1:Util.toFixed(mile1,1),  mile:Util.toFixed(mile,1), mile2:Util.toFixed(mile2,1) } )
+      mile  = @mileRef + @distRel *  x / @svgWidth()
+      Util.dbg( 'DriveBar.rect()', { segId:segId, mile:Util.toFixed(mile,1) } )
       @doSeqmentDeals(segId,mile)
     g.append("svg:rect").attr('id',svgId).attr("x",x0).attr("y",y0).attr("width",w).attr("height",h).attr('segId',segId)
      .attr("fill",fill).attr("stroke",stroke).attr("stroke-width",thick)

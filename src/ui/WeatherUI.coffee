@@ -1,7 +1,7 @@
 
-class Weather
+class WeatherUI
 
-  Util.Export( Weather, 'ui/Weather' )
+  Util.Export( WeatherUI, 'ui/WeatherUI' )
 
   # Devner Lat 39.779062 -104.982605
 

@@ -13,55 +13,48 @@ class App
   # @retryData implies that we access static data from data/exit folder up server failure in Rest Class - good for demos
   constructor:( @runDemo=true, @runRest=true, @retryData, @runSimulate=false, @runTest=false ) ->
 
-    # Initialize Trip parameters
-
-    @source             = undefined  # Dumb
-    @dest               = undefined  # Dumb
-
-    @subjectNames       = ['Select','Orient','Source','Destination','Trip','Recommendation','ETA','Location','TakeDeal','ArriveAtDeal',
-                           'Segments','Deals','Conditions',
-                           'RequestSegmentBy','RequestConditionsBy','RequestDealsBy']
+    @subjectNames       = ['Select','Location','Orient','Source','Destination','Trip','ETA','Recommendation']
 
     # Import Classes
-    Stream      = Util.Import( 'app/Stream'     )
-    Rest        = Util.Import( 'app/Rest'       )
-    Data        = Util.Import( 'app/Data'       )  # Static class with no need to instaciate
-    Model       = Util.Import( 'app/Model'      )
+    Stream        = Util.Import( 'app/Stream'       )
+    Rest          = Util.Import( 'app/Rest'         )
+    Data          = Util.Import( 'app/Data'         )  # Static class with no need to instaciate
+    Model         = Util.Import( 'app/Model'        )
 
-    Go          = Util.Import( 'ui/Go'          )
-    NoGo        = Util.Import( 'ui/NoGo'        )
-    Threshold   = Util.Import( 'ui/Threshold'   )
-    Destination = Util.Import( 'ui/Destination' )
+    GoUI          = Util.Import( 'ui/GoUI'          )
+    NoGoUI        = Util.Import( 'ui/NoGoUI'        )
+    ThresholdUI   = Util.Import( 'ui/ThresholdUI'   )
+    DestinationUI = Util.Import( 'ui/DestinationUI' )
 
-    Road        = Util.Import( 'ui/Road'        )
-    Weather     = Util.Import( 'ui/Weather'     )
-    Advisory    = Util.Import( 'ui/Advisory'    )
-    Trip        = Util.Import( 'ui/Trip'        )
+    RoadUI        = Util.Import( 'ui/RoadUI'        )
+    WeatherUI     = Util.Import( 'ui/WeatherUI'     )
+    AdvisoryUI    = Util.Import( 'ui/AdvisoryUI'    )
+    TripUI        = Util.Import( 'ui/TripUI'        )
 
-    Deals       = Util.Import( 'ui/Deals'       )
-    Navigate    = Util.Import( 'ui/Navigate'    )
-    UI          = Util.Import( 'ui/UI'          )
+    DealsUI       = Util.Import( 'ui/DealsUI'       )
+    NavigateUI    = Util.Import( 'ui/NavigateUI'    )
+    UI            = Util.Import( 'ui/UI'            )
 
-    Simulate    = Util.Import( 'app/Simulate'   )
-    Test        = Util.Import( 'app/Test'       )
+    Simulate    = Util.Import( 'app/Simulate'       )
+    Test        = Util.Import( 'app/Test'           )
 
     # Instantiate main App classes
-    @stream     = new Stream(        @, @subjectNames )
-    @rest       = new Rest(          @, @stream )
-    @model      = new Model(         @, @stream, @rest )
+    @stream     = new Stream(      @, @subjectNames  )
+    @rest       = new Rest(        @, @stream        )
+    @model      = new Model(       @, @stream, @rest )
 
     # Instantiate UI class
-    @go          = new Go(           @, @stream )
-    @nogo        = new NoGo(         @, @stream )
-    @threshold   = new Threshold(    @, @stream )
-    @destination = new Destination(  @, @stream, @threshold )
-    @road        = new Road(         @, @stream )
-    @weather     = new Weather(      @, @stream )
-    @advisory    = new Advisory(     @, @stream )
-    @trip        = new Trip(         @, @stream, @road, @weather, @advisory )
-    @deals       = new Deals(        @, @stream )
-    @navigate    = new Navigate(     @, @stream )
-    @ui          = new UI(           @, @stream, @destination, @go, @nogo, @trip, @deals, @navigate )
+    @goUI          = new GoUI(           @, @stream )
+    @nogoUI        = new NoGoUI(         @, @stream )
+    @thresholdUI   = new ThresholdUI(    @, @stream )
+    @destinationUI = new DestinationUI(  @, @stream, @thresholdUI )
+    @roadUI        = new RoadUI(         @, @stream )
+    @weatherUI     = new WeatherUI(      @, @stream )
+    @advisoryUI    = new AdvisoryUI(     @, @stream )
+    @tripUI        = new TripUI(         @, @stream, @roadUI, @weatherUI, @advisoryUI )
+    @dealsUI       = new DealsUI(        @, @stream )
+    @navigateUI    = new NavigateUI(     @, @stream )
+    @ui            = new UI(             @, @stream, @destinationUI, @goUI, @nogoUI, @tripUI, @dealsUI, @navigateUI )
 
     @ready()
     @position()
@@ -73,40 +66,22 @@ class App
 
   ready:() ->
     @model.ready()
-    @destination.ready()
-    @go.ready()
-    @nogo.ready()
-    @trip.ready()
-    @deals.ready()
-    @navigate.ready()
+    @destinationUI.ready()
+    @goUI.ready()
+    @nogoUI.ready()
+    @tripUI.ready()
+    @dealsUI.ready()
+    @navigateUI.ready()
     @ui.ready()
 
   position:() ->
-    @destination.position()
-    @go.position()
-    @nogo.position()
-    @trip.position()
-    @deals.position()
-    @navigate.position()
+    @destinationUI.position()
+    @goUI.position()
+    @nogoUI.position()
+    @tripUI.position()
+    @dealsUI.position()
+    @navigateUI.position()
     @subscribe()
-
-  subscribe:() ->
-    @stream.subscribe( 'Source',      (object) => @onSource(      object.content ) )
-    @stream.subscribe( 'Destination', (object) => @onDestination( object.content ) )
-
-
-
-  onSource:( source ) =>
-    @source = source
-    @model.createTrip( @source, @dest ) if @dest?
-    Util.dbg( 'App.onSource()', source )
-
-  onDestination:( destination ) =>
-    @dest = destination
-    @model.createTrip( @source, @dest ) if @source?
-    Util.dbg( 'App.onDestination()', destination )
-
-
 
   width:()  -> @ui.width()
   height:() -> @ui.height()

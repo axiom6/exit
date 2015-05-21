@@ -1,7 +1,7 @@
 
-class NoGo
+class NoGoUI
 
-  Util.Export( NoGo, 'ui/NoGo' )
+  Util.Export( NoGoUI, 'ui/NoGoUI' )
 
   constructor:( @app, @stream ) ->
     DriveBar  = Util.Import( 'ui/DriveBar')

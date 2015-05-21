@@ -1,7 +1,7 @@
 
-class Trip
+class TripUI
 
-  Util.Export( Trip,   'ui/Trip' )
+  Util.Export( TripUI,   'ui/TripUI' )
 
   constructor:( @app, @stream, @road, @weather, @advisory ) ->
     @Data = Util.Import( 'app/Data' )

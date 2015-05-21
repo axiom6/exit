@@ -1,7 +1,7 @@
 
-class Destination
+class DestinationUI
 
-  Util.Export( Destination, 'ui/Destination' )
+  Util.Export( DestinationUI, 'ui/DestinationUI' )
 
   constructor:( @app, @stream, @threshold ) ->
     @Data = Util.Import( 'app/Data' )

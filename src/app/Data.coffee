@@ -7,16 +7,13 @@ class Data
 
   Util.Export( Data, 'app/Data' )
 
-  @Destinations       =  ['','Denver', 'Idaho Springs','Georgetown', 'Silverthorne','Frisco', 'Copper Mtn', 'Vail', 'NoGo' ]
+  @Destinations     =  ['','Denver',        'Idaho Springs',       'Georgetown',        'Silverthorne',       'Frisco',        'Copper Mtn',        'Vail',        'NoGo' ]
+  @DestinationsMile =     {"Denver":260.79, "Idaho Springs":239.70,"Georgetown":227.90, "Silverthorne":205.50,"Frisco":200.70, "Copper Mtn":195.40, "Vail":177.00, "NoGo":[30,16] }
 
+  @DestinationsWest   =  ['Denver', 'Idaho Springs','Georgetown',   'Silverthorne','Frisco',        'Copper Mtn', 'Vail' ]
+  @DestinationsEast   =  ['Vail', 'Copper Mtn','Frisco',        'Silverthorne','Georgetown',  'Idaho Springs', 'Denver']
 
-  # Note Denver east is wrong and Vail or East Vail west is Wrong                                   ?
-  @DestinationsSegIds =  {"Denver":[16,45],"Morrison":[17,44],  "Idaho Springs":[21,41],"Georgetown":[23,39], "Silverthorne":[27,272],"Frisco":[28,34], "Copper Mtn":[29,33], "Vail":[30,31], "NoGo":[30,16] }
-
-  @DestinationsWest   =  ['Denver','Morrison',  'Idaho Springs','Georgetown',   'Silverthorne','Frisco',        'Copper Mtn', 'Vail' ]
-  @DestinationsEast   =  ['Vail', 'Copper Mtn','Frisco',        'Silverthorne','Georgetown',  'Idaho Springs', 'Morrison',   'Denver']
-
-  @scenario1 = { preset:1, dir:'East', beg:"Vail",       end:"C-470",      begCDOT:"East Vail to Vail Pass",           endCDOT:"Morrison / Heritage to C-470" }
+  @scenario1 = { preset:1, dir:'East', beg:"Vail",       end:"Denver",     begCDOT:"East Vail to Vail Pass",           endCDOT:"Morrison / Heritage to C-470" }
   @scenario2 = { preset:2, dir:'West', beg:"Denver",     end:"Vail",       begCDOT:"US 6 to C-470",                    endCDOT:"East Vail to Vail Pass" }
   @scenario3 = { preset:3, dir:'East', beg:"Vail",       end:"Bakerville", begCDOT:"East Vail to Vail Pass",           endCDOT:"Loveland to Bakerville" }
   @scenario4 = { preset:4, dir:'West', beg:"Georgetown", end:"Frisco",     begCDOT:"Georgetown to Bakerville",         endCDOT:"Silverthorne to Frisco (Main St)" }

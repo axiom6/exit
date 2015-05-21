@@ -1,7 +1,7 @@
 
-class Deals
+class DealsUI
 
-  Util.Export( Deals, 'ui/Deals' )
+  Util.Export( DealsUI, 'ui/DealsUI' )
 
   constructor:( @app, @stream ) ->
     @gritterId = 0

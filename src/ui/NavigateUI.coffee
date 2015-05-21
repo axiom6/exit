@@ -1,7 +1,7 @@
 
-class Navigate
+class NavigateUI
 
-  Util.Export( Navigate, 'ui/Navigate' )
+  Util.Export( NavigateUI, 'ui/NavigateUI' )
 
   constructor:( @app, @stream ) ->
 

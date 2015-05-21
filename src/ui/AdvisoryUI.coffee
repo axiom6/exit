@@ -1,7 +1,7 @@
 
-class Advisory
+class AdvisoryUI
 
-  Util.Export( Advisory, 'ui/Advisory' )
+  Util.Export( AdvisoryUI, 'ui/AdvisoryUI' )
 
   constructor:( @app, @stream ) ->
 

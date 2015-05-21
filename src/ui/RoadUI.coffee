@@ -1,7 +1,7 @@
 
-class Road
+class RoadUI
 
-  Util.Export( Road, 'ui/Road' )
+  Util.Export( RoadUI, 'ui/RoadUI' )
 
   constructor:( @app, @stream ) ->
     DriveBar  = Util.Import( 'ui/DriveBar')
