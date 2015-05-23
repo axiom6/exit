@@ -4,9 +4,9 @@ class DriveBarUI
   Util.Export( DriveBarUI, 'ui/DriveBarUI' )
 
   constructor:( @app, @stream, @ext, @parent, @orientation ) ->
-    @Data    = Util.Import( 'app/Data' )
-    @name    = 'DriveBar'
-    @created = false
+    @name     = 'DriveBar'
+    @lastTrip = { name:'' }
+    @created  = false
 
   html:() ->
     @htmlId = @app.id(@name,@ext)                                          # For createSvg()
@@ -17,7 +17,7 @@ class DriveBarUI
   ready:() ->
 
   position:() ->
-    [@svg,@$svg,@g,@$g,@gw,@gh,@y0] = @createSvg( @$, @htmlId, @name, @ext, @svgWidth(),  @svgHeight(), @barTop() )
+    [@svg,@$svg,@g,@$g,@gId,@gw,@gh,@y0] = @createSvg( @$, @htmlId, @name, @ext, @svgWidth(),  @svgHeight(), @barTop() )
     @left = @parent.$.offset().left
     @top  = @parent.$.offset().top
     @subscribe()
@@ -31,10 +31,11 @@ class DriveBarUI
     Util.dbg( 'DriveBar.onLocation()', @ext, latlon )
 
   onTrip:( trip ) =>
-    if not @created
-      @createBars( trip, @Data )
+    if not @created or trip.name isnt @lastTrip.name
+      @createBars( trip )
     else
-      @updateBars( trip, @Data )
+      @updateFills( trip )
+    @lastTrip = trip
 
   # layout changes base on orientation not working
   layout:( orientation ) ->
@@ -55,36 +56,28 @@ class DriveBarUI
     g     = svg.append("svg:g").attr("id",gId) # All tranforms are applied to g
     $svg  = $.find( '#'+svgId )
     $g    = $.find( '#'+gId   )
-    [svg,$svg,g,$g,width,height,barTop]
+    [svg,$svg,g,$g,gId,width,height,barTop]
 
-  createBars:( trip, Data ) ->
-    #trip.log( 'DriveBarsUI.createBars' )
+  createBars:( trip ) ->
+    d3.select('#'+@gId).selectAll("*").remove()
     @mileBeg  = trip.begMile()
     @mileEnd  = trip.endMile()
-    @mileRef  = if trip.direction is 'West' then @mileBeg else @mileEnd
-    @distRel  = @mileEnd - @mileBeg
     @distance = Math.abs( @mileEnd - @mileBeg )
-    Util.dbg( 'DriveBarUI.createBars() 1', { mileBeg:@mileBeg, mileEnd:@mileEnd,  mileRef:@mileRef, distance:@distance } )
+    # Util.dbg( 'DriveBarUI.createBars() 1', { mileBeg:@mileBeg, mileEnd:@mileEnd, distance:@distance } )
     thick    = 1
     x        = 0
     y        = @barTop()
-    ww       = @svgWidth()
+    w        = @svgWidth()
     h        = @barHeight()
-    @createTravelTime( trip, @g, x, y, ww, h )
+    @createTravelTime( trip, @g, x, y, w, h )
     @rect( trip, @g, trip.segments[0], @ext+'Border', x, y, w, h, 'transparent', 'white', thick*4, '' )
     for seg in trip.segments
-      sm    = Util.toFloat(seg.StartMileMarker)
-      em    = Util.toFloat(seg.EndMileMarker)
-      #m1    = if trip.direction is 'West' then sm else em
-      #m2    = if trip.direction is 'West' then em else sm
-      beg   = ww * Math.abs( sm - @mileRef ) / @distance
-      end   = ww * Math.abs( em - @mileRef ) / @distance
-      x     = if trip.direction is 'West' then beg else end
-      w     = Math.abs( end-beg )
+      beg   = w * Math.abs( Util.toFloat(seg.StartMileMarker) - @mileBeg ) / @distance
+      end   = w * Math.abs( Util.toFloat(seg.EndMileMarker)   - @mileBeg ) / @distance
       fill  = @fillCondition( seg.segId, trip.conditions )
-      Util.dbg( 'DriveBarUI.createBars() 2', { segId:seg.segId, sm:sm, em:em,  x:x, w:w } )
-      @rect( trip, @g, seg, seg.segId, x, y, w, h, fill, 'black', thick, '' )
-      @created  = true
+      # Util.dbg( 'DriveBarUI.createBars() 2', { segId:seg.segId, beg:beg, end:end,  w:Math.abs(end-beg) } )
+      @rect( trip, @g, seg, seg.segId, beg, y, Math.abs(end-beg), h, fill, 'black', thick, '' )
+    @created  = true
     return
 
   createTravelTime:( trip, g, x, y, w, h ) ->
@@ -92,17 +85,15 @@ class DriveBarUI
     fontSizePx = fontSize + 'px'
     g.append("svg:text").text(trip.source).attr("x",4).attr("y",y-fontSize).attr('fill','white')
      .attr("text-anchor","start").attr("font-size",fontSizePx).attr("font-family","Droid Sans")
-    g.append("svg:text").text('TRAVEL TIME').attr("x",w/2).attr("y",y-fontSize*2.2 ).attr('fill','white')
+    g.append("svg:text").text('TRAVEL TIME').attr("x",w/2).attr("y",y-fontSize*3.3 ).attr('fill','white')
      .attr("text-anchor","middle").attr("font-size",fontSizePx).attr("font-family","Droid Sans")
-    g.append("svg:text").text(trip.etaHoursMins()).attr("x",w/2).attr("y",  y-fontSize ).attr('fill','white')
+    g.append("svg:text").text(trip.etaHoursMins()).attr("x",w/2).attr("y",y-fontSize*2.2 ).attr('fill','white')
      .attr("text-anchor","middle").attr("font-size",fontSizePx).attr("font-family","Droid Sans")
     g.append("svg:text").text(trip.destination).attr("x",w-4).attr("y",y-fontSize ).attr('fill','white')
      .attr("text-anchor","end").attr("font-size",fontSizePx).attr("font-family","Droid Sans")
 
   fillCondition:( segId, conditions ) ->
     Conditions = @getTheCondition( segId, conditions )
-    AverageSpeed = if Conditions? then Conditions.AverageSpeed else -1.0
-    #Util.dbg( 'DriveBarUI.fillCondition()', { segId:segId, hasConditions:Conditions?, AverageSpeed:AverageSpeed  } )
     return 'gray' if not Conditions? or not Conditions.AverageSpeed?
     @fillSpeed( Conditions.AverageSpeed )
 
@@ -121,8 +112,7 @@ class DriveBarUI
     else if  0 < speed and speed <= 15 then fill = 'black'
     fill
 
-  updateBars:( trip, Data ) ->
-    Util.dbg( 'updateBars', @ext )
+  updateFills:( trip ) ->
     for condition in trip.conditions
       segId = Util.toInt(condition.SegmentId)
       fill  = @fillSpeed( condition.Conditions.AverageSpeed )
@@ -135,7 +125,7 @@ class DriveBarUI
 
     onClick = () =>
       `x = d3.mouse(this)[0]`
-      mile  = @mileRef + @distance *  x / @svgWidth()
+      mile  = @mileBeg + (@mileEnd-@mileBeg) *  x / @svgWidth()
       Util.dbg( 'DriveBar.rect()', { segId:segId, beg:seg.StartMileMarker, mile:Util.toFixed(mile,1), end:seg.EndMileMarker } )
       @doSeqmentDeals(trip,segId,mile)
 

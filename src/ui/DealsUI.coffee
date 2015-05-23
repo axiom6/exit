@@ -36,13 +36,13 @@ class DealsUI
     #@stream.subscribe( 'Conditions',  (object) => @onConditions( object.content) )
 
   onTrip:( trip ) ->
-    Util.dbg( 'Deals.onTrip()' )
+    Util.noop( 'Deals.onTrip()', trip )
 
   onLocation:( latlon ) ->
     Util.dbg( 'Deals.onLocation() latlon', latlon )
 
   layout:( orientation ) ->
-    Util.dbg( 'Deals.layout()', orientation )
+    Util.noop( 'Deals.layout()', orientation )
 
   latLon:() ->
     [39.574431,-106.09752]
@@ -52,7 +52,7 @@ class DealsUI
     #$('#gritter-notice-wrapper').hide() if not @isVisible
 
   onConditions:( conditions ) ->
-    Util.dbg( 'Deals.onConditions()' )
+    Util.noop( 'Deals.onConditions()' )
 
   getGoDeals:()   -> @dealsData
   getNoGoDeals:() -> @dealsData

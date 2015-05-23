@@ -13,8 +13,10 @@
       this.parent = parent;
       this.orientation = orientation1;
       this.onTrip = bind(this.onTrip, this);
-      this.Data = Util.Import('app/Data');
       this.name = 'DriveBar';
+      this.lastTrip = {
+        name: ''
+      };
       this.created = false;
     }
 
@@ -30,7 +32,7 @@
 
     DriveBarUI.prototype.position = function() {
       var ref;
-      ref = this.createSvg(this.$, this.htmlId, this.name, this.ext, this.svgWidth(), this.svgHeight(), this.barTop()), this.svg = ref[0], this.$svg = ref[1], this.g = ref[2], this.$g = ref[3], this.gw = ref[4], this.gh = ref[5], this.y0 = ref[6];
+      ref = this.createSvg(this.$, this.htmlId, this.name, this.ext, this.svgWidth(), this.svgHeight(), this.barTop()), this.svg = ref[0], this.$svg = ref[1], this.g = ref[2], this.$g = ref[3], this.gId = ref[4], this.gw = ref[5], this.gh = ref[6], this.y0 = ref[7];
       this.left = this.parent.$.offset().left;
       this.top = this.parent.$.offset().top;
       return this.subscribe();
@@ -59,11 +61,12 @@
     };
 
     DriveBarUI.prototype.onTrip = function(trip) {
-      if (!this.created) {
-        return this.createBars(trip, this.Data);
+      if (!this.created || trip.name !== this.lastTrip.name) {
+        this.createBars(trip);
       } else {
-        return this.updateBars(trip, this.Data);
+        this.updateFills(trip);
       }
+      return this.lastTrip = trip;
     };
 
     DriveBarUI.prototype.layout = function(orientation) {
@@ -102,49 +105,31 @@
       g = svg.append("svg:g").attr("id", gId);
       $svg = $.find('#' + svgId);
       $g = $.find('#' + gId);
-      return [svg, $svg, g, $g, width, height, barTop];
+      return [svg, $svg, g, $g, gId, width, height, barTop];
     };
 
-    DriveBarUI.prototype.createBars = function(trip, Data) {
-      var beg, em, end, fill, h, i, len, ref, seg, sm, thick, w, ww, x, y;
+    DriveBarUI.prototype.createBars = function(trip) {
+      var beg, end, fill, h, i, len, ref, seg, thick, w, x, y;
+      d3.select('#' + this.gId).selectAll("*").remove();
       this.mileBeg = trip.begMile();
       this.mileEnd = trip.endMile();
-      this.mileRef = trip.direction === 'West' ? this.mileBeg : this.mileEnd;
-      this.distRel = this.mileEnd - this.mileBeg;
       this.distance = Math.abs(this.mileEnd - this.mileBeg);
-      Util.dbg('DriveBarUI.createBars() 1', {
-        mileBeg: this.mileBeg,
-        mileEnd: this.mileEnd,
-        mileRef: this.mileRef,
-        distance: this.distance
-      });
       thick = 1;
       x = 0;
       y = this.barTop();
-      ww = this.svgWidth();
+      w = this.svgWidth();
       h = this.barHeight();
-      this.createTravelTime(trip, this.g, x, y, ww, h);
+      this.createTravelTime(trip, this.g, x, y, w, h);
       this.rect(trip, this.g, trip.segments[0], this.ext + 'Border', x, y, w, h, 'transparent', 'white', thick * 4, '');
       ref = trip.segments;
       for (i = 0, len = ref.length; i < len; i++) {
         seg = ref[i];
-        sm = Util.toFloat(seg.StartMileMarker);
-        em = Util.toFloat(seg.EndMileMarker);
-        beg = ww * Math.abs(sm - this.mileRef) / this.distance;
-        end = ww * Math.abs(em - this.mileRef) / this.distance;
-        x = trip.direction === 'West' ? beg : end;
-        w = Math.abs(end - beg);
+        beg = w * Math.abs(Util.toFloat(seg.StartMileMarker) - this.mileBeg) / this.distance;
+        end = w * Math.abs(Util.toFloat(seg.EndMileMarker) - this.mileBeg) / this.distance;
         fill = this.fillCondition(seg.segId, trip.conditions);
-        Util.dbg('DriveBarUI.createBars() 2', {
-          segId: seg.segId,
-          sm: sm,
-          em: em,
-          x: x,
-          w: w
-        });
-        this.rect(trip, this.g, seg, seg.segId, x, y, w, h, fill, 'black', thick, '');
-        this.created = true;
+        this.rect(trip, this.g, seg, seg.segId, beg, y, Math.abs(end - beg), h, fill, 'black', thick, '');
       }
+      this.created = true;
     };
 
     DriveBarUI.prototype.createTravelTime = function(trip, g, x, y, w, h) {
@@ -152,15 +137,14 @@
       fontSize = 18;
       fontSizePx = fontSize + 'px';
       g.append("svg:text").text(trip.source).attr("x", 4).attr("y", y - fontSize).attr('fill', 'white').attr("text-anchor", "start").attr("font-size", fontSizePx).attr("font-family", "Droid Sans");
-      g.append("svg:text").text('TRAVEL TIME').attr("x", w / 2).attr("y", y - fontSize * 2.2).attr('fill', 'white').attr("text-anchor", "middle").attr("font-size", fontSizePx).attr("font-family", "Droid Sans");
-      g.append("svg:text").text(trip.etaHoursMins()).attr("x", w / 2).attr("y", y - fontSize).attr('fill', 'white').attr("text-anchor", "middle").attr("font-size", fontSizePx).attr("font-family", "Droid Sans");
+      g.append("svg:text").text('TRAVEL TIME').attr("x", w / 2).attr("y", y - fontSize * 3.3).attr('fill', 'white').attr("text-anchor", "middle").attr("font-size", fontSizePx).attr("font-family", "Droid Sans");
+      g.append("svg:text").text(trip.etaHoursMins()).attr("x", w / 2).attr("y", y - fontSize * 2.2).attr('fill', 'white').attr("text-anchor", "middle").attr("font-size", fontSizePx).attr("font-family", "Droid Sans");
       return g.append("svg:text").text(trip.destination).attr("x", w - 4).attr("y", y - fontSize).attr('fill', 'white').attr("text-anchor", "end").attr("font-size", fontSizePx).attr("font-family", "Droid Sans");
     };
 
     DriveBarUI.prototype.fillCondition = function(segId, conditions) {
-      var AverageSpeed, Conditions;
+      var Conditions;
       Conditions = this.getTheCondition(segId, conditions);
-      AverageSpeed = Conditions != null ? Conditions.AverageSpeed : -1.0;
       if ((Conditions == null) || (Conditions.AverageSpeed == null)) {
         return 'gray';
       }
@@ -195,9 +179,8 @@
       return fill;
     };
 
-    DriveBarUI.prototype.updateBars = function(trip, Data) {
+    DriveBarUI.prototype.updateFills = function(trip) {
       var condition, fill, i, len, ref, segId;
-      Util.dbg('updateBars', this.ext);
       ref = trip.conditions;
       for (i = 0, len = ref.length; i < len; i++) {
         condition = ref[i];
@@ -214,7 +197,7 @@
         return function() {
           x = d3.mouse(this)[0];
           var mile;
-          mile = _this.mileRef + _this.distance * x / _this.svgWidth();
+          mile = _this.mileBeg + (_this.mileEnd - _this.mileBeg) * x / _this.svgWidth();
           Util.dbg('DriveBar.rect()', {
             segId: segId,
             beg: seg.StartMileMarker,

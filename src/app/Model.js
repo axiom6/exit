@@ -56,14 +56,14 @@
 
     Model.prototype.onSource = function(source) {
       this.source = source;
-      if (this.destination !== '?') {
+      if (this.destination !== '?' && this.source !== this.destination) {
         return this.createTrip(this.source, this.destination);
       }
     };
 
     Model.prototype.onDestination = function(destination) {
       this.destination = destination;
-      if (this.source !== '?') {
+      if (this.source !== '?' && this.source !== this.destination) {
         return this.createTrip(this.source, this.destination);
       }
     };
@@ -86,20 +86,16 @@
     };
 
     Model.prototype.doTrip = function(trip) {
-      var initalCompleteStatus;
-      initalCompleteStatus = !this.app.runRest;
-      this.segmentsComplete = initalCompleteStatus;
-      this.conditionsComplete = initalCompleteStatus;
-      this.dealsComplete = initalCompleteStatus;
-      if (this.app.runRest && this.first) {
-        this.rest.segmentsByPreset(trip.preset, this.doSegments);
-        this.rest.conditionsBySegments(trip.segmentIdsAll, this.doConditions);
-        return this.rest.deals(this.app.dealsUI.latLon(), trip.segmentIdsAll, this.doDeals);
-      }
+      this.segmentsComplete = false;
+      this.conditionsComplete = false;
+      this.dealsComplete = false;
+      this.rest.segmentsByPreset(trip.preset, this.doSegments);
+      this.rest.conditionsBySegments(trip.segmentIdsAll, this.doConditions);
+      return this.rest.deals(this.app.dealsUI.latLon(), trip.segmentIdsAll, this.doDeals);
     };
 
     Model.prototype.checkComplete = function() {
-      if (this.segmentsComplete && this.conditionsComplete && this.dealsComplete && this.first) {
+      if (this.segmentsComplete && this.conditionsComplete && this.dealsComplete) {
         this.first = false;
         return this.launchTrip();
       }
@@ -115,6 +111,7 @@
 
     Model.prototype.doSegments = function(args, segments) {
       var id, key, num, ref, ref1, seg, trip;
+      this.segments = segments;
       trip = this.trip();
       trip.travelTime = segments.travelTime;
       trip.segments = [];
@@ -131,17 +128,18 @@
         }
       }
       this.segmentsComplete = true;
-      Util.log('Model.doSegments segmenIds', trip.segmentIds);
       return this.checkComplete();
     };
 
     Model.prototype.doConditions = function(args, conditions) {
+      this.conditions = conditions;
       this.trip().conditions = conditions;
       this.conditionsComplete = true;
       return this.checkComplete();
     };
 
     Model.prototype.doDeals = function(args, deals) {
+      this.deals = deals;
       this.trip().deals = deals;
       this.dealsComplete = true;
       return this.checkComplete();

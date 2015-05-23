@@ -40,11 +40,13 @@ class Model
 
   onSource:(  source ) =>
     @source = source
-    @createTrip( @source, @destination ) if @destination isnt '?'
+    if @destination isnt '?' and @source isnt @destination
+      @createTrip( @source, @destination )
 
   onDestination:(  destination ) =>
     @destination = destination
-    @createTrip( @source, @destination ) if @source isnt '?'
+    if @source isnt '?'  and @source isnt @destination
+      @createTrip( @source, @destination )
 
   tripName:( source, destination ) ->
     "#{source}To#{destination}"
@@ -62,23 +64,17 @@ class Model
     return
 
   doTrip:( trip ) ->
-    initalCompleteStatus = not @app.runRest
-    @segmentsComplete    = initalCompleteStatus
-    @conditionsComplete  = initalCompleteStatus
-    @dealsComplete       = initalCompleteStatus
-    if @app.runRest and @first
-      @rest.segmentsByPreset(             trip.preset,        @doSegments   )
-      @rest.conditionsBySegments(         trip.segmentIdsAll, @doConditions )
-      @rest.deals( @app.dealsUI.latLon(), trip.segmentIdsAll, @doDeals      )
+    @segmentsComplete    = false
+    @conditionsComplete  = false
+    @dealsComplete       = false
+    @rest.segmentsByPreset(             trip.preset,        @doSegments   )
+    @rest.conditionsBySegments(         trip.segmentIdsAll, @doConditions )
+    @rest.deals( @app.dealsUI.latLon(), trip.segmentIdsAll, @doDeals      )
 
-  # checkComplete is call three times when each status completed is changed
+# checkComplete is call three times when each status completed is changed
   # goOrNoGo is then only called once
   checkComplete:() =>
-    if @segmentsComplete and @conditionsComplete and @dealsComplete and @first
-      # Push out all models together on the first full completion
-      # @stream.push( 'Segments',   @trip.segments,   'Model' )
-      # @stream.push( 'Conditions', @trip.conditions, 'Model' )
-      # @stream.push( 'Deals',      @trip.deals,      'Model' )
+    if @segmentsComplete and @conditionsComplete and @dealsComplete
       @first    = false
       @launchTrip()
 
@@ -89,6 +85,7 @@ class Model
     @stream.push( 'Trip', trip, 'Model' )
 
   doSegments:( args, segments ) =>
+    @segments       = segments
     trip            = @trip()
     trip.travelTime = segments.travelTime
     trip.segments   = []
@@ -101,15 +98,17 @@ class Model
         trip.segments.  push( seg )
         trip.segmentIds.push( num )
     @segmentsComplete = true
-    Util.log( 'Model.doSegments segmenIds', trip.segmentIds )
+    # Util.log( 'Model.doSegments segmenIds', trip.segmentIds )
     @checkComplete()
 
   doConditions:( args, conditions ) =>
-    @trip().conditions    = conditions
+    @conditions = conditions
+    @trip().conditions  = conditions
     @conditionsComplete = true
     @checkComplete()
 
   doDeals:( args, deals ) =>
+    @deals = deals
     @trip().deals = deals
     @dealsComplete = true
     @checkComplete()

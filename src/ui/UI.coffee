@@ -60,7 +60,7 @@ class UI
         </div>"""
 
   changeRecommendation:( recommendation ) ->
-    Util.dbg( 'UI.changeRecommendation', recommendation)
+    Util.noop( 'UI.changeRecommendation', recommendation)
     @select( recommendation )
     faClass = if recommendation is 'Go' then 'fa fa-thumbs-up' else 'fa fa-thumbs-down'
     @$recommendationFA.attr( 'class', faClass )
