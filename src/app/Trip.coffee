@@ -16,7 +16,7 @@ class Trip
 
     @segmentIdsAll  = []
     @segmentIds     = []
-    @segments       = {}
+    @segments       = []
     @conditions     = []
     @deals          = []
 
@@ -55,6 +55,7 @@ class Trip
     @eta            = @etaFromCondtions()
     @recommendation = @makeRecommendation()
     @spatial.pushLocations()
+    @spatial.mileSegs()
     @log( 'Trip.launch()' )
 
   etaFromCondtions:() =>

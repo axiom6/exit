@@ -6,6 +6,10 @@
   Spatial = (function() {
     Util.Export(Spatial, 'app/Spatial');
 
+    Spatial.EarthRadiusInMiles = 3958.761;
+
+    Spatial.EarthRadiusInMeters = 6371000;
+
     Spatial.MetersToFeet = 3.28084;
 
     Spatial.MetersPerSecToMPH = 0.44704;
@@ -17,6 +21,10 @@
     Spatial.EnableHighAccuracy = true;
 
     Spatial.PushLocationsOn = false;
+
+    Spatial.radians = function(deg) {
+      return deg * 0.01745329251996;
+    };
 
     Spatial.direction = function(source, destination) {
       var Data, hasSourceDesitnation;
@@ -145,13 +153,7 @@
       return location;
     };
 
-    Spatial.prototype.pushLocations = function() {
-      if (typeof geolocator !== "undefined" && geolocator !== null) {
-        return this.pushGeoLocators();
-      } else {
-        return this.pushNavLocations();
-      }
-    };
+    Spatial.prototype.pushLocations = function() {};
 
     Spatial.prototype.pushNavLocations = function() {
       var onError, onSuccess, options;
@@ -218,6 +220,74 @@
       return geocoder.geocode({
         'latLng': latlng
       }, onReverseGeo);
+    };
+
+    Spatial.prototype.seg = function(segNum) {
+      var j, len1, ref, segment;
+      ref = this.trip.segments;
+      for (j = 0, len1 = ref.length; j < len1; j++) {
+        segment = ref[j];
+        if (segment.num === segNum) {
+          return segment;
+        }
+      }
+      return void 0;
+    };
+
+    Spatial.prototype.mileSeg = function(seg) {
+      var i, j, latlngs, mile, ref;
+      mile = 0;
+      for (i = j = 1, ref = seg.latlngs.length; 1 <= ref ? j < ref : j > ref; i = 1 <= ref ? ++j : --j) {
+        latlngs = seg.latlngs;
+        mile += this.mileLatLon(latlngs[i - 1][0], latlngs[i - 1][1], latlngs[i][0], latlngs[i][1]);
+      }
+      return mile;
+    };
+
+    Spatial.prototype.mileSegs = function() {
+      var array, beg, dist, end, j, json, len1, mile, miles, obj, ref, seg;
+      array = [];
+      miles = Util.toFloat(this.trip.segments[0].StartMileMarker);
+      ref = this.trip.segments;
+      for (j = 0, len1 = ref.length; j < len1; j++) {
+        seg = ref[j];
+        mile = this.mileSeg(seg);
+        miles -= mile;
+        beg = Util.toFloat(seg.StartMileMarker);
+        end = Util.toFloat(seg.EndMileMarker);
+        dist = Util.toFixed(Math.abs(end - beg));
+        obj = {
+          num: seg.num,
+          mile: Util.toFixed(mile, 2),
+          dist: dist,
+          beg: seg.StartMileMarker,
+          end: seg.EndMileMarker,
+          miles: miles
+        };
+        array.push(obj);
+      }
+      json = JSON.stringify(array);
+      Util.dbg(json);
+      return miles;
+    };
+
+    Spatial.prototype.mileLatLon = function(lat1, lon1, lat2, lon2) {
+      var dLat, dLon, mLat, radians;
+      radians = Spatial.radians;
+      mLat = radians(lat2 + lat1) * 0.5;
+      dLat = radians(lat2 - lat1);
+      dLon = radians(lon2 - lon1);
+      return Spatial.EarthRadiusInMiles * Math.sqrt(dLat * dLat + dLon * dLon * Math.cos(mLat));
+    };
+
+    Spatial.prototype.mileLatLon2 = function(lat1, lon1, lat2, lon2) {
+      var a, c, dLat, dLon, radians;
+      radians = Spatial.radians;
+      dLat = radians(lat2 - lat1);
+      dLon = radians(lon2 - lon1);
+      a = Math.pow(Math.sin(dLat * 0.5), 2) + Math.cos(radians(lat1)) * Math.cos(radians(lat2)) * Math.pow(Math.sin(dLon * 0.5), 2);
+      c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return Spatial.EarthRadiusInMiles * c;
     };
 
     return Spatial;

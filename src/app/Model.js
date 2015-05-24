@@ -140,6 +140,7 @@
         ref1 = trip.segIdNum(key), id = ref1[0], num = ref1[1];
         if (trip.segInTrip(seg)) {
           seg['segId'] = num;
+          seg.num = num;
           trip.segments.push(seg);
           trip.segmentIds.push(num);
         }

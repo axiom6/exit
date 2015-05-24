@@ -95,6 +95,7 @@ class Model
       # Util.log( 'Model.doSegments id num', { id:id, num:num, beg:seg.StartMileMarker, end:seg.EndMileMarker } )
       if trip.segInTrip( seg )
         seg['segId'] = num
+        seg.num = num
         trip.segments.  push( seg )
         trip.segmentIds.push( num )
     @segmentsComplete = true

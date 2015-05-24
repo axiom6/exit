@@ -25,7 +25,7 @@
       this.preset = -1;
       this.segmentIdsAll = [];
       this.segmentIds = [];
-      this.segments = {};
+      this.segments = [];
       this.conditions = [];
       this.deals = [];
       this.begTown = new this.Town(this, this.source, 'Source');
@@ -68,6 +68,7 @@
       this.eta = this.etaFromCondtions();
       this.recommendation = this.makeRecommendation();
       this.spatial.pushLocations();
+      this.spatial.mileSegs();
       return this.log('Trip.launch()');
     };
 

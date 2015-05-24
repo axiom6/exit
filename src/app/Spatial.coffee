@@ -7,12 +7,16 @@ class Spatial
 
   Util.Export( Spatial, 'app/Spatial' )
 
-  @MetersToFeet       = 3.28084
-  @MetersPerSecToMPH  = 0.44704  # 5280 / ( Spatial.MetersToFeet * 3600 )
-  @MaxAgePosition     = 0        # 600000 One Minute
-  @TimeOutPosition    = 5000     # 600000 One Minute
-  @EnableHighAccuracy = true
-  @PushLocationsOn    = false
+  @EarthRadiusInMiles  = 3958.761
+  @EarthRadiusInMeters = 6371000
+  @MetersToFeet        = 3.28084
+  @MetersPerSecToMPH   = 0.44704  # 5280 / ( Spatial.MetersToFeet * 3600 )
+  @MaxAgePosition      = 0        # 600000 One Minute
+  @TimeOutPosition     = 5000     # 600000 One Minute
+  @EnableHighAccuracy  = true
+  @PushLocationsOn     = false
+
+  @radians:( deg ) -> deg * 0.01745329251996 # deg * PI / 180
 
   # Class Method called as Spatial.direction
   # Lot of boilerplate because @direction can be called from anywhere
@@ -79,7 +83,7 @@ class Spatial
     location  
     
   pushLocations:() ->
-    if geolocator? then @pushGeoLocators() else @pushNavLocations()
+    # if geolocator? then @pushGeoLocators() else @pushNavLocations()
 
   pushNavLocations:() ->
     if Spatial.PushLocationsOn then return else Spatial.PushLocationsOn = true
@@ -110,6 +114,51 @@ class Spatial
         Util.error( 'Spatial.pushAddressForLatLon() bad status from google.maps', status )
     latlng = new google.maps.LatLng( latLon.lat, latLon.lon )
     geocoder.geocode( {'latLng':latlng}, onReverseGeo )
+
+  seg:( segNum ) ->
+    for segment in @trip.segments
+      return segment if segment.num is segNum
+    undefined
+
+  mileSeg:( seg ) ->
+    mile = 0
+    for i in [1...seg.latlngs.length]
+      latlngs = seg.latlngs
+      mile += @mileLatLon( latlngs[i-1][0], latlngs[i-1][1], latlngs[i][0], latlngs[i][1] )
+    mile
+
+  mileSegs:() ->
+    array = []
+    miles = Util.toFloat(@trip.segments[0].StartMileMarker)
+    for seg in @trip.segments
+      mile   = @mileSeg(seg)
+      miles -= mile
+      beg    = Util.toFloat(seg.StartMileMarker)
+      end    = Util.toFloat(seg.EndMileMarker)
+      dist   = Util.toFixed(Math.abs(end-beg))
+      obj    = { num:seg.num, mile:Util.toFixed(mile,2), dist:dist, beg:seg.StartMileMarker, end:seg.EndMileMarker, miles:miles }
+      array.push(obj)
+    json = JSON.stringify(array)
+    Util.dbg( json )
+    miles
+
+
+  # This is a fast approximation formula for small distances. See Wikipedia:Geographical distance
+  mileLatLon:( lat1, lon1, lat2, lon2 ) ->
+    radians = Spatial.radians
+    mLat    = radians( lat2 + lat1 ) * 0.5 # Midpoint
+    dLat    = radians( lat2 - lat1 )
+    dLon    = radians( lon2 - lon1 )
+    Spatial.EarthRadiusInMiles * Math.sqrt( dLat*dLat + dLon*dLon*Math.cos(mLat) )
+
+  # This may provide a better result, but  have not a proper reference
+  mileLatLon2:(lat1, lon1, lat2, lon2 ) ->
+    radians = Spatial.radians
+    dLat    = radians(lat2 - lat1)
+    dLon    = radians(lon2 - lon1)
+    a = Math.sin(dLat*0.5) ** 2 + Math.cos(radians(lat1)) * Math.cos(radians(lat2)) * Math.sin(dLon*0.5) ** 2
+    c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+    Spatial.EarthRadiusInMiles * c # 6371000 * c  returns meters
 
 
 
