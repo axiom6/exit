@@ -4,7 +4,8 @@ class Rest
   Util.Export( Rest, 'app/Rest' )
 
   constructor:( @app, @stream  ) ->
-    @dataURL       = 'http://localhost:63342/Exit-Now-App/data/exit/'
+    @Spatial       = Util.Import( 'app/Spatial' )
+    @localURL      = 'http://localhost:63342/Exit-Now-App/data/exit/'
     @baseURL       = "http://104.154.46.117/"
     @jessURL       = "https://exit-now-admin-jesseporter32.c9.io/"
     @currURL       = @baseURL
@@ -12,95 +13,123 @@ class Rest
     @conditionsURL = @currURL + "api/state"
     @dealsURL      = @currURL + "api/deals"
     @cors          = 'json' # jsonp for different origin
-    @retryFroms    = {}
     @subscribe()
 
   subscribe:() ->
-    @stream.subscribe( 'RequestSegments',     (object) =>  @requestSegmentsBy(   object.content ) )
-    @stream.subscribe( 'RequestConditionsBy', (object) =>  @requestConditionsBy( object.content ) )
-    @stream.subscribe( 'RequestDealsBy',      (object) =>  @requestDealsBy(      object.content ) )
+    #@stream.subscribe( 'RequestSegments',     (object) =>  @requestSegmentsBy(   object.content ) )
+    #@stream.subscribe( 'RequestConditionsBy', (object) =>  @requestConditionsBy( object.content ) )
+    #@stream.subscribe( 'RequestDealsBy',      (object) =>  @requestDealsBy(      object.content ) )
+    
+  segmentsFromLocal:( direction, onSuccess, onError ) ->
+    url  = "#{@localURL}Segments#{direction}.json"
+    args = { url:url, direction:direction }
+    @get( url, 'Segments', args, onSuccess, onError  )
+    return
 
+  conditionsFromLocal:( direction, onSuccess, onError ) ->
+    url  = "#{@localURL}Conditions#{direction}.json"
+    args = { url:url, direction:direction }
+    @get( url, 'Conditions', args, onSuccess, onError  )
+    return
 
-  @requestSegmentsBy:( query ) ->
-    Util.dbg( 'Stream.requestSegmentsBy', query )
+  # At this point Deals are not queurid by direction
+  dealsFromLocal:( direction, onSuccess, onError ) ->
+    url  = "#{@localURL}Deals.json"
+    args = { url:url, direction:direction }
+    @get( url, 'Deals', args, onSuccess, onError )
+    return
 
-  @requestConditionsBy:( query ) ->
-    Util.dbg( 'Stream.requestConditionsBy', query )
-
-  @requestDealsBy:( query ) ->
-    Util.dbg( 'Stream.requestDealsBy', query )
-
-  segmentsByLatLon:( slat, slon, elat, elon, callback ) ->
-    args = { slat:slat, slon:slon, elat:elat, elon:elon }
-    url  = "#{@segmentURL}?start=#{slat},#{slon}&end=#{elat},#{elon}"
-    @get( url, 'Segments', args, callback )
-
-  segmentsByPreset:( preset, callback ) ->
+  segmentsByPreset:( preset, onSuccess, onError  ) ->
     args = { preset:preset }
     url  = "#{@segmentURL}?start=1,1&end=1,1&preset=#{preset}"
-    @get( url, 'Segments', args, callback )
+    @get( url, 'Segments', args, onSuccess, onError )
+    return
 
-  segmentsBySegments:( segments, callback ) ->
-    args = { segments:segments }
-    csv  = @toCsv( segments )
-    url  = "#{@segmentURL}?segments=#{csv}"
-    @get( url, 'Segments', args, callback )
-
-  conditionsBySegments:( segments, callback ) ->
+  conditionsBySegments:( segments, onSuccess, onError  ) ->
     args = { segments:segments }
     csv  = @toCsv( segments )
     url  = "#{@conditionsURL}?segments=#{csv}"
-    @get( url, 'Conditions', args, callback )
+    @get( url, 'Conditions', args, onSuccess, onError )
+    return
 
-  # Date is format like 01/01/2015
-  conditionsBySegmentsDate:( segments, date, callback ) ->
-    args = { segments:segments, date:date }
-    csv  = @toCsv( segments )
-    url  = "#{@conditionsURL}?segments=#{csv}&setdate=#{date}"
-    @get( url, 'Conditions', args, callback )
-
-  deals:( latlon, segments, callback ) ->
+  deals:( latlon, segments, onSuccess, onError  ) ->
     args = { segments:segments, lat:latlon[0], lon:latlon[1] }
     csv  = @toCsv( segments )
     url  = "#{@dealsURL}?segments=#{csv}&loc=#{latlon[0]},#{latlon[1]}"
-    @get( url, 'Deals', args, callback )
+    @get( url, 'Deals', args, onSuccess, onError )
+    return
 
-  dealsByUrl:( url, callback ) ->
-    Util.dbg( 'isCall', typeof(callback), callback? )
-    @get( url, 'Deals', {}, callback )
+  requestSegmentsBy:( query, onSuccess, onError  ) ->
+    Util.noop( 'Stream.requestSegmentsBy', query, onSuccess, onError )
+    return
+
+  requestConditionsBy:( query, onSuccess, onError  ) ->
+    Util.noop( 'Stream.requestConditionsBy', query, onSuccess, onError )
+    return
+
+  requestDealsBy:( query, onSuccess, onError  ) ->
+    Util.noop( 'Stream.requestDealsBy', query, onSuccess, onError )
+    return
+
+  segmentsByLatLon:( slat, slon, elat, elon, onSuccess, onError ) ->
+    args = { slat:slat, slon:slon, elat:elat, elon:elon }
+    url  = "#{@segmentURL}?start=#{slat},#{slon}&end=#{elat},#{elon}"
+    @get( url, 'Segments', args, onSuccess, onError )
+    return
+
+  segmentsBySegments:( segments, onSuccess, onError ) ->
+    args = { segments:segments }
+    csv  = @toCsv( segments )
+    url  = "#{@segmentURL}?segments=#{csv}"
+    @get( url, 'Segments', args, onSuccess, onError )
+    return
+
+# Date is format like 01/01/2015
+  conditionsBySegmentsDate:( segments, date, onSuccess, onError ) ->
+    args = { segments:segments, date:date }
+    csv  = @toCsv( segments )
+    url  = "#{@conditionsURL}?segments=#{csv}&setdate=#{date}"
+    @get( url, 'Conditions', args, onSuccess, onError )
+    return
+
+  dealsByUrl:( url, onSuccess, onError ) ->
+    Util.dbg( 'isCall', typeof(onSuccess), onSuccess? )
+    @get( url, 'Deals', {}, onSuccess, onError  )
+    return
 
   # Needs work
-  accept:( userId, dealId, convert ) ->
+  accept:( userId, dealId, convert, onSuccess, onError ) ->
     args = { userId:userId, dealId:dealId, convert:convert }
     url  = "#{@dealsURL}?userId=#{userId}&_id=#{dealId}&convert=#{convert}"
-    @post( url, 'Accept', args, callback )
+    @post( url, 'Accept', args, onSuccess, onError )
+    return
 
-  get:( url, from, args, callback ) ->
+  get:( url, from, args, onSuccess, onError ) ->
     settings = { url:url, type:'GET', dataType:@cors, contentType:'application/json; charset=utf-8' }
     settings.success = ( json, textStatus, jqXHR ) =>
       Util.noop( textStatus, jqXHR )
-      callback( args, json )
+      onSuccess( args, json )
+      return
     settings.error = ( jqXHR, textStatus, errorThrown ) =>
       Util.noop( errorThrown )
       Util.error( 'Rest.'+from, { url:url, args:args, text:textStatus } )
-      # This either incredably brilliant or dumb
-      if @app.retryData and @app.model.needData and @retryFroms[from]
-        @cors = 'json'
-        @get( @dataURL+from+'.json', from, args, callback )
-      @retryFroms[from] = false
-
+      onError( { url:url, args:args, from:from } )
+      return
     $.ajax( settings )
+    return
 
   # Needs work
-  post:( url, from, args, callback ) ->
+  post:( url, from, args, onSuccess, onError ) ->
     settings = { url:url, type:'POST', dataType:'jsonp' } # , contentType:'text/plain'
     settings.success = ( response, textStatus, jqXHR ) =>
       Util.noop( textStatus, jqXHR )
-      callback( args, response ) if callback?
+      onSuccess( args, response ) if onSuccess?
     settings.error = ( jqXHR, textStatus, errorThrown ) =>
       Util.noop( errorThrown )
       Util.error( 'Rest.'+from, { url:url, text:textStatus } )
+      onError( { url:url, args:args, from:from } )
     $.ajax( settings )
+    return
 
   toCsv:( array ) ->
     csv = ''
@@ -142,13 +171,13 @@ class Rest
       Util.dbg( '  ', { segmentId:dd.segmentId, lat:d.lat, lon:d.lon,  buiness:d.businessName, description:d.name } )
 
   # Deprecated
-  jsonParse:( url, from, args, json, callback ) ->
+  jsonParse:( url, from, args, json, onSuccess ) ->
     json = json.toString().replace(/(\r\n|\n|\r)/gm,"")  # Remove all line breaks
     Util.dbg( '--------------------------' )
     Util.dbg( json )
     Util.dbg( '--------------------------' )
     try
       objs = JSON.parse(json)
-      callback( args, objs )
+      onSuccess( args, objs )
     catch error
       Util.error( 'Rest.jsonParse()', { url:url, from:from, args:args, error:error } )

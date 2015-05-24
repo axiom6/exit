@@ -31,12 +31,12 @@
       })(this));
     };
 
-    AdvisoryUI.prototype.onLocation = function(latlon) {
-      return Util.dbg('Advisory.onLocation()', this.ext, latlon);
+    AdvisoryUI.prototype.onLocation = function(location) {
+      return Util.noop('AdvisoryUI.onLocation()', this.ext, location);
     };
 
     AdvisoryUI.prototype.layout = function(orientation) {
-      return Util.dbg('Advisory.layout()', orientation);
+      return Util.dbg('AdvisoryUI.layout()', orientation);
     };
 
     AdvisoryUI.prototype.html = function() {

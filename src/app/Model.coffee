@@ -11,25 +11,9 @@ class Model
     @source      = '?'
     @destination = '?'
     @trips       = {}
-    
-    # A poor man's chained completion status. 
-    # Could be implemented better in the future with a chained Stream or a synched promise chain
-    @segmentsComplete          = false
-    @conditionsComplete        = false
-    @dealsComplete             = false
-
-    # Identifier Arrays
-    @blat               = @Data.WestBegLatLon[0]
-    @blon               = @Data.WestBegLatLon[1]
-    @elat               = @Data.WestEndLatLon[0]
-    @elon               = @Data.WestEndLatLon[1]
+    @resetAllCompletionStatus()
     @segmentIds         = @Data.WestSegmentIds  # CDOT road speed segment for Demo I70 West from 6th Ave to East Vail
     @segmentIdsReturned = []                    # Accumulate by doSegments()
-
-    # Static data retry
-    @rest.retryFroms['Segments']   = true
-    @rest.retryFroms['Conditions'] = true
-    @rest.retryFroms['Deals']      = true
 
   ready:() ->
     @subscribe()
@@ -37,6 +21,16 @@ class Model
   subscribe:() ->
     @stream.subscribe( 'Source',      (object) => @onSource(      object.content ) )
     @stream.subscribe( 'Destination', (object) => @onDestination( object.content ) )
+
+  # A poor man's chained completion status.
+  # Could be implemented better in the future with a chained Stream or a synched promise chain
+  resetAllCompletionStatus:() ->
+    @segmentsComplete            = false
+    @segmentsCompleteWithError   = false
+    @conditionsComplete          = false
+    @conditionsCompleteWithError = false
+    @dealsComplete               = false
+    @dealsCompleteWithError      = false
 
   onSource:(  source ) =>
     @source = source
@@ -60,26 +54,32 @@ class Model
     @destination = destination
     name         = @tripName( @source, @destination )
     @trips[name] = new @Trip( @app, @stream, @, name, source, destination )
-    @doTrip( @trips[name] )
+    switch @app.dataSource
+      when 'Rest', 'RestThenLocal' then @doTrip(      @trips[name] )
+      when 'Local'                 then @doTripLocal( @trips[name] )
+      else Util.error( 'Model.createTrip() unknown dataSource', @app.dataSource )
     return
 
   doTrip:( trip ) ->
-    @segmentsComplete    = false
-    @conditionsComplete  = false
-    @dealsComplete       = false
-    @rest.segmentsByPreset(             trip.preset,        @doSegments   )
-    @rest.conditionsBySegments(         trip.segmentIdsAll, @doConditions )
-    @rest.deals( @app.dealsUI.latLon(), trip.segmentIdsAll, @doDeals      )
+    @resetAllCompletionStatus()
+    @rest.segmentsByPreset(             trip.preset,        @doSegments,   @onSegmentsError   )
+    @rest.conditionsBySegments(         trip.segmentIdsAll, @doConditions, @onConditionsError )
+    @rest.deals( @app.dealsUI.latLon(), trip.segmentIdsAll, @doDeals,      @onDealsError      )
+
+  doTripLocal:( trip ) ->
+    @resetAllCompletionStatus()
+    @rest.segmentsFromLocal(   trip.direction, @doSegments,   @onSegmentsError   )
+    @rest.conditionsFromLocal( trip.direction, @doConditions, @onConditionsError )
+    @rest.dealsFromLocal(      trip.direction, @doDeals,      @onDealsError      )
 
 # checkComplete is call three times when each status completed is changed
   # goOrNoGo is then only called once
   checkComplete:() =>
     if @segmentsComplete and @conditionsComplete and @dealsComplete
-      @first    = false
-      @launchTrip()
+      @launchTrip( @trip() )
 
-  launchTrip:( ) ->
-    trip = @trip()
+  launchTrip:( trip ) ->
+    @first = false
     trip.launch()
     @app.ui.changeRecommendation( trip.recommendation )
     @stream.push( 'Trip', trip, 'Model' )
@@ -112,5 +112,31 @@ class Model
     @trip().deals = deals
     @dealsComplete = true
     @checkComplete()
+
+  onSegmentsError:( obj ) =>
+    Util.error( 'Model.onSegmentError()', obj )
+    @segmentsCompleteWithError = true
+    @errorsDetected()
+
+  onConditionsError:( obj ) =>
+    Util.error( 'Model.onConditionsError()', obj )
+    @conditionsCompleteWithError = true
+    @errorsDetected()
+
+  onDealsError:( obj ) =>
+    Util.error( 'Model.onDealsError()', obj )
+    @dealsCompleteWithError = true
+    @errorsDetected()
+
+  errorsDetected:() =>
+    if( (@segmentsComplete   or @segmentsCompleteWithError)   and
+        (@conditionsComplete or @conditionsCompleteWithError) and
+        (@dealsComplete      or @dealsCompleteWithError)      and
+         @app.dataSource is 'RestThenLocal' and @first )
+      @doTripLocal( @trip() )
+    else
+      Util.error( 'Model.errorsDetected access data unable to proceed with trip' )
+
+
 
 

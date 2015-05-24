@@ -16,7 +16,6 @@ class Trip
 
     @segmentIdsAll  = []
     @segmentIds     = []
-    @segmentsPreset = {}
     @segments       = {}
     @conditions     = []
     @deals          = []
@@ -24,7 +23,7 @@ class Trip
     @begTown        = new @Town( @, @source,      'Source'      )
     @endTown        = new @Town( @, @destination, 'Destination' )
     @spatial        = new @Spatial( @app, @stream, @ )
-    @direction      = @spatial.direction( @source, @destination )
+    @direction      = @Spatial.direction( @source, @destination )
     @initByDirection( @direction )
 
   initByDirection:( direction ) ->
@@ -55,6 +54,7 @@ class Trip
   launch:() ->
     @eta            = @etaFromCondtions()
     @recommendation = @makeRecommendation()
+    @spatial.pushLocations()
     @log( 'Trip.launch()' )
 
   etaFromCondtions:() =>

@@ -277,17 +277,17 @@
       return Util.dbg('Weather.onTrip()', trip);
     };
 
-    WeatherUI.prototype.onLocation = function(latlon) {
-      return Util.dbg('Weather.onLocation() latlon', latlon);
+    WeatherUI.prototype.onLocation = function(location) {
+      return Util.noop('Weather.onLocation()', location);
     };
 
     WeatherUI.prototype.layout = function(orientation) {
-      return Util.dbg('Weather.layout() latlon', orientation);
+      return Util.noop('Weather.layout()', orientation);
     };
 
     WeatherUI.prototype.onConditions = function(conditions) {
       Util.noop(conditions);
-      return Util.dbg('Weather.onConditions()');
+      return Util.noop('Weather.onConditions()');
     };
 
     WeatherUI.prototype.exitJSON = function(json) {

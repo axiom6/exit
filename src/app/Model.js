@@ -11,6 +11,10 @@
       this.app = app;
       this.stream = stream;
       this.rest = rest;
+      this.errorsDetected = bind(this.errorsDetected, this);
+      this.onDealsError = bind(this.onDealsError, this);
+      this.onConditionsError = bind(this.onConditionsError, this);
+      this.onSegmentsError = bind(this.onSegmentsError, this);
       this.doDeals = bind(this.doDeals, this);
       this.doConditions = bind(this.doConditions, this);
       this.doSegments = bind(this.doSegments, this);
@@ -23,18 +27,9 @@
       this.source = '?';
       this.destination = '?';
       this.trips = {};
-      this.segmentsComplete = false;
-      this.conditionsComplete = false;
-      this.dealsComplete = false;
-      this.blat = this.Data.WestBegLatLon[0];
-      this.blon = this.Data.WestBegLatLon[1];
-      this.elat = this.Data.WestEndLatLon[0];
-      this.elon = this.Data.WestEndLatLon[1];
+      this.resetAllCompletionStatus();
       this.segmentIds = this.Data.WestSegmentIds;
       this.segmentIdsReturned = [];
-      this.rest.retryFroms['Segments'] = true;
-      this.rest.retryFroms['Conditions'] = true;
-      this.rest.retryFroms['Deals'] = true;
     }
 
     Model.prototype.ready = function() {
@@ -52,6 +47,15 @@
           return _this.onDestination(object.content);
         };
       })(this));
+    };
+
+    Model.prototype.resetAllCompletionStatus = function() {
+      this.segmentsComplete = false;
+      this.segmentsCompleteWithError = false;
+      this.conditionsComplete = false;
+      this.conditionsCompleteWithError = false;
+      this.dealsComplete = false;
+      return this.dealsCompleteWithError = false;
     };
 
     Model.prototype.onSource = function(source) {
@@ -82,28 +86,41 @@
       this.destination = destination;
       name = this.tripName(this.source, this.destination);
       this.trips[name] = new this.Trip(this.app, this.stream, this, name, source, destination);
-      this.doTrip(this.trips[name]);
+      switch (this.app.dataSource) {
+        case 'Rest':
+        case 'RestThenLocal':
+          this.doTrip(this.trips[name]);
+          break;
+        case 'Local':
+          this.doTripLocal(this.trips[name]);
+          break;
+        default:
+          Util.error('Model.createTrip() unknown dataSource', this.app.dataSource);
+      }
     };
 
     Model.prototype.doTrip = function(trip) {
-      this.segmentsComplete = false;
-      this.conditionsComplete = false;
-      this.dealsComplete = false;
-      this.rest.segmentsByPreset(trip.preset, this.doSegments);
-      this.rest.conditionsBySegments(trip.segmentIdsAll, this.doConditions);
-      return this.rest.deals(this.app.dealsUI.latLon(), trip.segmentIdsAll, this.doDeals);
+      this.resetAllCompletionStatus();
+      this.rest.segmentsByPreset(trip.preset, this.doSegments, this.onSegmentsError);
+      this.rest.conditionsBySegments(trip.segmentIdsAll, this.doConditions, this.onConditionsError);
+      return this.rest.deals(this.app.dealsUI.latLon(), trip.segmentIdsAll, this.doDeals, this.onDealsError);
+    };
+
+    Model.prototype.doTripLocal = function(trip) {
+      this.resetAllCompletionStatus();
+      this.rest.segmentsFromLocal(trip.direction, this.doSegments, this.onSegmentsError);
+      this.rest.conditionsFromLocal(trip.direction, this.doConditions, this.onConditionsError);
+      return this.rest.dealsFromLocal(trip.direction, this.doDeals, this.onDealsError);
     };
 
     Model.prototype.checkComplete = function() {
       if (this.segmentsComplete && this.conditionsComplete && this.dealsComplete) {
-        this.first = false;
-        return this.launchTrip();
+        return this.launchTrip(this.trip());
       }
     };
 
-    Model.prototype.launchTrip = function() {
-      var trip;
-      trip = this.trip();
+    Model.prototype.launchTrip = function(trip) {
+      this.first = false;
       trip.launch();
       this.app.ui.changeRecommendation(trip.recommendation);
       return this.stream.push('Trip', trip, 'Model');
@@ -143,6 +160,32 @@
       this.trip().deals = deals;
       this.dealsComplete = true;
       return this.checkComplete();
+    };
+
+    Model.prototype.onSegmentsError = function(obj) {
+      Util.error('Model.onSegmentError()', obj);
+      this.segmentsCompleteWithError = true;
+      return this.errorsDetected();
+    };
+
+    Model.prototype.onConditionsError = function(obj) {
+      Util.error('Model.onConditionsError()', obj);
+      this.conditionsCompleteWithError = true;
+      return this.errorsDetected();
+    };
+
+    Model.prototype.onDealsError = function(obj) {
+      Util.error('Model.onDealsError()', obj);
+      this.dealsCompleteWithError = true;
+      return this.errorsDetected();
+    };
+
+    Model.prototype.errorsDetected = function() {
+      if ((this.segmentsComplete || this.segmentsCompleteWithError) && (this.conditionsComplete || this.conditionsCompleteWithError) && (this.dealsComplete || this.dealsCompleteWithError) && this.app.dataSource === 'RestThenLocal' && this.first) {
+        return this.doTripLocal(this.trip());
+      } else {
+        return Util.error('Model.errorsDetected access data unable to proceed with trip');
+      }
     };
 
     return Model;

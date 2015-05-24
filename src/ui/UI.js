@@ -92,7 +92,7 @@
 
     UI.prototype.changeRecommendation = function(recommendation) {
       var faClass;
-      Util.dbg('UI.changeRecommendation', recommendation);
+      Util.noop('UI.changeRecommendation', recommendation);
       this.select(recommendation);
       faClass = recommendation === 'Go' ? 'fa fa-thumbs-up' : 'fa fa-thumbs-down';
       this.$recommendationFA.attr('class', faClass);

@@ -331,7 +331,7 @@ class Util
 
   @isDef:(d)         ->  d?
   @isStr:(s)         ->  s? and typeof(s)=="string" and s.length > 0
-  @isNum:(n)         ->  n? and typeof(n)=="number"
+  @isNum:(n)         ->  n? and typeof(n)=="number" and not isNaN(n)
   @isObj:(o)         ->  o? and typeof(o)=="object"
   @isObjEmpty:(o)    ->  Util.isObj(o) and Object.getOwnPropertyNames(o).length is 0
   @isFunc:(f)        ->  f? and typeof(f)=="function"
@@ -463,14 +463,15 @@ class Util
     pad(date.getUTCHours())+':'+pad(date.getUTCMinutes())+':'+pad(date.getUTCSeconds())+'Z'
 
   @toTime:( unixTime ) ->
-    date = new Date( unixTime * 1000 )
+    date = if Util.isNum(unixTime) then new Date( unixTime * 1000 ) else new Date()
     hour   = date.getHours()
     ampm   = 'AM'
     if hour > 12
       hour = hour - 12
       ampm = 'PM'
     min  = ('0' + date.getMinutes()).slice(-2)
-    time = hour + ':' + min + ' ' + ampm
+    sec  = ('0' + date.getSeconds()).slice(-2)
+    time = "#{hour}:#{min}:#{sec} #{ampm}"
     time
 
   # Generate four random hex digits

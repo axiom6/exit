@@ -13,7 +13,8 @@
       this.logDeals = bind(this.logDeals, this);
       this.logConditions = bind(this.logConditions, this);
       this.logSegments = bind(this.logSegments, this);
-      this.dataURL = 'http://localhost:63342/Exit-Now-App/data/exit/';
+      this.Spatial = Util.Import('app/Spatial');
+      this.localURL = 'http://localhost:63342/Exit-Now-App/data/exit/';
       this.baseURL = "http://104.154.46.117/";
       this.jessURL = "https://exit-now-admin-jesseporter32.c9.io/";
       this.currURL = this.baseURL;
@@ -21,93 +22,61 @@
       this.conditionsURL = this.currURL + "api/state";
       this.dealsURL = this.currURL + "api/deals";
       this.cors = 'json';
-      this.retryFroms = {};
       this.subscribe();
     }
 
-    Rest.prototype.subscribe = function() {
-      this.stream.subscribe('RequestSegments', (function(_this) {
-        return function(object) {
-          return _this.requestSegmentsBy(object.content);
-        };
-      })(this));
-      this.stream.subscribe('RequestConditionsBy', (function(_this) {
-        return function(object) {
-          return _this.requestConditionsBy(object.content);
-        };
-      })(this));
-      return this.stream.subscribe('RequestDealsBy', (function(_this) {
-        return function(object) {
-          return _this.requestDealsBy(object.content);
-        };
-      })(this));
-    };
+    Rest.prototype.subscribe = function() {};
 
-    Rest.requestSegmentsBy = function(query) {
-      return Util.dbg('Stream.requestSegmentsBy', query);
-    };
-
-    Rest.requestConditionsBy = function(query) {
-      return Util.dbg('Stream.requestConditionsBy', query);
-    };
-
-    Rest.requestDealsBy = function(query) {
-      return Util.dbg('Stream.requestDealsBy', query);
-    };
-
-    Rest.prototype.segmentsByLatLon = function(slat, slon, elat, elon, callback) {
+    Rest.prototype.segmentsFromLocal = function(direction, onSuccess, onError) {
       var args, url;
+      url = this.localURL + "Segments" + direction + ".json";
       args = {
-        slat: slat,
-        slon: slon,
-        elat: elat,
-        elon: elon
+        url: url,
+        direction: direction
       };
-      url = this.segmentURL + "?start=" + slat + "," + slon + "&end=" + elat + "," + elon;
-      return this.get(url, 'Segments', args, callback);
+      this.get(url, 'Segments', args, onSuccess, onError);
     };
 
-    Rest.prototype.segmentsByPreset = function(preset, callback) {
+    Rest.prototype.conditionsFromLocal = function(direction, onSuccess, onError) {
+      var args, url;
+      url = this.localURL + "Conditions" + direction + ".json";
+      args = {
+        url: url,
+        direction: direction
+      };
+      this.get(url, 'Conditions', args, onSuccess, onError);
+    };
+
+    Rest.prototype.dealsFromLocal = function(direction, onSuccess, onError) {
+      var args, url;
+      url = this.localURL + "Deals.json";
+      args = {
+        url: url,
+        direction: direction
+      };
+      this.get(url, 'Deals', args, onSuccess, onError);
+    };
+
+    Rest.prototype.segmentsByPreset = function(preset, onSuccess, onError) {
       var args, url;
       args = {
         preset: preset
       };
       url = this.segmentURL + "?start=1,1&end=1,1&preset=" + preset;
-      return this.get(url, 'Segments', args, callback);
+      this.get(url, 'Segments', args, onSuccess, onError);
     };
 
-    Rest.prototype.segmentsBySegments = function(segments, callback) {
-      var args, csv, url;
-      args = {
-        segments: segments
-      };
-      csv = this.toCsv(segments);
-      url = this.segmentURL + "?segments=" + csv;
-      return this.get(url, 'Segments', args, callback);
-    };
-
-    Rest.prototype.conditionsBySegments = function(segments, callback) {
+    Rest.prototype.conditionsBySegments = function(segments, onSuccess, onError) {
       var args, csv, url;
       args = {
         segments: segments
       };
       csv = this.toCsv(segments);
       url = this.conditionsURL + "?segments=" + csv;
-      return this.get(url, 'Conditions', args, callback);
+      this.get(url, 'Conditions', args, onSuccess, onError);
     };
 
-    Rest.prototype.conditionsBySegmentsDate = function(segments, date, callback) {
-      var args, csv, url;
-      args = {
-        segments: segments,
-        date: date
-      };
-      csv = this.toCsv(segments);
-      url = this.conditionsURL + "?segments=" + csv + "&setdate=" + date;
-      return this.get(url, 'Conditions', args, callback);
-    };
-
-    Rest.prototype.deals = function(latlon, segments, callback) {
+    Rest.prototype.deals = function(latlon, segments, onSuccess, onError) {
       var args, csv, url;
       args = {
         segments: segments,
@@ -116,15 +85,60 @@
       };
       csv = this.toCsv(segments);
       url = this.dealsURL + "?segments=" + csv + "&loc=" + latlon[0] + "," + latlon[1];
-      return this.get(url, 'Deals', args, callback);
+      this.get(url, 'Deals', args, onSuccess, onError);
     };
 
-    Rest.prototype.dealsByUrl = function(url, callback) {
-      Util.dbg('isCall', typeof callback, callback != null);
-      return this.get(url, 'Deals', {}, callback);
+    Rest.prototype.requestSegmentsBy = function(query, onSuccess, onError) {
+      Util.noop('Stream.requestSegmentsBy', query, onSuccess, onError);
     };
 
-    Rest.prototype.accept = function(userId, dealId, convert) {
+    Rest.prototype.requestConditionsBy = function(query, onSuccess, onError) {
+      Util.noop('Stream.requestConditionsBy', query, onSuccess, onError);
+    };
+
+    Rest.prototype.requestDealsBy = function(query, onSuccess, onError) {
+      Util.noop('Stream.requestDealsBy', query, onSuccess, onError);
+    };
+
+    Rest.prototype.segmentsByLatLon = function(slat, slon, elat, elon, onSuccess, onError) {
+      var args, url;
+      args = {
+        slat: slat,
+        slon: slon,
+        elat: elat,
+        elon: elon
+      };
+      url = this.segmentURL + "?start=" + slat + "," + slon + "&end=" + elat + "," + elon;
+      this.get(url, 'Segments', args, onSuccess, onError);
+    };
+
+    Rest.prototype.segmentsBySegments = function(segments, onSuccess, onError) {
+      var args, csv, url;
+      args = {
+        segments: segments
+      };
+      csv = this.toCsv(segments);
+      url = this.segmentURL + "?segments=" + csv;
+      this.get(url, 'Segments', args, onSuccess, onError);
+    };
+
+    Rest.prototype.conditionsBySegmentsDate = function(segments, date, onSuccess, onError) {
+      var args, csv, url;
+      args = {
+        segments: segments,
+        date: date
+      };
+      csv = this.toCsv(segments);
+      url = this.conditionsURL + "?segments=" + csv + "&setdate=" + date;
+      this.get(url, 'Conditions', args, onSuccess, onError);
+    };
+
+    Rest.prototype.dealsByUrl = function(url, onSuccess, onError) {
+      Util.dbg('isCall', typeof onSuccess, onSuccess != null);
+      this.get(url, 'Deals', {}, onSuccess, onError);
+    };
+
+    Rest.prototype.accept = function(userId, dealId, convert, onSuccess, onError) {
       var args, url;
       args = {
         userId: userId,
@@ -132,10 +146,10 @@
         convert: convert
       };
       url = this.dealsURL + "?userId=" + userId + "&_id=" + dealId + "&convert=" + convert;
-      return this.post(url, 'Accept', args, callback);
+      this.post(url, 'Accept', args, onSuccess, onError);
     };
 
-    Rest.prototype.get = function(url, from, args, callback) {
+    Rest.prototype.get = function(url, from, args, onSuccess, onError) {
       var settings;
       settings = {
         url: url,
@@ -146,7 +160,7 @@
       settings.success = (function(_this) {
         return function(json, textStatus, jqXHR) {
           Util.noop(textStatus, jqXHR);
-          return callback(args, json);
+          onSuccess(args, json);
         };
       })(this);
       settings.error = (function(_this) {
@@ -157,17 +171,17 @@
             args: args,
             text: textStatus
           });
-          if (_this.app.retryData && _this.app.model.needData && _this.retryFroms[from]) {
-            _this.cors = 'json';
-            _this.get(_this.dataURL + from + '.json', from, args, callback);
-          }
-          return _this.retryFroms[from] = false;
+          onError({
+            url: url,
+            args: args,
+            from: from
+          });
         };
       })(this);
-      return $.ajax(settings);
+      $.ajax(settings);
     };
 
-    Rest.prototype.post = function(url, from, args, callback) {
+    Rest.prototype.post = function(url, from, args, onSuccess, onError) {
       var settings;
       settings = {
         url: url,
@@ -177,21 +191,26 @@
       settings.success = (function(_this) {
         return function(response, textStatus, jqXHR) {
           Util.noop(textStatus, jqXHR);
-          if (callback != null) {
-            return callback(args, response);
+          if (onSuccess != null) {
+            return onSuccess(args, response);
           }
         };
       })(this);
       settings.error = (function(_this) {
         return function(jqXHR, textStatus, errorThrown) {
           Util.noop(errorThrown);
-          return Util.error('Rest.' + from, {
+          Util.error('Rest.' + from, {
             url: url,
             text: textStatus
           });
+          return onError({
+            url: url,
+            args: args,
+            from: from
+          });
         };
       })(this);
-      return $.ajax(settings);
+      $.ajax(settings);
     };
 
     Rest.prototype.toCsv = function(array) {
@@ -275,7 +294,7 @@
       return results;
     };
 
-    Rest.prototype.jsonParse = function(url, from, args, json, callback) {
+    Rest.prototype.jsonParse = function(url, from, args, json, onSuccess) {
       var error, objs;
       json = json.toString().replace(/(\r\n|\n|\r)/gm, "");
       Util.dbg('--------------------------');
@@ -283,7 +302,7 @@
       Util.dbg('--------------------------');
       try {
         objs = JSON.parse(json);
-        return callback(args, objs);
+        return onSuccess(args, objs);
       } catch (_error) {
         error = _error;
         return Util.error('Rest.jsonParse()', {

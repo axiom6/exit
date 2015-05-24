@@ -8,14 +8,12 @@
     $(document).ready(function() {
       Util.debug = true;
       Util.init();
-      return Util.app = new App(false, true, true, false, false);
+      return Util.app = new App('Local', false, false);
     });
 
-    function App(runDemo, runRest, retryData, runSimulate, runTest) {
+    function App(dataSource, runSimulate, runTest) {
       var AdvisoryUI, Data, DealsUI, DestinationUI, GoUI, Model, NavigateUI, NoGoUI, Rest, RoadUI, Simulate, Stream, Test, ThresholdUI, TripUI, UI, WeatherUI;
-      this.runDemo = runDemo != null ? runDemo : true;
-      this.runRest = runRest != null ? runRest : true;
-      this.retryData = retryData;
+      this.dataSource = dataSource != null ? dataSource : 'RestThenLocal';
       this.runSimulate = runSimulate != null ? runSimulate : false;
       this.runTest = runTest != null ? runTest : false;
       this.subjectNames = ['Select', 'Location', 'Orient', 'Source', 'Destination', 'Trip', 'ETA', 'Recommendation'];

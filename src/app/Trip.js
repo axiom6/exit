@@ -25,14 +25,13 @@
       this.preset = -1;
       this.segmentIdsAll = [];
       this.segmentIds = [];
-      this.segmentsPreset = {};
       this.segments = {};
       this.conditions = [];
       this.deals = [];
       this.begTown = new this.Town(this, this.source, 'Source');
       this.endTown = new this.Town(this, this.destination, 'Destination');
       this.spatial = new this.Spatial(this.app, this.stream, this);
-      this.direction = this.spatial.direction(this.source, this.destination);
+      this.direction = this.Spatial.direction(this.source, this.destination);
       this.initByDirection(this.direction);
     }
 
@@ -68,6 +67,7 @@
     Trip.prototype.launch = function() {
       this.eta = this.etaFromCondtions();
       this.recommendation = this.makeRecommendation();
+      this.spatial.pushLocations();
       return this.log('Trip.launch()');
     };
 

@@ -5,13 +5,12 @@ class App
 
   # This kicks off everything
   $(document).ready ->
-    Util.debug = true # Controls Util.dbg() debugging
+    Util.debug = true # Swithes  Util.dbg() debugging on or off
     Util.init()
-    Util.app = new App( false, true, true, false, false )
-    # Util.dbg( 'App Created' )
+    Util.app = new App( 'Local', false, false )
 
-  # @retryData implies that we access static data from data/exit folder up server failure in Rest Class - good for demos
-  constructor:( @runDemo=true, @runRest=true, @retryData, @runSimulate=false, @runTest=false ) ->
+  # @dataSource = 'Rest', 'Local' 'RestThenLocal'
+  constructor:( @dataSource='RestThenLocal',  @runSimulate=false, @runTest=false ) ->
 
     @subjectNames       = ['Select','Location','Orient','Source','Destination','Trip','ETA','Recommendation']
 

@@ -56,8 +56,8 @@
       })(this));
     };
 
-    DriveBarUI.prototype.onLocation = function(latlon) {
-      return Util.dbg('DriveBar.onLocation()', this.ext, latlon);
+    DriveBarUI.prototype.onLocation = function(location) {
+      return Util.noop('DriveBar.onLocation()', this.ext, location);
     };
 
     DriveBarUI.prototype.onTrip = function(trip) {

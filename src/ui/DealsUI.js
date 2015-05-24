@@ -58,15 +58,15 @@
     };
 
     DealsUI.prototype.onTrip = function(trip) {
-      return Util.dbg('Deals.onTrip()');
+      return Util.noop('Deals.onTrip()', trip);
     };
 
-    DealsUI.prototype.onLocation = function(latlon) {
-      return Util.dbg('Deals.onLocation() latlon', latlon);
+    DealsUI.prototype.onLocation = function(location) {
+      return Util.noop('DealsUI.onLocation()', this.ext, location);
     };
 
     DealsUI.prototype.layout = function(orientation) {
-      return Util.dbg('Deals.layout()', orientation);
+      return Util.noop('Deals.layout()', orientation);
     };
 
     DealsUI.prototype.latLon = function() {
@@ -76,7 +76,7 @@
     DealsUI.prototype.onDeals = function(deals) {};
 
     DealsUI.prototype.onConditions = function(conditions) {
-      return Util.dbg('Deals.onConditions()');
+      return Util.noop('Deals.onConditions()');
     };
 
     DealsUI.prototype.getGoDeals = function() {

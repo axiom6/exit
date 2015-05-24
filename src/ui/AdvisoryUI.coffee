@@ -15,11 +15,11 @@ class AdvisoryUI
     @stream.subscribe( 'Location', (object) => @onLocation(object.content) )
     @stream.subscribe( 'Orient',   (object) =>     @layout(object.content) )
 
-  onLocation:( latlon ) ->
-    Util.dbg( 'Advisory.onLocation()', @ext, latlon )
+  onLocation:( location ) ->
+    Util.noop( 'AdvisoryUI.onLocation()', @ext, location )
 
   layout:( orientation ) ->
-    Util.dbg( 'Advisory.layout()', orientation )
+    Util.dbg( 'AdvisoryUI.layout()', orientation )
 
   html:() ->
     """<div id="#{@app.id('Advisory')}" class="#{@app.css('Advisory')}"></div>"""

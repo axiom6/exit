@@ -27,8 +27,8 @@ class DriveBarUI
     @stream.subscribe( 'Orient',     (object) =>     @layout( object.content ) )
     @stream.subscribe( 'Trip',       (object) =>     @onTrip( object.content ) )
 
-  onLocation:( latlon ) ->
-    Util.dbg( 'DriveBar.onLocation()', @ext, latlon )
+  onLocation:( location ) ->
+    Util.noop( 'DriveBar.onLocation()', @ext, location )
 
   onTrip:( trip ) =>
     if not @created or trip.name isnt @lastTrip.name

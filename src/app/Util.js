@@ -527,7 +527,7 @@ Util = (function() {
   };
 
   Util.isNum = function(n) {
-    return (n != null) && typeof n === "number";
+    return (n != null) && typeof n === "number" && !isNaN(n);
   };
 
   Util.isObj = function(o) {
@@ -782,8 +782,8 @@ Util = (function() {
   };
 
   Util.toTime = function(unixTime) {
-    var ampm, date, hour, min, time;
-    date = new Date(unixTime * 1000);
+    var ampm, date, hour, min, sec, time;
+    date = Util.isNum(unixTime) ? new Date(unixTime * 1000) : new Date();
     hour = date.getHours();
     ampm = 'AM';
     if (hour > 12) {
@@ -791,7 +791,8 @@ Util = (function() {
       ampm = 'PM';
     }
     min = ('0' + date.getMinutes()).slice(-2);
-    time = hour + ':' + min + ' ' + ampm;
+    sec = ('0' + date.getSeconds()).slice(-2);
+    time = hour + ":" + min + ":" + sec + " " + ampm;
     return time;
   };
 

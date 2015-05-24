@@ -38,8 +38,8 @@ class DealsUI
   onTrip:( trip ) ->
     Util.noop( 'Deals.onTrip()', trip )
 
-  onLocation:( latlon ) ->
-    Util.dbg( 'Deals.onLocation() latlon', latlon )
+  onLocation:( location ) ->
+    Util.noop( 'DealsUI.onLocation()', @ext, location )
 
   layout:( orientation ) ->
     Util.noop( 'Deals.layout()', orientation )

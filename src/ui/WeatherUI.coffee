@@ -58,16 +58,16 @@ class WeatherUI
   onTrip:( trip ) ->
     Util.dbg( 'Weather.onTrip()', trip )
 
-  onLocation:( latlon ) ->
-    Util.dbg( 'Weather.onLocation() latlon', latlon )
+  onLocation:( location ) ->
+    Util.noop( 'Weather.onLocation()', location )
 
   layout:( orientation ) ->
-    Util.dbg( 'Weather.layout() latlon', orientation )
+    Util.noop( 'Weather.layout()', orientation )
 
 # For now the DriveBars handle most of the changing conditions
   onConditions:( conditions ) ->
     Util.noop(   conditions )
-    Util.dbg( 'Weather.onConditions()' )
+    Util.noop( 'Weather.onConditions()' )
 
   exitJSON:(  json ) ->
     ej = {}            # Exit Now JSON forecast
