@@ -8,6 +8,8 @@ class Rest
     @localURL      = 'http://localhost:63342/Exit-Now-App/data/exit/'
     @baseURL       = "http://104.154.46.117/"
     @jessURL       = "https://exit-now-admin-jesseporter32.c9.io/"
+    @forecastIoURL = "https://api.forecast.io/forecast/"
+    @forecastIoKey = '2c52a8974f127eee9de82ea06aadc7fb'
     @currURL       = @baseURL
     @segmentURL    = @currURL + "api/segment"
     @conditionsURL = @currURL + "api/state"
@@ -39,6 +41,20 @@ class Rest
     @get( url, 'Deals', args, onSuccess, onError )
     return
 
+  milePostsFromLocal:( onSuccess, onError ) ->
+    url  = "#{@localURL}I70Mileposts.json"
+    args = { url:url }
+    @get( url, 'Mileposts', args, onSuccess, onError )
+    return
+
+  # Like the other fromLocal methods this is plural,
+  #   because it gets all the forecasts for all the towns
+  forecastsFromLocal:( onSuccess, onError ) ->
+    url  = "#{@localURL}Forecasts.json"
+    args = { url:url }
+    @get( url, 'Forecasts', args, onSuccess, onError )
+    return
+
   segmentsByPreset:( preset, onSuccess, onError  ) ->
     args = { preset:preset }
     url  = "#{@segmentURL}?start=1,1&end=1,1&preset=#{preset}"
@@ -57,6 +73,24 @@ class Rest
     csv  = @toCsv( segments )
     url  = "#{@dealsURL}?segments=#{csv}&loc=#{latlon[0]},#{latlon[1]}"
     @get( url, 'Deals', args, onSuccess, onError )
+    return
+
+  # Unlike the other rest methods this is singular,
+  #   because it has to be called for each towm with its town.lon town.lat and town.time
+  forecastByTown:( name, town, onSuccess, onError ) ->
+    args = {  name:name, town:town, lat:town.lat, lon:town.lon, time:town.time, toIime:Util.toTime(town.time) }
+    Util.dbg( 'Rest.forecastByTown', args )
+    url  = """#{@forecastIoURL}#{@forecastIoKey}}/#{town.lat},#{town.lon},#{town.time}"""
+    #@get( url, 'Forecast', args, onSuccess, onError )
+    @getForecast( args, onSuccess, onError )
+    return
+
+  # Unlike the other rest methods this is singular,
+  #   because it has to be called for each lon lat and time
+  forecastByLatLonTime:( lat, lon, time, onSuccess, onError ) ->
+    args = { lat:lat, lon:lon, time:Util.toTime(time) }
+    url  = """#{@forecastIoURL}#{@forecastIoKey}}/#{lat},#{lon},#{time}"""
+    @get( url, 'Forecast', args, onSuccess, onError )
     return
 
   requestSegmentsBy:( query, onSuccess, onError  ) ->
@@ -104,6 +138,7 @@ class Rest
     @post( url, 'Accept', args, onSuccess, onError )
     return
 
+    """https://api.forecast.io/forecast/#{key}/#{loc.lat},#{loc.lon},#{loc.time}"""
   get:( url, from, args, onSuccess, onError ) ->
     settings = { url:url, type:'GET', dataType:@cors, contentType:'application/json; charset=utf-8' }
     settings.success = ( json, textStatus, jqXHR ) =>
@@ -117,6 +152,20 @@ class Rest
       return
     $.ajax( settings )
     return
+
+  getForecast:( args, onSuccess, onError ) ->
+    town = args.town
+    key = '2c52a8974f127eee9de82ea06aadc7fb'
+    url = """https://api.forecast.io/forecast/#{key}/#{town.lat},#{town.lon},#{town.time}"""
+    settings = { url:url, type:'GET', dataType:'jsonp', contentType:'text/plain' }
+    settings.success = ( json, textStatus, jqXHR ) =>
+      Util.noop( textStatus, jqXHR )
+      onSuccess( args, json )
+    settings.error = ( jqXHR, textStatus, errorThrown ) ->
+      Util.noop( errorThrown )
+      onError( { url:url, args:args, from:'Forecast' } )
+    $.ajax( settings )
+
 
   # Needs work
   post:( url, from, args, onSuccess, onError ) ->
@@ -137,14 +186,6 @@ class Rest
       csv += a.toString() + ','
     csv.substring( 0, csv.length-1 ) # Trim last comma
 
-  logSegments:( args, obj ) =>
-    segments = obj.segments
-    Util.dbg( 'logSegments args', args )
-    Util.dbg( 'logSegments segs', segments.length )
-    for segment in segments
-      [id,num] = @segIdNum( segment )
-      Util.dbg( 'logSegment', { id:id, num:num, name:segment.name } )
-
   segIdNum:( segment ) ->
     id  = ""
     num = 0
@@ -155,20 +196,41 @@ class Rest
         num   = key.substring(0,1)
     [id,num]
 
+  logSegments:( args, obj ) =>
+    args.size = segments.length
+    segments = obj.segments
+    Util.dbg( 'logSegments args', args )
+    for segment in segments
+      [id,num] = @segIdNum( segment )
+      Util.dbg( 'logSegment', { id:id, num:num, name:segment.name } )
+
   logConditions:( args, conditions ) =>
+    args.size = conditions.length
     Util.dbg( 'logConditions args',  args )
-    Util.dbg( 'logConditions conds', conditions.length )
+    Util.dbg( 'logConditions conds',  )
     for c in conditions
-      cc = c.Conditions
-      Util.dbg( '  condition', { SegmentId:c.SegmentId, TravelTime:cc.TravelTime, AverageSpeed:cc.AverageSpeed } )
-      Util.dbg( '  weather', cc.Weather )
+      cc = c['Conditions']
+      Util.dbg( '  condition', { SegmentId:c['SegmentId'], TravelTime:cc['TravelTime'], AverageSpeed:cc['AverageSpeed'] } )
+      Util.dbg( '  weather', cc['Weather'] )
 
   logDeals:( args, deals ) =>
+    args.size = deals.length
     Util.dbg( 'logDeals args',  args )
-    Util.dbg( 'logDeals deals', deals.length )
     for d in deals
-      dd = d.dealData
-      Util.dbg( '  ', { segmentId:dd.segmentId, lat:d.lat, lon:d.lon,  buiness:d.businessName, description:d.name } )
+      dd = d['dealData']
+      Util.dbg( '  ', { segmentId:dd['segmentId'], lat:d['lat'], lon:d['lon'],  buiness:d['businessName'], description:d['name'] } )
+
+  logMileposts:( args, mileposts ) =>
+    args.size = mileposts.length
+    Util.dbg( 'logMileposts args',  args )
+    for milepost in mileposts
+      Util.dbg( '  ', milepost )
+
+  logForecasts:( args, forecasts ) =>
+    args.size = forecasts.length
+    Util.dbg( 'logForecasts args',  args )
+    for forecast in forecasts
+      Util.dbg( '  ', forecast )
 
   # Deprecated
   jsonParse:( url, from, args, json, onSuccess ) ->

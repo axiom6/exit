@@ -16,7 +16,7 @@
       this.dataSource = dataSource != null ? dataSource : 'RestThenLocal';
       this.runSimulate = runSimulate != null ? runSimulate : false;
       this.runTest = runTest != null ? runTest : false;
-      this.subjectNames = ['Select', 'Location', 'Orient', 'Source', 'Destination', 'Trip', 'ETA', 'Recommendation'];
+      this.subjectNames = ['Select', 'Location', 'Orient', 'Source', 'Destination', 'Trip', 'Forecasts'];
       Stream = Util.Import('app/Stream');
       Rest = Util.Import('app/Rest');
       Data = Util.Import('app/Data');

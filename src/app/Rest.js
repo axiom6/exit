@@ -10,6 +10,8 @@
     function Rest(app, stream) {
       this.app = app;
       this.stream = stream;
+      this.logForecasts = bind(this.logForecasts, this);
+      this.logMileposts = bind(this.logMileposts, this);
       this.logDeals = bind(this.logDeals, this);
       this.logConditions = bind(this.logConditions, this);
       this.logSegments = bind(this.logSegments, this);
@@ -17,6 +19,8 @@
       this.localURL = 'http://localhost:63342/Exit-Now-App/data/exit/';
       this.baseURL = "http://104.154.46.117/";
       this.jessURL = "https://exit-now-admin-jesseporter32.c9.io/";
+      this.forecastIoURL = "https://api.forecast.io/forecast/";
+      this.forecastIoKey = '2c52a8974f127eee9de82ea06aadc7fb';
       this.currURL = this.baseURL;
       this.segmentURL = this.currURL + "api/segment";
       this.conditionsURL = this.currURL + "api/state";
@@ -57,6 +61,24 @@
       this.get(url, 'Deals', args, onSuccess, onError);
     };
 
+    Rest.prototype.milePostsFromLocal = function(onSuccess, onError) {
+      var args, url;
+      url = this.localURL + "I70Mileposts.json";
+      args = {
+        url: url
+      };
+      this.get(url, 'Mileposts', args, onSuccess, onError);
+    };
+
+    Rest.prototype.forecastsFromLocal = function(onSuccess, onError) {
+      var args, url;
+      url = this.localURL + "Forecasts.json";
+      args = {
+        url: url
+      };
+      this.get(url, 'Forecasts', args, onSuccess, onError);
+    };
+
     Rest.prototype.segmentsByPreset = function(preset, onSuccess, onError) {
       var args, url;
       args = {
@@ -86,6 +108,32 @@
       csv = this.toCsv(segments);
       url = this.dealsURL + "?segments=" + csv + "&loc=" + latlon[0] + "," + latlon[1];
       this.get(url, 'Deals', args, onSuccess, onError);
+    };
+
+    Rest.prototype.forecastByTown = function(name, town, onSuccess, onError) {
+      var args, url;
+      args = {
+        name: name,
+        town: town,
+        lat: town.lat,
+        lon: town.lon,
+        time: town.time,
+        toIime: Util.toTime(town.time)
+      };
+      Util.dbg('Rest.forecastByTown', args);
+      url = "" + this.forecastIoURL + this.forecastIoKey + "}/" + town.lat + "," + town.lon + "," + town.time;
+      this.getForecast(args, onSuccess, onError);
+    };
+
+    Rest.prototype.forecastByLatLonTime = function(lat, lon, time, onSuccess, onError) {
+      var args, url;
+      args = {
+        lat: lat,
+        lon: lon,
+        time: Util.toTime(time)
+      };
+      url = "" + this.forecastIoURL + this.forecastIoKey + "}/" + lat + "," + lon + "," + time;
+      this.get(url, 'Forecast', args, onSuccess, onError);
     };
 
     Rest.prototype.requestSegmentsBy = function(query, onSuccess, onError) {
@@ -147,6 +195,8 @@
       };
       url = this.dealsURL + "?userId=" + userId + "&_id=" + dealId + "&convert=" + convert;
       this.post(url, 'Accept', args, onSuccess, onError);
+      return;
+      return "https://api.forecast.io/forecast/" + key + "/" + loc.lat + "," + loc.lon + "," + loc.time;
     };
 
     Rest.prototype.get = function(url, from, args, onSuccess, onError) {
@@ -179,6 +229,34 @@
         };
       })(this);
       $.ajax(settings);
+    };
+
+    Rest.prototype.getForecast = function(args, onSuccess, onError) {
+      var key, settings, town, url;
+      town = args.town;
+      key = '2c52a8974f127eee9de82ea06aadc7fb';
+      url = "https://api.forecast.io/forecast/" + key + "/" + town.lat + "," + town.lon + "," + town.time;
+      settings = {
+        url: url,
+        type: 'GET',
+        dataType: 'jsonp',
+        contentType: 'text/plain'
+      };
+      settings.success = (function(_this) {
+        return function(json, textStatus, jqXHR) {
+          Util.noop(textStatus, jqXHR);
+          return onSuccess(args, json);
+        };
+      })(this);
+      settings.error = function(jqXHR, textStatus, errorThrown) {
+        Util.noop(errorThrown);
+        return onError({
+          url: url,
+          args: args,
+          from: 'Forecast'
+        });
+      };
+      return $.ajax(settings);
     };
 
     Rest.prototype.post = function(url, from, args, onSuccess, onError) {
@@ -223,24 +301,6 @@
       return csv.substring(0, csv.length - 1);
     };
 
-    Rest.prototype.logSegments = function(args, obj) {
-      var i, id, len1, num, ref, results, segment, segments;
-      segments = obj.segments;
-      Util.dbg('logSegments args', args);
-      Util.dbg('logSegments segs', segments.length);
-      results = [];
-      for (i = 0, len1 = segments.length; i < len1; i++) {
-        segment = segments[i];
-        ref = this.segIdNum(segment), id = ref[0], num = ref[1];
-        results.push(Util.dbg('logSegment', {
-          id: id,
-          num: num,
-          name: segment.name
-        }));
-      }
-      return results;
-    };
-
     Rest.prototype.segIdNum = function(segment) {
       var id, key, len, num, obj;
       id = "";
@@ -257,39 +317,82 @@
       return [id, num];
     };
 
+    Rest.prototype.logSegments = function(args, obj) {
+      var i, id, len1, num, ref, results, segment, segments;
+      args.size = segments.length;
+      segments = obj.segments;
+      Util.dbg('logSegments args', args);
+      results = [];
+      for (i = 0, len1 = segments.length; i < len1; i++) {
+        segment = segments[i];
+        ref = this.segIdNum(segment), id = ref[0], num = ref[1];
+        results.push(Util.dbg('logSegment', {
+          id: id,
+          num: num,
+          name: segment.name
+        }));
+      }
+      return results;
+    };
+
     Rest.prototype.logConditions = function(args, conditions) {
       var c, cc, i, len1, results;
+      args.size = conditions.length;
       Util.dbg('logConditions args', args);
-      Util.dbg('logConditions conds', conditions.length);
+      Util.dbg('logConditions conds');
       results = [];
       for (i = 0, len1 = conditions.length; i < len1; i++) {
         c = conditions[i];
-        cc = c.Conditions;
+        cc = c['Conditions'];
         Util.dbg('  condition', {
-          SegmentId: c.SegmentId,
-          TravelTime: cc.TravelTime,
-          AverageSpeed: cc.AverageSpeed
+          SegmentId: c['SegmentId'],
+          TravelTime: cc['TravelTime'],
+          AverageSpeed: cc['AverageSpeed']
         });
-        results.push(Util.dbg('  weather', cc.Weather));
+        results.push(Util.dbg('  weather', cc['Weather']));
       }
       return results;
     };
 
     Rest.prototype.logDeals = function(args, deals) {
       var d, dd, i, len1, results;
+      args.size = deals.length;
       Util.dbg('logDeals args', args);
-      Util.dbg('logDeals deals', deals.length);
       results = [];
       for (i = 0, len1 = deals.length; i < len1; i++) {
         d = deals[i];
-        dd = d.dealData;
+        dd = d['dealData'];
         results.push(Util.dbg('  ', {
-          segmentId: dd.segmentId,
-          lat: d.lat,
-          lon: d.lon,
-          buiness: d.businessName,
-          description: d.name
+          segmentId: dd['segmentId'],
+          lat: d['lat'],
+          lon: d['lon'],
+          buiness: d['businessName'],
+          description: d['name']
         }));
+      }
+      return results;
+    };
+
+    Rest.prototype.logMileposts = function(args, mileposts) {
+      var i, len1, milepost, results;
+      args.size = mileposts.length;
+      Util.dbg('logMileposts args', args);
+      results = [];
+      for (i = 0, len1 = mileposts.length; i < len1; i++) {
+        milepost = mileposts[i];
+        results.push(Util.dbg('  ', milepost));
+      }
+      return results;
+    };
+
+    Rest.prototype.logForecasts = function(args, forecasts) {
+      var forecast, i, len1, results;
+      args.size = forecasts.length;
+      Util.dbg('logForecasts args', args);
+      results = [];
+      for (i = 0, len1 = forecasts.length; i < len1; i++) {
+        forecast = forecasts[i];
+        results.push(Util.dbg('  ', forecast));
       }
       return results;
     };

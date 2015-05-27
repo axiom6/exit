@@ -9,6 +9,7 @@ class Spatial
 
   @EarthRadiusInMiles  = 3958.761
   @EarthRadiusInMeters = 6371000
+  @KiloMetersToMiles   = 0.621371
   @MetersToFeet        = 3.28084
   @MetersPerSecToMPH   = 0.44704  # 5280 / ( Spatial.MetersToFeet * 3600 )
   @MaxAgePosition      = 0        # 600000 One Minute
@@ -17,6 +18,7 @@ class Spatial
   @PushLocationsOn     = false
 
   @radians:( deg ) -> deg * 0.01745329251996 # deg * PI / 180
+  @cos:(     deg ) -> Math.cos(Spatial.radians(deg))
 
   # Class Method called as Spatial.direction
   # Lot of boilerplate because @direction can be called from anywhere
@@ -120,11 +122,26 @@ class Spatial
       return segment if segment.num is segNum
     undefined
 
+  milePosts:() ->
+    array = []
+    miles = @trip.milePosts.features[0].properties.Milepost
+    for i in [1...@trip.milePosts.features.length]
+      latLon1 = @trip.milePosts.features[i-1].geometry.coordinates
+      latLon2 = @trip.milePosts.features[i  ].geometry.coordinates
+      post    = @trip.milePosts.features[i  ].properties.Milepost
+      mile    = @mileLatLonFCC( latLon1[1], latLon1[0], latLon2[1], latLon2[0] )
+      miles  += mile
+      obj    = { mile:Util.toFixed(mile,2), miles:Util.toFixed(miles,2), post:post }
+      array.push(obj)
+    json = JSON.stringify(array)
+    Util.dbg( json )
+    miles
+
   mileSeg:( seg ) ->
     mile = 0
     for i in [1...seg.latlngs.length]
       latlngs = seg.latlngs
-      mile += @mileLatLon( latlngs[i-1][0], latlngs[i-1][1], latlngs[i][0], latlngs[i][1] )
+      mile += @mileLatLonFCC( latlngs[i-1][0], latlngs[i-1][1], latlngs[i][0], latlngs[i][1] )
     mile
 
   mileSegs:() ->
@@ -142,9 +159,18 @@ class Spatial
     Util.dbg( json )
     miles
 
+  # FCC formula derived from the binomial series of Clarke 1866 reference ellipsoid). See Wikipedia:Geographical distance
+  mileLatLonFCC:( lat1, lon1, lat2, lon2 ) ->
+    cos     = Spatial.cos
+    mLat    = ( lat2 + lat1 ) * 0.5 # Midpoint
+    dLat    =   lat2 - lat1
+    dLon    =   lon2 - lon1
+    k1      = 111.13209           - 0.56605*cos(2*mLat) + 0.00120*cos(4*mLat)
+    k2      = 111.41513*cos(mLat) - 0.09455*cos(3*mLat) + 0.00012*cos(5*mLat)
+    Spatial.KiloMetersToMiles * Math.sqrt( k1*k1*dLat*dLat + k2*k2*dLon*dLon )
 
   # This is a fast approximation formula for small distances. See Wikipedia:Geographical distance
-  mileLatLon:( lat1, lon1, lat2, lon2 ) ->
+  mileLatLonSpherical:( lat1, lon1, lat2, lon2 ) ->
     radians = Spatial.radians
     mLat    = radians( lat2 + lat1 ) * 0.5 # Midpoint
     dLat    = radians( lat2 - lat1 )

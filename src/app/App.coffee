@@ -9,10 +9,10 @@ class App
     Util.init()
     Util.app = new App( 'Local', false, false )
 
-  # @dataSource = 'Rest', 'Local' 'RestThenLocal'
+  # @dataSource = 'Rest', 'RestThenLocal', 'Local', 'LocalForecasts'
   constructor:( @dataSource='RestThenLocal',  @runSimulate=false, @runTest=false ) ->
 
-    @subjectNames       = ['Select','Location','Orient','Source','Destination','Trip','ETA','Recommendation']
+    @subjectNames = ['Select','Location','Orient','Source','Destination','Trip','Forecasts']
 
     # Import Classes
     Stream        = Util.Import( 'app/Stream'       )

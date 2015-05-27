@@ -12,9 +12,15 @@
       this.stream = stream;
       this.rest = rest;
       this.errorsDetected = bind(this.errorsDetected, this);
+      this.onMilePostsError = bind(this.onMilePostsError, this);
+      this.onTownForecastError = bind(this.onTownForecastError, this);
+      this.onForecastsError = bind(this.onForecastsError, this);
       this.onDealsError = bind(this.onDealsError, this);
       this.onConditionsError = bind(this.onConditionsError, this);
       this.onSegmentsError = bind(this.onSegmentsError, this);
+      this.doTownForecast = bind(this.doTownForecast, this);
+      this.doForecasts = bind(this.doForecasts, this);
+      this.doMilePosts = bind(this.doMilePosts, this);
       this.doDeals = bind(this.doDeals, this);
       this.doConditions = bind(this.doConditions, this);
       this.doSegments = bind(this.doSegments, this);
@@ -27,7 +33,16 @@
       this.source = '?';
       this.destination = '?';
       this.trips = {};
-      this.resetAllCompletionStatus();
+      this.resetCompletionStatus();
+      this.milePostsComplete = false;
+      this.milePostsCompleteWithError = false;
+      this.segments = [];
+      this.conditions = [];
+      this.deals = [];
+      this.forecasts = {};
+      this.forecastsPending = 0;
+      this.forecastsCount = 0;
+      this.milePosts = [];
       this.segmentIds = this.Data.WestSegmentIds;
       this.segmentIdsReturned = [];
     }
@@ -49,26 +64,26 @@
       })(this));
     };
 
-    Model.prototype.resetAllCompletionStatus = function() {
+    Model.prototype.resetCompletionStatus = function() {
       this.segmentsComplete = false;
       this.segmentsCompleteWithError = false;
       this.conditionsComplete = false;
       this.conditionsCompleteWithError = false;
       this.dealsComplete = false;
-      return this.dealsCompleteWithError = false;
+      this.dealsCompleteWithError = false;
     };
 
     Model.prototype.onSource = function(source) {
       this.source = source;
       if (this.destination !== '?' && this.source !== this.destination) {
-        return this.createTrip(this.source, this.destination);
+        this.createTrip(this.source, this.destination);
       }
     };
 
     Model.prototype.onDestination = function(destination) {
       this.destination = destination;
       if (this.source !== '?' && this.source !== this.destination) {
-        return this.createTrip(this.source, this.destination);
+        this.createTrip(this.source, this.destination);
       }
     };
 
@@ -92,6 +107,7 @@
           this.doTrip(this.trips[name]);
           break;
         case 'Local':
+        case 'LocalForecasts':
           this.doTripLocal(this.trips[name]);
           break;
         default:
@@ -100,21 +116,28 @@
     };
 
     Model.prototype.doTrip = function(trip) {
-      this.resetAllCompletionStatus();
+      this.resetCompletionStatus();
       this.rest.segmentsByPreset(trip.preset, this.doSegments, this.onSegmentsError);
       this.rest.conditionsBySegments(trip.segmentIdsAll, this.doConditions, this.onConditionsError);
-      return this.rest.deals(this.app.dealsUI.latLon(), trip.segmentIdsAll, this.doDeals, this.onDealsError);
+      this.rest.deals(this.app.dealsUI.latLon(), trip.segmentIdsAll, this.doDeals, this.onDealsError);
+      this.rest.milePostsFromLocal(this.doMilePosts, this.onMilePostsError);
     };
 
     Model.prototype.doTripLocal = function(trip) {
-      this.resetAllCompletionStatus();
+      this.resetCompletionStatus();
       this.rest.segmentsFromLocal(trip.direction, this.doSegments, this.onSegmentsError);
       this.rest.conditionsFromLocal(trip.direction, this.doConditions, this.onConditionsError);
-      return this.rest.dealsFromLocal(trip.direction, this.doDeals, this.onDealsError);
+      this.rest.dealsFromLocal(trip.direction, this.doDeals, this.onDealsError);
+      if (this.app.dataSource === 'Local') {
+        this.rest.forecastsFromLocal(this.doForecasts, this.onForecastsError);
+      }
+      if (!this.milePostsComplete && !this.milePostsCompleteWithError) {
+        this.rest.milePostsFromLocal(this.doMilePosts, this.onMilePostsError);
+      }
     };
 
     Model.prototype.checkComplete = function() {
-      if (this.segmentsComplete && this.conditionsComplete && this.dealsComplete) {
+      if (this.segmentsComplete && this.conditionsComplete && this.dealsComplete && this.milePostsComplete) {
         return this.launchTrip(this.trip());
       }
     };
@@ -123,12 +146,33 @@
       this.first = false;
       trip.launch();
       this.app.ui.changeRecommendation(trip.recommendation);
-      return this.stream.push('Trip', trip, 'Model');
+      this.stream.push('Trip', trip, 'Model');
+      if (this.app.dataSource !== 'Local') {
+        this.restForecasts(trip);
+      }
+    };
+
+    Model.prototype.restForecasts = function(trip) {
+      var name, ref, ref1, town;
+      this.forecastsPending = 0;
+      this.forecastsCount = 0;
+      ref = trip.towns;
+      for (name in ref) {
+        if (!hasProp.call(ref, name)) continue;
+        town = ref[name];
+        town.time = new Date().getTime();
+        this.forecastsPending++;
+      }
+      ref1 = trip.towns;
+      for (name in ref1) {
+        if (!hasProp.call(ref1, name)) continue;
+        town = ref1[name];
+        this.rest.forecastByTown(name, town, this.doTownForecast, this.onTownForecastError);
+      }
     };
 
     Model.prototype.doSegments = function(args, segments) {
       var id, key, num, ref, ref1, seg, trip;
-      this.segments = segments;
       trip = this.trip();
       trip.travelTime = segments.travelTime;
       trip.segments = [];
@@ -146,46 +190,99 @@
         }
       }
       this.segmentsComplete = true;
-      return this.checkComplete();
+      this.checkComplete();
     };
 
     Model.prototype.doConditions = function(args, conditions) {
-      this.conditions = conditions;
       this.trip().conditions = conditions;
       this.conditionsComplete = true;
-      return this.checkComplete();
+      this.checkComplete();
     };
 
     Model.prototype.doDeals = function(args, deals) {
-      this.deals = deals;
       this.trip().deals = deals;
       this.dealsComplete = true;
-      return this.checkComplete();
+      this.checkComplete();
+    };
+
+    Model.prototype.doMilePosts = function(args, milePosts) {
+      this.milePosts = milePosts;
+      this.trip().milePosts = milePosts;
+      this.milePostsComplete = true;
+      this.checkComplete();
+    };
+
+    Model.prototype.doForecasts = function(args, forecasts) {
+      var forecast, name, trip;
+      trip = this.trip();
+      for (name in forecasts) {
+        if (!hasProp.call(forecasts, name)) continue;
+        forecast = forecasts[name];
+        trip.forecasts[name] = forecast;
+      }
+      this.stream.push('Forecasts', trip.forecasts, 'Model');
+    };
+
+    Model.prototype.doTownForecast = function(args, forecast) {
+      var name, trip;
+      name = args.name;
+      trip = this.trip();
+      trip.forecasts[name] = forecast;
+      this.pushForecastsWhenComplete(trip.forecasts);
     };
 
     Model.prototype.onSegmentsError = function(obj) {
       Util.error('Model.onSegmentError()', obj);
       this.segmentsCompleteWithError = true;
-      return this.errorsDetected();
+      this.errorsDetected();
     };
 
     Model.prototype.onConditionsError = function(obj) {
       Util.error('Model.onConditionsError()', obj);
       this.conditionsCompleteWithError = true;
-      return this.errorsDetected();
+      this.errorsDetected();
     };
 
     Model.prototype.onDealsError = function(obj) {
       Util.error('Model.onDealsError()', obj);
       this.dealsCompleteWithError = true;
-      return this.errorsDetected();
+      this.errorsDetected();
+    };
+
+    Model.prototype.onForecastsError = function(obj) {
+      Util.error('Model.onForecastsError()', {
+        name: obj.args.name
+      });
+    };
+
+    Model.prototype.onTownForecastError = function(obj) {
+      var name;
+      name = obj.args.name;
+      Util.error('Model.townForecastError()', {
+        name: name
+      });
+      this.pushForecastsWhenComplete(this.trip().forecasts);
+    };
+
+    Model.prototype.pushForecastsWhenComplete = function(forecasts) {
+      this.forecastsCount++;
+      if (this.forecastsCount === this.forecastsPending) {
+        this.stream.push('Forecasts', forecasts, 'Model');
+        this.forecastsPending = 0;
+      }
+    };
+
+    Model.prototype.onMilePostsError = function(obj) {
+      Util.error('Model.onMilePostsError()', obj);
+      this.milePostsCompleteWithError = true;
+      this.errorsDetected();
     };
 
     Model.prototype.errorsDetected = function() {
-      if ((this.segmentsComplete || this.segmentsCompleteWithError) && (this.conditionsComplete || this.conditionsCompleteWithError) && (this.dealsComplete || this.dealsCompleteWithError) && this.app.dataSource === 'RestThenLocal' && this.first) {
-        return this.doTripLocal(this.trip());
+      if ((this.segmentsComplete || this.segmentsCompleteWithError) && (this.conditionsComplete || this.conditionsCompleteWithError) && (this.dealsComplete || this.dealsCompleteWithError) && (this.milePostsComplete || this.milePostsCompleteWithError) && this.app.dataSource === 'RestThenLocal' && this.first) {
+        this.doTripLocal(this.trip());
       } else {
-        return Util.error('Model.errorsDetected access data unable to proceed with trip');
+        Util.error('Model.errorsDetected access data unable to proceed with trip');
       }
     };
 

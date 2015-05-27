@@ -10,6 +10,8 @@
 
     Spatial.EarthRadiusInMeters = 6371000;
 
+    Spatial.KiloMetersToMiles = 0.621371;
+
     Spatial.MetersToFeet = 3.28084;
 
     Spatial.MetersPerSecToMPH = 0.44704;
@@ -24,6 +26,10 @@
 
     Spatial.radians = function(deg) {
       return deg * 0.01745329251996;
+    };
+
+    Spatial.cos = function(deg) {
+      return Math.cos(Spatial.radians(deg));
     };
 
     Spatial.direction = function(source, destination) {
@@ -234,12 +240,34 @@
       return void 0;
     };
 
+    Spatial.prototype.milePosts = function() {
+      var array, i, j, json, latLon1, latLon2, mile, miles, obj, post, ref;
+      array = [];
+      miles = this.trip.milePosts.features[0].properties.Milepost;
+      for (i = j = 1, ref = this.trip.milePosts.features.length; 1 <= ref ? j < ref : j > ref; i = 1 <= ref ? ++j : --j) {
+        latLon1 = this.trip.milePosts.features[i - 1].geometry.coordinates;
+        latLon2 = this.trip.milePosts.features[i].geometry.coordinates;
+        post = this.trip.milePosts.features[i].properties.Milepost;
+        mile = this.mileLatLonFCC(latLon1[1], latLon1[0], latLon2[1], latLon2[0]);
+        miles += mile;
+        obj = {
+          mile: Util.toFixed(mile, 2),
+          miles: Util.toFixed(miles, 2),
+          post: post
+        };
+        array.push(obj);
+      }
+      json = JSON.stringify(array);
+      Util.dbg(json);
+      return miles;
+    };
+
     Spatial.prototype.mileSeg = function(seg) {
       var i, j, latlngs, mile, ref;
       mile = 0;
       for (i = j = 1, ref = seg.latlngs.length; 1 <= ref ? j < ref : j > ref; i = 1 <= ref ? ++j : --j) {
         latlngs = seg.latlngs;
-        mile += this.mileLatLon(latlngs[i - 1][0], latlngs[i - 1][1], latlngs[i][0], latlngs[i][1]);
+        mile += this.mileLatLonFCC(latlngs[i - 1][0], latlngs[i - 1][1], latlngs[i][0], latlngs[i][1]);
       }
       return mile;
     };
@@ -271,7 +299,18 @@
       return miles;
     };
 
-    Spatial.prototype.mileLatLon = function(lat1, lon1, lat2, lon2) {
+    Spatial.prototype.mileLatLonFCC = function(lat1, lon1, lat2, lon2) {
+      var cos, dLat, dLon, k1, k2, mLat;
+      cos = Spatial.cos;
+      mLat = (lat2 + lat1) * 0.5;
+      dLat = lat2 - lat1;
+      dLon = lon2 - lon1;
+      k1 = 111.13209 - 0.56605 * cos(2 * mLat) + 0.00120 * cos(4 * mLat);
+      k2 = 111.41513 * cos(mLat) - 0.09455 * cos(3 * mLat) + 0.00012 * cos(5 * mLat);
+      return Spatial.KiloMetersToMiles * Math.sqrt(k1 * k1 * dLat * dLat + k2 * k2 * dLon * dLon);
+    };
+
+    Spatial.prototype.mileLatLonSpherical = function(lat1, lon1, lat2, lon2) {
       var dLat, dLon, mLat, radians;
       radians = Spatial.radians;
       mLat = radians(lat2 + lat1) * 0.5;

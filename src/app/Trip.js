@@ -6,6 +6,49 @@
   Trip = (function() {
     Util.Export(Trip, 'app/Trip');
 
+    Trip.Towns = {
+      "Evergreen": {
+        lon: -105.334724,
+        lat: 39.701735,
+        name: "Evergreen"
+      },
+      "US40": {
+        lon: -105.654065,
+        lat: 39.759558,
+        name: "US40"
+      },
+      "EastTunnel": {
+        lon: -105.891111,
+        lat: 39.681757,
+        name: "East Tunnel"
+      },
+      "WestTunnel": {
+        lon: -105.878342,
+        lat: 39.692400,
+        name: "West Tunnel"
+      },
+      "Silverthorne": {
+        lon: -106.072685,
+        lat: 39.624160,
+        name: "Silverthorne"
+      },
+      "CopperMtn": {
+        lon: -106.147382,
+        lat: 39.503512,
+        name: "Copper Mtn"
+      },
+      "VailPass": {
+        lon: -106.216071,
+        lat: 39.531042,
+        name: "Vail Pass"
+      },
+      "Vail": {
+        lon: -106.378767,
+        lat: 39.644407,
+        name: "Vail"
+      }
+    };
+
     function Trip(app, stream, model, name, source, destination) {
       this.app = app;
       this.stream = stream;
@@ -28,6 +71,8 @@
       this.segments = [];
       this.conditions = [];
       this.deals = [];
+      this.towns = Trip.Towns;
+      this.forecasts = {};
       this.begTown = new this.Town(this, this.source, 'Source');
       this.endTown = new this.Town(this, this.destination, 'Destination');
       this.spatial = new this.Spatial(this.app, this.stream, this);
@@ -67,8 +112,6 @@
     Trip.prototype.launch = function() {
       this.eta = this.etaFromCondtions();
       this.recommendation = this.makeRecommendation();
-      this.spatial.pushLocations();
-      this.spatial.mileSegs();
       return this.log('Trip.launch()');
     };
 
