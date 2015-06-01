@@ -5,14 +5,14 @@ class Trip
 
   # Weather Forecast Locations
   @Towns = {
-    "Evergreen"    : { lon:-105.334724, lat:39.701735, name:"Evergreen"      }
-    "US40"         : { lon:-105.654065, lat:39.759558, name:"US40"           }
-    "EastTunnel"   : { lon:-105.891111, lat:39.681757, name:"East Tunnel"    }
-    "WestTunnel"   : { lon:-105.878342, lat:39.692400, name:"West Tunnel"    }
-    "Silverthorne" : { lon:-106.072685, lat:39.624160, name:"Silverthorne"   }
-    "CopperMtn"    : { lon:-106.147382, lat:39.503512, name:"Copper Mtn"     }
-    "VailPass"     : { lon:-106.216071, lat:39.531042, name:"Vail Pass"      }
-    "Vail"         : { lon:-106.378767, lat:39.644407, name:"Vail"           } }
+    "Evergreen"    : { index:1, lon:-105.334724, lat:39.701735, name:"Evergreen"      }
+    "US40"         : { index:2, lon:-105.654065, lat:39.759558, name:"US40"           }
+    "EastTunnel"   : { index:3, lon:-105.891111, lat:39.681757, name:"East Tunnel"    }
+    "WestTunnel"   : { index:4, lon:-105.878342, lat:39.692400, name:"West Tunnel"    }
+    "Silverthorne" : { index:5, lon:-106.072685, lat:39.624160, name:"Silverthorne"   }
+    "CopperMtn"    : { index:6, lon:-106.147382, lat:39.503512, name:"Copper Mtn"     }
+    "VailPass"     : { index:7, lon:-106.216071, lat:39.531042, name:"Vail Pass"      }
+    "Vail"         : { index:8, lon:-106.378767, lat:39.644407, name:"Vail"           } }
 
   constructor:( @app, @stream, @model, @name, @source, @destination  ) ->
 

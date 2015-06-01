@@ -8,7 +8,7 @@
     $(document).ready(function() {
       Util.debug = true;
       Util.init();
-      return Util.app = new App('Local', false, false);
+      return Util.app = new App('LocalForecasts', false, false);
     });
 
     function App(dataSource, runSimulate, runTest) {

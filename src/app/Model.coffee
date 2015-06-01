@@ -110,7 +110,10 @@ class Model
     @forecastsPending  = 0
     @forecastsCount    = 0
     for own name, town of trip.towns
-      town.time = new Date().getTime()
+      date             = new Date()
+      town.date        = date
+      town.time        = town.date.getTime()
+      #town.isoDateTime = Util.isoDateTime(date)
       @forecastsPending++
     for own name, town of trip.towns
       @rest.forecastByTown( name, town, @doTownForecast, @onTownForecastError )
@@ -156,14 +159,16 @@ class Model
   doForecasts:( args, forecasts ) =>
     trip = @trip()
     for own name, forecast of forecasts
-      trip.forecasts[name] = forecast
+      trip.forecasts[name]       = forecast
+      trip.forecasts[name].index = @Trip.Towns[name].index
     @stream.push( 'Forecasts', trip.forecasts, 'Model' )
     return
 
   doTownForecast:( args, forecast ) =>
-    name                 = args.name
-    trip                 = @trip()
-    trip.forecasts[name] = forecast
+    name                       = args.name
+    trip                       = @trip()
+    trip.forecasts[name]       = forecast
+    trip.forecasts[name].index = @Trip.Towns[name].index
     @pushForecastsWhenComplete( trip.forecasts )
     return
 
@@ -218,10 +223,3 @@ class Model
     else
       Util.error( 'Model.errorsDetected access data unable to proceed with trip' )
     return
-
-
-
-
-
-
-

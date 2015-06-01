@@ -111,18 +111,44 @@
     };
 
     Rest.prototype.forecastByTown = function(name, town, onSuccess, onError) {
-      var args, url;
+      var args;
       args = {
         name: name,
         town: town,
         lat: town.lat,
         lon: town.lon,
         time: town.time,
-        toIime: Util.toTime(town.time)
+        hms: Util.toHMS(town.time)
       };
-      Util.dbg('Rest.forecastByTown', args);
-      url = "" + this.forecastIoURL + this.forecastIoKey + "}/" + town.lat + "," + town.lon + "," + town.time;
       this.getForecast(args, onSuccess, onError);
+    };
+
+    Rest.prototype.getForecast = function(args, onSuccess, onError) {
+      var key, settings, town, url;
+      town = args.town;
+      key = '2c52a8974f127eee9de82ea06aadc7fb';
+      url = "https://api.forecast.io/forecast/" + key + "/" + town.lat + "," + town.lon;
+      settings = {
+        url: url,
+        type: 'GET',
+        dataType: 'jsonp',
+        contentType: 'text/plain'
+      };
+      settings.success = (function(_this) {
+        return function(json, textStatus, jqXHR) {
+          Util.noop(textStatus, jqXHR);
+          return onSuccess(args, json);
+        };
+      })(this);
+      settings.error = function(jqXHR, textStatus, errorThrown) {
+        Util.noop(errorThrown);
+        return onError({
+          url: url,
+          args: args,
+          from: 'Forecast'
+        });
+      };
+      return $.ajax(settings);
     };
 
     Rest.prototype.forecastByLatLonTime = function(lat, lon, time, onSuccess, onError) {
@@ -195,8 +221,6 @@
       };
       url = this.dealsURL + "?userId=" + userId + "&_id=" + dealId + "&convert=" + convert;
       this.post(url, 'Accept', args, onSuccess, onError);
-      return;
-      return "https://api.forecast.io/forecast/" + key + "/" + loc.lat + "," + loc.lon + "," + loc.time;
     };
 
     Rest.prototype.get = function(url, from, args, onSuccess, onError) {
@@ -229,34 +253,6 @@
         };
       })(this);
       $.ajax(settings);
-    };
-
-    Rest.prototype.getForecast = function(args, onSuccess, onError) {
-      var key, settings, town, url;
-      town = args.town;
-      key = '2c52a8974f127eee9de82ea06aadc7fb';
-      url = "https://api.forecast.io/forecast/" + key + "/" + town.lat + "," + town.lon + "," + town.time;
-      settings = {
-        url: url,
-        type: 'GET',
-        dataType: 'jsonp',
-        contentType: 'text/plain'
-      };
-      settings.success = (function(_this) {
-        return function(json, textStatus, jqXHR) {
-          Util.noop(textStatus, jqXHR);
-          return onSuccess(args, json);
-        };
-      })(this);
-      settings.error = function(jqXHR, textStatus, errorThrown) {
-        Util.noop(errorThrown);
-        return onError({
-          url: url,
-          args: args,
-          from: 'Forecast'
-        });
-      };
-      return $.ajax(settings);
     };
 
     Rest.prototype.post = function(url, from, args, onSuccess, onError) {
@@ -416,6 +412,13 @@
         });
       }
     };
+
+
+    /*
+     curl 'https://api.forecast.io/forecast/2c52a8974f127eee9de82ea06aadc7fb/39.759558,-105.654065?callback=jQuery21308299770827870816_1433124323587&_=1433124323588'
+    
+     * """https://api.forecast.io/forecast/#{key}/#{loc.lat},#{loc.lon},#{loc.time}"""
+     */
 
     return Rest;
 

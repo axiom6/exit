@@ -153,14 +153,16 @@
     };
 
     Model.prototype.restForecasts = function(trip) {
-      var name, ref, ref1, town;
+      var date, name, ref, ref1, town;
       this.forecastsPending = 0;
       this.forecastsCount = 0;
       ref = trip.towns;
       for (name in ref) {
         if (!hasProp.call(ref, name)) continue;
         town = ref[name];
-        town.time = new Date().getTime();
+        date = new Date();
+        town.date = date;
+        town.time = town.date.getTime();
         this.forecastsPending++;
       }
       ref1 = trip.towns;
@@ -219,6 +221,7 @@
         if (!hasProp.call(forecasts, name)) continue;
         forecast = forecasts[name];
         trip.forecasts[name] = forecast;
+        trip.forecasts[name].index = this.Trip.Towns[name].index;
       }
       this.stream.push('Forecasts', trip.forecasts, 'Model');
     };
@@ -228,6 +231,7 @@
       name = args.name;
       trip = this.trip();
       trip.forecasts[name] = forecast;
+      trip.forecasts[name].index = this.Trip.Towns[name].index;
       this.pushForecastsWhenComplete(trip.forecasts);
     };
 

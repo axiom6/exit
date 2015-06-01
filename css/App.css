@@ -353,9 +353,12 @@ body {
 .WeatherIcon {
   font-size: 2.5em;
 }
-.WeatherSumm {
+.WeatherSum1 {
   font-size: 1.0em;
   padding-top: 0.2em;
+}
+.WeatherSum2 {
+  font-size: 1.0em;
 }
 .WeatherTemp {
   font-size: 1.5em;

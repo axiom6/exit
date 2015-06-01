@@ -277,6 +277,11 @@
       icon: 'wi-tornado'
     };
 
+    WeatherUI.Icons['unknown'] = {
+      back: 'black',
+      icon: 'wi-wind-default _0-deg'
+    };
+
     function WeatherUI(app, stream) {
       this.app = app;
       this.stream = stream;
@@ -324,85 +329,63 @@
     };
 
     WeatherUI.prototype.onForecasts = function(forecasts) {
-      var $f, forecast, forecastIndex, name;
-      forecastIndex = 0;
+      var $f, forecast, name, w;
       for (name in forecasts) {
         if (!hasProp.call(forecasts, name)) continue;
         forecast = forecasts[name];
-        forecastIndex++;
-        forecast.index = forecastIndex;
         $f = $('#' + ("Weather" + name));
+        w = this.toWeather(forecast);
         if (Util.isJQuery($f)) {
-          this.updateForecastHtml(name, forecast, $f);
+          this.updateForecastHtml(name, w, $f);
         } else {
-          this.createForecastHtml(name, forecast);
+          this.createForecastHtml(name, w);
         }
       }
     };
 
-    WeatherUI.prototype.createForecastHtml = function(name, forecast) {
-      var f, html, time;
-      f = this.exitJSON(forecast);
-      f.temperature = Util.toFixed(f.temperature, 0);
-      time = Util.toTime(f.time);
-      html = "<div   class=\"Weather" + f.index + "\" style=\"background-color:beige\" id=\"Weather" + name + "\">\n  <div class=\"WeatherName\">" + name + "</div>\n  <div class=\"WeatherTime\">" + time + "</div>\n  <i   class=\"WeatherIcon wi " + f.style.icon + "\"></i>\n  <div class=\"WeatherSumm\">" + f.summary + "</div>\n  <div class=\"WeatherTemp\">" + f.temperature + "&deg;F</div>\n</div>";
+    WeatherUI.prototype.createForecastHtml = function(name, w) {
+      var html;
+      html = "<div   class=\"Weather" + w.index + "\" style=\"background-color:" + w.back + "\" id=\"Weather" + name + "\">\n  <div class=\"WeatherName\">" + name + "</div>\n  <div class=\"WeatherTime\">" + w.hms + "</div>\n  <i   class=\"WeatherIcon wi " + w.icon + "\"></i>\n  <div class=\"WeatherSum1\">" + w.summary1 + "</div>\n  <div class=\"WeatherSum2\">" + w.summary2 + "</div>\n  <div class=\"WeatherTemp\">" + w.temperature + "&deg;F</div>\n</div>";
       this.$.append(html);
     };
 
-    WeatherUI.prototype.updateForecastHtml = function(name, forecast, $f) {
-      var f, time;
-      f = this.exitJSON(forecast);
-      f.temperature = Util.toFixed(f.temperature, 0);
-      time = Util.toTime(f.time);
-      $f.find(".WeatherTime").text(time);
-      $f.find(".WeatherIcon").attr('class', "WeatherIcon wi " + f.style.icon);
-      $f.find(".WeatherSumm").text(f.summary);
-      $f.find(".WeatherTemp").text(f.temperature + "&deg;F");
+    WeatherUI.prototype.updateForecastHtml = function(name, w, $f) {
+      $f.find(".WeatherTime").text(w.hms);
+      $f.find(".WeatherIcon").attr('class', "WeatherIcon wi " + w.icon);
+      $f.find(".WeatherSum1").text(w.summary1);
+      $f.find(".WeatherSum2").text(w.summary2);
+      $f.find(".WeatherTemp").text(w.temperature + "&deg;F");
     };
 
-
-    /*
-    WeatherUI.exitJSON { name:Evergreen, lon:-105.334724, lat:39.701735, time:1430776040, summary:Overcast, fcIcon:cloudy,
-    style:{ back:silver, icon:wi-cloudy }, precipProbability:0.01, precipType:rain, temperature:44.16, windSpeed:5.7, cloudCover:0.99, index:1 }
-    { time:1430776040, summary:Overcast, fcIcon:undefined, style:undefined, precipProbability:0.01, precipType:rain, temperature:44, windSpeed:5.7, cloudCover:0.99 }
-     */
-
-    WeatherUI.prototype.exitJSON = function(forecast) {
-      var ej, fc;
-      ej = {};
-      fc = forecast;
-      ej.index = fc.index;
-      ej.time = fc.time;
-      ej.summary = fc.summary;
-      ej.fcIcon = fc.fcIcon;
-      ej.style = WeatherUI.Icons[fc.fcIcon];
-      if (ej.summary === 'Drizzle') {
-        ej.style.icon = 'wi-showers';
-      }
-      ej.precipProbability = fc.precipProbability;
-      ej.precipType = fc.precipType;
-      ej.temperature = Util.toFixed(fc.temperature, 0);
-      ej.windSpeed = fc.windSpeed;
-      ej.cloudCover = fc.cloudCover;
-      Util.dbg('WeatherUI.exitJSON', fc, ej);
-      return ej;
-    };
-
-    WeatherUI.prototype.createHtml = function(loc, json) {
-      var f, html, time;
-      if (json == null) {
-        json = null;
-      }
-      if (json != null) {
-        loc.forecast = this.exitJSON(json);
-        f = loc.forecast;
+    WeatherUI.prototype.toWeather = function(forecast) {
+      var f, summaries, w;
+      f = forecast.currently != null ? forecast.currently : forecast;
+      w = {};
+      w.index = forecast.index;
+      w.temperature = Util.toFixed(f.temperature, 0);
+      w.hms = Util.toHMS(f.time);
+      w.time = f.time;
+      summaries = f.summary.split(' ');
+      w.summary1 = summaries[0];
+      w.summary2 = summaries[1] != null ? summaries[1] : '';
+      w.fcIcon = f.icon;
+      if (WeatherUI.Icons[w.fcIcon] != null) {
+        w.back = WeatherUI.Icons[f.icon].back;
+        w.icon = WeatherUI.Icons[f.icon].icon;
       } else {
-        f = loc.fore;
+        w.back = WeatherUI.Icons['unknown'].back;
+        w.icon = WeatherUI.Icons['unknown'].icon;
       }
-      f.temperature = Util.toFixed(f.temperature, 0);
-      time = Util.toTime(f.time);
-      html = "<div   class=\"Weather" + loc.index + "\" style=\"background-color:beige\">\n  <div class=\"WeatherName\">" + loc.name + "</div>\n  <div class=\"WeatherTime\">" + time + "</div>\n  <i   class=\"WeatherIcon wi " + f.style.icon + "\"></i>\n  <div class=\"WeatherSumm\">" + f.summary + "</div>\n  <div class=\"WeatherTemp\">" + f.temperature + "&deg;F</div>\n</div>";
-      return this.$.append(html);
+      if (w.summary === 'Drizzle') {
+        w.icon = 'wi-showers';
+      }
+      w.precipProbability = f.precipProbability;
+      w.precipType = f.precipType;
+      w.windSpeed = f.windSpeed;
+      w.cloudCover = f.cloudCover;
+      Util.dbg('WeatherUI.toWeather forecast', f);
+      Util.dbg('WeatherUI.toWeather weather ', w);
+      return w;
     };
 
     WeatherUI.prototype.forecast = function(loc) {

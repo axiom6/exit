@@ -457,12 +457,14 @@ class Util
     (Util.quicksort(small)).concat([head]).concat( Util.quicksort(large) )
 
   # Return and ISO formated data string
-  @isoDateString:( date ) ->
+  @isoDateTime:( date ) ->
+    Util.log( 'Util.isoDatetime()', date )
+    Util.log( 'Util.isoDatetime()', date.getUTCMonth(). date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes, date.getUTCSeconds )
     pad = (n) -> if n < 10 then '0'+n else n
-    date.getUTCFullYear()  +'-'+pad(date.getUTCMonth()+1)+'-'+pad(date.getUTCDate())+'T'+
+    date.getFullYear()     +'-'+pad(date.getUTCMonth()+1)+'-'+pad(date.getUTCDate())+'T'+
     pad(date.getUTCHours())+':'+pad(date.getUTCMinutes())+':'+pad(date.getUTCSeconds())+'Z'
 
-  @toTime:( unixTime ) ->
+  @toHMS:( unixTime ) ->
     date = if Util.isNum(unixTime) then new Date( unixTime * 1000 ) else new Date()
     hour   = date.getHours()
     ampm   = 'AM'

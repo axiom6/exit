@@ -38,6 +38,7 @@ class WeatherUI
   @Icons['hail']                = { back:'dimgray',        icon:'wi-hail' }
   @Icons['thunderstorm']        = { back:'darkslategray',  icon:'wi-thunderstorm' }
   @Icons['tornado']             = { back:'black',          icon:'wi-tornado' }
+  @Icons['unknown']             = { back:'black',          icon:'wi-wind-default _0-deg' }
 
   constructor:( @app, @stream ) ->
     @trip      = {}  # Set by onTrip()
@@ -67,81 +68,60 @@ class WeatherUI
     return
 
   onForecasts:( forecasts ) ->
-    forecastIndex = 0
     for own name, forecast of forecasts
-      forecastIndex++
-      forecast.index = forecastIndex # the index is use for CSS positioning
       $f = $( '#'+"Weather#{name}")
+      w  = @toWeather( forecast )
       if Util.isJQuery($f)
-        @updateForecastHtml( name, forecast, $f )
+        @updateForecastHtml( name, w, $f )
       else
-        @createForecastHtml( name, forecast )
+        @createForecastHtml( name, w )
     return
 
-  createForecastHtml:( name, forecast ) ->
-    f = @exitJSON( forecast )
-    f.temperature = Util.toFixed(f.temperature,0)
-    time          = Util.toTime( f.time )
-    html = """<div   class="Weather#{f.index}" style="background-color:beige" id="Weather#{name}">
+  createForecastHtml:( name, w ) ->
+    html = """<div   class="Weather#{w.index}" style="background-color:#{w.back}" id="Weather#{name}">
                 <div class="WeatherName">#{name}</div>
-                <div class="WeatherTime">#{time}</div>
-                <i   class="WeatherIcon wi #{f.style.icon}"></i>
-                <div class="WeatherSumm">#{f.summary}</div>
-                <div class="WeatherTemp">#{f.temperature}&deg;F</div>
+                <div class="WeatherTime">#{w.hms}</div>
+                <i   class="WeatherIcon wi #{w.icon}"></i>
+                <div class="WeatherSum1">#{w.summary1}</div>
+                <div class="WeatherSum2">#{w.summary2}</div>
+                <div class="WeatherTemp">#{w.temperature}&deg;F</div>
               </div>"""
     @$.append( html )
     return
 
-  updateForecastHtml:( name, forecast, $f ) ->
-    f = @exitJSON( forecast )
-    f.temperature = Util.toFixed(f.temperature,0)
-    time          = Util.toTime( f.time )
-    $f.find(".WeatherTime").text(time)
-    $f.find(".WeatherIcon").attr('class',"WeatherIcon wi #{f.style.icon}")
-    $f.find(".WeatherSumm").text(f.summary)
-    $f.find(".WeatherTemp").text("#{f.temperature}&deg;F")
+  updateForecastHtml:( name, w, $f ) ->
+    $f.find(".WeatherTime").text(w.hms)
+    $f.find(".WeatherIcon").attr('class',"WeatherIcon wi #{w.icon}")
+    $f.find(".WeatherSum1").text(w.summary1)
+    $f.find(".WeatherSum2").text(w.summary2)
+    $f.find(".WeatherTemp").text("#{w.temperature}&deg;F")
     return
 
-  ###
-  WeatherUI.exitJSON { name:Evergreen, lon:-105.334724, lat:39.701735, time:1430776040, summary:Overcast, fcIcon:cloudy,
-  style:{ back:silver, icon:wi-cloudy }, precipProbability:0.01, precipType:rain, temperature:44.16, windSpeed:5.7, cloudCover:0.99, index:1 }
-  { time:1430776040, summary:Overcast, fcIcon:undefined, style:undefined, precipProbability:0.01, precipType:rain, temperature:44, windSpeed:5.7, cloudCover:0.99 }
-  ###
-
-  exitJSON:(  forecast ) ->
-    ej = {}             # Exit Now JSON forecast
-    #fc = json.currently # The current forecast data point
-    fc = forecast
-    ej.index             = fc.index
-    ej.time              = fc.time
-    ej.summary           = fc.summary
-    ej.fcIcon            = fc.fcIcon
-    ej.style             = WeatherUI.Icons[fc.fcIcon]
-    ej.style.icon        = 'wi-showers' if ej.summary is 'Drizzle'
-    ej.precipProbability = fc.precipProbability
-    ej.precipType        = fc.precipType #rain, snow, sleet
-    ej.temperature       = Util.toFixed(fc.temperature,0) # Farenheit
-    ej.windSpeed         = fc.windSpeed
-    ej.cloudCover        = fc.cloudCover
-    Util.dbg( 'WeatherUI.exitJSON', fc, ej )
-    ej
-
-  createHtml:( loc, json=null ) ->
-    if json?
-      loc.forecast = @exitJSON( json )
-      f = loc.forecast
+  toWeather:( forecast ) ->
+    f = if forecast.currently? then forecast.currently else forecast # The current forecast data point
+    w = {}
+    w.index             = forecast.index
+    w.temperature       = Util.toFixed(f.temperature,0)
+    w.hms               = Util.toHMS( f.time )
+    w.time              = f.time
+    summaries           = f.summary.split(' ')
+    w.summary1          =    summaries[0]
+    w.summary2          = if summaries[1]? then summaries[1] else ''
+    w.fcIcon            = f.icon
+    if WeatherUI.Icons[w.fcIcon]?
+      w.back            = WeatherUI.Icons[f.icon].back
+      w.icon            = WeatherUI.Icons[f.icon].icon
     else
-      f = loc.fore
-    f.temperature = Util.toFixed(f.temperature,0)
-    time          = Util.toTime( f.time )   # {f.style.back}
-    html = """<div   class="Weather#{loc.index}" style="background-color:beige">
-                <div class="WeatherName">#{loc.name}</div>
-                <div class="WeatherTime">#{time}</div>
-                <i   class="WeatherIcon wi #{f.style.icon}"></i>
-                <div class="WeatherSumm">#{f.summary}</div>
-                <div class="WeatherTemp">#{f.temperature}&deg;F</div>
-              </div>"""
-    @$.append( html )
+      w.back            = WeatherUI.Icons['unknown'].back
+      w.icon            = WeatherUI.Icons['unknown'].icon
+    w.icon              = 'wi-showers' if w.summary is 'Drizzle'
+    w.precipProbability = f.precipProbability
+    w.precipType        = f.precipType #rain, snow, sleet
+    w.windSpeed         = f.windSpeed
+    w.cloudCover        = f.cloudCover
+    Util.dbg( 'WeatherUI.toWeather forecast', f )
+    Util.dbg( 'WeatherUI.toWeather weather ', w )
+    w
 
 
   # A numerical value between 0 and 1 (inclusive) representing the percentage of sky occluded by clouds.

@@ -78,12 +78,26 @@ class Rest
   # Unlike the other rest methods this is singular,
   #   because it has to be called for each towm with its town.lon town.lat and town.time
   forecastByTown:( name, town, onSuccess, onError ) ->
-    args = {  name:name, town:town, lat:town.lat, lon:town.lon, time:town.time, toIime:Util.toTime(town.time) }
-    Util.dbg( 'Rest.forecastByTown', args )
-    url  = """#{@forecastIoURL}#{@forecastIoKey}}/#{town.lat},#{town.lon},#{town.time}"""
+    args = {  name:name, town:town, lat:town.lat, lon:town.lon, time:town.time, hms:Util.toHMS(town.time) }
+    #Util.dbg( 'Rest.forecastByTown', args )
+    #url  = """#{@forecastIoURL}#{@forecastIoKey}}/#{town.lat},#{town.lon}"""  # ,#{town.time}
     #@get( url, 'Forecast', args, onSuccess, onError )
     @getForecast( args, onSuccess, onError )
     return
+
+  getForecast:( args, onSuccess, onError ) ->
+    town = args.town
+    key = '2c52a8974f127eee9de82ea06aadc7fb'
+    url = """https://api.forecast.io/forecast/#{key}/#{town.lat},#{town.lon}""" # ,#{town.isoDateTime}
+    settings = { url:url, type:'GET', dataType:'jsonp', contentType:'text/plain' }
+    settings.success = ( json, textStatus, jqXHR ) =>
+      Util.noop( textStatus, jqXHR )
+      onSuccess( args, json )
+    settings.error = ( jqXHR, textStatus, errorThrown ) ->
+      Util.noop( errorThrown )
+      onError( { url:url, args:args, from:'Forecast' } )
+    $.ajax( settings )
+
 
   # Unlike the other rest methods this is singular,
   #   because it has to be called for each lon lat and time
@@ -118,7 +132,7 @@ class Rest
     @get( url, 'Segments', args, onSuccess, onError )
     return
 
-# Date is format like 01/01/2015
+  # Date is format like 01/01/2015
   conditionsBySegmentsDate:( segments, date, onSuccess, onError ) ->
     args = { segments:segments, date:date }
     csv  = @toCsv( segments )
@@ -138,7 +152,6 @@ class Rest
     @post( url, 'Accept', args, onSuccess, onError )
     return
 
-    """https://api.forecast.io/forecast/#{key}/#{loc.lat},#{loc.lon},#{loc.time}"""
   get:( url, from, args, onSuccess, onError ) ->
     settings = { url:url, type:'GET', dataType:@cors, contentType:'application/json; charset=utf-8' }
     settings.success = ( json, textStatus, jqXHR ) =>
@@ -152,20 +165,6 @@ class Rest
       return
     $.ajax( settings )
     return
-
-  getForecast:( args, onSuccess, onError ) ->
-    town = args.town
-    key = '2c52a8974f127eee9de82ea06aadc7fb'
-    url = """https://api.forecast.io/forecast/#{key}/#{town.lat},#{town.lon},#{town.time}"""
-    settings = { url:url, type:'GET', dataType:'jsonp', contentType:'text/plain' }
-    settings.success = ( json, textStatus, jqXHR ) =>
-      Util.noop( textStatus, jqXHR )
-      onSuccess( args, json )
-    settings.error = ( jqXHR, textStatus, errorThrown ) ->
-      Util.noop( errorThrown )
-      onError( { url:url, args:args, from:'Forecast' } )
-    $.ajax( settings )
-
 
   # Needs work
   post:( url, from, args, onSuccess, onError ) ->
@@ -243,3 +242,9 @@ class Rest
       onSuccess( args, objs )
     catch error
       Util.error( 'Rest.jsonParse()', { url:url, from:from, args:args, error:error } )
+
+  ###
+   curl 'https://api.forecast.io/forecast/2c52a8974f127eee9de82ea06aadc7fb/39.759558,-105.654065?callback=jQuery21308299770827870816_1433124323587&_=1433124323588'
+
+  # """https://api.forecast.io/forecast/#{key}/#{loc.lat},#{loc.lon},#{loc.time}"""
+  ###

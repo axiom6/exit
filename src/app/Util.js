@@ -769,8 +769,10 @@ Util = (function() {
     return (Util.quicksort(small)).concat([head]).concat(Util.quicksort(large));
   };
 
-  Util.isoDateString = function(date) {
+  Util.isoDateTime = function(date) {
     var pad;
+    Util.log('Util.isoDatetime()', date);
+    Util.log('Util.isoDatetime()', date.getUTCMonth().date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes, date.getUTCSeconds);
     pad = function(n) {
       if (n < 10) {
         return '0' + n;
@@ -778,10 +780,10 @@ Util = (function() {
         return n;
       }
     };
-    return date.getUTCFullYear()(+'-' + pad(date.getUTCMonth() + 1) + '-' + pad(date.getUTCDate()) + 'T' + pad(date.getUTCHours()) + ':' + pad(date.getUTCMinutes()) + ':' + pad(date.getUTCSeconds()) + 'Z');
+    return date.getFullYear()(+'-' + pad(date.getUTCMonth() + 1) + '-' + pad(date.getUTCDate()) + 'T' + pad(date.getUTCHours()) + ':' + pad(date.getUTCMinutes()) + ':' + pad(date.getUTCSeconds()) + 'Z');
   };
 
-  Util.toTime = function(unixTime) {
+  Util.toHMS = function(unixTime) {
     var ampm, date, hour, min, sec, time;
     date = Util.isNum(unixTime) ? new Date(unixTime * 1000) : new Date();
     hour = date.getHours();

@@ -7,7 +7,7 @@ class App
   $(document).ready ->
     Util.debug = true # Swithes  Util.dbg() debugging on or off
     Util.init()
-    Util.app = new App( 'Local', false, false )
+    Util.app = new App( 'LocalForecasts', false, false )
 
   # @dataSource = 'Rest', 'RestThenLocal', 'Local', 'LocalForecasts'
   constructor:( @dataSource='RestThenLocal',  @runSimulate=false, @runTest=false ) ->
