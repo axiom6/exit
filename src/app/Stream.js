@@ -120,6 +120,28 @@
       }
     };
 
+    Stream.prototype.streamFibonacci = function() {
+      var source;
+      source = Rx.Observable.from(this.fibonacci()).take(10);
+      return source.subscribe(function(x) {
+        return Util.dbg('Text.Stream.Fibonacci()', x);
+      });
+    };
+
+    Stream.prototype.fibonacci = function*() {
+      var current, fn1, fn2, results;
+      fn1 = 1;
+      fn2 = 1;
+      results = [];
+      while (1) {
+        current = fn2;
+        fn2 = fn1;
+        fn1 = fn1 + current;
+        results.push((yield current));
+      }
+      return results;
+    };
+
     return Stream;
 
   })();

@@ -47,7 +47,7 @@
     };
 
     TripUI.prototype.html = function() {
-      return "<div id=\"" + (this.app.id('Trip')) + "\" class=\"" + (this.app.css('Trip')) + "\"></div>";
+      return "<div id=\"" + (Util.id('Trip')) + "\" class=\"" + (Util.css('Trip')) + "\"></div>";
     };
 
     TripUI.prototype.show = function() {

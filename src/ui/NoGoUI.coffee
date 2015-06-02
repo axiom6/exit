@@ -20,14 +20,14 @@ class NoGoUI
     @subscribe()
 
   html:() ->
-    """<div      id="#{@app.id('NoGo')}"          class="#{@app.css('NoGo')}">
-         <div   id="#{@app.id('NoGoBanner')}"     class="#{@app.css('NoGoBanner')}">
-           <div id="#{@app.id('NoGoBannerText')}" class="#{@app.css('NoGoBannerText')}">NO GO</div>
+    """<div      id="#{Util.id('NoGo')}"          class="#{Util.css('NoGo')}">
+         <div   id="#{Util.id('NoGoBanner')}"     class="#{Util.css('NoGoBanner')}">
+           <div id="#{Util.id('NoGoBannerText')}" class="#{Util.css('NoGoBannerText')}">NO GO</div>
          </div>
-         <div id="#{@app.id('NoGoDeals')}"       class="#{@app.css('NoGoDeals')}">
+         <div id="#{Util.id('NoGoDeals')}"       class="#{Util.css('NoGoDeals')}">
            <div>50% off Hotel</div>
          </div>
-         <div id="#{@app.id('NoGoDrive')}" class="#{@app.css('NoGoDrive')}">#{@driveBarUI.html('NoGo')}</div>
+         <div id="#{Util.id('NoGoDrive')}" class="#{Util.css('NoGoDrive')}">#{@driveBarUI.html('NoGo')}</div>
        </div>"""
 
   subscribe:() ->

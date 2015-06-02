@@ -32,7 +32,7 @@ class TripUI
     @advisory.layout( orientation )
 
   html:() ->
-    """<div id="#{@app.id('Trip')}" class="#{@app.css('Trip')}"></div>"""
+    """<div id="#{Util.id('Trip')}" class="#{Util.css('Trip')}"></div>"""
 
   show:() -> @$.show()
 

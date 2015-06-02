@@ -21,15 +21,15 @@ class GoUI
     @subscribe()
 
   html:() ->
-    """<div id="#{@app.id('Go')}"         class="#{@app.css('Go')}">
-         <div   id="#{@app.id('GoBanner')}"     class="#{@app.css('GoBanner')}">
-           <div id="#{@app.id('GoBannerText')}" class="#{@app.css('GoBannerText')}">GO</div>
+    """<div id="#{Util.id('Go')}"         class="#{Util.css('Go')}">
+         <div   id="#{Util.id('GoBanner')}"     class="#{Util.css('GoBanner')}">
+           <div id="#{Util.id('GoBannerText')}" class="#{Util.css('GoBannerText')}">GO</div>
          </div>
-         <div id="#{@app.id('GoDeals')}"  class="#{@app.css('GoDeals')}">
+         <div id="#{Util.id('GoDeals')}"  class="#{Util.css('GoDeals')}">
            <div>11 deals at your destination</div>
            <div>get going to beat traffic!</div>
          </div>
-         <div id="#{@app.id('GoDrive')}" class="#{@app.css('GoDrive')}">#{@driveBarUI.html('Go')}</div>
+         <div id="#{Util.id('GoDrive')}" class="#{Util.css('GoDrive')}">#{@driveBarUI.html('Go')}</div>
        </div>"""
 
   subscribe:() ->

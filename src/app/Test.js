@@ -23,6 +23,57 @@
       return this.rest.deals([39.644407, -106.378767], this.segments, this.rest.logDeals);
     };
 
+    Test.prototype.restConstructor = function(app, stream) {
+      this.app = app;
+      this.stream = stream;
+    };
+
+    Test.prototype.segmentsFromLocal = function(direction, onSuccess, onError) {};
+
+    Test.prototype.conditionsFromLocal = function(direction, onSuccess, onError) {};
+
+    Test.prototype.dealsFromLocal = function(direction, onSuccess, onError) {};
+
+    Test.prototype.milePostsFromLocal = function(onSuccess, onError) {};
+
+    Test.prototype.forecastsFromLocal = function(onSuccess, onError) {};
+
+    Test.prototype.segmentsByPreset = function(preset, onSuccess, onError) {};
+
+    Test.prototype.conditionsBySegments = function(segments, onSuccess, onError) {};
+
+    Test.prototype.deals = function(latlon, segments, onSuccess, onError) {};
+
+    Test.prototype.forecastByTown = function(name, town, onSuccess, onError) {};
+
+    Test.prototype.getForecast = function(args, onSuccess, onError) {};
+
+    Test.prototype.forecastByLatLonTime = function(lat, lon, time, onSuccess, onError) {};
+
+    Test.prototype.requestSegmentsBy = function(query, onSuccess, onError) {
+      Util.noop('Stream.requestSegmentsBy', query, onSuccess, onError);
+    };
+
+    Test.prototype.requestConditionsBy = function(query, onSuccess, onError) {
+      Util.noop('Stream.requestConditionsBy', query, onSuccess, onError);
+    };
+
+    Test.prototype.requestDealsBy = function(query, onSuccess, onError) {
+      Util.noop('Stream.requestDealsBy', query, onSuccess, onError);
+    };
+
+    Test.prototype.segmentsByLatLon = function(slat, slon, elat, elon, onSuccess, onError) {};
+
+    Test.prototype.segmentsBySegments = function(segments, onSuccess, onError) {};
+
+    Test.prototype.conditionsBySegmentsDate = function(segments, date, onSuccess, onError) {};
+
+    Test.prototype.dealsByUrl = function(url, onSuccess, onError) {};
+
+    Test.prototype.toCsv = function(array) {};
+
+    Test.prototype.segIdNum = function(segment) {};
+
     Test.prototype.streamPushTestLocation = function() {
       var object, subject;
       subject = new Rx.Subject();
@@ -37,28 +88,6 @@
 
     Test.prototype.onTestLocation = function(object) {
       return Util.dbg('Test.Stream.onLocation()', object.content, object.from);
-    };
-
-    Test.prototype.streamFibonacci = function() {
-      var source;
-      source = Rx.Observable.from(this.fibonacci()).take(10);
-      return source.subscribe(function(x) {
-        return Util.dbg('Text.Stream.Fibonacci()', x);
-      });
-    };
-
-    Test.prototype.fibonacci = function*() {
-      var current, fn1, fn2, results;
-      fn1 = 1;
-      fn2 = 1;
-      results = [];
-      while (1) {
-        current = fn2;
-        fn2 = fn1;
-        fn1 = fn1 + current;
-        results.push((yield current));
-      }
-      return results;
     };
 
     return Test;

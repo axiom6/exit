@@ -18,8 +18,8 @@ class ThresholdUI
     Util.dbg( 'Threshold.layout()', orientation )
 
   html:() ->
-    """<div id="#{@app.id('Threshold')}"       class="#{@app.css('Threshold')}">
-       <div id="#{@app.id('ThresholdAdjust')}" class="#{@app.css('ThresholdAdjust')}">Adjust Threshold</div>
+    """<div id="#{Util.id('Threshold')}"       class="#{Util.css('Threshold')}">
+       <div id="#{Util.id('ThresholdAdjust')}" class="#{Util.css('ThresholdAdjust')}">Adjust Threshold</div>
        <img src="img/app/Threshold.png">
     </div>"""
 

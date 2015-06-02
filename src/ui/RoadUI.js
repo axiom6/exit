@@ -32,7 +32,7 @@
     };
 
     RoadUI.prototype.html = function() {
-      return "<div id=\"" + (this.app.id('Road')) + "\" class=\"" + (this.app.css('Road')) + "\">" + (this.driveBarUI.html('Trip')) + "</div>";
+      return "<div id=\"" + (Util.id('Road')) + "\" class=\"" + (Util.css('Road')) + "\">" + (this.driveBarUI.html('Trip')) + "</div>";
     };
 
     RoadUI.prototype.layout = function(orientation) {

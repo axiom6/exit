@@ -27,7 +27,7 @@
     };
 
     NoGoUI.prototype.html = function() {
-      return "<div      id=\"" + (this.app.id('NoGo')) + "\"          class=\"" + (this.app.css('NoGo')) + "\">\n  <div   id=\"" + (this.app.id('NoGoBanner')) + "\"     class=\"" + (this.app.css('NoGoBanner')) + "\">\n    <div id=\"" + (this.app.id('NoGoBannerText')) + "\" class=\"" + (this.app.css('NoGoBannerText')) + "\">NO GO</div>\n  </div>\n  <div id=\"" + (this.app.id('NoGoDeals')) + "\"       class=\"" + (this.app.css('NoGoDeals')) + "\">\n    <div>50% off Hotel</div>\n  </div>\n  <div id=\"" + (this.app.id('NoGoDrive')) + "\" class=\"" + (this.app.css('NoGoDrive')) + "\">" + (this.driveBarUI.html('NoGo')) + "</div>\n</div>";
+      return "<div      id=\"" + (Util.id('NoGo')) + "\"          class=\"" + (Util.css('NoGo')) + "\">\n  <div   id=\"" + (Util.id('NoGoBanner')) + "\"     class=\"" + (Util.css('NoGoBanner')) + "\">\n    <div id=\"" + (Util.id('NoGoBannerText')) + "\" class=\"" + (Util.css('NoGoBannerText')) + "\">NO GO</div>\n  </div>\n  <div id=\"" + (Util.id('NoGoDeals')) + "\"       class=\"" + (Util.css('NoGoDeals')) + "\">\n    <div>50% off Hotel</div>\n  </div>\n  <div id=\"" + (Util.id('NoGoDrive')) + "\" class=\"" + (Util.css('NoGoDrive')) + "\">" + (this.driveBarUI.html('NoGo')) + "</div>\n</div>";
     };
 
     NoGoUI.prototype.subscribe = function() {

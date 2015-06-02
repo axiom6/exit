@@ -19,7 +19,7 @@ class RoadUI
     @stream.subscribe( 'Orient', (object) =>  @layout(object.content) )
 
   html:() ->
-    """<div id="#{@app.id('Road')}" class="#{@app.css('Road')}">#{@driveBarUI.html('Trip')}</div>"""
+    """<div id="#{Util.id('Road')}" class="#{Util.css('Road')}">#{@driveBarUI.html('Trip')}</div>"""
 
   layout:( orientation ) ->
     Util.dbg( 'Road.layout()', orientation )

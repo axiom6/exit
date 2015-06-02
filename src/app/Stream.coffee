@@ -83,3 +83,18 @@ class Stream
     event?.stopPropagation()                   # Will need to look into preventDefault
     event?.preventDefault()
     return
+
+  # RxJS Experiments
+  streamFibonacci:() ->
+    source = Rx.Observable.from( @fibonacci() ).take(10)
+    source.subscribe( (x) -> Util.dbg( 'Text.Stream.Fibonacci()', x ) )
+
+  # RxJS Experiments
+  fibonacci:() ->
+    fn1 = 1
+    fn2 = 1
+    while 1
+      current = fn2;
+      fn2 = fn1
+      fn1 = fn1 + current
+      yield current

@@ -18,7 +18,7 @@ class NavigateUI
     Util.dbg( 'Navigate.layout()', orientation )
 
   html:() ->
-    """<div id="#{@app.id('Navigate')}" class="#{@app.css('Navigate')}">Navigate</div>"""
+    """<div id="#{Util.id('Navigate')}" class="#{Util.css('Navigate')}">Navigate</div>"""
 
   show:() -> @$.show()
 

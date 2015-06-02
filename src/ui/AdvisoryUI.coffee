@@ -22,4 +22,4 @@ class AdvisoryUI
     Util.dbg( 'AdvisoryUI.layout()', orientation )
 
   html:() ->
-    """<div id="#{@app.id('Advisory')}" class="#{@app.css('Advisory')}"></div>"""
+    """<div id="#{Util.id('Advisory')}" class="#{Util.css('Advisory')}"></div>"""

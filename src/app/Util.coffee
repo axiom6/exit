@@ -8,6 +8,7 @@ class Util
   Util.count     = 0
   Util.modules   = []
   Util.instances = []
+  Util.htmlIds   = []
   Util.root      = ''
   Util.paths     = {} # Set by loadInitLibs for future reference in calls to loadModule(s)
   Util.libs      = {} # Set by loadInitLibs for future reference in calls to loadModule(s)
@@ -38,13 +39,6 @@ class Util
   @restoreExports:() ->
     window.exports = Util.exports
     Util.exports   = undefined
-
-  @promise:( resolve, reject ) ->
-    if    ES6Promise?
-      new ES6Promise.Promise( resolve, reject )
-    else
-      Util.error( 'Util.promise() ES6Promise missing so returning null' )
-      null
 
   @hasGlobal:( global, issue=true ) ->
     if not global?
@@ -235,6 +229,7 @@ class Util
     else '""'
 
   # Log arguments through console if it exists
+  ###
   @dbgFiltersObj:( obj ) ->
     return if not Util.debug
     str = ""
@@ -250,6 +245,7 @@ class Util
     else
       Util.log( obj )
     return
+  ###
 
   # Consume unused but mandated variable to pass code inspections
   @noop:() ->
@@ -361,6 +357,7 @@ class Util
       timeout = setTimeout( callback, 100 )
     return
 
+  ###
   @show:( id, hide ) ->
     $id = $('#'+id)
     return $id if not Util.hasGlobal('$')
@@ -372,6 +369,7 @@ class Util
     return false if not Util.hasGlobal('$')
     $id = Util.show( id, hide )
     Util.isEmpty( $id )
+  ###
 
   @isEmpty:( $elem ) ->
     if Util.hasGlobal('$')
@@ -550,6 +548,16 @@ class Util
   @match_args:( regexp, text ) ->
     Util.log( regexp, text, Util.match(regexp,text) )
 
+  @id:( name, type='', ext='' ) ->
+    htmlId = name + type + ext
+    Util.error( 'Util.id() duplicate html id', htmlId ) if @htmlIds.indexOf(htmlId) isnt -1
+    @htmlIds.push( htmlId )
+    htmlId
+
+  @svgId:( name, type, svgType ) -> @id( name, type, svgType )
+  @css:(   name, type=''       ) -> name + type
+  @icon:(  name, type, fa      ) -> name + type + ' fa fa-' + fa
+
 # Export Util here at the end (important as a convenience
 # Not really needed since Util is a global
-Util.Export( Util, 'mod/Util' )
+Util.Export( Util, 'test/app/Util' )

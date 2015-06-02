@@ -10,6 +10,11 @@ class Test
     @streamPushTestLocation()
     #@streamFibonacci()
 
+  # App
+
+  # Model
+
+  # Rest
   rest:() ->
     Util.dbg( 'Test.rest() ------------' )
     @rest     = @app.rest
@@ -19,6 +24,65 @@ class Test
     objents(           @segments, @rest.logConditions )
     @rest.deals( [39.644407,-106.378767], @segments, @rest.logDeals      )
 
+  restConstructor:( @app, @stream  ) ->
+  segmentsFromLocal:(   direction, onSuccess, onError ) ->
+  conditionsFromLocal:( direction, onSuccess, onError ) ->
+  dealsFromLocal:(      direction, onSuccess, onError ) ->
+  milePostsFromLocal:(  onSuccess, onError ) ->
+  forecastsFromLocal:(  onSuccess, onError ) ->
+
+  segmentsByPreset:( preset, onSuccess, onError  ) ->
+
+  conditionsBySegments:( segments, onSuccess, onError  ) ->
+
+  deals:( latlon, segments, onSuccess, onError  ) ->
+  forecastByTown:( name, town, onSuccess, onError ) ->
+
+  getForecast:( args, onSuccess, onError ) ->
+
+  forecastByLatLonTime:( lat, lon, time, onSuccess, onError ) ->
+
+  requestSegmentsBy:( query, onSuccess, onError  ) ->
+    Util.noop( 'Stream.requestSegmentsBy', query, onSuccess, onError )
+    return
+
+  requestConditionsBy:( query, onSuccess, onError  ) ->
+    Util.noop( 'Stream.requestConditionsBy', query, onSuccess, onError )
+    return
+
+  requestDealsBy:( query, onSuccess, onError  ) ->
+    Util.noop( 'Stream.requestDealsBy', query, onSuccess, onError )
+    return
+
+  segmentsByLatLon:( slat, slon, elat, elon, onSuccess, onError ) ->
+
+  segmentsBySegments:( segments, onSuccess, onError ) ->
+
+  conditionsBySegmentsDate:( segments, date, onSuccess, onError ) ->
+
+
+  dealsByUrl:( url, onSuccess, onError ) ->
+
+  toCsv:( array ) ->
+
+  segIdNum:( segment ) ->
+
+
+  # Simulatate
+
+  # Spatial
+
+  # Stream / RxJS
+
+  # Town
+
+  # Trip
+
+  # Util
+
+  # Visual
+
+  # Location
   streamPushTestLocation:() ->
     subject = new Rx.Subject()
     subject.subscribe( (object) => @onTestLocation( object ) )
@@ -29,15 +93,113 @@ class Test
   onTestLocation:( object ) ->
     Util.dbg( 'Test.Stream.onLocation()', object.content, object.from )
 
-  streamFibonacci:() ->
-    source = Rx.Observable.from( @fibonacci() ).take(10)
-    source.subscribe( (x) -> Util.dbg( 'Text.Stream.Fibonacci()', x ) )
+  # AdvisoryUI
+    # constructor
+    # ready
+    # html
+    # position
+    # layout
+    # publish
+    # subscrible
 
-  fibonacci:() ->
-    fn1 = 1
-    fn2 = 1
-    while 1
-      current = fn2;
-      fn2 = fn1
-      fn1 = fn1 + current
-      yield current
+  # DealsUI
+    # constructor
+    # ready
+    # html
+    # position
+    # layout
+    # publish
+    # subscrible
+
+  # DestinationUI
+    # constructor
+    # ready
+    # html
+    # position
+    # layout
+    # publish
+    # subscrible
+
+  # DriveBarUI
+    # constructor
+    # ready
+    # html
+    # position
+    # layout
+    # publish
+    # subscrible
+
+  # GoUI
+    # constructor
+    # ready
+    # html
+    # position
+    # layout
+    # publish
+    # subscrible
+
+  # NavigateUI
+    # constructor
+    # ready
+    # html
+    # position
+    # layout
+    # publish
+    # subscrible
+
+  # NoGoUI
+    # constructor
+    # ready
+    # html
+    # position
+    # layout
+    # publish
+    # subscrible
+
+  # RoadUI
+    # constructor
+    # ready
+    # html
+    # position
+    # layout
+    # publish
+    # subscrible
+
+  # ThresholdUI
+    # constructor
+    # ready
+    # html
+    # position
+    # layout
+    # publish
+    # subscrible
+
+  # TripUI
+    # constructor
+    # ready
+    # html
+    # position
+    # layout
+    # publish
+    # subscrible
+
+  # UI
+    # constructor
+    # ready
+    # html
+    # position
+    # layout
+    # publish
+    # subscrible
+
+  # WeartherUI
+    # constructor
+    # ready
+    # html
+    # position
+    # layout
+    # publish
+    # subscrible
+
+
+

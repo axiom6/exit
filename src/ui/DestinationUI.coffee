@@ -37,9 +37,9 @@ class DestinationUI
   onDestination:( dest ) ->
     Util.dbg( 'Destination.onDestination()', dest )
 
-  id:(   name, type     ) -> @app.id(   name, type     )
-  css:(  name, type     ) -> @app.css(  name, type     )
-  icon:( name, type, fa ) -> @app.icon( name, type, fa )
+  id:(   name, type     ) -> Util.id(   name, type     )
+  css:(  name, type     ) -> Util.css(  name, type     )
+  icon:( name, type, fa ) -> Util.icon( name, type, fa )
 
   html:() ->
     htm = """<div      id="#{@id('Destination')}"             class="#{@css('Destination')}">

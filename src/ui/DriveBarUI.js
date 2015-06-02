@@ -22,8 +22,8 @@
 
     DriveBarUI.prototype.html = function() {
       var htm;
-      this.htmlId = this.app.id(this.name, this.ext);
-      htm = "<div id=\"" + this.htmlId + "\" class=\"" + (this.app.css(this.name)) + "\"></div>";
+      this.htmlId = Util.id(this.name, this.ext);
+      htm = "<div id=\"" + this.htmlId + "\" class=\"" + (Util.css(this.name)) + "\"></div>";
       this.$ = $(htm);
       return htm;
     };
@@ -99,8 +99,8 @@
 
     DriveBarUI.prototype.createSvg = function($, htmlId, name, ext, width, height, barTop) {
       var $g, $svg, g, gId, svg, svgId;
-      svgId = this.app.svgId(name, ext, 'Svg');
-      gId = this.app.svgId(name, ext, 'G');
+      svgId = Util.svgId(name, ext, 'Svg');
+      gId = Util.svgId(name, ext, 'G');
       svg = d3.select('#' + htmlId).append("svg:svg").attr("id", svgId).attr("width", width).attr("height", height);
       g = svg.append("svg:g").attr("id", gId);
       $svg = $.find('#' + svgId);
@@ -192,7 +192,7 @@
 
     DriveBarUI.prototype.rect = function(trip, g, seg, segId, x0, y0, w, h, fill, stroke, thick, text) {
       var onClick, svgId;
-      svgId = this.app.svgId(this.name, segId.toString(), this.ext);
+      svgId = Util.svgId(this.name, segId.toString(), this.ext);
       onClick = (function(_this) {
         return function() {
           x = d3.mouse(this)[0];
@@ -225,7 +225,7 @@
 
     DriveBarUI.prototype.updateRectFill = function(segId, fill) {
       var rect, rectId;
-      rectId = this.app.svgId(this.name, segId.toString(), this.ext);
+      rectId = Util.svgId(this.name, segId.toString(), this.ext);
       rect = $svg.find('#' + rectId);
       rect.attr('fill', fill);
     };

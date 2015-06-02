@@ -9,8 +9,8 @@ class DriveBarUI
     @created  = false
 
   html:() ->
-    @htmlId = @app.id(@name,@ext)                                          # For createSvg()
-    htm     = """<div id="#{@htmlId}" class="#{@app.css(@name)}"></div>"""  # May or may not need ext for CSS
+    @htmlId = Util.id(@name,@ext)                                          # For createSvg()
+    htm     = """<div id="#{@htmlId}" class="#{Util.css(@name)}"></div>"""  # May or may not need ext for CSS
     @$      = $(htm)
     htm
 
@@ -50,8 +50,8 @@ class DriveBarUI
 
   # d3 Svg dependency
   createSvg:( $, htmlId, name, ext, width, height, barTop ) ->
-    svgId = @app.svgId(  name, ext, 'Svg' )
-    gId   = @app.svgId(  name, ext, 'G'   )
+    svgId = Util.svgId(  name, ext, 'Svg' )
+    gId   = Util.svgId(  name, ext, 'G'   )
     svg   = d3.select('#'+htmlId).append("svg:svg").attr("id",svgId).attr("width",width).attr("height",height)
     g     = svg.append("svg:g").attr("id",gId) # All tranforms are applied to g
     $svg  = $.find( '#'+svgId )
@@ -121,7 +121,7 @@ class DriveBarUI
 
   rect:( trip, g, seg, segId, x0, y0, w, h, fill, stroke, thick, text ) ->
 
-    svgId = @app.svgId( @name, segId.toString(), @ext )
+    svgId = Util.svgId( @name, segId.toString(), @ext )
 
     onClick = () =>
       `x = d3.mouse(this)[0]`
@@ -146,7 +146,7 @@ class DriveBarUI
       $('#gritter-notice-wrapper').show()
 
   updateRectFill:( segId, fill ) ->
-    rectId = @app.svgId( @name, segId.toString(), @ext )
+    rectId = Util.svgId( @name, segId.toString(), @ext )
     rect   = $svg.find('#'+rectId)
     rect.attr( 'fill', fill )
     return

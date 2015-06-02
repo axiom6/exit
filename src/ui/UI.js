@@ -75,15 +75,15 @@
     };
 
     UI.prototype.id = function(name, type) {
-      return this.app.id(name, type);
+      return Util.id(name, type);
     };
 
     UI.prototype.css = function(name, type) {
-      return this.app.css(name, type);
+      return Util.css(name, type);
     };
 
     UI.prototype.icon = function(name, type, fa) {
-      return this.app.icon(name, type, fa);
+      return Util.icon(name, type, fa);
     };
 
     UI.prototype.html = function() {

@@ -106,7 +106,7 @@ class WeatherUI
     w.time              = f.time
     summaries           = f.summary.split(' ')
     w.summary1          =    summaries[0]
-    w.summary2          = if summaries[1]? then summaries[1] else ''
+    w.summary2          = if summaries[1]? then summaries[1] else '&nbsp;'
     w.fcIcon            = f.icon
     if WeatherUI.Icons[w.fcIcon]?
       w.back            = WeatherUI.Icons[f.icon].back

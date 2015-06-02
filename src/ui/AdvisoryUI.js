@@ -40,7 +40,7 @@
     };
 
     AdvisoryUI.prototype.html = function() {
-      return "<div id=\"" + (this.app.id('Advisory')) + "\" class=\"" + (this.app.css('Advisory')) + "\"></div>";
+      return "<div id=\"" + (Util.id('Advisory')) + "\" class=\"" + (Util.css('Advisory')) + "\"></div>";
     };
 
     return AdvisoryUI;

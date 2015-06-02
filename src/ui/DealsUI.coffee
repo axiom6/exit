@@ -16,7 +16,7 @@ class DealsUI
     @subscribe()
 
   html:() ->
-    """<div id="#{@app.id('Deals')}" class="#{@app.css('Deals')}"></div>"""
+    """<div id="#{Util.id('Deals')}" class="#{Util.css('Deals')}"></div>"""
 
   show:() ->
     @isVisible = true

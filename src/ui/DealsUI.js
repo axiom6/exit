@@ -26,7 +26,7 @@
     };
 
     DealsUI.prototype.html = function() {
-      return "<div id=\"" + (this.app.id('Deals')) + "\" class=\"" + (this.app.css('Deals')) + "\"></div>";
+      return "<div id=\"" + (Util.id('Deals')) + "\" class=\"" + (Util.css('Deals')) + "\"></div>";
     };
 
     DealsUI.prototype.show = function() {

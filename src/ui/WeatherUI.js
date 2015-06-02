@@ -367,7 +367,7 @@
       w.time = f.time;
       summaries = f.summary.split(' ');
       w.summary1 = summaries[0];
-      w.summary2 = summaries[1] != null ? summaries[1] : '';
+      w.summary2 = summaries[1] != null ? summaries[1] : '&nbsp;';
       w.fcIcon = f.icon;
       if (WeatherUI.Icons[w.fcIcon] != null) {
         w.back = WeatherUI.Icons[f.icon].back;

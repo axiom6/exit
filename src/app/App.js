@@ -8,7 +8,7 @@
     $(document).ready(function() {
       Util.debug = true;
       Util.init();
-      return Util.app = new App('LocalForecasts', false, false);
+      return Util.app = new App('Local', false, false);
     });
 
     function App(dataSource, runSimulate, runTest) {
@@ -87,28 +87,6 @@
 
     App.prototype.height = function() {
       return this.ui.height();
-    };
-
-    App.prototype.id = function(name, type) {
-      if (type == null) {
-        type = '';
-      }
-      return name + type;
-    };
-
-    App.prototype.css = function(name, type) {
-      if (type == null) {
-        type = '';
-      }
-      return name + type;
-    };
-
-    App.prototype.icon = function(name, type, fa) {
-      return name + type + ' fa fa-' + fa;
-    };
-
-    App.prototype.svgId = function(name, type, svgType) {
-      return this.id(name, type + svgType);
     };
 
     return App;

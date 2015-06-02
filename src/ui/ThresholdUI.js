@@ -31,7 +31,7 @@
     };
 
     ThresholdUI.prototype.html = function() {
-      return "<div id=\"" + (this.app.id('Threshold')) + "\"       class=\"" + (this.app.css('Threshold')) + "\">\n   <div id=\"" + (this.app.id('ThresholdAdjust')) + "\" class=\"" + (this.app.css('ThresholdAdjust')) + "\">Adjust Threshold</div>\n   <img src=\"img/app/Threshold.png\">\n</div>";
+      return "<div id=\"" + (Util.id('Threshold')) + "\"       class=\"" + (Util.css('Threshold')) + "\">\n   <div id=\"" + (Util.id('ThresholdAdjust')) + "\" class=\"" + (Util.css('ThresholdAdjust')) + "\">Adjust Threshold</div>\n   <img src=\"img/app/Threshold.png\">\n</div>";
     };
 
     ThresholdUI.prototype.show = function() {

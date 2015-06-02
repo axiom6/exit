@@ -41,9 +41,9 @@ class UI
     @stream.subscribe( 'Select', (object) => @select(object.content) )
     @stream.subscribe( 'Orient', (object) => @layout(object.content) )
 
-  id:(   name, type     ) -> @app.id(   name, type     )
-  css:(  name, type     ) -> @app.css(  name, type     )
-  icon:( name, type, fa ) -> @app.icon( name, type, fa )
+  id:(   name, type     ) -> Util.id(   name, type     )
+  css:(  name, type     ) -> Util.css(  name, type     )
+  icon:( name, type, fa ) -> Util.icon( name, type, fa )
 
   html:() ->
     """<div      id="#{@id('UI')}"                     class="#{@css('UI')}">

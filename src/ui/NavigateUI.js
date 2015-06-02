@@ -31,7 +31,7 @@
     };
 
     NavigateUI.prototype.html = function() {
-      return "<div id=\"" + (this.app.id('Navigate')) + "\" class=\"" + (this.app.css('Navigate')) + "\">Navigate</div>";
+      return "<div id=\"" + (Util.id('Navigate')) + "\" class=\"" + (Util.css('Navigate')) + "\">Navigate</div>";
     };
 
     NavigateUI.prototype.show = function() {

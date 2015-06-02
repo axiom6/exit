@@ -15,6 +15,8 @@ Util = (function() {
 
   Util.instances = [];
 
+  Util.htmlIds = [];
+
   Util.root = '';
 
   Util.paths = {};
@@ -56,15 +58,6 @@ Util = (function() {
   Util.restoreExports = function() {
     window.exports = Util.exports;
     return Util.exports = void 0;
-  };
-
-  Util.promise = function(resolve, reject) {
-    if (typeof ES6Promise !== "undefined" && ES6Promise !== null) {
-      return new ES6Promise.Promise(resolve, reject);
-    } else {
-      Util.error('Util.promise() ES6Promise missing so returning null');
-      return null;
-    }
   };
 
   Util.hasGlobal = function(global, issue) {
@@ -405,29 +398,24 @@ Util = (function() {
     }
   };
 
-  Util.dbgFiltersObj = function(obj) {
-    var prop, str;
-    if (!Util.debug) {
-      return;
-    }
-    str = "";
-    if (obj['dbgFilters'] != null) {
-      if (Util.isArray(obj['dbgFilters']) && obj['dbgFilters'][0] !== '*') {
-        for (prop in obj) {
-          if (prop !== 'dbgFilters' && obj['dbgFilters'].indexOf(prop) === -1 && obj.hasOwnProperty(prop)) {
-            if (typeof arg[prop] === 'object') {
-              str += '\n';
-            }
-            str += prop + ":" + Util.toStr(obj[prop]) + ", ";
-          }
-        }
-        str = str.substr(0, str.length - 2);
-        Util.log(str);
-      }
-    } else {
-      Util.log(obj);
-    }
-  };
+
+  /*
+  @dbgFiltersObj:( obj ) ->
+    return if not Util.debug
+    str = ""
+    if obj['dbgFilters']?
+      if Util.isArray(obj['dbgFilters']) && obj['dbgFilters'][0] != '*'
+        for prop of obj
+          #Util.log( prop, obj['dbgFilters'].indexOf(prop), prop != 'dbgFilters' and obj['dbgFilters']?.indexOf(prop) == -1 )
+          if prop != 'dbgFilters' and obj['dbgFilters'].indexOf(prop) == -1 and obj.hasOwnProperty(prop)
+            str += '\n' if typeof(arg[prop]) is 'object'
+            str += prop + ":" + Util.toStr(obj[prop]) + ", "
+        str = str.substr(0, str.length - 2 )
+        Util.log( str )
+    else
+      Util.log( obj )
+    return
+   */
 
   Util.noop = function() {
     if (false) {
@@ -612,27 +600,20 @@ Util = (function() {
     };
   };
 
-  Util.show = function(id, hide) {
-    var $id;
-    $id = $('#' + id);
-    if (!Util.hasGlobal('$')) {
-      return $id;
-    }
-    if (hide != null) {
-      $(hide).hide();
-    }
-    $id.show();
-    return $id;
-  };
 
-  Util.needsContent = function(id, hide) {
-    var $id;
-    if (!Util.hasGlobal('$')) {
-      return false;
-    }
-    $id = Util.show(id, hide);
-    return Util.isEmpty($id);
-  };
+  /*
+  @show:( id, hide ) ->
+    $id = $('#'+id)
+    return $id if not Util.hasGlobal('$')
+    if hide? then $(hide).hide()
+    $id.show()
+    $id
+  
+  @needsContent:( id, hide ) ->
+    return false if not Util.hasGlobal('$')
+    $id = Util.show( id, hide )
+    Util.isEmpty( $id )
+   */
 
   Util.isEmpty = function($elem) {
     if (Util.hasGlobal('$')) {
@@ -916,8 +897,39 @@ Util = (function() {
     return Util.log(regexp, text, Util.match(regexp, text));
   };
 
+  Util.id = function(name, type, ext) {
+    var htmlId;
+    if (type == null) {
+      type = '';
+    }
+    if (ext == null) {
+      ext = '';
+    }
+    htmlId = name + type + ext;
+    if (this.htmlIds.indexOf(htmlId) !== -1) {
+      Util.error('Util.id() duplicate html id', htmlId);
+    }
+    this.htmlIds.push(htmlId);
+    return htmlId;
+  };
+
+  Util.svgId = function(name, type, svgType) {
+    return this.id(name, type, svgType);
+  };
+
+  Util.css = function(name, type) {
+    if (type == null) {
+      type = '';
+    }
+    return name + type;
+  };
+
+  Util.icon = function(name, type, fa) {
+    return name + type + ' fa fa-' + fa;
+  };
+
   return Util;
 
 })();
 
-Util.Export(Util, 'mod/Util');
+Util.Export(Util, 'test/app/Util');
