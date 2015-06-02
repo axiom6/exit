@@ -4,11 +4,14 @@
 
 class Util
 
+  Util.Export( Util, 'app/Util' ) # Export Util as a convenience, since it is not really needed since Util is a global
+
+  Util.testTrue  = true
   Util.debug     = false
   Util.count     = 0
   Util.modules   = []
   Util.instances = []
-  Util.htmlIds   = []
+  Util.htmlIds   = {}
   Util.root      = ''
   Util.paths     = {} # Set by loadInitLibs for future reference in calls to loadModule(s)
   Util.libs      = {} # Set by loadInitLibs for future reference in calls to loadModule(s)
@@ -19,26 +22,11 @@ class Util
   # ------ Modules ------
 
   @init:() ->
-    window['Promise'] = ES6Promise.Promise if ES6Promise?
 
   @hasMethod:( obj, method ) ->
     has = typeof obj[method] is 'function'
     Util.log( 'Util.hasMethod()', method, has )
     has
-
-  @undefExports:() ->
-    window.exports = undefined
-
-  @saveUndefExports:() ->
-    Util.log( 'Util.saveUndefExports()', typeof exports, typeof window.exports, typeof root.exports )
-    Util.exports   = window.exports
-    exports        = undefined
-    window.exports = undefined
-    root.exports   = undefined
-
-  @restoreExports:() ->
-    window.exports = Util.exports
-    Util.exports   = undefined
 
   @hasGlobal:( global, issue=true ) ->
     if not global?
@@ -133,23 +121,16 @@ class Util
       Util.Export( module, path )
     module
 
+  # Need to rethink this method
   @IdExt:( path ) ->
     module = Util.Import( path )
     ext = ''
     if not module?.ext?
       Util.error('Util.IdExt() id extension ext not defined for module with path', path )
-      ext = module.ext
+      ext = undefined
     else
       ext = path.split('/').pop()
     ext
-
-  @hasRequireJS:() ->
-    require? and requirejs?
-
-  @define:( path, module ) -> Util.Export( module, path )
-
-  #window.require = Util.Import if not Util.hasRequireJS() # OK for now, possibe confusion for 3rd party libs in the future
-  #window.define  = Util.define if not Util.hasRequireJS() # Playing with fire like with D3
 
   @setModule:( module, path ) ->
     if not module? and path?
@@ -227,25 +208,6 @@ class Util
   @toStrStr:( arg ) ->
     if arg.length > 0 then arg
     else '""'
-
-  # Log arguments through console if it exists
-  ###
-  @dbgFiltersObj:( obj ) ->
-    return if not Util.debug
-    str = ""
-    if obj['dbgFilters']?
-      if Util.isArray(obj['dbgFilters']) && obj['dbgFilters'][0] != '*'
-        for prop of obj
-          #Util.log( prop, obj['dbgFilters'].indexOf(prop), prop != 'dbgFilters' and obj['dbgFilters']?.indexOf(prop) == -1 )
-          if prop != 'dbgFilters' and obj['dbgFilters'].indexOf(prop) == -1 and obj.hasOwnProperty(prop)
-            str += '\n' if typeof(arg[prop]) is 'object'
-            str += prop + ":" + Util.toStr(obj[prop]) + ", "
-        str = str.substr(0, str.length - 2 )
-        Util.log( str )
-    else
-      Util.log( obj )
-    return
-  ###
 
   # Consume unused but mandated variable to pass code inspections
   @noop:() ->
@@ -357,20 +319,6 @@ class Util
       timeout = setTimeout( callback, 100 )
     return
 
-  ###
-  @show:( id, hide ) ->
-    $id = $('#'+id)
-    return $id if not Util.hasGlobal('$')
-    if hide? then $(hide).hide()
-    $id.show()
-    $id
-
-  @needsContent:( id, hide ) ->
-    return false if not Util.hasGlobal('$')
-    $id = Util.show( id, hide )
-    Util.isEmpty( $id )
-  ###
-
   @isEmpty:( $elem ) ->
     if Util.hasGlobal('$')
       $elem.length == 0 || $elem.children().length == 0
@@ -390,8 +338,8 @@ class Util
   @include:( klass, mixin ) ->
     Util.extend( klass.prototype, mixin )
 
-  @toEvent:( e ) ->
-    errorCode = if e.target? and e.target.errorCode then e.target.errorCode
+  @eventErrorCode:( e ) ->
+    errorCode = if e.target? and e.target.errorCode then e.target.errorCode else 'unknown'
     { errorCode:errorCode }
 
   @indent:(n) ->
@@ -506,8 +454,11 @@ class Util
       when 'string' then parseFloat(arg)
       else 0
 
-  @toCap:( str ) -> str.charAt(0).toUpperCase() + str.substring(1)
-  @unCap:( str ) -> str.charAt(0).toLowerCase() + str.substring(1)
+  @toCap:( str ) ->
+    str.charAt(0).toUpperCase() + str.substring(1)
+
+  @unCap:( str ) ->
+    str.charAt(0).toLowerCase() + str.substring(1)
 
   # Beautiful Code, Chapter 1.
   # Implements a regular expression matcher that supports character matches,
@@ -550,14 +501,12 @@ class Util
 
   @id:( name, type='', ext='' ) ->
     htmlId = name + type + ext
-    Util.error( 'Util.id() duplicate html id', htmlId ) if @htmlIds.indexOf(htmlId) isnt -1
-    @htmlIds.push( htmlId )
+    Util.error( 'Util.id() duplicate html id', htmlId ) if Util.htmlIds[htmlId]?
+    Util.htmlIds[htmlId] = htmlId
     htmlId
 
   @svgId:( name, type, svgType ) -> @id( name, type, svgType )
   @css:(   name, type=''       ) -> name + type
   @icon:(  name, type, fa      ) -> name + type + ' fa fa-' + fa
 
-# Export Util here at the end (important as a convenience
-# Not really needed since Util is a global
-Util.Export( Util, 'test/app/Util' )
+

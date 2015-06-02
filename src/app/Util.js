@@ -7,6 +7,10 @@ var Util,
 Util = (function() {
   function Util() {}
 
+  Util.Export(Util, 'app/Util');
+
+  Util.testTrue = true;
+
   Util.debug = false;
 
   Util.count = 0;
@@ -15,7 +19,7 @@ Util = (function() {
 
   Util.instances = [];
 
-  Util.htmlIds = [];
+  Util.htmlIds = {};
 
   Util.root = '';
 
@@ -29,35 +33,13 @@ Util = (function() {
 
   Util.logStackMax = 100;
 
-  Util.init = function() {
-    if (typeof ES6Promise !== "undefined" && ES6Promise !== null) {
-      return window['Promise'] = ES6Promise.Promise;
-    }
-  };
+  Util.init = function() {};
 
   Util.hasMethod = function(obj, method) {
     var has;
     has = typeof obj[method] === 'function';
     Util.log('Util.hasMethod()', method, has);
     return has;
-  };
-
-  Util.undefExports = function() {
-    return window.exports = void 0;
-  };
-
-  Util.saveUndefExports = function() {
-    var exports;
-    Util.log('Util.saveUndefExports()', typeof exports, typeof window.exports, typeof root.exports);
-    Util.exports = window.exports;
-    exports = void 0;
-    window.exports = void 0;
-    return root.exports = void 0;
-  };
-
-  Util.restoreExports = function() {
-    window.exports = Util.exports;
-    return Util.exports = void 0;
   };
 
   Util.hasGlobal = function(global, issue) {
@@ -265,19 +247,11 @@ Util = (function() {
     ext = '';
     if ((module != null ? module.ext : void 0) == null) {
       Util.error('Util.IdExt() id extension ext not defined for module with path', path);
-      ext = module.ext;
+      ext = void 0;
     } else {
       ext = path.split('/').pop();
     }
     return ext;
-  };
-
-  Util.hasRequireJS = function() {
-    return (typeof require !== "undefined" && require !== null) && (typeof requirejs !== "undefined" && requirejs !== null);
-  };
-
-  Util.define = function(path, module) {
-    return Util.Export(module, path);
   };
 
   Util.setModule = function(module, path) {
@@ -397,25 +371,6 @@ Util = (function() {
       return '""';
     }
   };
-
-
-  /*
-  @dbgFiltersObj:( obj ) ->
-    return if not Util.debug
-    str = ""
-    if obj['dbgFilters']?
-      if Util.isArray(obj['dbgFilters']) && obj['dbgFilters'][0] != '*'
-        for prop of obj
-          #Util.log( prop, obj['dbgFilters'].indexOf(prop), prop != 'dbgFilters' and obj['dbgFilters']?.indexOf(prop) == -1 )
-          if prop != 'dbgFilters' and obj['dbgFilters'].indexOf(prop) == -1 and obj.hasOwnProperty(prop)
-            str += '\n' if typeof(arg[prop]) is 'object'
-            str += prop + ":" + Util.toStr(obj[prop]) + ", "
-        str = str.substr(0, str.length - 2 )
-        Util.log( str )
-    else
-      Util.log( obj )
-    return
-   */
 
   Util.noop = function() {
     if (false) {
@@ -600,21 +555,6 @@ Util = (function() {
     };
   };
 
-
-  /*
-  @show:( id, hide ) ->
-    $id = $('#'+id)
-    return $id if not Util.hasGlobal('$')
-    if hide? then $(hide).hide()
-    $id.show()
-    $id
-  
-  @needsContent:( id, hide ) ->
-    return false if not Util.hasGlobal('$')
-    $id = Util.show( id, hide )
-    Util.isEmpty( $id )
-   */
-
   Util.isEmpty = function($elem) {
     if (Util.hasGlobal('$')) {
       return $elem.length === 0 || $elem.children().length === 0;
@@ -641,9 +581,9 @@ Util = (function() {
     return Util.extend(klass.prototype, mixin);
   };
 
-  Util.toEvent = function(e) {
+  Util.eventErrorCode = function(e) {
     var errorCode;
-    errorCode = (e.target != null) && e.target.errorCode ? e.target.errorCode : void 0;
+    errorCode = (e.target != null) && e.target.errorCode ? e.target.errorCode : 'unknown';
     return {
       errorCode: errorCode
     };
@@ -906,10 +846,10 @@ Util = (function() {
       ext = '';
     }
     htmlId = name + type + ext;
-    if (this.htmlIds.indexOf(htmlId) !== -1) {
+    if (Util.htmlIds[htmlId] != null) {
       Util.error('Util.id() duplicate html id', htmlId);
     }
-    this.htmlIds.push(htmlId);
+    Util.htmlIds[htmlId] = htmlId;
     return htmlId;
   };
 
@@ -931,5 +871,3 @@ Util = (function() {
   return Util;
 
 })();
-
-Util.Export(Util, 'test/app/Util');

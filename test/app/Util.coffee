@@ -1,143 +1,26 @@
 
-# Static method utilities       - Util is a global without a functional wrapper
-# coffee -c -bare Util.coffee   - prevents function wrap to put Util in global namespace
 
-class Util
+class UtilTest
 
+  UT   = UtilTest
+  app = Util.app
 
-  @hasMethod:( obj, method ) ->
-    has = typeof obj[method] is 'function'
-    Util.log( 'Util.hasMethod()', method, has )
-    has
+  describe("Util", () ->
+    it("hasMethod",              () -> expect( Util.hasMethod(  app, 'ready'     ) ).toBe(true)  )
+    it("hasGlobal",              () -> expect( Util.hasGlobal(  Util             ) ).toBe(true)  )
+    it("hasGlobal",              () -> expect( Util.getGlobal( 'fullScreen'      ) ).toBe(false) )
+    it("hasPlugin",              () -> expect( Util.hasPlugin( 'Util.hasPlugin'  ) ).tobe(true)  )
+    it("hasModule",              () -> expect( Util.hasModule( 'app/Util'        ) ).toBe(true)  )
+    it("dependsOn(global)",      () -> expect( Util.dependsOn( 'fullScreen'      ) ).toBe(true)  )
+    it("dependsOn(module)",      () -> expect( Util.dependsOn( 'app/Util'        ) ).toBe(true)  )
+    it("dependsOn(plugin)",      () -> expect( Util.dependsOn( 'Util.hasPlugin'  ) ).toBe(true)  )
+    it("verifyLoadModules stub", () -> expect( true                                ).toBe(true)  )
+    it("loadInitLibs      stub", () -> expect( true                                ).toBe(true)  )
+    it("loadModules       stub", () -> expect( true                                ).toBe(true)  )
+    it("loadModule        stub", () -> expect( true                                ).toBe(true)  )
+    it("Export Import",          () -> expect( Util.Export('Util','zzz/Util'     ) ).toBe( Util.Import('zzz/Util').testTrue ) )
+    it("IdExt             stub", () -> expect( true                                ).toBe(true)  ) )
 
-  @saveUndefExports:() ->
-    Util.log( 'Util.saveUndefExports()', typeof exports, typeof window.exports, typeof root.exports )
-    Util.exports   = window.exports
-    exports        = undefined
-    window.exports = undefined
-    root.exports   = undefined
-
-  @restoreExports:() ->
-    window.exports = Util.exports
-    Util.exports   = undefined
-
-  @promise:( resolve, reject ) ->
-    if    ES6Promise?
-      new ES6Promise.Promise( resolve, reject )
-    else
-      Util.error( 'Util.promise() ES6Promise missing so returning null' )
-      null
-
-  @hasGlobal:( global, issue=true ) ->
-    if not global?
-      Util.trace(  global )
-      return false
-    has = window[global]?
-    Util.error( "Util.hasGlobal() #{global} not present" )  if not has and issue
-    has
-
-  @getGlobal:( global, issue=true ) ->
-    if Util.hasGlobal( global, issue ) then window[global] else null
-
-  @hasPlugin:( plugin, issue=true ) ->
-    glob = Util.firstTok(plugin,'.')
-    plug = Util.lastTok( plugin,'.')
-    has  = window[glob]? and window[glob][plug]?
-    Util.error( "Util.hasPlugin()  $#{glob+'.'+plug} not present" )  if not has and issue
-    has
-
-  @hasModule:( path, issue=true ) ->
-    has = Util.modules[path]?
-    Util.error( "Util.hasModule() #{path} not present" )  if not has and issue
-    has
-
-  @dependsOn:() ->
-    ok = true
-    for arg in arguments
-      has = Util.hasGlobal(arg,false) or Util.hasModule(arg,false) or Util.hasPlugin(arg,false)
-      Util.error( 'Missing Dependency', arg ) if not has
-      ok &= has
-    ok
-
-  @verifyLoadModules:(lib,modules,global=undefined) ->
-    ok  = true
-    for module in modules
-      has = if global? then Util.hasGlobal(global,false) or Util.hasPlugin(global) else Util.hasModule(lib+module,false)?
-      Util.error( 'Util.verifyLoadModules() Missing Module', lib+module+'.js', {global:global} ) if not has
-      ok &= has
-    ok
-
-  # Load libraries With YepNope
-  @loadInitLibs:( root, paths, libs, callback, dbg=false ) ->
-    Util.root  = root
-    Util.paths = paths
-    Util.libs  = libs
-    return if not Util.hasGlobal('yepnope')
-    deps   = []
-    for path, dir of libs.paths
-      for mod in libs[path]
-        deps.push( root + dir + mod + '.js' )
-        Util.log(  root + dir + mod + '.js' ) if dbg
-    yepnope( [{ load:deps, complete:callback }] )
-    return
-
-  @loadModules:( path, dir, modules, callback=null ) ->
-    return if not Util.hasGlobal('yepnope')
-    modulesCallback = if callback? then callback  else () => Util.verifyLoadModules(dir,modules)
-    deps = []
-    for module in modules
-      if not Util.hasModule( dir+module, false )
-        deps.push( Util.root + path+dir+module+'.js' )
-      else
-        Util.warn( 'Util.loadModules() already loaded module', Util.root + dir + module )
-    yepnope( [{ load:deps, complete:modulesCallback }] )
-    return
-
-  @loadModule:( path, dir, module, global=undefined ) ->
-    return if not Util.hasGlobal('yepnope')
-    modulesCallback = if callback? then callback  else () => Util.verifyLoadModules(dir,[module],global)
-    if ( global? and not Util.hasGlobal(global,false) ) or not Util.hasModule( dir+module, false )
-      yepnope( [{ load:Util.root+path+dir+module+'.js', complete:modulesCallback }] )
-    else
-      Util.warn( 'Util.loadModule() already loaded module', dir+module )
-    return
-
-  # First add module the modules associative array. Next true try an RequireJS/AMD define().
-  # Otherwise if CommonJS exports and module have been supplied attached our module to them
-  # Export is capitalized to avoid conflict with "export" JavaScript keyword
-  @Export:( module, path, dbg=false ) ->
-    Util.setModule( module, path )
-    define( path, () -> module ) if define?
-    Util.log( 'Util.Export', path ) if dbg
-    module
-
-  # First lookup module from modules associative array
-  # Otherwise try require (RequireJS)
-  # Import is capitalized to avoid conflict with "import" JavaScript keyword
-  @Import:( path ) ->
-    module = Util.getModule( path )
-    if not module? and Util.hasRequireJS()
-      module = requirejs(  path )
-      Util.Export( module, path )
-    module
-
-  @IdExt:( path ) ->
-    module = Util.Import( path )
-    ext = ''
-    if not module?.ext?
-      Util.error('Util.IdExt() id extension ext not defined for module with path', path )
-      ext = module.ext
-    else
-      ext = path.split('/').pop()
-    ext
-
-  @hasRequireJS:() ->
-    require? and requirejs?
-
-  @define:( path, module ) -> Util.Export( module, path )
-
-  #window.require = Util.Import if not Util.hasRequireJS() # OK for now, possibe confusion for 3rd party libs in the future
-  #window.define  = Util.define if not Util.hasRequireJS() # Playing with fire like with D3
 
   @setModule:( module, path ) ->
     if not module? and path?
@@ -532,6 +415,4 @@ class Util
   @match_args:( regexp, text ) ->
     Util.log( regexp, text, Util.match(regexp,text) )
 
-# Export Util here at the end (important as a convenience
-# Not really needed since Util is a global
-Util.Export( Util, 'mod/Util' )
+
