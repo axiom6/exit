@@ -306,6 +306,12 @@ class Util
   @isStrCurrency:(s) -> /^\s*(\+|-)?((\d+(\.\d\d)?)|(\.\d\d))\s*$/.test(s)
   #@isStrEmail:(s)   -> /^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/.test(s)
 
+  @isDefs:() ->
+    for arg in arguments
+      if not arg?
+        return false
+    true
+
   # ----------------- Guarded jQuery dependent calls -----------------
 
   @resize:( callback ) ->
@@ -364,11 +370,7 @@ class Util
       Util.error( "Util.firstTok() str is not at string", str )
       ''
 
-  @isDefs:() ->
-    for arg in arguments
-      if not arg?
-        return false
-    true
+
 
   ###
     parse = document.createElement('a')

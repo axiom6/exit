@@ -179,15 +179,15 @@
       "fileType" : 4,
       "debugStyle" : 0
     },
-    "\/bower_exit_now\/rxjs\/modules\/rx-lite-virtualtime\/rx.lite.virtualtime.js" : {
-      "ignoreWasSetByUser" : 0,
+    "\/bower_exit_now\/rxjs\/dist\/rx.compat.min.js" : {
+      "ignoreWasSetByUser" : 1,
       "ignore" : 1,
       "hidden" : 1,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-virtualtime\/rx.lite.virtualtime.js",
+      "inputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.compat.min.js",
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-virtualtime\/rx.lite.virtualtime-ck.js",
+      "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.compat.min-ck.js",
       "fileType" : 64
     },
     "\/bower_exit_now\/rxjs\/dist\/rx.async.min.js" : {
@@ -223,15 +223,15 @@
       "initialSize" : 39453,
       "fileType" : 4096
     },
-    "\/bower_exit_now\/rxjs\/dist\/rx.compat.min.js" : {
-      "ignoreWasSetByUser" : 1,
+    "\/bower_exit_now\/rxjs\/modules\/rx-lite-virtualtime\/rx.lite.virtualtime.js" : {
+      "ignoreWasSetByUser" : 0,
       "ignore" : 1,
       "hidden" : 1,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.compat.min.js",
+      "inputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-virtualtime\/rx.lite.virtualtime.js",
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.compat.min-ck.js",
+      "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-virtualtime\/rx.lite.virtualtime-ck.js",
       "fileType" : 64
     },
     "\/bower_exit_now\/font-awesome\/less\/path.less" : {
@@ -480,17 +480,6 @@
       "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/var\/strundefined-ck.js",
       "fileType" : 64
     },
-    "\/bower_exit_now\/jquery\/src\/var\/concat.js" : {
-      "ignoreWasSetByUser" : 1,
-      "ignore" : 1,
-      "hidden" : 1,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/var\/concat.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/var\/concat-ck.js",
-      "fileType" : 64
-    },
     "\/js\/ui\/NavigateUI.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -500,6 +489,17 @@
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
       "outputAbbreviatedPath" : "\/js\/ui\/NavigateUI-ck.js",
+      "fileType" : 64
+    },
+    "\/bower_exit_now\/jquery\/src\/var\/concat.js" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
+      "hidden" : 1,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/var\/concat.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/var\/concat-ck.js",
       "fileType" : 64
     },
     "\/bower_exit_now\/rxjs\/logos\/logo.png" : {
@@ -561,17 +561,6 @@
       "outputAbbreviatedPath" : "No Output Path",
       "fileType" : 2048
     },
-    "\/js\/util\/GeoJsonUtils.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/util\/GeoJsonUtils.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/util\/GeoJsonUtils-ck.js",
-      "fileType" : 64
-    },
     "\/bower_exit_now\/rxjs\/modules\/rx-lite-coincidence-compat\/rx.lite.coincidence.compat.js" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
@@ -581,6 +570,17 @@
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
       "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-coincidence-compat\/rx.lite.coincidence.compat-ck.js",
+      "fileType" : 64
+    },
+    "\/js\/util\/GeoJsonUtils.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/js\/util\/GeoJsonUtils.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/js\/util\/GeoJsonUtils-ck.js",
       "fileType" : 64
     },
     "\/bower_exit_now\/rxjs\/modules\/rx-lite-async-compat\/rx.lite.async.compat.min.js" : {
@@ -605,17 +605,6 @@
       "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/attributes\/val-ck.js",
       "fileType" : 64
     },
-    "\/js\/app\/Town.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/app\/Town.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/app\/Town-ck.js",
-      "fileType" : 64
-    },
     "\/bower_exit_now\/jquery\/src\/var\/indexOf.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -627,15 +616,26 @@
       "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/var\/indexOf-ck.js",
       "fileType" : 64
     },
-    "\/bower_exit_now\/jquery\/src\/var\/pnum.js" : {
+    "\/js\/app\/Town.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
-      "hidden" : 1,
+      "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/var\/pnum.js",
+      "inputAbbreviatedPath" : "\/js\/app\/Town.js",
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/var\/pnum-ck.js",
+      "outputAbbreviatedPath" : "\/js\/app\/Town-ck.js",
+      "fileType" : 64
+    },
+    "\/js\/util\/Visual.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/js\/util\/Visual.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/js\/util\/Visual-ck.js",
       "fileType" : 64
     },
     "\/coffee\/ui\/NoGoUI.coffee" : {
@@ -650,37 +650,16 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/css\/img\/gritter\/gritter.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/css\/img\/gritter\/gritter.png",
-      "processed" : 0,
-      "outputAbbreviatedPath" : "\/css\/img\/gritter\/gritter.png",
-      "initialSize" : 4880,
-      "fileType" : 8192
-    },
-    "\/bower_exit_now\/weather-icons\/css\/weather-icons.min.css" : {
+    "\/bower_exit_now\/jquery\/src\/var\/pnum.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
       "hidden" : 1,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/weather-icons\/css\/weather-icons.min.css",
-      "outputAbbreviatedPath" : "No Output Path",
-      "fileType" : 16
-    },
-    "\/coffee\/util\/Util.coffee" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 1,
-      "inputAbbreviatedPath" : "\/coffee\/util\/Util.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/js\/util\/Util.js",
-      "outputStyle" : 1,
-      "fileType" : 32
+      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/var\/pnum.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/var\/pnum-ck.js",
+      "fileType" : 64
     },
     "\/bower_exit_now\/jquery\/src\/var\/rnotwhite.js" : {
       "ignoreWasSetByUser" : 0,
@@ -693,15 +672,35 @@
       "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/var\/rnotwhite-ck.js",
       "fileType" : 64
     },
-    "\/css\/img\/dash\/dash-slide1_720.png" : {
+    "\/bower_exit_now\/weather-icons\/css\/weather-icons.min.css" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 1,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/bower_exit_now\/weather-icons\/css\/weather-icons.min.css",
+      "outputAbbreviatedPath" : "No Output Path",
+      "fileType" : 16
+    },
+    "\/bower_exit_now\/rxjs\/dist\/rx.backpressure.min.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 1,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.backpressure.min.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.backpressure.min-ck.js",
+      "fileType" : 64
+    },
+    "\/css\/img\/gritter\/gritter.png" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/css\/img\/dash\/dash-slide1_720.png",
+      "inputAbbreviatedPath" : "\/css\/img\/gritter\/gritter.png",
       "processed" : 0,
-      "outputAbbreviatedPath" : "\/css\/img\/dash\/dash-slide1_720.png",
-      "initialSize" : 90618,
+      "outputAbbreviatedPath" : "\/css\/img\/gritter\/gritter.png",
+      "initialSize" : 4880,
       "fileType" : 8192
     },
     "\/bower_exit_now\/jquery\/dist\/jquery.js" : {
@@ -715,27 +714,28 @@
       "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/dist\/jquery-ck.js",
       "fileType" : 64
     },
-    "\/js\/util\/Visual.js" : {
+    "\/coffee\/util\/Util.coffee" : {
       "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 1,
+      "inputAbbreviatedPath" : "\/coffee\/util\/Util.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/js\/util\/Util.js",
+      "outputStyle" : 1,
+      "fileType" : 32
+    },
+    "\/css\/img\/dash\/dash-slide1_720.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/util\/Visual.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/util\/Visual-ck.js",
-      "fileType" : 64
-    },
-    "\/bower_exit_now\/rxjs\/dist\/rx.backpressure.min.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 1,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.backpressure.min.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.backpressure.min-ck.js",
-      "fileType" : 64
+      "inputAbbreviatedPath" : "\/css\/img\/dash\/dash-slide1_720.png",
+      "processed" : 0,
+      "outputAbbreviatedPath" : "\/css\/img\/dash\/dash-slide1_720.png",
+      "initialSize" : 90618,
+      "fileType" : 8192
     },
     "\/bower_exit_now\/rxjs\/modules\/rx-lite-time-compat\/rx.lite.time.compat.js" : {
       "ignoreWasSetByUser" : 1,
@@ -996,15 +996,15 @@
       "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-backpressure\/rx.lite.backpressure.min-ck.js",
       "fileType" : 64
     },
-    "\/bower_exit_now\/jquery\/src\/ajax\/parseJSON.js" : {
+    "\/bower_exit_now\/jquery\/src\/manipulation\/_evalUrl.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
       "hidden" : 1,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/ajax\/parseJSON.js",
+      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/manipulation\/_evalUrl.js",
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/ajax\/parseJSON-ck.js",
+      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/manipulation\/_evalUrl-ck.js",
       "fileType" : 64
     },
     "\/bower_exit_now\/rxjs\/dist\/rx.testing.js" : {
@@ -1018,15 +1018,26 @@
       "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.testing-ck.js",
       "fileType" : 64
     },
-    "\/bower_exit_now\/rxjs\/dist\/rx.lite.compat.js" : {
-      "ignoreWasSetByUser" : 1,
+    "\/bower_exit_now\/jquery\/src\/data\/var\/data_priv.js" : {
+      "ignoreWasSetByUser" : 0,
       "ignore" : 1,
       "hidden" : 1,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.lite.compat.js",
+      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/data\/var\/data_priv.js",
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.lite.compat-ck.js",
+      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/data\/var\/data_priv-ck.js",
+      "fileType" : 64
+    },
+    "\/bower_exit_now\/jquery\/src\/ajax\/parseJSON.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 1,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/ajax\/parseJSON.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/ajax\/parseJSON-ck.js",
       "fileType" : 64
     },
     "\/bower_exit_now\/font-awesome\/less\/variables.less" : {
@@ -1046,26 +1057,15 @@
       "fileType" : 1,
       "debugStyle" : 0
     },
-    "\/bower_exit_now\/jquery\/src\/data\/var\/data_priv.js" : {
-      "ignoreWasSetByUser" : 0,
+    "\/bower_exit_now\/rxjs\/dist\/rx.lite.compat.js" : {
+      "ignoreWasSetByUser" : 1,
       "ignore" : 1,
       "hidden" : 1,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/data\/var\/data_priv.js",
+      "inputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.lite.compat.js",
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/data\/var\/data_priv-ck.js",
-      "fileType" : 64
-    },
-    "\/bower_exit_now\/jquery\/src\/manipulation\/_evalUrl.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 1,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/manipulation\/_evalUrl.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/manipulation\/_evalUrl-ck.js",
+      "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.lite.compat-ck.js",
       "fileType" : 64
     },
     "\/bower_exit_now\/jquery\/src\/css\/curCSS.js" : {
@@ -1175,17 +1175,6 @@
       "initialSize" : 274003,
       "fileType" : 4096
     },
-    "\/bower_exit_now\/jquery\/src\/css\/var\/rnumnonpx.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 1,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/css\/var\/rnumnonpx.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/css\/var\/rnumnonpx-ck.js",
-      "fileType" : 64
-    },
     "\/bower_exit_now\/jquery\/src\/sizzle\/dist\/sizzle.min.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -1195,6 +1184,17 @@
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
       "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/sizzle\/dist\/sizzle.min-ck.js",
+      "fileType" : 64
+    },
+    "\/bower_exit_now\/jquery\/src\/css\/var\/rnumnonpx.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 1,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/css\/var\/rnumnonpx.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/css\/var\/rnumnonpx-ck.js",
       "fileType" : 64
     },
     "\/coffee\/util\/Visual.Test.coffee" : {
@@ -1501,16 +1501,14 @@
       "outputAbbreviatedPath" : "No Output Path",
       "fileType" : 16
     },
-    "\/bower_exit_now\/jquery\/src\/intro.js" : {
+    "\/css\/app\/App.css" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
-      "hidden" : 1,
+      "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/intro.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/intro-ck.js",
-      "fileType" : 64
+      "inputAbbreviatedPath" : "\/css\/app\/App.css",
+      "outputAbbreviatedPath" : "No Output Path",
+      "fileType" : 16
     },
     "\/bower_exit_now\/rxjs\/dist\/rx.lite.extras.compat.min.js" : {
       "ignoreWasSetByUser" : 1,
@@ -1523,15 +1521,15 @@
       "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.lite.extras.compat.min-ck.js",
       "fileType" : 64
     },
-    "\/bower_exit_now\/jquery\/src\/traversing.js" : {
+    "\/bower_exit_now\/jquery\/src\/intro.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
       "hidden" : 1,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/traversing.js",
+      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/intro.js",
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/traversing-ck.js",
+      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/intro-ck.js",
       "fileType" : 64
     },
     "\/coffee\/app\/Spatial.coffee" : {
@@ -1546,6 +1544,17 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
+    "\/bower_exit_now\/jquery\/src\/traversing.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 1,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/traversing.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/traversing-ck.js",
+      "fileType" : 64
+    },
     "\/bower_exit_now\/jquery\/src\/ajax\/parseXML.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -1556,15 +1565,6 @@
       "syntaxCheckerStyle" : 0,
       "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/ajax\/parseXML-ck.js",
       "fileType" : 64
-    },
-    "\/css\/app\/App.css" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/css\/app\/App.css",
-      "outputAbbreviatedPath" : "No Output Path",
-      "fileType" : 16
     },
     "\/bower_exit_now\/rxjs\/dist\/rx.testing.min.js" : {
       "ignoreWasSetByUser" : 0,
@@ -1611,15 +1611,15 @@
       "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.all.min-ck.js",
       "fileType" : 64
     },
-    "\/bower_exit_now\/jquery\/src\/core\/access.js" : {
+    "\/bower_exit_now\/rxjs\/modules\/rx-lite-extras-compat\/rx.lite.extras.compat.js" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
       "hidden" : 1,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/core\/access.js",
+      "inputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-extras-compat\/rx.lite.extras.compat.js",
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/core\/access-ck.js",
+      "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-extras-compat\/rx.lite.extras.compat-ck.js",
       "fileType" : 64
     },
     "\/bower_exit_now\/rxjs\/dist\/rx.experimental.min.js" : {
@@ -1631,17 +1631,6 @@
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
       "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.experimental.min-ck.js",
-      "fileType" : 64
-    },
-    "\/bower_exit_now\/jquery\/src\/var\/arr.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 1,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/var\/arr.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/var\/arr-ck.js",
       "fileType" : 64
     },
     "\/js\/app\/App.js" : {
@@ -1666,15 +1655,26 @@
       "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite\/rx.lite-ck.js",
       "fileType" : 64
     },
-    "\/bower_exit_now\/rxjs\/modules\/rx-lite-extras-compat\/rx.lite.extras.compat.js" : {
+    "\/bower_exit_now\/jquery\/src\/core\/access.js" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
       "hidden" : 1,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-extras-compat\/rx.lite.extras.compat.js",
+      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/core\/access.js",
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-extras-compat\/rx.lite.extras.compat-ck.js",
+      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/core\/access-ck.js",
+      "fileType" : 64
+    },
+    "\/bower_exit_now\/jquery\/src\/var\/arr.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 1,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/var\/arr.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/var\/arr-ck.js",
       "fileType" : 64
     },
     "\/coffee\/app\/Model.coffee" : {
@@ -1894,17 +1894,6 @@
       "initialSize" : 4978,
       "fileType" : 8192
     },
-    "\/bower_exit_now\/jquery\/src\/css.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 1,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/css.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/css-ck.js",
-      "fileType" : 64
-    },
     "\/css\/img\/app\/6-app-no-go.png" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -1915,6 +1904,17 @@
       "outputAbbreviatedPath" : "\/css\/img\/app\/6-app-no-go.png",
       "initialSize" : 232306,
       "fileType" : 8192
+    },
+    "\/bower_exit_now\/jquery\/src\/css.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 1,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/css.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/css-ck.js",
+      "fileType" : 64
     },
     "\/bower_exit_now\/rxjs\/modules\/rx-lite-joinpatterns-compat\/rx.lite.joinpatterns.compat.min.js" : {
       "ignoreWasSetByUser" : 1,
@@ -1972,6 +1972,15 @@
       "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/selector-sizzle-ck.js",
       "fileType" : 64
     },
+    "\/docs\/ref\/forecast.html" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/docs\/ref\/forecast.html",
+      "outputAbbreviatedPath" : "No Output Path",
+      "fileType" : 2048
+    },
     "\/bower_exit_now\/rxjs\/modules\/rx-lite-coincidence\/rx.lite.coincidence.js" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
@@ -1982,15 +1991,6 @@
       "syntaxCheckerStyle" : 0,
       "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-coincidence\/rx.lite.coincidence-ck.js",
       "fileType" : 64
-    },
-    "\/docs\/ref\/forecast.html" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/docs\/ref\/forecast.html",
-      "outputAbbreviatedPath" : "No Output Path",
-      "fileType" : 2048
     },
     "\/bower_exit_now\/jquery\/src\/css\/var\/isHidden.js" : {
       "ignoreWasSetByUser" : 0,
@@ -2042,6 +2042,17 @@
       "fileType" : 1,
       "debugStyle" : 0
     },
+    "\/js\/ui\/NoGoUI.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/js\/ui\/NoGoUI.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/js\/ui\/NoGoUI-ck.js",
+      "fileType" : 64
+    },
     "\/bower_exit_now\/rxjs\/modules\/rx-lite-aggregates-compat\/rx.lite.aggregates.compat.min.js" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
@@ -2051,17 +2062,6 @@
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
       "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-aggregates-compat\/rx.lite.aggregates.compat.min-ck.js",
-      "fileType" : 64
-    },
-    "\/bower_exit_now\/rxjs\/modules\/rx-lite-async-compat\/rx.lite.async.compat.js" : {
-      "ignoreWasSetByUser" : 1,
-      "ignore" : 1,
-      "hidden" : 1,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-async-compat\/rx.lite.async.compat.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-async-compat\/rx.lite.async.compat-ck.js",
       "fileType" : 64
     },
     "\/bower_exit_now\/jquery.gritter\/index.html" : {
@@ -2107,15 +2107,15 @@
       "initialSize" : 6299,
       "fileType" : 8192
     },
-    "\/js\/ui\/NoGoUI.js" : {
+    "\/js\/ui\/WeatherUI.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/ui\/NoGoUI.js",
+      "inputAbbreviatedPath" : "\/js\/ui\/WeatherUI.js",
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/ui\/NoGoUI-ck.js",
+      "outputAbbreviatedPath" : "\/js\/ui\/WeatherUI-ck.js",
       "fileType" : 64
     },
     "\/bower_exit_now\/jquery\/src\/core.js" : {
@@ -2129,15 +2129,15 @@
       "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/core-ck.js",
       "fileType" : 64
     },
-    "\/js\/ui\/WeatherUI.js" : {
-      "ignoreWasSetByUser" : 0,
+    "\/bower_exit_now\/rxjs\/modules\/rx-lite-compat\/rx.lite.compat.js" : {
+      "ignoreWasSetByUser" : 1,
       "ignore" : 1,
-      "hidden" : 0,
+      "hidden" : 1,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/ui\/WeatherUI.js",
+      "inputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-compat\/rx.lite.compat.js",
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/ui\/WeatherUI-ck.js",
+      "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-compat\/rx.lite.compat-ck.js",
       "fileType" : 64
     },
     "\/js\/app\/Test.js" : {
@@ -2151,15 +2151,15 @@
       "outputAbbreviatedPath" : "\/js\/app\/Test-ck.js",
       "fileType" : 64
     },
-    "\/bower_exit_now\/rxjs\/modules\/rx-lite-compat\/rx.lite.compat.js" : {
+    "\/bower_exit_now\/rxjs\/modules\/rx-lite-async-compat\/rx.lite.async.compat.js" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
       "hidden" : 1,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-compat\/rx.lite.compat.js",
+      "inputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-async-compat\/rx.lite.async.compat.js",
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-compat\/rx.lite.compat-ck.js",
+      "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-async-compat\/rx.lite.async.compat-ck.js",
       "fileType" : 64
     },
     "\/bower_exit_now\/jquery\/src\/attributes.js" : {
@@ -2195,17 +2195,6 @@
       "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.async.compat-ck.js",
       "fileType" : 64
     },
-    "\/js\/ui\/TripUI.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/ui\/TripUI.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/ui\/TripUI-ck.js",
-      "fileType" : 64
-    },
     "\/bower_exit_now\/rxjs\/dist\/rx.lite.extras.compat.js" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
@@ -2215,6 +2204,17 @@
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
       "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.lite.extras.compat-ck.js",
+      "fileType" : 64
+    },
+    "\/js\/ui\/TripUI.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/js\/ui\/TripUI.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/js\/ui\/TripUI-ck.js",
       "fileType" : 64
     },
     "\/bower_exit_now\/font-awesome\/less\/core.less" : {
@@ -2314,17 +2314,6 @@
       "fileType" : 4,
       "debugStyle" : 0
     },
-    "\/bower_exit_now\/jquery\/src\/effects\/Tween.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 1,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/effects\/Tween.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/effects\/Tween-ck.js",
-      "fileType" : 64
-    },
     "\/bower_exit_now\/rxjs\/dist\/rx.lite.min.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -2334,6 +2323,17 @@
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
       "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.lite.min-ck.js",
+      "fileType" : 64
+    },
+    "\/bower_exit_now\/jquery\/src\/effects\/Tween.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 1,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/effects\/Tween.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/effects\/Tween-ck.js",
       "fileType" : 64
     },
     "\/css\/app\/App.less" : {
@@ -2436,18 +2436,6 @@
       "fileType" : 1,
       "debugStyle" : 0
     },
-    "\/coffee\/app\/Data.coffee" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 1,
-      "inputAbbreviatedPath" : "\/coffee\/app\/Data.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/js\/app\/Data.js",
-      "outputStyle" : 0,
-      "fileType" : 32
-    },
     "\/js\/util\/Util.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -2458,6 +2446,18 @@
       "syntaxCheckerStyle" : 0,
       "outputAbbreviatedPath" : "\/js\/util\/Util-ck.js",
       "fileType" : 64
+    },
+    "\/coffee\/app\/Test.coffee" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 1,
+      "inputAbbreviatedPath" : "\/coffee\/app\/Test.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/js\/app\/Test.js",
+      "outputStyle" : 0,
+      "fileType" : 32
     },
     "\/bower_exit_now\/font-awesome\/less\/list.less" : {
       "ieCompatibility" : 1,
@@ -2476,17 +2476,6 @@
       "fileType" : 1,
       "debugStyle" : 0
     },
-    "\/bower_exit_now\/rxjs\/dist\/rx.all.compat.js" : {
-      "ignoreWasSetByUser" : 1,
-      "ignore" : 1,
-      "hidden" : 1,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.all.compat.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.all.compat-ck.js",
-      "fileType" : 64
-    },
     "\/bower_exit_now\/rxjs\/dist\/rx.async.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -2498,17 +2487,27 @@
       "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.async-ck.js",
       "fileType" : 64
     },
-    "\/coffee\/app\/Test.coffee" : {
+    "\/bower_exit_now\/jquery\/src\/exports\/global.js" : {
       "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 1,
-      "inputAbbreviatedPath" : "\/coffee\/app\/Test.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/js\/app\/Test.js",
+      "ignore" : 1,
+      "hidden" : 1,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/exports\/global.js",
       "outputStyle" : 0,
-      "fileType" : 32
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/exports\/global-ck.js",
+      "fileType" : 64
+    },
+    "\/bower_exit_now\/rxjs\/dist\/rx.all.compat.js" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
+      "hidden" : 1,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.all.compat.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.all.compat-ck.js",
+      "fileType" : 64
     },
     "\/coffee\/util\/GeoJsonUtils.Test.coffee" : {
       "ignoreWasSetByUser" : 0,
@@ -2522,6 +2521,17 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
+    "\/js\/util\/GeoJsonUtils.Test.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/js\/util\/GeoJsonUtils.Test.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/js\/util\/GeoJsonUtils.Test-ck.js",
+      "fileType" : 64
+    },
     "\/coffee\/app\/Town.coffee" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -2533,17 +2543,6 @@
       "outputAbbreviatedPath" : "\/js\/app\/Town.js",
       "outputStyle" : 0,
       "fileType" : 32
-    },
-    "\/js\/util\/GeoJsonUtils.Test.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/util\/GeoJsonUtils.Test.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/util\/GeoJsonUtils.Test-ck.js",
-      "fileType" : 64
     },
     "\/bower_exit_now\/jquery\/src\/var\/slice.js" : {
       "ignoreWasSetByUser" : 0,
@@ -2567,27 +2566,17 @@
       "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/queue-ck.js",
       "fileType" : 64
     },
-    "\/bower_exit_now\/jquery\/src\/exports\/global.js" : {
+    "\/coffee\/app\/Data.coffee" : {
       "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 1,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/exports\/global.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/exports\/global-ck.js",
-      "fileType" : 64
-    },
-    "\/js\/ui\/GoUI.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
+      "ignore" : 0,
       "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/ui\/GoUI.js",
+      "outputPathIsSetByUser" : 1,
+      "inputAbbreviatedPath" : "\/coffee\/app\/Data.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/js\/app\/Data.js",
       "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/ui\/GoUI-ck.js",
-      "fileType" : 64
+      "fileType" : 32
     },
     "\/bower_exit_now\/rxjs\/modules\/rx-lite-extras\/rx.lite.extras.min.js" : {
       "ignoreWasSetByUser" : 0,
@@ -2609,6 +2598,17 @@
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
       "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.time-ck.js",
+      "fileType" : 64
+    },
+    "\/js\/ui\/GoUI.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/js\/ui\/GoUI.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/js\/ui\/GoUI-ck.js",
       "fileType" : 64
     },
     "\/js\/ui\/RoadUI.js" : {
@@ -2665,28 +2665,6 @@
       "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/traversing\/var\/rneedsContext-ck.js",
       "fileType" : 64
     },
-    "\/bower_exit_now\/rxjs\/modules\/rx-lite-time\/rx.lite.time.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 1,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-time\/rx.lite.time.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-time\/rx.lite.time-ck.js",
-      "fileType" : 64
-    },
-    "\/bower_exit_now\/jquery\/src\/event\/alias.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 1,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/event\/alias.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/event\/alias-ck.js",
-      "fileType" : 64
-    },
     "\/bower_exit_now\/weather-icons\/weather-icons\/icon-classes.less" : {
       "ieCompatibility" : 1,
       "inputAbbreviatedPath" : "\/bower_exit_now\/weather-icons\/weather-icons\/icon-classes.less",
@@ -2703,6 +2681,28 @@
       "outputStyle" : 0,
       "fileType" : 1,
       "debugStyle" : 0
+    },
+    "\/bower_exit_now\/jquery\/src\/event\/alias.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 1,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/event\/alias.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/event\/alias-ck.js",
+      "fileType" : 64
+    },
+    "\/css\/img\/app\/1-app-open.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/css\/img\/app\/1-app-open.png",
+      "processed" : 0,
+      "outputAbbreviatedPath" : "\/css\/img\/app\/1-app-open.png",
+      "initialSize" : 204182,
+      "fileType" : 8192
     },
     "\/bower_exit_now\/font-awesome\/less\/stacked.less" : {
       "ieCompatibility" : 1,
@@ -2743,16 +2743,16 @@
       "initialSize" : 4978,
       "fileType" : 8192
     },
-    "\/css\/img\/app\/1-app-open.png" : {
+    "\/bower_exit_now\/rxjs\/modules\/rx-lite-time\/rx.lite.time.js" : {
       "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
+      "ignore" : 1,
+      "hidden" : 1,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/css\/img\/app\/1-app-open.png",
-      "processed" : 0,
-      "outputAbbreviatedPath" : "\/css\/img\/app\/1-app-open.png",
-      "initialSize" : 204182,
-      "fileType" : 8192
+      "inputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-time\/rx.lite.time.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-time\/rx.lite.time-ck.js",
+      "fileType" : 64
     },
     "\/bower_exit_now\/jquery\/src\/serialize.js" : {
       "ignoreWasSetByUser" : 0,
@@ -2809,6 +2809,17 @@
       "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/ajax\/script-ck.js",
       "fileType" : 64
     },
+    "\/bower_exit_now\/jquery\/src\/offset.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 1,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/offset.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/offset-ck.js",
+      "fileType" : 64
+    },
     "\/bower_exit_now\/jquery\/src\/data\/var\/data_user.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -2829,28 +2840,6 @@
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
       "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/css\/support-ck.js",
-      "fileType" : 64
-    },
-    "\/bower_exit_now\/jquery\/src\/offset.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 1,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/offset.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/offset-ck.js",
-      "fileType" : 64
-    },
-    "\/bower_exit_now\/jquery\/src\/attributes\/attr.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 1,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/attributes\/attr.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/attributes\/attr-ck.js",
       "fileType" : 64
     },
     "\/css\/img\/app\/2-app-dropdown.png" : {
@@ -2886,6 +2875,17 @@
       "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/manipulation\/support-ck.js",
       "fileType" : 64
     },
+    "\/bower_exit_now\/jquery\/src\/attributes\/attr.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 1,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/attributes\/attr.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/attributes\/attr-ck.js",
+      "fileType" : 64
+    },
     "\/bower_exit_now\/rxjs\/dist\/rx.all.compat.min.js" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
@@ -2917,18 +2917,6 @@
       "outputAbbreviatedPath" : "No Output Path",
       "fileType" : 16
     },
-    "\/bower_exit_now\/font-awesome\/scss\/_variables.scss" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/font-awesome\/scss\/_variables.scss",
-      "outputStyle" : 0,
-      "shouldRunBless" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/font-awesome\/css\/_variables.css",
-      "fileType" : 4,
-      "debugStyle" : 0
-    },
     "\/bower_exit_now\/font-awesome\/scss\/_list.scss" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -2938,6 +2926,18 @@
       "outputStyle" : 0,
       "shouldRunBless" : 0,
       "outputAbbreviatedPath" : "\/bower_exit_now\/font-awesome\/css\/_list.css",
+      "fileType" : 4,
+      "debugStyle" : 0
+    },
+    "\/bower_exit_now\/font-awesome\/scss\/_variables.scss" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/bower_exit_now\/font-awesome\/scss\/_variables.scss",
+      "outputStyle" : 0,
+      "shouldRunBless" : 0,
+      "outputAbbreviatedPath" : "\/bower_exit_now\/font-awesome\/css\/_variables.css",
       "fileType" : 4,
       "debugStyle" : 0
     },
@@ -2996,6 +2996,17 @@
       "initialSize" : 113654,
       "fileType" : 8192
     },
+    "\/bower_exit_now\/jquery\/src\/deprecated.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 1,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/deprecated.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/deprecated-ck.js",
+      "fileType" : 64
+    },
     "\/bower_exit_now\/rxjs\/modules\/rx-lite-aggregates-compat\/rx.lite.aggregates.compat.js" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
@@ -3027,17 +3038,6 @@
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
       "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/ajax\/load-ck.js",
-      "fileType" : 64
-    },
-    "\/bower_exit_now\/jquery\/src\/deprecated.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 1,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/deprecated.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/deprecated-ck.js",
       "fileType" : 64
     },
     "\/bower_exit_now\/jquery\/src\/attributes\/prop.js" : {
@@ -3084,17 +3084,6 @@
       "outputAbbreviatedPath" : "\/js\/app\/Model-ck.js",
       "fileType" : 64
     },
-    "\/bower_exit_now\/rxjs\/modules\/rx-lite-compat\/rx.lite.compat.min.js" : {
-      "ignoreWasSetByUser" : 1,
-      "ignore" : 1,
-      "hidden" : 1,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-compat\/rx.lite.compat.min.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-compat\/rx.lite.compat.min-ck.js",
-      "fileType" : 64
-    },
     "\/js\/ui\/UI.Test.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -3104,6 +3093,17 @@
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
       "outputAbbreviatedPath" : "\/js\/ui\/UI.Test-ck.js",
+      "fileType" : 64
+    },
+    "\/bower_exit_now\/rxjs\/modules\/rx-lite-compat\/rx.lite.compat.min.js" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
+      "hidden" : 1,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-compat\/rx.lite.compat.min.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-compat\/rx.lite.compat.min-ck.js",
       "fileType" : 64
     },
     "\/bower_exit_now\/jquery\/src\/data\/accepts.js" : {
@@ -3162,15 +3162,15 @@
       "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/var\/push-ck.js",
       "fileType" : 64
     },
-    "\/js\/app\/App.Test.js" : {
+    "\/bower_exit_now\/rxjs\/dist\/rx.lite.extras.min.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
-      "hidden" : 0,
+      "hidden" : 1,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/app\/App.Test.js",
+      "inputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.lite.extras.min.js",
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/app\/App.Test-ck.js",
+      "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.lite.extras.min-ck.js",
       "fileType" : 64
     },
     "\/bower_exit_now\/rxjs\/dist\/rx.all.js" : {
@@ -3195,26 +3195,15 @@
       "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/traversing\/findFilter-ck.js",
       "fileType" : 64
     },
-    "\/bower_exit_now\/rxjs\/dist\/rx.lite.extras.min.js" : {
+    "\/js\/app\/App.Test.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
-      "hidden" : 1,
+      "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.lite.extras.min.js",
+      "inputAbbreviatedPath" : "\/js\/app\/App.Test.js",
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.lite.extras.min-ck.js",
-      "fileType" : 64
-    },
-    "\/bower_exit_now\/jquery\/src\/event.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 1,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/event.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/event-ck.js",
+      "outputAbbreviatedPath" : "\/js\/app\/App.Test-ck.js",
       "fileType" : 64
     },
     "\/bower_exit_now\/rxjs\/modules\/rx-lite-backpressure-compat\/rx.lite.backpressure.compat.min.js" : {
@@ -3226,6 +3215,17 @@
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
       "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-backpressure-compat\/rx.lite.backpressure.compat.min-ck.js",
+      "fileType" : 64
+    },
+    "\/bower_exit_now\/jquery\/src\/event.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 1,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/event.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/event-ck.js",
       "fileType" : 64
     },
     "\/bower_exit_now\/jquery.gritter\/images\/trees.jpg" : {
@@ -3250,17 +3250,6 @@
       "outputAbbreviatedPath" : "\/js\/app\/Data-ck.js",
       "fileType" : 64
     },
-    "\/bower_exit_now\/jquery.gritter\/js\/jquery.gritter.min.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 1,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery.gritter\/js\/jquery.gritter.min.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery.gritter\/js\/jquery.gritter.min-ck.js",
-      "fileType" : 64
-    },
     "\/bower_exit_now\/jquery.gritter\/images\/gritter-light.png" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -3271,6 +3260,17 @@
       "outputAbbreviatedPath" : "\/bower_exit_now\/jquery.gritter\/images\/gritter-light.png",
       "initialSize" : 4978,
       "fileType" : 8192
+    },
+    "\/bower_exit_now\/jquery.gritter\/js\/jquery.gritter.min.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 1,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery.gritter\/js\/jquery.gritter.min.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery.gritter\/js\/jquery.gritter.min-ck.js",
+      "fileType" : 64
     },
     "\/css\/img\/site\/TeamGo.png" : {
       "ignoreWasSetByUser" : 0,
@@ -3294,18 +3294,6 @@
       "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/css\/hiddenVisibleSelectors-ck.js",
       "fileType" : 64
     },
-    "\/bower_exit_now\/font-awesome\/scss\/_core.scss" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/font-awesome\/scss\/_core.scss",
-      "outputStyle" : 0,
-      "shouldRunBless" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/font-awesome\/css\/_core.css",
-      "fileType" : 4,
-      "debugStyle" : 0
-    },
     "\/coffee\/app\/Trip.coffee" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -3318,6 +3306,18 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
+    "\/bower_exit_now\/font-awesome\/scss\/_core.scss" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/bower_exit_now\/font-awesome\/scss\/_core.scss",
+      "outputStyle" : 0,
+      "shouldRunBless" : 0,
+      "outputAbbreviatedPath" : "\/bower_exit_now\/font-awesome\/css\/_core.css",
+      "fileType" : 4,
+      "debugStyle" : 0
+    },
     "\/js\/app\/Visual.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -3329,17 +3329,6 @@
       "outputAbbreviatedPath" : "\/js\/app\/Visual-ck.js",
       "fileType" : 64
     },
-    "\/bower_exit_now\/rxjs\/modules\/rx-lite-virtualtime\/rx.lite.virtualtime.min.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 1,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-virtualtime\/rx.lite.virtualtime.min.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-virtualtime\/rx.lite.virtualtime.min-ck.js",
-      "fileType" : 64
-    },
     "\/bower_exit_now\/jquery\/src\/core\/ready.js" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
@@ -3349,6 +3338,17 @@
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
       "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/core\/ready-ck.js",
+      "fileType" : 64
+    },
+    "\/bower_exit_now\/rxjs\/modules\/rx-lite-virtualtime\/rx.lite.virtualtime.min.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 1,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-virtualtime\/rx.lite.virtualtime.min.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/modules\/rx-lite-virtualtime\/rx.lite.virtualtime.min-ck.js",
       "fileType" : 64
     },
     "\/bower_exit_now\/font-awesome\/scss\/_fixed-width.scss" : {
@@ -3374,17 +3374,6 @@
       "outputAbbreviatedPath" : "\/bower_exit_now\/rxjs\/dist\/rx.experimental-ck.js",
       "fileType" : 64
     },
-    "\/css\/img\/app\/NoGoDriveBar.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/css\/img\/app\/NoGoDriveBar.png",
-      "processed" : 0,
-      "outputAbbreviatedPath" : "\/css\/img\/app\/NoGoDriveBar.png",
-      "initialSize" : 18839,
-      "fileType" : 8192
-    },
     "\/coffee\/ui\/WeatherUI.coffee" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -3396,6 +3385,17 @@
       "outputAbbreviatedPath" : "\/js\/ui\/WeatherUI.js",
       "outputStyle" : 0,
       "fileType" : 32
+    },
+    "\/css\/img\/app\/NoGoDriveBar.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/css\/img\/app\/NoGoDriveBar.png",
+      "processed" : 0,
+      "outputAbbreviatedPath" : "\/css\/img\/app\/NoGoDriveBar.png",
+      "initialSize" : 18839,
+      "fileType" : 8192
     },
     "\/bower_exit_now\/font-awesome\/less\/bordered-pulled.less" : {
       "ieCompatibility" : 1,
@@ -3539,17 +3539,6 @@
       "outputAbbreviatedPath" : "\/js\/ui\/UI-ck.js",
       "fileType" : 64
     },
-    "\/bower_exit_now\/jquery\/src\/ajax\/var\/rquery.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 1,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/ajax\/var\/rquery.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/ajax\/var\/rquery-ck.js",
-      "fileType" : 64
-    },
     "\/bower_exit_now\/jquery.gritter\/images\/gritter.png" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -3560,6 +3549,17 @@
       "outputAbbreviatedPath" : "\/bower_exit_now\/jquery.gritter\/images\/gritter.png",
       "initialSize" : 4880,
       "fileType" : 8192
+    },
+    "\/bower_exit_now\/jquery\/src\/ajax\/var\/rquery.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 1,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/ajax\/var\/rquery.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/bower_exit_now\/jquery\/src\/ajax\/var\/rquery-ck.js",
+      "fileType" : 64
     },
     "\/coffee\/ui\/ThresholdUI.coffee" : {
       "ignoreWasSetByUser" : 0,

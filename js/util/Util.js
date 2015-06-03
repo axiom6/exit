@@ -535,6 +535,17 @@ Util = (function() {
     return /^\s*(\+|-)?((\d+(\.\d\d)?)|(\.\d\d))\s*$/.test(s);
   };
 
+  Util.isDefs = function() {
+    var arg, j, len;
+    for (j = 0, len = arguments.length; j < len; j++) {
+      arg = arguments[j];
+      if (arg == null) {
+        return false;
+      }
+    }
+    return true;
+  };
+
   Util.resize = function(callback) {
     window.onresize = function() {
       return setTimeout(callback, 100);
@@ -616,17 +627,6 @@ Util = (function() {
       Util.error("Util.firstTok() str is not at string", str);
       return '';
     }
-  };
-
-  Util.isDefs = function() {
-    var arg, j, len;
-    for (j = 0, len = arguments.length; j < len; j++) {
-      arg = arguments[j];
-      if (arg == null) {
-        return false;
-      }
-    }
-    return true;
   };
 
 

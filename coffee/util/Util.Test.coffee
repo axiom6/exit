@@ -7,7 +7,7 @@ class Test
 
   app = Util.app
 
-  describe("Util", () ->
+  describe("Util.Test", () ->
     it("hasMethod",              () -> expect( Util.hasMethod(  app, 'ready'     ) ).toBe(true)  )
     it("hasGlobal",              () -> expect( Util.hasGlobal(  Util             ) ).toBe(true)  )
     it("hasGlobal",              () -> expect( Util.getGlobal( 'fullScreen'      ) ).toBe(false) )
@@ -20,308 +20,62 @@ class Test
     it("loadInitLibs      stub", () -> expect( true                                ).toBe(true)  )
     it("loadModules       stub", () -> expect( true                                ).toBe(true)  )
     it("loadModule        stub", () -> expect( true                                ).toBe(true)  )
-    it("Export Import",          () -> expect( Util.Export('Util','zzz/Util'     ) ).toBe( Util.Import('zzz/Util').testTrue ) )
-    it("IdExt             stub", () -> expect( true                                ).toBe(true)  ) )
+    it("IdExt             stub", () -> expect( true                                ).toBe(true)  )
+    it("Export Import",          () -> Util.Export(  'Util','zzz/Util'); expect(true).toBe(    Util.Import(    'zzz/Util').testTrue ) )
+    it("setModule   getModule",  () -> Util.setModule(Util, 'yyy/Util'); expect(true).toBe(    Util.getModule('yyyy/Util').testTrue ) )
+    it("setInstance getInstance",() -> Util.setInstance('xx','xx');      expect('xx').toEqual( Util.getInstance('xx') ) )
+    
+    it("toStr",     () -> expect( Util.toStr(null)      ).toEqual( 'null'         ) )
+    it("toStr",     () -> expect( Util.toStr('1')       ).toEqual( '1'            ) )
+    it("toStr",     () -> expect( Util.toStr(1)         ).toEqual( '1'            ) )
+    it("toStr",     () -> expect( Util.toStr(1.0)       ).toEqual( '1'            ) )
+    it("toStr",     () -> expect( Util.toStr({a:1,b:2}) ).toEqual( '{ a:1, b:2 }' ) )
+    it("toStrStr",  () -> expect( Util.toStrStr('str')   ).toEqual( 'str'          ) )
+    it("toStrStr",  () -> expect( Util.toStrStr('')      ).toEqual( '""'           ) )
+    it("toStrArgs", () -> expect( Util.toStrArgs('a',1,{a:1,b:2}) ).toEqual( 'a, 1, { a:1, b:2 }' ) )
+    it("toStrObj",  () -> expect( Util.toStrObj({a:1,b:2}) )       .toEqual( '{ a:1, b:2 }' ) )
+    
+    it('isDef:(d)',         () -> expect( Util.isDef(Util.testTrue)    ).toBe(true) )
+    it('isStr:(s)',         () -> expect( Util.isStr('1')              ).toBe(true) )
+    it('isNum:(n)',         () -> expect( Util.isNum( 1)               ).toBe(true) )
+    it('isObj:(o)',         () -> expect( Util.isObj({a:1,b:2})        ).toBe(true) )
+    it('isObjEmpty:(o)',    () -> expect( Util.isObjEmpty({})          ).toBe(true) )
+    it('isFunc:(f)',        () -> expect( Util.isFunc(Util.isFunc)     ).toBe(true) )
+    it('isArray:(a)',       () -> expect( Util.isArray([1,2])          ).toBe(true) )
+    it('isEvent:(e)',       () -> expect( Util.isEvent({target:1})     ).toBe(true) )
+    it('inIndex:(a,i)',     () -> expect( Util.inIndex( [1,2],1)       ).toBe(true) )
+    it('inArray:(a,e)',     () -> expect( Util.inArray( [1,2],1)       ).toBe(true) )
+    it('atLength:(a,n)',    () -> expect( Util.atLength([1,2],2)       ).toBe(true) )
+    it('head:(a)',          () -> expect( Util.head(    [1,2])         ).toEqual(1) )
+    it('tail:(a)',          () -> expect( Util.tail(    [1,2])         ).toEqual(2) )
+    it('isStrInteger:(s)',  () -> expect( Util.isStrInteger('1')       ).toBe(true) )
+    it('isStrFloat:(s)',    () -> expect( Util.isStrFloat('1.0')       ).toBe(true) )
+    it('isStrCurrency:(s)', () -> expect( Util.isStrCurrency('1.00')   ).toBe(true) )
+    it('isDefs:(d)',         () -> expect( Util.isDefs( 1, 2 )         ).toBe(true) )
+
+    it("resize         stub", () -> expect( true                       ).toBe(true)  )
+    it("resizeTimeout  stub", () -> expect( true                       ).toBe(true)  )
+    it("isEmpty        stub", () -> expect( true                       ).toBe(true)  )
+    it("isJquery       stub", () -> expect( true                       ).toBe(true)  )
+    it("extend         stub", () -> expect( true                       ).toBe(true)  )
+    it("include        stub", () -> expect( true                       ).toBe(true)  )
+    it("eventErrorCode stub", () -> expect( true                       ).toBe(true)  )
+
+    it('indent',          () -> expect( Util.indent(2)                  ).toEqual('  ') )
+    it("hashCode  stub", () -> expect( true                            ).toBe(true)  )
+    it('lastTok',         () -> expect( Util.lastTok('1,2',',')         ).toEqual('2') )
+    it('firstTok',        () -> expect( Util.firstTok('1,2',',')        ).toEqual('2') )
+
+    it('parseURI',        () ->
+      o = Util.parseURI( "http://example.com:3000/dir1/dir2/file.ext?search=test#hash" )
+      expect( o.filex        ).toEqual(['file','ext'])
+      expect( o.file         ).toEqual( 'file')
+      expect( o.ext          ).toEqual( 'ext') )
+
+    it('quicksork',        () -> expect( Util.quicksork([2,3,1])        ).toEqual([1,2,3]) )
+  )
 
 
-  @setModule:( module, path ) ->
-    if not module? and path?
-      Util.error('Util.setModule() module not defined for path', path )
-    else if module? and not path?
-      Util.error('Util.setModule() path not  defined for module', module.toString() )
-    else
-      Util.modules[path] = module
-    return
-
-  @getModule:( path, dbg=false ) ->
-    Util.log( 'getNodule', path ) if dbg
-    module = Util.modules[path]
-    if not module?
-      Util.error('Util.getModule() module not defined for path', path )
-    module
-
-  @setInstance:( instance, path ) ->
-    Util.log( 'Util.setInstance()', path )
-    if not instance? and path?
-      Util.error('Util.setInstance() instance not defined for path', path )
-    else if instance? and not path?
-      Util.error('Util.setInstance() path not defined for instance', instance.toString() )
-    else
-      Util.instances[path] = instance
-    return
-
-  @getInstance:( path, dbg=false ) ->
-    Util.log( 'getInstance', path ) if dbg
-    instance = Util.instances[path]
-    if not instance?
-      Util.error('Util.getInstance() instance not defined for path', path )
-    instance
-
-# ---- Logging -------
-
-# args should be the argument passed by the original calling function
-  @toStrArgs:( prefix, args ) ->
-    Util.logStackNum = 0
-    str = if Util.isStr(prefix) then prefix + " "  else ""
-    for arg in args
-      str += Util.toStr(arg) + " "
-    str
-
-  @toStr:( arg ) ->
-    Util.logStackNum++
-    return '' if Util.logStackNum > Util.logStackMax
-    switch typeof(arg)
-      when 'null'   then 'null'
-      when 'string' then Util.toStrStr(arg)
-      when 'number' then arg
-      when 'object' then Util.toStrObj(arg)
-      else arg
-
-# Recusively stringify arrays and objects
-  @toStrObj:( arg ) ->
-    str = ""
-    if not arg?
-      str += "null"
-    else if Util.isArray(arg)
-      str += "[ "
-      for a in arg
-        str += Util.toStr(a) + ","
-      str = str.substr(0, str.length - 1) + " ]"
-    else if Util.isObjEmpty(arg)
-      str += "{}"
-    else
-      str += "{ "
-      for prop of arg
-        str += '\n' if typeof(arg[prop]) is 'object'
-        str += prop + ":"   + Util.toStr(arg[prop]) + ", "  if arg.hasOwnProperty(prop)
-      str = str.substr(0, str.length - 2) + " }" # Removes last comma
-    str
-
-  @toStrStr:( arg ) ->
-    if arg.length > 0 then arg
-    else '""'
-
-# Log arguments through console if it exists
-  @dbgFiltersObj:( obj ) ->
-    return if not Util.debug
-    str = ""
-    if obj['dbgFilters']?
-      if Util.isArray(obj['dbgFilters']) && obj['dbgFilters'][0] != '*'
-        for prop of obj
-#Util.log( prop, obj['dbgFilters'].indexOf(prop), prop != 'dbgFilters' and obj['dbgFilters']?.indexOf(prop) == -1 )
-          if prop != 'dbgFilters' and obj['dbgFilters'].indexOf(prop) == -1 and obj.hasOwnProperty(prop)
-            str += '\n' if typeof(arg[prop]) is 'object'
-            str += prop + ":" + Util.toStr(obj[prop]) + ", "
-        str = str.substr(0, str.length - 2 )
-        Util.log( str )
-    else
-      Util.log( obj )
-    return
-
-# Consume unused but mandated variable to pass code inspections
-  @noop:() ->
-    Util.log( arguments ) if false
-    return
-
-# Conditional log arguments through console
-  @dbg:() ->
-    return if not Util.debug
-    str = Util.toStrArgs( '', arguments )
-    Util.consoleLog( str )
-    #@gritter( { title:'Log', time:2000 }, str )
-    return
-
-# Log Error and arguments through console and Gritter
-  @error:() ->
-    str  = Util.toStrArgs( 'Error:', arguments )
-    Util.consoleLog( str )
-    # @gritter( { title:'Error', sticky:true }, str ) if window['$']? and $['gritter']?
-    # Util.trace( 'Trace:' )
-    return
-
-# Log Warning and arguments through console and Gritter
-  @warn:() ->
-    str  = Util.toStrArgs( 'Warning:', arguments )
-    Util.consoleLog( str )
-    # @gritter( { title:'Warning', sticky:true }, str ) if window['$']? and $['gritter']?
-    return
-
-  @toError:() ->
-    str = Util.toStrArgs( 'Error:', arguments )
-    new Error( str )
-
-# Log arguments through console if it exists
-  @log:() ->
-    str = Util.toStrArgs( '', arguments )
-    Util.consoleLog( str )
-    #@gritter( { title:'Log', time:2000 }, str )
-    return
-
-# Log arguments through gritter if it exists
-  @called:() ->
-    str = Util.toStrArgs( '', arguments )
-    Util.consoleLog( str )
-    @gritter( { title:'Called', time:2000 }, str )
-    return
-
-  @gritter:( opts, args... ) ->
-    return if not ( Util.hasGlobal('$',false)  and $['gritter']? )
-    str = Util.toStrArgs( '', args )
-    opts.title = if opts.title? then opts.title else 'Gritter'
-    opts.text  = str
-    $.gritter.add( opts )
-    return
-
-  @consoleLog:( str ) ->
-    console.log(str) if console?
-    return
-
-  @trace:(  ) ->
-    str = Util.toStrArgs( 'Trace:', arguments )
-    try
-      throw new Error( str )
-    catch error
-      Util.log( error.stack )
-    return
-
-  @alert:(  ) ->
-    str = Util.toStrArgs( '', arguments )
-    Util.consoleLog( str )
-    alert( str )
-    return
-
-# Does not work
-  @logJSON:(json) ->
-    Util.consoleLog(json)
-
-# ------ Validators ------
-
-  @isDef:(d)         ->  d?
-  @isStr:(s)         ->  s? and typeof(s)=="string" and s.length > 0
-  @isNum:(n)         ->  n? and typeof(n)=="number" and not isNaN(n)
-  @isObj:(o)         ->  o? and typeof(o)=="object"
-  @isObjEmpty:(o)    ->  Util.isObj(o) and Object.getOwnPropertyNames(o).length is 0
-  @isFunc:(f)        ->  f? and typeof(f)=="function"
-  @isArray:(a)       ->  a? and typeof(a)!="string" and a.length? and a.length > 0
-  @isEvent:(e)       ->  e? and e.target?
-  @inIndex:(a,i)     ->  Util.isArray(a) and 0 <= i and i < a.length
-  @inArray:(a,e)     ->  Util.isArray(a) and a.indexOf(e) > -1
-  @atLength:(a,n)    ->  Util.isArray(a) and a.length==n
-  @head:(a)          ->  if Util.isArray(a) then a[0]          else null
-  @tail:(a)          ->  if Util.isArray(a) then a[a.length-1] else null
-  @time:()           ->  new Date().getTime()
-  @isStrInteger:(s)  -> /^\s*(\+|-)?\d+\s*$/.test(s)
-  @isStrFloat:(s)    -> /^\s*(\+|-)?((\d+(\.\d+)?)|(\.\d+))\s*$/.test(s)
-  @isStrCurrency:(s) -> /^\s*(\+|-)?((\d+(\.\d\d)?)|(\.\d\d))\s*$/.test(s)
-#@isStrEmail:(s)   -> /^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/.test(s)
-
-# ----------------- Guarded jQuery dependent calls -----------------
-
-  @resize:( callback ) ->
-    window.onresize = () ->
-      setTimeout( callback, 100 )
-    return
-
-  @resizeTimeout:( callback, timeout = null ) ->
-    window.onresize = () ->
-      clearTimeout( timeout ) if timeout?
-      timeout = setTimeout( callback, 100 )
-    return
-
-  @show:( id, hide ) ->
-    $id = $('#'+id)
-    return $id if not Util.hasGlobal('$')
-    if hide? then $(hide).hide()
-    $id.show()
-    $id
-
-  @needsContent:( id, hide ) ->
-    return false if not Util.hasGlobal('$')
-    $id = Util.show( id, hide )
-    Util.isEmpty( $id )
-
-  @isEmpty:( $elem ) ->
-    if Util.hasGlobal('$')
-      $elem.length == 0 || $elem.children().length == 0
-    else
-      false
-
-  @isJQuery:( $e ) ->
-    Util.hasGlobal('$') and $e? and ( $e instanceof $ || 'jquery' in Object($e) ) and $e.length > 0
-
-# ------ Converters ------
-
-  @extend:( obj, mixin ) ->
-    for own name, method of mixin
-      obj[name] = method
-    obj
-
-  @include:( klass, mixin ) ->
-    Util.extend( klass.prototype, mixin )
-
-  @toEvent:( e ) ->
-    errorCode = if e.target? and e.target.errorCode then e.target.errorCode
-    { errorCode:errorCode }
-
-  @indent:(n) ->
-    str = ''
-    for i in [0...n]
-      str += ' '
-    str
-
-  @hashCode:( str ) ->
-    hash = 0
-    for i in [0...str.length]
-      hash = (hash<<5) - hash + str.charCodeAt(i)
-    hash
-
-  @lastTok:( str, delim ) ->
-    str.split(delim).pop()
-
-  @firstTok:( str, delim ) ->
-    if Util.isStr(str) and str.split?
-      str.split(delim)[0]
-    else
-      Util.error( "Util.firstTok() str is not at string", str )
-      ''
-
-  @isDefs:() ->
-    for arg in arguments
-      if not arg?
-        return false
-    true
-
-  ###
-    parse = document.createElement('a')
-    parse.href =  "http://example.com:3000/dir1/dir2/file.ext?search=test#hash"
-    parse.protocol  "http:"
-    parse.hostname  "example.com"
-    parse.port      "3000"
-    parse.pathname  "/dir1/dir2/file.ext"
-    parse.segments  ['dir1','dir2','file.ext']
-    parse.filex     ['file','ext']
-    parse.file       'file'
-    parse.ext        'ext'
-    parse.search    "?search=test"
-    parse.hash      "#hash"
-    parse.host      "example.com:3000"
-  ###
-
-  @parseURI:( url ) ->
-    parse          = document.createElement('a')
-    parse.href     = url
-    parse.segments = parse.pathname.split('/')
-    parse.filex    = parse.segments.pop().split('.')
-    parse.file     = parse.filex[0]
-    parse.ext      = if parse.filex.length==2 then parse.filex[1] else ''
-    parse
-
-  @quicksort:( array ) ->
-    return [] if array.length == 0
-    head = array.pop()
-    small = ( a for a in array when a <= head )
-    large = ( a for a in array when a >  head )
-    (Util.quicksort(small)).concat([head]).concat( Util.quicksort(large) )
 
 # Return and ISO formated data string
   @isoDateTime:( date ) ->
@@ -416,5 +170,3 @@ class Test
 
   @match_args:( regexp, text ) ->
     Util.log( regexp, text, Util.match(regexp,text) )
-
-
