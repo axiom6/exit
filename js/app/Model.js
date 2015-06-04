@@ -53,13 +53,13 @@
 
     Model.prototype.subscribe = function() {
       this.stream.subscribe('Source', (function(_this) {
-        return function(object) {
-          return _this.onSource(object.content);
+        return function(source) {
+          return _this.onSource(source);
         };
       })(this));
       return this.stream.subscribe('Destination', (function(_this) {
-        return function(object) {
-          return _this.onDestination(object.content);
+        return function(destination) {
+          return _this.onDestination(destination);
         };
       })(this));
     };
@@ -146,7 +146,7 @@
       this.first = false;
       trip.launch();
       this.app.ui.changeRecommendation(trip.recommendation);
-      this.stream.push('Trip', trip, 'Model');
+      this.stream.push('Trip', trip);
       if (this.app.dataSource !== 'Local') {
         this.restForecasts(trip);
       }

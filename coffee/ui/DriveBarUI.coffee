@@ -23,9 +23,9 @@ class DriveBarUI
     @subscribe()
 
   subscribe:() ->
-    @stream.subscribe( 'Location',   (object) => @onLocation( object.content ) )
-    @stream.subscribe( 'Orient',     (object) =>     @layout( object.content ) )
-    @stream.subscribe( 'Trip',       (object) =>     @onTrip( object.content ) )
+    @stream.subscribe( 'Location', (location)    => @onLocation( location ) )
+    @stream.subscribe( 'Orient',   (orientation) => @layout( orientation )  )
+    @stream.subscribe( 'Trip',     (trip)        => @onTrip( trip )         )
 
   onLocation:( location ) ->
     Util.noop( 'DriveBar.onLocation()', @ext, location )

@@ -52,15 +52,16 @@ class WeatherUI
 
   # Trip subscribe to the full Monty of change
   subscribe:() ->
-    @stream.subscribe( 'Trip',        (object) =>    @onTrip(      object.content ) )
-    @stream.subscribe( 'Forecasts',   (object) =>    @onForecasts( object.content ) )
-    @stream.subscribe( 'Location',    (object) =>    @onLocation(  object.content ) )
+    @stream.subscribe( 'Trip',        (trip)        => @onTrip(      trip        ) )
+    @stream.subscribe( 'Forecasts',   (forecasts)   => @onForecasts( forecasts   ) )
+    @stream.subscribe( 'Location',    (location)    => @onLocation(  location    ) )
+    @stream.subscribe( 'Orient',      (orientation) => @layout(      orientation ) )
 
   onLocation:( location ) ->
     Util.noop( 'Weather.onLocation()', location )
 
   layout:( orientation ) ->
-    Util.noop( 'Weather.layout()', orientation )
+    Util.dbg( 'Weather.layout()', orientation )
 
   onTrip:( trip ) ->
     Util.dbg( 'Weather.onTrip()', trip.name )

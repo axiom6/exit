@@ -20,8 +20,8 @@
 
     NavigateUI.prototype.subscribe = function() {
       return this.stream.subscribe('Orient', (function(_this) {
-        return function(object) {
-          return _this.layout(object.content);
+        return function(orientation) {
+          return _this.layout(orientation);
         };
       })(this));
     };

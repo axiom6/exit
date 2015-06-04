@@ -4,8 +4,6 @@
 
 class Util
 
-
-
   Util.testTrue  = true
   Util.debug     = false
   Util.count     = 0
@@ -15,7 +13,6 @@ class Util
   Util.root      = ''
   Util.paths     = {} # Set by loadInitLibs for future reference in calls to loadModule(s)
   Util.libs      = {} # Set by loadInitLibs for future reference in calls to loadModule(s)
-  Util.rejectionTrackingStopped = false
   Util.logStackNum = 0
   Util.logStackMax = 100
 
@@ -23,9 +20,9 @@ class Util
 
   @init:() ->
 
-  @hasMethod:( obj, method ) ->
+  @hasMethod:( obj, method, issue=false ) ->
     has = typeof obj[method] is 'function'
-    Util.log( 'Util.hasMethod()', method, has )
+    Util.log( 'Util.hasMethod()', method, has )  if not has and issue
     has
 
   @hasGlobal:( global, issue=true ) ->
@@ -56,7 +53,7 @@ class Util
     for arg in arguments
       has = Util.hasGlobal(arg,false) or Util.hasModule(arg,false) or Util.hasPlugin(arg,false)
       Util.error( 'Missing Dependency', arg ) if not has
-      ok &= has
+      ok = has if has is false
     ok
 
   @verifyLoadModules:(lib,modules,global=undefined) ->
@@ -102,23 +99,17 @@ class Util
       Util.warn( 'Util.loadModule() already loaded module', dir+module )
     return
 
-  # First add module the modules associative array. Next true try an RequireJS/AMD define().
-  # Otherwise if CommonJS exports and module have been supplied attached our module to them
+  # First add module the modules associative array.
   # Export is capitalized to avoid conflict with "export" JavaScript keyword
   @Export:( module, path, dbg=false ) ->
     Util.setModule( module, path )
-    define( path, () -> module ) if define?
     Util.log( 'Util.Export', path ) if dbg
     module
 
   # First lookup module from modules associative array
-  # Otherwise try require (RequireJS)
   # Import is capitalized to avoid conflict with "import" JavaScript keyword
   @Import:( path ) ->
     module = Util.getModule( path )
-    if not module? and Util.hasRequireJS()
-      module = requirejs(  path )
-      Util.Export( module, path )
     module
 
   # Need to rethink this method
@@ -167,7 +158,8 @@ class Util
 
   # ---- Logging -------
 
-  # args should be the argument passed by the original calling function
+  # args should be the arguments passed by the original calling function
+  # This method should not be called directly
   @toStrArgs:( prefix, args ) ->
     Util.logStackNum = 0
     str = if Util.isStr(prefix) then prefix + " "  else ""

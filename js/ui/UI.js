@@ -6,31 +6,31 @@
   UI = (function() {
     Util.Export(UI, 'ui/UI');
 
-    function UI(app, stream, destination, go, nogo, trip, deals, navigate) {
+    function UI(app, stream, destinationUI, goUI, nogoUI, tripUI, dealsUI, navigateUI) {
       this.app = app;
       this.stream = stream;
-      this.destination = destination;
-      this.go = go;
-      this.nogo = nogo;
-      this.trip = trip;
-      this.deals = deals;
-      this.navigate = navigate;
+      this.destinationUI = destinationUI;
+      this.goUI = goUI;
+      this.nogoUI = nogoUI;
+      this.tripUI = tripUI;
+      this.dealsUI = dealsUI;
+      this.navigateUI = navigateUI;
       this.select = bind(this.select, this);
       this.layout = bind(this.layout, this);
       this.orientation = 'Portrait';
-      this.lastSelect = this.destination;
+      this.lastSelect = this.destinationUI;
     }
 
     UI.prototype.ready = function() {
       this.$ = $(this.html());
       $('#App').append(this.$);
       this.$view = this.$.find('#View');
-      this.$view.append(this.destination.$);
-      this.$view.append(this.go.$);
-      this.$view.append(this.nogo.$);
-      this.$view.append(this.trip.$);
-      this.$view.append(this.deals.$);
-      this.$view.append(this.navigate.$);
+      this.$view.append(this.destinationUI.$);
+      this.$view.append(this.goUI.$);
+      this.$view.append(this.nogoUI.$);
+      this.$view.append(this.tripUI.$);
+      this.$view.append(this.dealsUI.$);
+      this.$view.append(this.navigateUI.$);
       this.$IconsHover = this.$.find('#IconsHover');
       this.$Icons = this.$.find('#Icons');
       this.$destinationIcon = this.$.find('#DestinationIcon');
@@ -55,21 +55,21 @@
     };
 
     UI.prototype.publish = function() {
-      this.stream.publish('Select', this.$destinationIcon, 'click', 'Destination', 'UI');
-      this.stream.publish('Select', this.$recommendationIcon, 'click', 'Recommendation', 'UI');
-      this.stream.publish('Select', this.$tripIcon, 'click', 'Trip', 'UI');
-      return this.stream.publish('Select', this.$dealsIcon, 'click', 'Deals', 'UI');
+      this.stream.publish('Select', this.$destinationIcon, 'click', 'Destination');
+      this.stream.publish('Select', this.$recommendationIcon, 'click', 'Recommendation');
+      this.stream.publish('Select', this.$tripIcon, 'click', 'Trip');
+      return this.stream.publish('Select', this.$dealsIcon, 'click', 'Deals');
     };
 
     UI.prototype.subscribe = function() {
       this.stream.subscribe('Select', (function(_this) {
-        return function(object) {
-          return _this.select(object.content);
+        return function(page) {
+          return _this.select(page);
         };
       })(this));
       return this.stream.subscribe('Orient', (function(_this) {
-        return function(object) {
-          return _this.layout(object.content);
+        return function(orientation) {
+          return _this.layout(orientation);
         };
       })(this));
     };
@@ -121,35 +121,32 @@
 
     UI.prototype.hide = function() {};
 
-    UI.prototype.select = function(name) {
+    UI.prototype.select = function(page) {
       if (this.lastSelect != null) {
         this.lastSelect.hide();
       }
-      switch (name) {
+      switch (page) {
         case 'Destination':
-          this.lastSelect = this.destination;
+          this.lastSelect = this.destinationUI;
           break;
         case 'Recommendation':
         case 'Go':
         case 'NoGo':
-          this.lastSelect = name === 'Go' ? this.go : this.nogo;
+          this.lastSelect = page === 'Go' ? this.goUI : this.nogoUI;
           break;
         case 'Trip':
-          this.lastSelect = this.trip;
+          this.lastSelect = this.tripUI;
           this.orient('Landscape');
           this.layout('Landscape');
-          this.trip.layout('Landscape');
-          if (this.app.simulate != null) {
-            this.app.simulate.generateLocationsFromMilePosts(1000);
-          }
+          this.tripUI.layout('Landscape');
           break;
         case 'Deals':
-          this.lastSelect = this.deals;
+          this.lastSelect = this.dealsUI;
           break;
         default:
-          Util.error("UI.select unknown name", name);
+          Util.error("UI.select unknown page", page);
       }
-      if (this.orientation === 'Landscape' && name !== 'Trip') {
+      if (this.orientation === 'Landscape' && page !== 'Trip') {
         this.layout('Portrait');
       }
       this.lastSelect.show();

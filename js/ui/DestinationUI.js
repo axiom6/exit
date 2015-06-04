@@ -30,24 +30,24 @@
     };
 
     DestinationUI.prototype.publish = function() {
-      this.stream.publish('Source', this.$sourceSelect, 'change', 'Source', 'Source');
-      return this.stream.publish('Destination', this.$destinationSelect, 'change', 'Destination', 'Destination');
+      this.stream.publish('Source', this.$sourceSelect, 'change', 'Source');
+      return this.stream.publish('Destination', this.$destinationSelect, 'change', 'Destination');
     };
 
     DestinationUI.prototype.subscribe = function() {
       this.stream.subscribe('Source', (function(_this) {
-        return function(object) {
-          return _this.onSource(object.content);
+        return function(source) {
+          return _this.onSource(source);
         };
       })(this));
       this.stream.subscribe('Destination', (function(_this) {
-        return function(object) {
-          return _this.onDestination(object.content);
+        return function(destination) {
+          return _this.onDestination(destination);
         };
       })(this));
       return this.stream.subscribe('Orient', (function(_this) {
-        return function(object) {
-          return _this.layout(object.content);
+        return function(orientation) {
+          return _this.layout(orientation);
         };
       })(this));
     };
@@ -56,8 +56,8 @@
       return Util.dbg('Destination.onSource()', source);
     };
 
-    DestinationUI.prototype.onDestination = function(dest) {
-      return Util.dbg('Destination.onDestination()', dest);
+    DestinationUI.prototype.onDestination = function(destination) {
+      return Util.dbg('Destination.onDestination()', destination);
     };
 
     DestinationUI.prototype.id = function(name, type) {

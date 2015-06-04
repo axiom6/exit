@@ -3,20 +3,20 @@ class UI
 
   Util.Export( UI, 'ui/UI' )
 
-  constructor:( @app, @stream, @destination, @go, @nogo, @trip, @deals, @navigate ) ->
+  constructor:( @app, @stream, @destinationUI, @goUI, @nogoUI, @tripUI, @dealsUI, @navigateUI ) ->
     @orientation    = 'Portrait'
-    @lastSelect     = @destination
+    @lastSelect     = @destinationUI
 
   ready:() ->
     @$ = $( @html() )
     $('#App').append(@$)
     @$view = @$.find('#View')
-    @$view.append(@destination.$)
-    @$view.append(@go.$)
-    @$view.append(@nogo.$)
-    @$view.append(@trip.$)
-    @$view.append(@deals.$)
-    @$view.append(@navigate.$)
+    @$view.append(@destinationUI.$)
+    @$view.append(@goUI.$)
+    @$view.append(@nogoUI.$)
+    @$view.append(@tripUI.$)
+    @$view.append(@dealsUI.$)
+    @$view.append(@navigateUI.$)
     @$IconsHover         =  @$.find('#IconsHover')
     @$Icons              =  @$.find('#Icons')
     @$destinationIcon    =  @$.find('#DestinationIcon')
@@ -32,14 +32,14 @@ class UI
     @stream.push( 'Select', 'Destination', 'UI' ) # We push the first screen selection to be Destionaion
 
   publish:() ->
-    @stream.publish( 'Select', @$destinationIcon,    'click', 'Destination',    'UI' )
-    @stream.publish( 'Select', @$recommendationIcon, 'click', 'Recommendation', 'UI' )
-    @stream.publish( 'Select', @$tripIcon,           'click', 'Trip',           'UI' )
-    @stream.publish( 'Select', @$dealsIcon,          'click', 'Deals',          'UI' )
+    @stream.publish( 'Select', @$destinationIcon,    'click', 'Destination'    )
+    @stream.publish( 'Select', @$recommendationIcon, 'click', 'Recommendation' )
+    @stream.publish( 'Select', @$tripIcon,           'click', 'Trip',          )
+    @stream.publish( 'Select', @$dealsIcon,          'click', 'Deals',         )
 
   subscribe:() ->
-    @stream.subscribe( 'Select', (object) => @select(object.content) )
-    @stream.subscribe( 'Orient', (object) => @layout(object.content) )
+    @stream.subscribe( 'Select', (page)        => @select(page)        )
+    @stream.subscribe( 'Orient', (orientation) => @layout(orientation) )
 
   id:(   name, type     ) -> Util.id(   name, type     )
   css:(  name, type     ) -> Util.css(  name, type     )
@@ -85,27 +85,27 @@ class UI
 
   hide:() ->
 
-  select:( name ) =>
-    # Util.dbg( 'UI.Select() Beg', name, @lastSelect.$.attr('id') )
+  select:( page ) =>
+    # Util.dbg( 'UI.Select() Beg', page, @lastSelect.$.attr('id') )
     @lastSelect.hide() if @lastSelect?
-    switch name
+    switch page
       when 'Destination'
-        @lastSelect = @destination
+        @lastSelect = @destinationUI
       when 'Recommendation', 'Go', 'NoGo'
-        @lastSelect = if name is 'Go' then @go else @nogo
+        @lastSelect = if page is 'Go' then @goUI else @nogoUI
       when 'Trip'
-        @lastSelect = @trip
+        @lastSelect = @tripUI
         @orient(      'Landscape' )
         @layout(      'Landscape' )
-        @trip.layout( 'Landscape' )
-        @app.simulate.generateLocationsFromMilePosts( 1000 ) if @app.simulate?
+        @tripUI.layout( 'Landscape' )
+        #@app.simulate.generateLocationsFromMilePosts( 1000 ) if @app.simulate?
       when 'Deals'
-        @lastSelect = @deals
+        @lastSelect = @dealsUI
       else
-        Util.error( "UI.select unknown name", name )
+        Util.error( "UI.select unknown page", page )
 
     # Util.dbg( 'UI.Select() End', name, @lastSelect.$.attr('id') )
-    @layout( 'Portrait' ) if @orientation is 'Landscape' and name isnt 'Trip'
+    @layout( 'Portrait' ) if @orientation is 'Landscape' and page isnt 'Trip'
     @lastSelect.show()
     return
 

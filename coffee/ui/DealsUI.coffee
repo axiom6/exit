@@ -29,11 +29,11 @@ class DealsUI
     @$.hide()
 
   subscribe:() ->
-    @stream.subscribe( 'Trip',        (object) =>        @onTrip(object.content) )
-    @stream.subscribe( 'Location',    (object) =>    @onLocation(object.content) )
-    @stream.subscribe( 'Orient',      (object) =>        @layout(object.content) )
-    #@stream.subscribe( 'Deals',       (object) =>       @onDeals(object.content) )
-    #@stream.subscribe( 'Conditions',  (object) => @onConditions( object.content) )
+    @stream.subscribe( 'Trip',        (trip)        => @onTrip(trip)              )
+    @stream.subscribe( 'Location',    (location)    => @onLocation(location)      )
+    @stream.subscribe( 'Orient',      (orientation) => @layout(orientation)       )
+    #@stream.subscribe( 'Deals',      (deals)       => @onDeals(deals)            )
+    #@stream.subscribe( 'Conditions', (conditions)  => @onConditions( conditions) )
 
   onTrip:( trip ) ->
     Util.noop( 'Deals.onTrip()', trip )

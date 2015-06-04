@@ -16,5 +16,5 @@ class Simulate
       lon      = feature.geometry.coordinates[0]
       latlon   = [lat,lon]
       time    += delay
-      @stream.push( 'Location', latlon, "#{Milepost}" ) # latlon is content Milepost is from
+      @stream.push( 'Location', latlon ) # latlon is content Milepost is from
     return

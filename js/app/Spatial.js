@@ -60,14 +60,14 @@
 
     Spatial.prototype.subscribe = function() {
       return this.stream.subscribe('Location', (function(_this) {
-        return function(object) {
-          return _this.onLocation(object.content);
+        return function(location) {
+          return _this.onLocation(location);
         };
       })(this));
     };
 
-    Spatial.prototype.onLocation = function(position) {
-      return Util.log('Spatial.onLocation', position);
+    Spatial.prototype.onLocation = function(location) {
+      return Util.log('Spatial.onLocation', location);
     };
 
     Spatial.prototype.segInTrip = function(seg) {

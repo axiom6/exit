@@ -12,7 +12,7 @@ class ThresholdUI
     @subscribe()
 
   subscribe:() ->
-    @stream.subscribe( 'Orient', (object) =>  @layout(object.content) )
+    @stream.subscribe( 'Orient', (orientation) =>  @layout(orientation) )
 
   layout:( orientation ) ->
     Util.dbg( 'Threshold.layout()', orientation )

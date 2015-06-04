@@ -12,8 +12,8 @@ class AdvisoryUI
     @subscribe()
 
   subscribe:() ->
-    @stream.subscribe( 'Location', (object) => @onLocation(object.content) )
-    @stream.subscribe( 'Orient',   (object) =>     @layout(object.content) )
+    @stream.subscribe( 'Location', (location)    => @onLocation(location) )
+    @stream.subscribe( 'Orient',   (orientation) => @layout(orientation)  )
 
   onLocation:( location ) ->
     Util.noop( 'AdvisoryUI.onLocation()', @ext, location )

@@ -8,15 +8,13 @@
     $(document).ready(function() {
       Util.debug = true;
       Util.init();
-      return Util.app = new App('Local', false, false);
+      return Util.app = new App('Local');
     });
 
-    function App(dataSource, runSimulate, runTest) {
-      var AdvisoryUI, Data, DealsUI, DestinationUI, GoUI, Model, NavigateUI, NoGoUI, Rest, RoadUI, Simulate, Stream, Test, ThresholdUI, TripUI, UI, WeatherUI;
+    function App(dataSource) {
+      var AdvisoryUI, Data, DealsUI, DestinationUI, GoUI, Model, NavigateUI, NoGoUI, Rest, RoadUI, Simulate, Stream, ThresholdUI, TripUI, UI, WeatherUI;
       this.dataSource = dataSource != null ? dataSource : 'RestThenLocal';
-      this.runSimulate = runSimulate != null ? runSimulate : false;
-      this.runTest = runTest != null ? runTest : false;
-      this.subjectNames = ['Select', 'Location', 'Orient', 'Source', 'Destination', 'Trip', 'Forecasts'];
+      this.subjectNames = ['Select', 'Location', 'Orient', 'Source', 'Destination', 'Trip', 'Forecasts', 'App'];
       Stream = Util.Import('app/Stream');
       Rest = Util.Import('app/Rest');
       Data = Util.Import('app/Data');
@@ -33,7 +31,6 @@
       NavigateUI = Util.Import('ui/NavigateUI');
       UI = Util.Import('ui/UI');
       Simulate = Util.Import('app/Simulate');
-      Test = Util.Import('app/Test');
       this.stream = new Stream(this, this.subjectNames);
       this.rest = new Rest(this, this.stream);
       this.model = new Model(this, this.stream, this.rest);
@@ -50,14 +47,16 @@
       this.ui = new UI(this, this.stream, this.destinationUI, this.goUI, this.nogoUI, this.tripUI, this.dealsUI, this.navigateUI);
       this.ready();
       this.position();
-      if (this.runDemo) {
-        this.deals.dataDeals();
+      this.simulate = new Simulate(this, this.stream);
+      if (Util.hasModule('app/App.Test', false)) {
+        $('body').css({
+          "background-image": "none"
+        });
+        $('#App').hide();
+        this.appTest = new App.Test(this, this.stream, this.simulate, this.rest, this.model);
       }
-      if (this.runSimulate) {
-        this.simulate = new Simulate(this, this.stream);
-      }
-      if (this.runTest) {
-        this.test = new Test(this, this.stream);
+      if (Util.hasModule('ui/UI.Test', false)) {
+        this.uiTest = new UI.Test(this.ui, this.adivsoryUI, this.dealsUI, this.destinationUI, this.driveBarUI, this.goUI, this.noGoUI, this.roadUI, this.thresholdUI, this.trip, this.weatherUI, this.navigateUI);
       }
     }
 

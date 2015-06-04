@@ -25,18 +25,21 @@ Util = (function() {
 
   Util.libs = {};
 
-  Util.rejectionTrackingStopped = false;
-
   Util.logStackNum = 0;
 
   Util.logStackMax = 100;
 
   Util.init = function() {};
 
-  Util.hasMethod = function(obj, method) {
+  Util.hasMethod = function(obj, method, issue) {
     var has;
+    if (issue == null) {
+      issue = false;
+    }
     has = typeof obj[method] === 'function';
-    Util.log('Util.hasMethod()', method, has);
+    if (!has && issue) {
+      Util.log('Util.hasMethod()', method, has);
+    }
     return has;
   };
 
@@ -102,7 +105,9 @@ Util = (function() {
       if (!has) {
         Util.error('Missing Dependency', arg);
       }
-      ok &= has;
+      if (has === false) {
+        ok = has;
+      }
     }
     return ok;
   };
@@ -218,11 +223,6 @@ Util = (function() {
       dbg = false;
     }
     Util.setModule(module, path);
-    if (typeof define !== "undefined" && define !== null) {
-      define(path, function() {
-        return module;
-      });
-    }
     if (dbg) {
       Util.log('Util.Export', path);
     }
@@ -232,10 +232,6 @@ Util = (function() {
   Util.Import = function(path) {
     var module;
     module = Util.getModule(path);
-    if ((module == null) && Util.hasRequireJS()) {
-      module = requirejs(path);
-      Util.Export(module, path);
-    }
     return module;
   };
 

@@ -35,36 +35,15 @@
       return this.subjects[name];
     };
 
-    Stream.prototype.createObject = function(content, from) {
-      return {
-        from: from,
-        content: content
-      };
-    };
-
-    Stream.prototype.getContent = function(object) {
-      var content, from;
-      content = {};
-      if (object == null) {
-        Util.error('Stream.getContent() object null or undefined');
-      } else if (object.content == null) {
-        from = object.from != null ? from : 'unknown';
-        Util.error('Stream.getContent() content null or undefined from', from);
-      } else {
-        content = object.content;
-      }
-      return content;
-    };
-
-    Stream.prototype.publish = function(name, jQuerySelector, eventType, content, from) {
+    Stream.prototype.publish = function(name, jQuerySelector, eventType, objectArg) {
       var object, onNext, subject;
       subject = this.getSubject(name);
-      object = this.createObject(content, from);
+      object = objectArg;
       onNext = (function(_this) {
         return function(event) {
           _this.processEvent(event);
           if (eventType !== 'click') {
-            object.content = event.target.value;
+            object = event.target.value;
           }
           return subject.onNext(object);
         };
@@ -78,10 +57,9 @@
       subject.subscribe(onNext, this.onError, this.onComplete);
     };
 
-    Stream.prototype.push = function(name, content, from) {
-      var object, subject;
+    Stream.prototype.push = function(name, object) {
+      var subject;
       subject = this.getSubject(name);
-      object = this.createObject(content, from);
       subject.onNext(object);
     };
 

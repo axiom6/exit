@@ -1,7 +1,9 @@
 
+
+# Depreciated - Code for for referencece purposed
 class Test
 
-  Util.Export( Test, 'app/Test' )
+  Util.Export( Test, 'util/Test' )
 
   @array = [1,2,3,4,5,6,7,8,9]
 
@@ -85,7 +87,7 @@ class Test
   # Location
   streamPushTestLocation:() ->
     subject = new Rx.Subject()
-    subject.subscribe( (object) => @onTestLocation( object ) )
+    subject.subscribe( (location) => @onTestLocation( location ) )
     object  = @stream.createObject('LatLon', 'Stream.Test')
     subject.onNext( object )
     return

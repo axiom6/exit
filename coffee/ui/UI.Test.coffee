@@ -6,6 +6,7 @@ class Test
   Util.Export( UI.Test, 'ui/UI.Test' )
   
   constructor:( @ui, @adivsoryUI, @dealsUI, @destinationUI, @driveBarUI, @goUI, @noGoUI, @roadUI, @thresholdUI, @trip, @weatherUI, @navigateUI  ) ->
+    Util.log( 'UI.Test.constructor' )
     
   # UI
     # html:() ->

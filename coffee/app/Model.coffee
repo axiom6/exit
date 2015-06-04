@@ -28,8 +28,8 @@ class Model
     @subscribe()
 
   subscribe:() ->
-    @stream.subscribe( 'Source',      (object) => @onSource(      object.content ) )
-    @stream.subscribe( 'Destination', (object) => @onDestination( object.content ) )
+    @stream.subscribe( 'Source',      (source)      => @onSource(      source      ) )
+    @stream.subscribe( 'Destination', (destination) => @onDestination( destination ) )
 
   # A poor man's chained completion status.
   # Could be implemented better in the future with a chained Stream or a synched promise chain
@@ -99,7 +99,7 @@ class Model
     @first = false
     trip.launch()
     @app.ui.changeRecommendation( trip.recommendation )
-    @stream.push( 'Trip', trip, 'Model' )
+    @stream.push( 'Trip', trip )
     if @app.dataSource isnt 'Local'
       @restForecasts( trip ) # Will push forecasts on Stream when completed
     return

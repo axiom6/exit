@@ -22,7 +22,7 @@
         lon = feature.geometry.coordinates[0];
         latlon = [lat, lon];
         time += delay;
-        this.stream.push('Location', latlon, "" + Milepost);
+        this.stream.push('Location', latlon);
       }
     };
 

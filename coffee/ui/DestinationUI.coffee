@@ -23,19 +23,19 @@ class DestinationUI
 
   # publish is called by
   publish:() ->
-    @stream.publish( 'Source',      @$sourceSelect,      'change', 'Source',      'Source'      )
-    @stream.publish( 'Destination', @$destinationSelect, 'change', 'Destination', 'Destination' )
+    @stream.publish( 'Source',      @$sourceSelect,      'change', 'Source'      )
+    @stream.publish( 'Destination', @$destinationSelect, 'change', 'Destination' )
 
   subscribe:() ->
-    @stream.subscribe( 'Source',      (object) => @onSource(object.content) )
-    @stream.subscribe( 'Destination', (object) => @onDestination(object.content) )
-    @stream.subscribe( 'Orient',      (object) => @layout(object.content) )
+    @stream.subscribe( 'Source',      (source)      => @onSource(source)           )
+    @stream.subscribe( 'Destination', (destination) => @onDestination(destination) )
+    @stream.subscribe( 'Orient',      (orientation) => @layout(orientation)        )
 
   onSource:( source ) ->
     Util.dbg( 'Destination.onSource()', source )
 
-  onDestination:( dest ) ->
-    Util.dbg( 'Destination.onDestination()', dest )
+  onDestination:( destination ) ->
+    Util.dbg( 'Destination.onDestination()', destination )
 
   id:(   name, type     ) -> Util.id(   name, type     )
   css:(  name, type     ) -> Util.css(  name, type     )

@@ -36,10 +36,10 @@ class Spatial
     @subscribe()
 
   subscribe:() =>
-    @stream.subscribe( 'Location', (object) => @onLocation( object.content ) )
+    @stream.subscribe( 'Location', (location) => @onLocation( location ) )
 
-  onLocation:( position ) =>
-    Util.log( 'Spatial.onLocation', position )
+  onLocation:( location ) =>
+    Util.log( 'Spatial.onLocation', location )
 
   segInTrip:( seg ) ->
     begMileSeg = Util.toFloat(seg.StartMileMarker)

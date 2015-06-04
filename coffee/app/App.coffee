@@ -7,12 +7,12 @@ class App
   $(document).ready ->
     Util.debug = true # Swithes  Util.dbg() debugging on or off
     Util.init()
-    Util.app = new App( 'Local', false, false )
+    Util.app = new App( 'Local' )
 
   # @dataSource = 'Rest', 'RestThenLocal', 'Local', 'LocalForecasts'
-  constructor:( @dataSource='RestThenLocal',  @runSimulate=false, @runTest=false ) ->
+  constructor:( @dataSource='RestThenLocal' ) ->
 
-    @subjectNames = ['Select','Location','Orient','Source','Destination','Trip','Forecasts']
+    @subjectNames = ['Select','Location','Orient','Source','Destination','Trip','Forecasts','App']
 
     # Import Classes
     Stream        = Util.Import( 'app/Stream'       )
@@ -35,7 +35,6 @@ class App
     UI            = Util.Import( 'ui/UI'            )
 
     Simulate    = Util.Import( 'app/Simulate'       )
-    Test        = Util.Import( 'app/Test'           )
 
     # Instantiate main App classes
     @stream     = new Stream(      @, @subjectNames  )
@@ -58,10 +57,17 @@ class App
     @ready()
     @position()
 
-    # Run Demos, simulations and/or tests
-    @deals.dataDeals()                            if @runDemo
-    @simulate   = new Simulate(      @, @stream ) if @runSimulate
-    @test       = new Test(          @, @stream ) if @runTest
+    # Run simulations and test if test modules presents
+    @simulate = new Simulate( @, @stream )
+
+    if Util.hasModule( 'app/App.Test',false)
+      $('body').css( { "background-image":"none" } )
+      $('#App').hide()
+      @appTest = new App.Test( @, @stream, @simulate, @rest, @model )
+
+    if Util.hasModule( 'ui/UI.Test',false)
+      @uiTest = new UI.Test( @ui, @adivsoryUI, @dealsUI, @destinationUI, @driveBarUI, @goUI, @noGoUI, @roadUI, @thresholdUI, @trip, @weatherUI, @navigateUI )
+
 
   ready:() ->
     @model.ready()

@@ -20,13 +20,13 @@
 
     AdvisoryUI.prototype.subscribe = function() {
       this.stream.subscribe('Location', (function(_this) {
-        return function(object) {
-          return _this.onLocation(object.content);
+        return function(location) {
+          return _this.onLocation(location);
         };
       })(this));
       return this.stream.subscribe('Orient', (function(_this) {
-        return function(object) {
-          return _this.layout(object.content);
+        return function(orientation) {
+          return _this.layout(orientation);
         };
       })(this));
     };

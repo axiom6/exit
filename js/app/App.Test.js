@@ -11,15 +11,37 @@
 
     Util.Export(App.Test, 'app/App.Test');
 
-    function Test(simulate, app, stream, rest, model, trip, spatial) {
-      this.simulate = simulate;
+    function Test(app, stream, simulate, rest, model) {
       this.app = app;
       this.stream = stream;
+      this.simulate = simulate;
       this.rest = rest;
       this.model = model;
-      this.trip = trip;
-      this.spatial = spatial;
+      Util.log('App.Test.constructor');
+      this.subscribe();
     }
+
+    Test.prototype.subscribe = function() {
+      return this.stream.subscribe('Trip', (function(_this) {
+        return function(trip) {
+          return _this.runTrip(trip);
+        };
+      })(this));
+    };
+
+    Test.prototype.runApp = function() {};
+
+    Test.prototype.runStream = function() {};
+
+    Test.runSimulate = function() {};
+
+    Test.prototype.runRest = function() {};
+
+    Test.prototype.runModel = function() {};
+
+    Test.prototype.runTrip = function(trip) {};
+
+    Test.prototype.runSpatial = function() {};
 
     return Test;
 

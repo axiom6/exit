@@ -299,18 +299,23 @@
 
     WeatherUI.prototype.subscribe = function() {
       this.stream.subscribe('Trip', (function(_this) {
-        return function(object) {
-          return _this.onTrip(object.content);
+        return function(trip) {
+          return _this.onTrip(trip);
         };
       })(this));
       this.stream.subscribe('Forecasts', (function(_this) {
-        return function(object) {
-          return _this.onForecasts(object.content);
+        return function(forecasts) {
+          return _this.onForecasts(forecasts);
         };
       })(this));
-      return this.stream.subscribe('Location', (function(_this) {
-        return function(object) {
-          return _this.onLocation(object.content);
+      this.stream.subscribe('Location', (function(_this) {
+        return function(location) {
+          return _this.onLocation(location);
+        };
+      })(this));
+      return this.stream.subscribe('Orient', (function(_this) {
+        return function(orientation) {
+          return _this.layout(orientation);
         };
       })(this));
     };
@@ -320,7 +325,7 @@
     };
 
     WeatherUI.prototype.layout = function(orientation) {
-      return Util.noop('Weather.layout()', orientation);
+      return Util.dbg('Weather.layout()', orientation);
     };
 
     WeatherUI.prototype.onTrip = function(trip) {

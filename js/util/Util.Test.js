@@ -3,7 +3,7 @@
   var Test;
 
   Test = (function() {
-    var app;
+    var obj;
 
     function Test() {}
 
@@ -11,55 +11,48 @@
 
     Util.Export(Util.Test, 'util/Util.Test');
 
-    app = Util.app;
+    Test.toStrArgs = function() {
+      return Util.toStrArgs('Test:', arguments);
+    };
+
+    obj = {};
+
+    obj.method = function() {
+      return 'Hi';
+    };
 
     describe("Util.Test", function() {
       it("hasMethod", function() {
-        return expect(Util.hasMethod(app, 'ready')).toBe(true);
+        return expect(Util.hasMethod(obj, 'method')).toBe(true);
       });
       it("hasGlobal", function() {
-        return expect(Util.hasGlobal(Util)).toBe(true);
+        return expect(Util.hasGlobal('Util')).toBe(true);
       });
       it("hasGlobal", function() {
         return expect(Util.getGlobal('fullScreen')).toBe(false);
       });
       it("hasPlugin", function() {
-        return expect(Util.hasPlugin('Util.hasPlugin')).tobe(true);
+        return expect(Util.hasPlugin('Util.hasPlugin')).toBe(true);
       });
       it("hasModule", function() {
-        return expect(Util.hasModule('app/Util')).toBe(true);
+        return expect(Util.hasModule('util/Util')).toBe(true);
       });
       it("dependsOn(global)", function() {
-        return expect(Util.dependsOn('fullScreen')).toBe(true);
+        return expect(Util.dependsOn('jasmine')).toBe(true);
       });
       it("dependsOn(module)", function() {
-        return expect(Util.dependsOn('app/Util')).toBe(true);
+        return expect(Util.dependsOn('util/Util')).toBe(true);
       });
       it("dependsOn(plugin)", function() {
         return expect(Util.dependsOn('Util.hasPlugin')).toBe(true);
       });
-      it("verifyLoadModules stub", function() {
-        return expect(true).toBe(true);
-      });
-      it("loadInitLibs      stub", function() {
-        return expect(true).toBe(true);
-      });
-      it("loadModules       stub", function() {
-        return expect(true).toBe(true);
-      });
-      it("loadModule        stub", function() {
-        return expect(true).toBe(true);
-      });
-      it("IdExt             stub", function() {
-        return expect(true).toBe(true);
-      });
       it("Export Import", function() {
-        Util.Export('Util', 'zzz/Util');
+        Util.Export(Util, 'zzz/Util');
         return expect(true).toBe(Util.Import('zzz/Util').testTrue);
       });
       it("setModule   getModule", function() {
         Util.setModule(Util, 'yyy/Util');
-        return expect(true).toBe(Util.getModule('yyyy/Util').testTrue);
+        return expect(true).toBe(Util.getModule('yyy/Util').testTrue);
       });
       it("setInstance getInstance", function() {
         Util.setInstance('xx', 'xx');
@@ -72,10 +65,10 @@
         return expect(Util.toStr('1')).toEqual('1');
       });
       it("toStr", function() {
-        return expect(Util.toStr(1)).toEqual('1');
+        return expect(Util.toStr(1)).toEqual(1);
       });
       it("toStr", function() {
-        return expect(Util.toStr(1.0)).toEqual('1');
+        return expect(Util.toStr(1.0)).toEqual(1.0);
       });
       it("toStr", function() {
         return expect(Util.toStr({
@@ -90,10 +83,10 @@
         return expect(Util.toStrStr('')).toEqual('""');
       });
       it("toStrArgs", function() {
-        return expect(Util.toStrArgs('a', 1, {
+        return expect(Test.toStrArgs('a', 1, {
           a: 1,
           b: 2
-        })).toEqual('a, 1, { a:1, b:2 }');
+        })).toEqual('Test: a 1 { a:1, b:2 } ');
       });
       it("toStrObj", function() {
         return expect(Util.toStrObj({
@@ -157,6 +150,85 @@
       it('isDefs:(d)', function() {
         return expect(Util.isDefs(1, 2)).toBe(true);
       });
+      it('indent', function() {
+        return expect(Util.indent(2)).toEqual('  ');
+      });
+      it("hashCode  stub", function() {
+        return expect(true).toBe(true);
+      });
+      it('lastTok', function() {
+        return expect(Util.lastTok('1,2', ',')).toEqual('2');
+      });
+      it('firstTok', function() {
+        return expect(Util.firstTok('1,2', ',')).toEqual('1');
+      });
+      it('quicksort', function() {
+        return expect(Util.quicksort([2, 3, 1])).toEqual([1, 2, 3]);
+      });
+      it("isoDateTime:(date) stub", function() {
+        return expect(true).toBe(true);
+      });
+      it("toHMS:( unixTime ) stub", function() {
+        return expect(true).toBe(true);
+      });
+      it("@hex4:() stub", function() {
+        return expect(true).toBe(true);
+      });
+      it("hex32:() stub", function() {
+        return expect(true).toBe(true);
+      });
+      it("toFixed stub", function() {
+        return expect(true).toBe(true);
+      });
+      it("toInt stub", function() {
+        return expect(true).toBe(true);
+      });
+      it("toFloat stub", function() {
+        return expect(true).toBe(true);
+      });
+      it("match stub", function() {
+        return expect(true).toBe(true);
+      });
+      it("match_here", function() {
+        return expect(true).toBe(true);
+      });
+      it("@match_star stub", function() {
+        return expect(true).toBe(true);
+      });
+      it("match_test:(date) stub", function() {
+        return expect(true).toBe(true);
+      });
+      it("match_args:(date) stub", function() {
+        return expect(true).toBe(true);
+      });
+      return it('parseURI', function() {
+        var o;
+        o = Util.parseURI("http://example.com:3000/dir1/dir2/file.ext?search=test#hash");
+        expect(o.filex).toEqual(['file', 'ext']);
+        expect(o.file).toEqual('file');
+        return expect(o.ext).toEqual('ext');
+      });
+    });
+
+    describe("Util.Test Load Modules Sttubbed", function() {
+      it("verifyLoadModules stub", function() {
+        return expect(true).toBe(true);
+      });
+      it("loadInitLibs      stub", function() {
+        return expect(true).toBe(true);
+      });
+      it("loadModules       stub", function() {
+        return expect(true).toBe(true);
+      });
+      it("loadModule        stub", function() {
+        return expect(true).toBe(true);
+      });
+      return it("IdExt             stub", function() {
+        return expect(true).toBe(true);
+      });
+    });
+
+    describe("Util.Test UI Modules Sttubbed", function() {
       it("resize         stub", function() {
         return expect(true).toBe(true);
       });
@@ -175,179 +247,10 @@
       it("include        stub", function() {
         return expect(true).toBe(true);
       });
-      it("eventErrorCode stub", function() {
+      return it("eventErrorCode stub", function() {
         return expect(true).toBe(true);
-      });
-      it('indent', function() {
-        return expect(Util.indent(2)).toEqual('  ');
-      });
-      it("hashCode  stub", function() {
-        return expect(true).toBe(true);
-      });
-      it('lastTok', function() {
-        return expect(Util.lastTok('1,2', ',')).toEqual('2');
-      });
-      it('firstTok', function() {
-        return expect(Util.firstTok('1,2', ',')).toEqual('2');
-      });
-      it('parseURI', function() {
-        var o;
-        o = Util.parseURI("http://example.com:3000/dir1/dir2/file.ext?search=test#hash");
-        expect(o.filex).toEqual(['file', 'ext']);
-        expect(o.file).toEqual('file');
-        return expect(o.ext).toEqual('ext');
-      });
-      return it('quicksork', function() {
-        return expect(Util.quicksork([2, 3, 1])).toEqual([1, 2, 3]);
       });
     });
-
-    Test.isoDateTime = function(date) {
-      var pad;
-      Util.log('Util.isoDatetime()', date);
-      Util.log('Util.isoDatetime()', date.getUTCMonth().date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes, date.getUTCSeconds);
-      pad = function(n) {
-        if (n < 10) {
-          return '0' + n;
-        } else {
-          return n;
-        }
-      };
-      return date.getFullYear()(+'-' + pad(date.getUTCMonth() + 1) + '-' + pad(date.getUTCDate()) + 'T' + pad(date.getUTCHours()) + ':' + pad(date.getUTCMinutes()) + ':' + pad(date.getUTCSeconds()) + 'Z');
-    };
-
-    Test.toHMS = function(unixTime) {
-      var ampm, date, hour, min, sec, time;
-      date = Util.isNum(unixTime) ? new Date(unixTime * 1000) : new Date();
-      hour = date.getHours();
-      ampm = 'AM';
-      if (hour > 12) {
-        hour = hour - 12;
-        ampm = 'PM';
-      }
-      min = ('0' + date.getMinutes()).slice(-2);
-      sec = ('0' + date.getSeconds()).slice(-2);
-      time = hour + ":" + min + ":" + sec + " " + ampm;
-      return time;
-    };
-
-    Test.hex4 = function() {
-      return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-    };
-
-    Test.hex32 = function() {
-      var hex, i, j;
-      hex = this.hex4();
-      for (i = j = 1; j <= 4; i = ++j) {
-        Util.noop(i);
-        hex += this.hex4();
-      }
-      return hex;
-    };
-
-    Test.toFixed = function(arg, dec) {
-      var num;
-      if (dec == null) {
-        dec = 2;
-      }
-      num = (function() {
-        switch (typeof arg) {
-          case 'number':
-            return arg;
-          case 'string':
-            return parseFloat(arg);
-          default:
-            return 0;
-        }
-      })();
-      return num.toFixed(dec);
-    };
-
-    Test.toInt = function(arg) {
-      switch (typeof arg) {
-        case 'number':
-          return Math.floor(arg);
-        case 'string':
-          return parseInt(arg);
-        default:
-          return 0;
-      }
-    };
-
-    Test.toFloat = function(arg) {
-      switch (typeof arg) {
-        case 'number':
-          return arg;
-        case 'string':
-          return parseFloat(arg);
-        default:
-          return 0;
-      }
-    };
-
-    Test.toCap = function(str) {
-      return str.charAt(0).toUpperCase() + str.substring(1);
-    };
-
-    Test.unCap = function(str) {
-      return str.charAt(0).toLowerCase() + str.substring(1);
-    };
-
-    Test.match = function(regexp, text) {
-      if (regexp[0] === '^') {
-        return Util.match_here(regexp.slice(1), text);
-      }
-      while (text) {
-        if (Util.match_here(regexp, text)) {
-          return true;
-        }
-        text = text.slice(1);
-      }
-      return false;
-    };
-
-    Test.match_here = function(regexp, text) {
-      var cur, next, ref;
-      ref = [regexp[0], regexp[1]], cur = ref[0], next = ref[1];
-      if (regexp.length === 0) {
-        return true;
-      }
-      if (next === '*') {
-        return Util.match_star(cur, regexp.slice(2), text);
-      }
-      if (cur === '$' && !next) {
-        return text.length === 0;
-      }
-      if (text && (cur === '.' || cur === text[0])) {
-        return Util.match_here(regexp.slice(1), text.slice(1));
-      }
-      return false;
-    };
-
-    Test.match_star = function(c, regexp, text) {
-      while (true) {
-        if (Util.match_here(regexp, text)) {
-          return true;
-        }
-        if (!(text && (text[0] === c || c === '.'))) {
-          return false;
-        }
-        text = text.slice(1);
-      }
-    };
-
-    Test.match_test = function() {
-      Util.log(Util.match_args("ex", "some text"));
-      Util.log(Util.match_args("s..t", "spit"));
-      Util.log(Util.match_args("^..t", "buttercup"));
-      Util.log(Util.match_args("i..$", "cherries"));
-      Util.log(Util.match_args("o*m", "vrooooommm!"));
-      return Util.log(Util.match_args("^hel*o$", "hellllllo"));
-    };
-
-    Test.match_args = function(regexp, text) {
-      return Util.log(regexp, text, Util.match(regexp, text));
-    };
 
     return Test;
 

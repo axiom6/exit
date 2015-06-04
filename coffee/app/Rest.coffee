@@ -18,9 +18,9 @@ class Rest
     @subscribe()
 
   subscribe:() ->
-    #@stream.subscribe( 'RequestSegments',     (object) =>  @requestSegmentsBy(   object.content ) )
-    #@stream.subscribe( 'RequestConditionsBy', (object) =>  @requestConditionsBy( object.content ) )
-    #@stream.subscribe( 'RequestDealsBy',      (object) =>  @requestDealsBy(      object.content ) )
+    #@stream.subscribe( 'RequestSegments',     (query) =>  @requestSegmentsBy(   query, doSegments,   onSegmentsError   ) )
+    #@stream.subscribe( 'RequestConditionsBy', (query) =>  @requestConditionsBy( query, doConditions, onConditionsError ) )
+    #@stream.subscribe( 'RequestDealsBy',      (query) =>  @requestDealsBy(      query, doDeals,      onDealsError      ) )
     
   segmentsFromLocal:( direction, onSuccess, onError ) ->
     url  = "#{@localURL}Segments#{direction}.json"

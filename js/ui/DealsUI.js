@@ -41,18 +41,18 @@
 
     DealsUI.prototype.subscribe = function() {
       this.stream.subscribe('Trip', (function(_this) {
-        return function(object) {
-          return _this.onTrip(object.content);
+        return function(trip) {
+          return _this.onTrip(trip);
         };
       })(this));
       this.stream.subscribe('Location', (function(_this) {
-        return function(object) {
-          return _this.onLocation(object.content);
+        return function(location) {
+          return _this.onLocation(location);
         };
       })(this));
       return this.stream.subscribe('Orient', (function(_this) {
-        return function(object) {
-          return _this.layout(object.content);
+        return function(orientation) {
+          return _this.layout(orientation);
         };
       })(this));
     };

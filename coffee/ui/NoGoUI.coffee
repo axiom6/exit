@@ -31,8 +31,8 @@ class NoGoUI
        </div>"""
 
   subscribe:() ->
-    @stream.subscribe( 'Orient', (object) =>  @layout(object.content) )
-    @stream.subscribe( 'Deals',  (object) => @onDeals(object.content) )
+    @stream.subscribe( 'Orient', (orientation) =>  @layout(orientation) )
+    @stream.subscribe( 'Deals',  (deals)       => @onDeals(deals)       )
 
   layout:( orientation ) ->
     Util.dbg( 'NoGo.layout()', orientation )

@@ -34,13 +34,13 @@
 
     GoUI.prototype.subscribe = function() {
       this.stream.subscribe('Orient', (function(_this) {
-        return function(object) {
-          return _this.layout(object.content);
+        return function(orientation) {
+          return _this.layout(orientation);
         };
       })(this));
       return this.stream.subscribe('Deals', (function(_this) {
-        return function(object) {
-          return _this.onDeals(object.content);
+        return function(deals) {
+          return _this.onDeals(deals);
         };
       })(this));
     };

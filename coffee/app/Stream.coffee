@@ -9,7 +9,6 @@ class Stream
     for name in @subjectNames
       @subjects[name] = new Rx.Subject()
 
-
   # Get a subject by name. Create a new one if need with a warning
   getSubject:( name, warn=false ) ->
     if @subjects[name]?
@@ -19,30 +18,13 @@ class Stream
       @subjects[name] = new Rx.Subject()
     @subjects[name]
 
-  # Create object payload in a uniform way for subject
-  # Note 'from' is just for debugging
-  createObject:( content, from ) ->
-    { from:from, content:content }
-
-  # Convience method for validating and extracting an object's content
-  getContent:( object ) ->
-    content = {}
-    if not object?
-      Util.error( 'Stream.getContent() object null or undefined' )
-    else if not object.content?
-      from = if object.from? then from else 'unknown'
-      Util.error( 'Stream.getContent() content null or undefined from', from )
-    else
-      content = object.content
-    content
-
   # Publishes object through rxjs-jquery event for a jQuerySelector dom element
-  publish:( name, jQuerySelector, eventType, content, from ) ->
+  publish:( name, jQuerySelector, eventType, objectArg ) ->
     subject = @getSubject(  name )
-    object  = @createObject( content, from )
-    onNext = ( event ) =>
+    object  = objectArg
+    onNext  = ( event ) =>
       @processEvent(  event )
-      object.content = event.target.value  if eventType isnt 'click'
+      object = event.target.value  if eventType isnt 'click'
       subject.onNext( object )
     @subscribeEvent( onNext, jQuerySelector, eventType, object )
     return
@@ -52,9 +34,8 @@ class Stream
     subject.subscribe( onNext, @onError, @onComplete )
     return
 
-  push:( name, content, from ) ->
+  push:( name, object ) ->
     subject = @getSubject(  name )
-    object  = @createObject( content, from )
     subject.onNext( object )
     return
 
