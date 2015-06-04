@@ -57,11 +57,10 @@
       }
     };
 
-    function Trip(app, stream, model, name, source, destination) {
-      this.app = app;
+    function Trip(stream, model, name1, source, destination) {
       this.stream = stream;
       this.model = model;
-      this.name = name;
+      this.name = name1;
       this.source = source;
       this.destination = destination;
       this.makeRecommendation = bind(this.makeRecommendation, this);
@@ -69,7 +68,6 @@
       this.etaFromCondtions = bind(this.etaFromCondtions, this);
       this.Data = Util.Import('app/Data');
       this.Spatial = Util.Import('app/Spatial');
-      this.Town = Util.Import('app/Town');
       this.eta = -1;
       this.travelTime = -1;
       this.recommendation = '?';
@@ -81,12 +79,20 @@
       this.deals = [];
       this.towns = Trip.Towns;
       this.forecasts = {};
-      this.begTown = new this.Town(this, this.source, 'Source');
-      this.endTown = new this.Town(this, this.destination, 'Destination');
-      this.spatial = new this.Spatial(this.app, this.stream, this);
+      this.begTown = this.toTown(this.source, 'Source');
+      this.endTown = this.toTown(this.destination, 'Destination');
+      this.spatial = new this.Spatial(this.stream, this);
       this.direction = this.Spatial.direction(this.source, this.destination);
       this.initByDirection(this.direction);
     }
+
+    Trip.prototype.toTown = function(name, role) {
+      return {
+        name: name,
+        role: role,
+        mile: this.Data.DestinationsMile[name]
+      };
+    };
 
     Trip.prototype.initByDirection = function(direction) {
       switch (direction) {

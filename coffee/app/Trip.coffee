@@ -14,11 +14,10 @@ class Trip
     "VailPass"     : { index:7, lon:-106.216071, lat:39.531042, name:"Vail Pass"      }
     "Vail"         : { index:8, lon:-106.378767, lat:39.644407, name:"Vail"           } }
 
-  constructor:( @app, @stream, @model, @name, @source, @destination  ) ->
+  constructor:( @stream, @model, @name, @source, @destination  ) ->
 
     @Data           = Util.Import( 'app/Data'    )
     @Spatial        = Util.Import( 'app/Spatial' )
-    @Town           = Util.Import( 'app/Town'    )
 
     @eta            = -1
     @travelTime     = -1 # Set by travelTime in preset Segments
@@ -34,11 +33,14 @@ class Trip
     @towns          = Trip.Towns
     @forecasts      = {}
 
-    @begTown        = new @Town( @, @source,      'Source'      )
-    @endTown        = new @Town( @, @destination, 'Destination' )
-    @spatial        = new @Spatial( @app, @stream, @ )
+    @begTown        = @toTown( @source,      'Source'      )
+    @endTown        = @toTown( @destination, 'Destination' )
+    @spatial        = new @Spatial( @stream, @ )
     @direction      = @Spatial.direction( @source, @destination )
     @initByDirection( @direction )
+
+  toTown:( name, role ) ->
+    { name:name, role:role, mile:@Data.DestinationsMile[name] }
 
   initByDirection:( direction ) ->
     switch direction

@@ -5,8 +5,7 @@
   AdvisoryUI = (function() {
     Util.Export(AdvisoryUI, 'ui/AdvisoryUI');
 
-    function AdvisoryUI(app, stream) {
-      this.app = app;
+    function AdvisoryUI(stream) {
       this.stream = stream;
     }
 
@@ -14,7 +13,8 @@
       return this.$ = $(this.html());
     };
 
-    AdvisoryUI.prototype.position = function() {
+    AdvisoryUI.prototype.position = function(screen) {
+      Util.noop(screen);
       return this.subscribe();
     };
 
@@ -24,9 +24,9 @@
           return _this.onLocation(location);
         };
       })(this));
-      return this.stream.subscribe('Orient', (function(_this) {
-        return function(orientation) {
-          return _this.layout(orientation);
+      return this.stream.subscribe('Screen', (function(_this) {
+        return function(screen) {
+          return _this.onScreen(screen);
         };
       })(this));
     };
@@ -35,8 +35,8 @@
       return Util.noop('AdvisoryUI.onLocation()', this.ext, location);
     };
 
-    AdvisoryUI.prototype.layout = function(orientation) {
-      return Util.dbg('AdvisoryUI.layout()', orientation);
+    AdvisoryUI.prototype.onScreen = function(screen) {
+      return Util.noop('AdvisoryUI.screen()', screen);
     };
 
     AdvisoryUI.prototype.html = function() {

@@ -5,12 +5,11 @@
   NoGoUI = (function() {
     Util.Export(NoGoUI, 'ui/NoGoUI');
 
-    function NoGoUI(app, stream) {
+    function NoGoUI(stream) {
       var DriveBarUI;
-      this.app = app;
       this.stream = stream;
       DriveBarUI = Util.Import('ui/DriveBarUI');
-      this.driveBarUI = new DriveBarUI(this.app, this.stream, 'NoGo', this, 'Portrait');
+      this.driveBarUI = new DriveBarUI(this.stream, 'NoGo', this);
     }
 
     NoGoUI.prototype.ready = function() {
@@ -21,8 +20,8 @@
       return this.driveBarUI.ready();
     };
 
-    NoGoUI.prototype.position = function() {
-      this.driveBarUI.position();
+    NoGoUI.prototype.position = function(screen) {
+      this.driveBarUI.position(screen);
       return this.subscribe();
     };
 
@@ -31,9 +30,9 @@
     };
 
     NoGoUI.prototype.subscribe = function() {
-      this.stream.subscribe('Orient', (function(_this) {
-        return function(orientation) {
-          return _this.layout(orientation);
+      this.stream.subscribe('Screen', (function(_this) {
+        return function(screen) {
+          return _this.onScreen(screen);
         };
       })(this));
       return this.stream.subscribe('Deals', (function(_this) {
@@ -43,21 +42,21 @@
       })(this));
     };
 
-    NoGoUI.prototype.layout = function(orientation) {
-      Util.dbg('NoGo.layout()', orientation);
-      return this.noGoSize();
+    NoGoUI.prototype.onScreen = function(screen) {
+      return Util.noop('NavigateUI.onScreen()', screen);
     };
 
     NoGoUI.prototype.onDeals = function(deals) {
       var html;
+      return;
       this.$NoGoDeals.empty();
       html = this.app.deals.goDealsHtml(deals);
       return this.$NoGoDeals.append(html);
     };
 
-    NoGoUI.prototype.noGoSize = function() {
+    NoGoUI.prototype.noGoSize = function(screen) {
       var fontSize;
-      fontSize = this.first ? this.app.height() * this.$NoGoBanner.height() * 0.0065 : this.$NoGoBanner.height() * 0.65;
+      fontSize = this.first ? screen.height * this.$NoGoBanner.height() * 0.0065 : this.$NoGoBanner.height() * 0.65;
       this.$NoGoBannerText.css({
         fontSize: fontSize + 'px'
       });

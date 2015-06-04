@@ -3,21 +3,21 @@ class DestinationUI
 
   Util.Export( DestinationUI, 'ui/DestinationUI' )
 
-  constructor:( @app, @stream, @threshold ) ->
+  constructor:( @stream, @thresholdUI ) ->
     @Data = Util.Import( 'app/Data' )
     @sources      = @Data.Destinations # For now we access sources     from static data
     @destinations = @Data.Destinations # For now we access destinations from static data
 
   ready:() ->
-    @threshold.ready()
+    @thresholdUI.ready()
     @$ = $( @html() )
-    @$.append( @threshold.$  )
+    @$.append( @thresholdUI.$  )
     @$destinationBody   = @$.find('#DestinationBody'  )
     @$sourceSelect      = @$.find('#SourceSelect'     )
     @$destinationSelect = @$.find('#DestinationSelect')
 
-  position:() ->
-    @threshold.position()
+  position:(   screen ) ->
+    @thresholdUI.position( screen )
     @events()
     @subscribe()
 
@@ -29,13 +29,13 @@ class DestinationUI
   subscribe:() ->
     @stream.subscribe( 'Source',      (source)      => @onSource(source)           )
     @stream.subscribe( 'Destination', (destination) => @onDestination(destination) )
-    @stream.subscribe( 'Orient',      (orientation) => @layout(orientation)        )
+    @stream.subscribe( 'Screen',      (screen)      => @onScreen(screen)           )
 
   onSource:( source ) ->
-    Util.dbg( 'Destination.onSource()', source )
+    Util.noop( 'Destination.onSource()', source )
 
   onDestination:( destination ) ->
-    Util.dbg( 'Destination.onDestination()', destination )
+    Util.noop( 'Destination.onDestination()', destination )
 
   id:(   name, type     ) -> Util.id(   name, type     )
   css:(  name, type     ) -> Util.css(  name, type     )
@@ -59,12 +59,8 @@ class DestinationUI
     htm += """</select></div></div>"""
     htm
 
-  layout:( orientation ) ->
-    Util.dbg( 'Destination.layout()', orientation )
-    # Not needed
-    #@go       .layout( orientation )
-    #@nogo     .layout( orientation )
-    #@threshold.layout( orientation )
+  onScreen:( screen ) ->
+    Util.noop( 'DestinationUI.onScreen()', screen )
 
   show:() -> @$.show()
   hide:() -> @$.hide()

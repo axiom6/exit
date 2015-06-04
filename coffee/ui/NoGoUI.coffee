@@ -3,9 +3,9 @@ class NoGoUI
 
   Util.Export( NoGoUI, 'ui/NoGoUI' )
 
-  constructor:( @app, @stream ) ->
+  constructor:( @stream ) ->
     DriveBarUI  = Util.Import( 'ui/DriveBarUI')
-    @driveBarUI = new DriveBarUI( @app, @stream, 'NoGo', @, 'Portrait' )
+    @driveBarUI = new DriveBarUI( @stream, 'NoGo', @ )
 
   ready:() ->
     @$ = $( @html() )
@@ -14,9 +14,9 @@ class NoGoUI
     @$NoGoDeals      = @$.find('#NoGoDeals'     )
     @driveBarUI.ready()
 
-  position:() ->
-    @driveBarUI.position()
-    #@noGoSize()
+  position:( screen ) ->
+    @driveBarUI.position( screen )
+    #@noGoSize(  screen )
     @subscribe()
 
   html:() ->
@@ -31,21 +31,22 @@ class NoGoUI
        </div>"""
 
   subscribe:() ->
-    @stream.subscribe( 'Orient', (orientation) =>  @layout(orientation) )
-    @stream.subscribe( 'Deals',  (deals)       => @onDeals(deals)       )
+    @stream.subscribe( 'Screen', (screen)   => @onScreen( screen ) )
+    @stream.subscribe( 'Deals',  (deals)    => @onDeals(  deals  ) )
 
-  layout:( orientation ) ->
-    Util.dbg( 'NoGo.layout()', orientation )
-    @noGoSize()
+  onScreen:( screen ) ->
+    Util.noop( 'NavigateUI.onScreen()', screen )
+    #@noGoSize( screen )
 
   onDeals:( deals ) ->
+    return
     @$NoGoDeals.empty()
     html = @app.deals.goDealsHtml( deals )
     @$NoGoDeals.append( html )
 
-  # No use yet
-  noGoSize:() ->
-    fontSize = if @first then @app.height() * @$NoGoBanner.height() * 0.0065 else @$NoGoBanner.height() * 0.65
+  # Not used now
+  noGoSize:( screen ) ->
+    fontSize = if @first then screen.height * @$NoGoBanner.height() * 0.0065 else @$NoGoBanner.height() * 0.65
     #Util.dbg( '@$NoGoBanner.height()', { ah:@app.height(), gh:@$GoBanner.height(), fs:fontSize } )
     @$NoGoBannerText.css( { fontSize:fontSize+'px' })
     @first = false

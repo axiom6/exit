@@ -5,9 +5,8 @@
   Stream = (function() {
     Util.Export(Stream, 'app/Stream');
 
-    function Stream(app, subjectNames) {
+    function Stream(subjectNames) {
       var i, len, name, ref;
-      this.app = app;
       this.subjectNames = subjectNames;
       if ($().bindAsObservable == null) {
         Util.error('Stream rxjs-jquery not defined');

@@ -3,19 +3,20 @@ class NavigateUI
 
   Util.Export( NavigateUI, 'ui/NavigateUI' )
 
-  constructor:( @app, @stream ) ->
+  constructor:( @stream ) ->
 
   ready:() ->
     @$ = $( @html() )
 
-  position:() ->
+  position:(   screen ) ->
+    Util.noop( screen )
     @subscribe()
 
   subscribe:() ->
-    @stream.subscribe( 'Orient', (orientation) =>  @layout(orientation) )
+    @stream.subscribe( 'Screen', (screen)   => @onScreen( screen ) )
 
-  layout:( orientation ) ->
-    Util.dbg( 'Navigate.layout()', orientation )
+  onScreen:( screen ) ->
+    Util.noop( 'NavigateUI.onScreen()', screen )
 
   html:() ->
     """<div id="#{Util.id('Navigate')}" class="#{Util.css('Navigate')}">Navigate</div>"""

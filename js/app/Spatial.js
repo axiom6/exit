@@ -48,8 +48,7 @@
       }
     };
 
-    function Spatial(app, stream, trip) {
-      this.app = app;
+    function Spatial(stream, trip) {
       this.stream = stream;
       this.trip = trip;
       this.onLocation = bind(this.onLocation, this);

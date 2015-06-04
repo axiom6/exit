@@ -3,7 +3,7 @@ class Rest
 
   Util.Export( Rest, 'app/Rest' )
 
-  constructor:( @app, @stream  ) ->
+  constructor:( @stream  ) ->
     @Spatial       = Util.Import( 'app/Spatial' )
     @localURL      = 'http://localhost:63342/Exit-Now-App/data/exit/'
     @baseURL       = "http://104.154.46.117/"

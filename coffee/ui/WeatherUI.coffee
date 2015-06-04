@@ -40,31 +40,31 @@ class WeatherUI
   @Icons['tornado']             = { back:'black',          icon:'wi-tornado' }
   @Icons['unknown']             = { back:'black',          icon:'wi-wind-default _0-deg' }
 
-  constructor:( @app, @stream ) ->
+  constructor:( @stream ) ->
     @trip      = {}  # Set by onTrip()
     @forecasts = {}  # Set by onForecasts()
 
   ready:() ->
     @$ = $( """<div id="Weather" class="Weather"></div>""" )
 
-  position:() ->
+  position:(   screen ) ->
+    Util.noop( screen )
     @subscribe()
 
   # Trip subscribe to the full Monty of change
   subscribe:() ->
-    @stream.subscribe( 'Trip',        (trip)        => @onTrip(      trip        ) )
-    @stream.subscribe( 'Forecasts',   (forecasts)   => @onForecasts( forecasts   ) )
-    @stream.subscribe( 'Location',    (location)    => @onLocation(  location    ) )
-    @stream.subscribe( 'Orient',      (orientation) => @layout(      orientation ) )
+    @stream.subscribe( 'Trip',        (trip)      => @onTrip(      trip      ) )
+    @stream.subscribe( 'Forecasts',   (forecasts) => @onForecasts( forecasts ) )
+    @stream.subscribe( 'Location',    (location)  => @onLocation(  location  ) )
+    @stream.subscribe( 'Screen',      (screen)    => @onScreen(    screen    ) )
 
   onLocation:( location ) ->
-    Util.noop( 'Weather.onLocation()', location )
+    Util.noop( 'WeatherUI.onLocation()', location )
 
-  layout:( orientation ) ->
-    Util.dbg( 'Weather.layout()', orientation )
+  onScreen:( screen ) ->
+    Util.noop( 'WeatherUI.screen()', screen )
 
   onTrip:( trip ) ->
-    Util.dbg( 'Weather.onTrip()', trip.name )
     @trip = trip
     return
 

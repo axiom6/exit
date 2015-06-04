@@ -5,8 +5,7 @@
   NavigateUI = (function() {
     Util.Export(NavigateUI, 'ui/NavigateUI');
 
-    function NavigateUI(app, stream) {
-      this.app = app;
+    function NavigateUI(stream) {
       this.stream = stream;
     }
 
@@ -14,20 +13,21 @@
       return this.$ = $(this.html());
     };
 
-    NavigateUI.prototype.position = function() {
+    NavigateUI.prototype.position = function(screen) {
+      Util.noop(screen);
       return this.subscribe();
     };
 
     NavigateUI.prototype.subscribe = function() {
-      return this.stream.subscribe('Orient', (function(_this) {
-        return function(orientation) {
-          return _this.layout(orientation);
+      return this.stream.subscribe('Screen', (function(_this) {
+        return function(screen) {
+          return _this.onScreen(screen);
         };
       })(this));
     };
 
-    NavigateUI.prototype.layout = function(orientation) {
-      return Util.dbg('Navigate.layout()', orientation);
+    NavigateUI.prototype.onScreen = function(screen) {
+      return Util.noop('NavigateUI.onScreen()', screen);
     };
 
     NavigateUI.prototype.html = function() {

@@ -3,7 +3,7 @@ class DealsUI
 
   Util.Export( DealsUI, 'ui/DealsUI' )
 
-  constructor:( @app, @stream ) ->
+  constructor:( @stream ) ->
     @gritterId = 0
     @uom = 'em'
     @dealsData = []
@@ -12,7 +12,8 @@ class DealsUI
   ready:() ->
     @$ = $( @html() )
 
-  position:() ->
+  position:(   screen ) ->
+    Util.noop( screen )
     @subscribe()
 
   html:() ->
@@ -31,8 +32,8 @@ class DealsUI
   subscribe:() ->
     @stream.subscribe( 'Trip',        (trip)        => @onTrip(trip)              )
     @stream.subscribe( 'Location',    (location)    => @onLocation(location)      )
-    @stream.subscribe( 'Orient',      (orientation) => @layout(orientation)       )
-    #@stream.subscribe( 'Deals',      (deals)       => @onDeals(deals)            )
+    @stream.subscribe( 'Screen',      (screen)    => @onScreen(screen)     )
+    @stream.subscribe( 'Deals',       (deals)       => @onDeals(deals)            )
     #@stream.subscribe( 'Conditions', (conditions)  => @onConditions( conditions) )
 
   onTrip:( trip ) ->
@@ -41,13 +42,18 @@ class DealsUI
   onLocation:( location ) ->
     Util.noop( 'DealsUI.onLocation()', @ext, location )
 
-  layout:( orientation ) ->
-    Util.noop( 'Deals.layout()', orientation )
+  onScreen:( screen ) ->
+    Util.noop( 'DealsUI.screen()', screen )
 
   latLon:() ->
     [39.574431,-106.09752]
 
   onDeals:( deals ) ->
+    Util.dbg( 'DealsUI.onDeals()', deals[0].exit )
+    @popupMultipleDeals( 'Deals', "for Exit ", "#{deals[0].exit}", deals )
+    $('#gritter-notice-wrapper').show()
+
+  onDeals2:( deals ) ->
     #@popupMultipleDeals( 'EXIT NOW!', 'Traffic is slow ', "ETA #{@app.etaHoursMins()}", deals )
     #$('#gritter-notice-wrapper').hide() if not @isVisible
 
@@ -57,10 +63,6 @@ class DealsUI
   getGoDeals:()   -> @dealsData
   getNoGoDeals:() -> @dealsData
   getDeals:()     -> @dealsData
-
-  dataDeals:() ->
-    if @dealsData.length == 0
-      @app.rest.dealsByUrl( 'http://localhost:63342/Exit-Now-App/data/exit/Deals.json', @callDeals )
 
   setDealData:( args, deals ) =>
     @dealsData = deals

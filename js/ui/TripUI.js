@@ -5,45 +5,42 @@
   TripUI = (function() {
     Util.Export(TripUI, 'ui/TripUI');
 
-    function TripUI(app, stream, road, weather, advisory) {
-      this.app = app;
+    function TripUI(stream, roadUI, weatherUI, advisoryUI) {
       this.stream = stream;
-      this.road = road;
-      this.weather = weather;
-      this.advisory = advisory;
+      this.roadUI = roadUI;
+      this.weatherUI = weatherUI;
+      this.advisoryUI = advisoryUI;
       this.Data = Util.Import('app/Data');
       this.driveBarsCreated = false;
     }
 
     TripUI.prototype.ready = function() {
-      this.advisory.ready();
-      this.road.ready();
-      this.weather.ready();
+      this.advisoryUI.ready();
+      this.roadUI.ready();
+      this.weatherUI.ready();
       this.$ = $(this.html());
-      this.$.append(this.advisory.$);
-      this.$.append(this.weather.$);
-      return this.$.append(this.road.$);
+      this.$.append(this.advisoryUI.$);
+      this.$.append(this.weatherUI.$);
+      return this.$.append(this.roadUI.$);
     };
 
-    TripUI.prototype.position = function() {
-      this.road.position();
-      this.weather.position();
-      this.advisory.position();
+    TripUI.prototype.position = function(screen) {
+      this.roadUI.position(screen);
+      this.weatherUI.position(screen);
+      this.advisoryUI.position(screen);
       return this.subscribe();
     };
 
     TripUI.prototype.subscribe = function() {
-      return this.stream.subscribe('Orient', (function(_this) {
-        return function(orientation) {
-          return _this.layout(orientation);
+      return this.stream.subscribe('Screen', (function(_this) {
+        return function(screen) {
+          return _this.onScreen(screen);
         };
       })(this));
     };
 
-    TripUI.prototype.layout = function(orientation) {
-      this.road.layout(orientation);
-      this.weather.layout(orientation);
-      return this.advisory.layout(orientation);
+    TripUI.prototype.onScreen = function(screen) {
+      return Util.noop('TripUI.onScreen()', screen);
     };
 
     TripUI.prototype.html = function() {

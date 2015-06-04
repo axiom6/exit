@@ -282,8 +282,7 @@
       icon: 'wi-wind-default _0-deg'
     };
 
-    function WeatherUI(app, stream) {
-      this.app = app;
+    function WeatherUI(stream) {
       this.stream = stream;
       this.trip = {};
       this.forecasts = {};
@@ -293,7 +292,8 @@
       return this.$ = $("<div id=\"Weather\" class=\"Weather\"></div>");
     };
 
-    WeatherUI.prototype.position = function() {
+    WeatherUI.prototype.position = function(screen) {
+      Util.noop(screen);
       return this.subscribe();
     };
 
@@ -313,23 +313,22 @@
           return _this.onLocation(location);
         };
       })(this));
-      return this.stream.subscribe('Orient', (function(_this) {
-        return function(orientation) {
-          return _this.layout(orientation);
+      return this.stream.subscribe('Screen', (function(_this) {
+        return function(screen) {
+          return _this.onScreen(screen);
         };
       })(this));
     };
 
     WeatherUI.prototype.onLocation = function(location) {
-      return Util.noop('Weather.onLocation()', location);
+      return Util.noop('WeatherUI.onLocation()', location);
     };
 
-    WeatherUI.prototype.layout = function(orientation) {
-      return Util.dbg('Weather.layout()', orientation);
+    WeatherUI.prototype.onScreen = function(screen) {
+      return Util.noop('WeatherUI.screen()', screen);
     };
 
     WeatherUI.prototype.onTrip = function(trip) {
-      Util.dbg('Weather.onTrip()', trip.name);
       this.trip = trip;
     };
 

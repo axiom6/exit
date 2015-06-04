@@ -7,10 +7,10 @@
   Model = (function() {
     Util.Export(Model, 'app/Model');
 
-    function Model(app, stream, rest) {
-      this.app = app;
+    function Model(stream, rest, dataSource) {
       this.stream = stream;
       this.rest = rest;
+      this.dataSource = dataSource;
       this.errorsDetected = bind(this.errorsDetected, this);
       this.onMilePostsError = bind(this.onMilePostsError, this);
       this.onTownForecastError = bind(this.onTownForecastError, this);
@@ -100,8 +100,8 @@
       this.source = source;
       this.destination = destination;
       name = this.tripName(this.source, this.destination);
-      this.trips[name] = new this.Trip(this.app, this.stream, this, name, source, destination);
-      switch (this.app.dataSource) {
+      this.trips[name] = new this.Trip(this.stream, this, name, source, destination);
+      switch (this.dataSource) {
         case 'Rest':
         case 'RestThenLocal':
           this.doTrip(this.trips[name]);
@@ -111,7 +111,7 @@
           this.doTripLocal(this.trips[name]);
           break;
         default:
-          Util.error('Model.createTrip() unknown dataSource', this.app.dataSource);
+          Util.error('Model.createTrip() unknown dataSource', this.dataSource);
       }
     };
 
@@ -128,7 +128,7 @@
       this.rest.segmentsFromLocal(trip.direction, this.doSegments, this.onSegmentsError);
       this.rest.conditionsFromLocal(trip.direction, this.doConditions, this.onConditionsError);
       this.rest.dealsFromLocal(trip.direction, this.doDeals, this.onDealsError);
-      if (this.app.dataSource === 'Local') {
+      if (this.dataSource === 'Local') {
         this.rest.forecastsFromLocal(this.doForecasts, this.onForecastsError);
       }
       if (!this.milePostsComplete && !this.milePostsCompleteWithError) {
@@ -145,9 +145,8 @@
     Model.prototype.launchTrip = function(trip) {
       this.first = false;
       trip.launch();
-      this.app.ui.changeRecommendation(trip.recommendation);
       this.stream.publish('Trip', trip);
-      if (this.app.dataSource !== 'Local') {
+      if (this.dataSource !== 'Local') {
         this.restForecasts(trip);
       }
     };
@@ -283,7 +282,7 @@
     };
 
     Model.prototype.errorsDetected = function() {
-      if ((this.segmentsComplete || this.segmentsCompleteWithError) && (this.conditionsComplete || this.conditionsCompleteWithError) && (this.dealsComplete || this.dealsCompleteWithError) && (this.milePostsComplete || this.milePostsCompleteWithError) && this.app.dataSource === 'RestThenLocal' && this.first) {
+      if ((this.segmentsComplete || this.segmentsCompleteWithError) && (this.conditionsComplete || this.conditionsCompleteWithError) && (this.dealsComplete || this.dealsCompleteWithError) && (this.milePostsComplete || this.milePostsCompleteWithError) && this.dataSource === 'RestThenLocal' && this.first) {
         this.doTripLocal(this.trip());
       } else {
         Util.error('Model.errorsDetected access data unable to proceed with trip');

@@ -3,7 +3,7 @@ class Stream
 
   Util.Export( Stream, 'app/Stream' )
 
-  constructor:( @app, @subjectNames ) ->
+  constructor:( @subjectNames ) ->
     Util.error( 'Stream rxjs-jquery not defined' ) if not $().bindAsObservable? # Special case
     @subjects = {}
     for name in @subjectNames

@@ -5,8 +5,7 @@
   ThresholdUI = (function() {
     Util.Export(ThresholdUI, 'ui/ThresholdUI');
 
-    function ThresholdUI(app, stream) {
-      this.app = app;
+    function ThresholdUI(stream) {
       this.stream = stream;
     }
 
@@ -14,20 +13,21 @@
       return this.$ = $(this.html());
     };
 
-    ThresholdUI.prototype.position = function() {
+    ThresholdUI.prototype.position = function(screen) {
+      Util.noop(screen);
       return this.subscribe();
     };
 
     ThresholdUI.prototype.subscribe = function() {
-      return this.stream.subscribe('Orient', (function(_this) {
-        return function(orientation) {
-          return _this.layout(orientation);
+      return this.stream.subscribe('Screen', (function(_this) {
+        return function(screen) {
+          return _this.onScreen(screen);
         };
       })(this));
     };
 
-    ThresholdUI.prototype.layout = function(orientation) {
-      return Util.dbg('Threshold.layout()', orientation);
+    ThresholdUI.prototype.onScreen = function(screen) {
+      return Util.noop('ThresholdUI.onScreen()', screen);
     };
 
     ThresholdUI.prototype.html = function() {

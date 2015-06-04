@@ -5,26 +5,25 @@
   DestinationUI = (function() {
     Util.Export(DestinationUI, 'ui/DestinationUI');
 
-    function DestinationUI(app, stream, threshold) {
-      this.app = app;
+    function DestinationUI(stream, thresholdUI) {
       this.stream = stream;
-      this.threshold = threshold;
+      this.thresholdUI = thresholdUI;
       this.Data = Util.Import('app/Data');
       this.sources = this.Data.Destinations;
       this.destinations = this.Data.Destinations;
     }
 
     DestinationUI.prototype.ready = function() {
-      this.threshold.ready();
+      this.thresholdUI.ready();
       this.$ = $(this.html());
-      this.$.append(this.threshold.$);
+      this.$.append(this.thresholdUI.$);
       this.$destinationBody = this.$.find('#DestinationBody');
       this.$sourceSelect = this.$.find('#SourceSelect');
       return this.$destinationSelect = this.$.find('#DestinationSelect');
     };
 
-    DestinationUI.prototype.position = function() {
-      this.threshold.position();
+    DestinationUI.prototype.position = function(screen) {
+      this.thresholdUI.position(screen);
       this.events();
       return this.subscribe();
     };
@@ -45,19 +44,19 @@
           return _this.onDestination(destination);
         };
       })(this));
-      return this.stream.subscribe('Orient', (function(_this) {
-        return function(orientation) {
-          return _this.layout(orientation);
+      return this.stream.subscribe('Screen', (function(_this) {
+        return function(screen) {
+          return _this.onScreen(screen);
         };
       })(this));
     };
 
     DestinationUI.prototype.onSource = function(source) {
-      return Util.dbg('Destination.onSource()', source);
+      return Util.noop('Destination.onSource()', source);
     };
 
     DestinationUI.prototype.onDestination = function(destination) {
-      return Util.dbg('Destination.onDestination()', destination);
+      return Util.noop('Destination.onDestination()', destination);
     };
 
     DestinationUI.prototype.id = function(name, type) {
@@ -90,8 +89,8 @@
       return htm;
     };
 
-    DestinationUI.prototype.layout = function(orientation) {
-      return Util.dbg('Destination.layout()', orientation);
+    DestinationUI.prototype.onScreen = function(screen) {
+      return Util.noop('DestinationUI.onScreen()', screen);
     };
 
     DestinationUI.prototype.show = function() {

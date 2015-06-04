@@ -247,6 +247,17 @@
       "outputAbbreviatedPath" : "\/js\/app\/App-ck.js",
       "fileType" : 64
     },
+    "\/js\/ui\/GoUI.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/js\/ui\/GoUI.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/js\/ui\/GoUI-ck.js",
+      "fileType" : 64
+    },
     "\/coffee\/app\/Stream.coffee" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -258,17 +269,6 @@
       "outputAbbreviatedPath" : "\/js\/app\/Stream.js",
       "outputStyle" : 0,
       "fileType" : 32
-    },
-    "\/js\/ui\/GoUI.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/ui\/GoUI.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/ui\/GoUI-ck.js",
-      "fileType" : 64
     },
     "\/coffee\/ui\/TripUI.coffee" : {
       "ignoreWasSetByUser" : 0,
@@ -456,17 +456,16 @@
       "outputAbbreviatedPath" : "\/js\/ui\/DriveBarUI-ck.js",
       "fileType" : 64
     },
-    "\/coffee\/app\/Town.coffee" : {
+    "\/js\/util\/Util.Test.js" : {
       "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
+      "ignore" : 1,
       "hidden" : 0,
-      "outputPathIsSetByUser" : 1,
-      "inputAbbreviatedPath" : "\/coffee\/app\/Town.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/js\/app\/Town.js",
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/js\/util\/Util.Test.js",
       "outputStyle" : 0,
-      "fileType" : 32
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/js\/util\/Util.Test-ck.js",
+      "fileType" : 64
     },
     "\/js\/util\/Util.js" : {
       "ignoreWasSetByUser" : 0,
@@ -477,17 +476,6 @@
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
       "outputAbbreviatedPath" : "\/js\/util\/Util-ck.js",
-      "fileType" : 64
-    },
-    "\/js\/util\/Util.Test.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/util\/Util.Test.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/util\/Util.Test-ck.js",
       "fileType" : 64
     },
     "\/coffee\/util\/GeoJsonUtils.Test.coffee" : {
@@ -809,16 +797,14 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/js\/app\/Town.js" : {
+    "\/data\/junk\/I70Mileposts.html" : {
       "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
+      "ignore" : 0,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/app\/Town.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/app\/Town-ck.js",
-      "fileType" : 64
+      "inputAbbreviatedPath" : "\/data\/junk\/I70Mileposts.html",
+      "outputAbbreviatedPath" : "No Output Path",
+      "fileType" : 2048
     },
     "\/css\/img\/app\/phone6x12Landscape.png" : {
       "ignoreWasSetByUser" : 0,
@@ -848,15 +834,6 @@
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
       "inputAbbreviatedPath" : "\/App.Test.html",
-      "outputAbbreviatedPath" : "No Output Path",
-      "fileType" : 2048
-    },
-    "\/data\/junk\/I70Mileposts.html" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/data\/junk\/I70Mileposts.html",
       "outputAbbreviatedPath" : "No Output Path",
       "fileType" : 2048
     },
@@ -1109,6 +1086,17 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
+    "\/css\/img\/gritter\/gritter-light orig.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/css\/img\/gritter\/gritter-light orig.png",
+      "processed" : 0,
+      "outputAbbreviatedPath" : "\/css\/img\/gritter\/gritter-light orig.png",
+      "initialSize" : 4978,
+      "fileType" : 8192
+    },
     "\/js\/util\/custom_boot.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -1129,17 +1117,6 @@
       "processed" : 0,
       "outputAbbreviatedPath" : "\/css\/img\/app\/phone.png",
       "initialSize" : 24994,
-      "fileType" : 8192
-    },
-    "\/css\/img\/gritter\/gritter-light orig.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/css\/img\/gritter\/gritter-light orig.png",
-      "processed" : 0,
-      "outputAbbreviatedPath" : "\/css\/img\/gritter\/gritter-light orig.png",
-      "initialSize" : 4978,
       "fileType" : 8192
     },
     "\/coffee\/ui\/DestinationUI.coffee" : {

@@ -3,33 +3,32 @@ class TripUI
 
   Util.Export( TripUI,   'ui/TripUI' )
 
-  constructor:( @app, @stream, @road, @weather, @advisory ) ->
+  constructor:( @stream, @roadUI, @weatherUI, @advisoryUI ) ->
     @Data = Util.Import( 'app/Data' )
     @driveBarsCreated = false
 
   ready:() ->
-    @advisory.ready()
-    @road.ready()
-    @weather.ready()
+    @advisoryUI.ready()
+    @roadUI.ready()
+    @weatherUI.ready()
     @$ = $( @html() )
-    @$.append( @advisory.$  )
-    @$.append( @weather.$   )
-    @$.append( @road.$      )
+    @$.append( @advisoryUI.$  )
+    @$.append( @weatherUI.$   )
+    @$.append( @roadUI.$      )
 
-  position:() ->
-    @road.position()
-    @weather.position()
-    @advisory.position()
+  position:( screen ) ->
+    # Util.dbg( 'TripUI.position()', screen )
+    @roadUI.position(     screen )
+    @weatherUI.position(  screen )
+    @advisoryUI.position( screen )
     @subscribe()
 
   # Trip subscribe to the full Monty of change
   subscribe:() ->
-    @stream.subscribe( 'Orient',      (orientation) =>        @layout(orientation) )
+    @stream.subscribe( 'Screen', (screen)   => @onScreen( screen ) )
 
-  layout:( orientation ) ->
-    @road    .layout( orientation )
-    @weather .layout( orientation )
-    @advisory.layout( orientation )
+  onScreen:( screen ) ->
+    Util.noop( 'TripUI.onScreen()', screen )
 
   html:() ->
     """<div id="#{Util.id('Trip')}" class="#{Util.css('Trip')}"></div>"""

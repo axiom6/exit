@@ -5,12 +5,11 @@
   GoUI = (function() {
     Util.Export(GoUI, 'ui/GoUI');
 
-    function GoUI(app, stream) {
+    function GoUI(stream) {
       var DriveBarUI;
-      this.app = app;
       this.stream = stream;
       DriveBarUI = Util.Import('ui/DriveBarUI');
-      this.driveBarUI = new DriveBarUI(this.app, this.stream, 'Go', this, 'Portrait');
+      this.driveBarUI = new DriveBarUI(this.stream, 'Go', this);
       this.first = true;
     }
 
@@ -22,16 +21,16 @@
       return this.driveBarUI.ready();
     };
 
-    GoUI.prototype.position = function() {
-      this.driveBarUI.position();
-      this.goSize();
+    GoUI.prototype.position = function(screen) {
+      this.driveBarUI.position(screen);
+      this.goSize(screen);
       return this.subscribe();
     };
 
     GoUI.prototype.subscribe = function() {
-      this.stream.subscribe('Orient', (function(_this) {
-        return function(orientation) {
-          return _this.layout(orientation);
+      this.stream.subscribe('Screen', (function(_this) {
+        return function(screen) {
+          return _this.onScreen(screen);
         };
       })(this));
       return this.stream.subscribe('Deals', (function(_this) {
@@ -41,29 +40,30 @@
       })(this));
     };
 
-    GoUI.prototype.layout = function(orientation) {
-      Util.dbg('Go.layout()', orientation);
-      return this.goSize();
+    GoUI.prototype.onScreen = function(screen) {
+      Util.noop('GoUI.screen()', screen);
+      return this.goSize(screen);
+    };
+
+    GoUI.prototype.goSize = function(screen) {
+      var fontSize;
+      fontSize = this.first ? screen.height * this.$GoBanner.height() * 0.0065 : this.$GoBanner.height() * 0.65;
+      this.$GoBannerText.css({
+        fontSize: fontSize + 'px'
+      });
+      return this.first = false;
     };
 
     GoUI.prototype.onDeals = function(deals) {
       var html;
+      return;
       this.$GoDeals.empty();
       html = this.app.deals.goDealsHtml(deals);
       return this.$GoDeals.append(html);
     };
 
     GoUI.prototype.html = function() {
-      return "<div id=\"" + (Util.id('Go')) + "\"         class=\"" + (Util.css('Go')) + "\">\n  <div   id=\"" + (Util.id('GoBanner')) + "\"     class=\"" + (Util.css('GoBanner')) + "\">\n    <div id=\"" + (Util.id('GoBannerText')) + "\" class=\"" + (Util.css('GoBannerText')) + "\">GO</div>\n  </div>\n  <div id=\"" + (Util.id('GoDeals')) + "\"  class=\"" + (Util.css('GoDeals')) + "\">\n    <div>11 deals at your destination</div>\n    <div>get going to beat traffic!</div>\n  </div>\n  <div id=\"" + (Util.id('GoDrive')) + "\" class=\"" + (Util.css('GoDrive')) + "\">" + (this.driveBarUI.html('Go')) + "</div>\n</div>";
-    };
-
-    GoUI.prototype.goSize = function() {
-      var fontSize;
-      fontSize = this.first ? this.app.height() * this.$GoBanner.height() * 0.0065 : this.$GoBanner.height() * 0.65;
-      this.$GoBannerText.css({
-        fontSize: fontSize + 'px'
-      });
-      return this.first = false;
+      return "<div id=\"" + (Util.id('Go')) + "\"               class=\"" + (Util.css('Go')) + "\">\n  <div   id=\"" + (Util.id('GoBanner')) + "\"     class=\"" + (Util.css('GoBanner')) + "\">\n    <div id=\"" + (Util.id('GoBannerText')) + "\" class=\"" + (Util.css('GoBannerText')) + "\">GO</div>\n  </div>\n  <div id=\"" + (Util.id('GoDeals')) + "\"  class=\"" + (Util.css('GoDeals')) + "\">\n    <div>11 deals at your destination</div>\n    <div>get going to beat traffic!</div>\n  </div>\n  <div id=\"" + (Util.id('GoDrive')) + "\" class=\"" + (Util.css('GoDrive')) + "\">" + (this.driveBarUI.html('Go')) + "</div>\n</div>";
     };
 
     GoUI.prototype.show = function() {

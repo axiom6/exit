@@ -7,8 +7,8 @@ class Data
 
   Util.Export( Data, 'app/Data' )
 
-  @Destinations     =  ['','Denver',        'Idaho Springs',       'Georgetown',        'Silverthorne',       'Frisco',        'Copper Mtn',        'Vail',        'NoGo' ]
-  @DestinationsMile =     {"Denver":260.79, "Idaho Springs":239.70,"Georgetown":227.90, "Silverthorne":205.50,"Frisco":200.70, "Copper Mtn":195.40, "Vail":177.00, "NoGo":[30,16] }
+  @Destinations     =  ['','Denver',        'Idaho Springs',       'Georgetown',        'Silverthorne',       'Frisco',        'Copper Mtn',        'Vail'        ]
+  @DestinationsMile =     {"Denver":260.79, "Idaho Springs":239.70,"Georgetown":227.90, "Silverthorne":205.50,"Frisco":200.70, "Copper Mtn":195.40, "Vail":177.00 }
 
   @DestinationsWest   =  ['Denver', 'Idaho Springs','Georgetown',   'Silverthorne','Frisco',        'Copper Mtn', 'Vail' ]
   @DestinationsEast   =  ['Vail', 'Copper Mtn','Frisco',        'Silverthorne','Georgetown',  'Idaho Springs', 'Denver']

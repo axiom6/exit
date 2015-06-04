@@ -6,8 +6,7 @@
   DealsUI = (function() {
     Util.Export(DealsUI, 'ui/DealsUI');
 
-    function DealsUI(app, stream) {
-      this.app = app;
+    function DealsUI(stream) {
       this.stream = stream;
       this.callDeals = bind(this.callDeals, this);
       this.setDealData = bind(this.setDealData, this);
@@ -21,7 +20,8 @@
       return this.$ = $(this.html());
     };
 
-    DealsUI.prototype.position = function() {
+    DealsUI.prototype.position = function(screen) {
+      Util.noop(screen);
       return this.subscribe();
     };
 
@@ -50,9 +50,14 @@
           return _this.onLocation(location);
         };
       })(this));
-      return this.stream.subscribe('Orient', (function(_this) {
-        return function(orientation) {
-          return _this.layout(orientation);
+      this.stream.subscribe('Screen', (function(_this) {
+        return function(screen) {
+          return _this.onScreen(screen);
+        };
+      })(this));
+      return this.stream.subscribe('Deals', (function(_this) {
+        return function(deals) {
+          return _this.onDeals(deals);
         };
       })(this));
     };
@@ -65,15 +70,21 @@
       return Util.noop('DealsUI.onLocation()', this.ext, location);
     };
 
-    DealsUI.prototype.layout = function(orientation) {
-      return Util.noop('Deals.layout()', orientation);
+    DealsUI.prototype.onScreen = function(screen) {
+      return Util.noop('DealsUI.screen()', screen);
     };
 
     DealsUI.prototype.latLon = function() {
       return [39.574431, -106.09752];
     };
 
-    DealsUI.prototype.onDeals = function(deals) {};
+    DealsUI.prototype.onDeals = function(deals) {
+      Util.dbg('DealsUI.onDeals()', deals[0].exit);
+      this.popupMultipleDeals('Deals', "for Exit ", "" + deals[0].exit, deals);
+      return $('#gritter-notice-wrapper').show();
+    };
+
+    DealsUI.prototype.onDeals2 = function(deals) {};
 
     DealsUI.prototype.onConditions = function(conditions) {
       return Util.noop('Deals.onConditions()');
@@ -89,12 +100,6 @@
 
     DealsUI.prototype.getDeals = function() {
       return this.dealsData;
-    };
-
-    DealsUI.prototype.dataDeals = function() {
-      if (this.dealsData.length === 0) {
-        return this.app.rest.dealsByUrl('http://localhost:63342/Exit-Now-App/data/exit/Deals.json', this.callDeals);
-      }
     };
 
     DealsUI.prototype.setDealData = function(args, deals) {

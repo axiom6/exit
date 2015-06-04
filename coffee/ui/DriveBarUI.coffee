@@ -3,10 +3,11 @@ class DriveBarUI
 
   Util.Export( DriveBarUI, 'ui/DriveBarUI' )
 
-  constructor:( @app, @stream, @ext, @parent, @orientation ) ->
+  constructor:( @stream, @ext, @parent ) ->
     @name     = 'DriveBar'
     @lastTrip = { name:'' }
     @created  = false
+    @screen   = null # Set by position() updated by position()
 
   html:() ->
     @htmlId = Util.id(@name,@ext)                                          # For createSvg()
@@ -16,19 +17,21 @@ class DriveBarUI
 
   ready:() ->
 
-  position:() ->
+  position:( screen ) ->
+    # Util.dbg( 'DriveBarUI.position()', @ext, screen )
+    @screen = screen
     [@svg,@$svg,@g,@$g,@gId,@gw,@gh,@y0] = @createSvg( @$, @htmlId, @name, @ext, @svgWidth(),  @svgHeight(), @barTop() )
     @left = @parent.$.offset().left
     @top  = @parent.$.offset().top
     @subscribe()
 
   subscribe:() ->
-    @stream.subscribe( 'Location', (location)    => @onLocation( location ) )
-    @stream.subscribe( 'Orient',   (orientation) => @layout( orientation )  )
-    @stream.subscribe( 'Trip',     (trip)        => @onTrip( trip )         )
+    @stream.subscribe( 'Location', (location) => @onLocation( location ) )
+    @stream.subscribe( 'Screen',   (screen)   => @onScreen(   screen   ) )
+    @stream.subscribe( 'Trip',     (trip)     => @onTrip(     trip     ) )
 
   onLocation:( location ) ->
-    Util.noop( 'DriveBar.onLocation()', @ext, location )
+    Util.noop( 'DriveBarUI.onLocation()', @ext, location )
 
   onTrip:( trip ) =>
     if not @created or trip.name isnt @lastTrip.name
@@ -37,16 +40,25 @@ class DriveBarUI
       @updateFills( trip )
     @lastTrip = trip
 
-  # layout changes base on orientation not working
-  layout:( orientation ) ->
-    Util.noop( orientation )
+  # Screenlayout changes base on orientation not working
+  onScreen:( screen ) ->
+    Util.dbg( 'DriveBarUI.onScreen()', @ext, screen ) # @screen = screen
+    return
+
+  # Transform version
+  onScreenTransform:( screen ) ->
+    @screen = screen
+    @svg.attr( "width", @svgWidth() ).attr( 'height', @svgHeight() )
+    xs = if @gw > 0 then @gw / @svgWidth() else 1.0
+    ys = 1.0
+    @g.attr( 'transform', "scale(#{xs},#{ys})" )
     return
 
   # The svg methods are hacked up do to layout:( orientation ) change orientation difficulties
-  svgWidth:()   -> if @orientation is 'Portrait' then @app.width()  * 0.92 else @app.height()
-  svgHeight:()  -> if @orientation is 'Portrait' then @app.height() * 0.33 else @app.width() * 0.50
-  barHeight:()  -> @svgHeight() * 0.33
-  barTop:()     -> @svgHeight() * 0.50
+  svgWidth: () -> if @screen.orientation is 'Portrait' then @screen.width  * 0.92 else @screen.width
+  svgHeight:() -> if @screen.orientation is 'Portrait' then @screen.height * 0.33 else @screen.height * 0.50
+  barHeight:() -> @svgHeight() * 0.33
+  barTop:   () -> @svgHeight() * 0.50
 
   # d3 Svg dependency
   createSvg:( $, htmlId, name, ext, width, height, barTop ) ->
@@ -140,10 +152,11 @@ class DriveBarUI
 
   doSeqmentDeals:( trip, segId, mile ) ->
     deals = trip.getDealsBySegId( segId )
-    exit  = Util.toInt(mile)
+    Util.dbg( 'DriveBarUI.doSeqmentDeals()', deals.length )
     if deals.length > 0
-      @app.dealsUI.popupMultipleDeals( 'Deals', "for Exit ", "#{exit}", deals )
-      $('#gritter-notice-wrapper').show()
+       deals[0].exit = Util.toInt(mile)
+       @stream.publish( 'Deals', deals )
+
 
   updateRectFill:( segId, fill ) ->
     rectId = Util.svgId( @name, segId.toString(), @ext )
@@ -151,12 +164,4 @@ class DriveBarUI
     rect.attr( 'fill', fill )
     return
 
-  # Transform version
-  layout2:( orientation ) ->
-    @orientation = orientation
-    @svg.attr( "width", @svgWidth() ).attr( 'height', @svgHeight() )
-    xs = if @gw > 0 then @gw / @svgWidth() else 1.0
-    ys = 1.0
-    @g.attr( 'transform', "scale(#{xs},#{ys})" )
-    return
 

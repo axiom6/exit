@@ -3,9 +3,10 @@ class UI
 
   Util.Export( UI, 'ui/UI' )
 
-  constructor:( @app, @stream, @destinationUI, @goUI, @nogoUI, @tripUI, @dealsUI, @navigateUI ) ->
+  constructor:( @stream, @destinationUI, @goUI, @nogoUI, @tripUI, @dealsUI, @navigateUI ) ->
     @orientation    = 'Portrait'
-    @lastSelect     = @destinationUI
+    @recommendation = 'Go'
+    @firstTrip = true
 
   ready:() ->
     @$ = $( @html() )
@@ -31,15 +32,19 @@ class UI
     @subscribe()
     @stream.publish( 'Select', 'Destination' ) # We publish the first screen selection to be Destionaion
 
+  position:(   screen ) ->
+    @onScreen( screen )
+
   events:() ->
-    @stream.event( 'Select', @$destinationIcon,    'click', 'Destination'    )
-    @stream.event( 'Select', @$recommendationIcon, 'click', 'Recommendation' )
-    @stream.event( 'Select', @$tripIcon,           'click', 'Trip',          )
-    @stream.event( 'Select', @$dealsIcon,          'click', 'Deals',         )
+    @stream.event( 'Select', @$destinationIcon,    'click', 'Destination'   )
+    @stream.event( 'Select', @$recommendationIcon, 'click', @recommendation )
+    @stream.event( 'Select', @$tripIcon,           'click', 'Trip',         )
+    @stream.event( 'Select', @$dealsIcon,          'click', 'Deals',        )
 
   subscribe:() ->
-    @stream.subscribe( 'Select', (page)        => @select(page)        )
-    @stream.subscribe( 'Orient', (orientation) => @layout(orientation) )
+    @stream.subscribe( 'Select', (page)   => @select(   page   ) )
+    @stream.subscribe( 'Screen', (screen) => @onScreen( screen ) )
+    @stream.subscribe( 'Trip',   (trip)   => @onTrip(   trip   ) )
 
   id:(   name, type     ) -> Util.id(   name, type     )
   css:(  name, type     ) -> Util.css(  name, type     )
@@ -59,6 +64,15 @@ class UI
          <div id="#{@id('View')}" class="#{@css('View')}"></div>
         </div>"""
 
+  onTrip:( trip ) ->
+    if @recommendation isnt  trip.recommendation
+      @changeRecommendation( trip.recommendation )
+      @recommendation =      trip.recommendation
+    else if @firstTrip
+      @select( @recommendation )
+      @firstTrip = false
+    return
+
   changeRecommendation:( recommendation ) ->
     Util.noop( 'UI.changeRecommendation', recommendation)
     @select( recommendation )
@@ -66,20 +80,13 @@ class UI
     @$recommendationFA.attr( 'class', faClass )
     return
 
-  orient:( orientation ) ->
-    if orientation?
-      @orientation = orientation
-    else
-      @orientation = if @orientation is 'Portrait' then 'Landscape' else 'Portrait'
-    Util.dbg( 'UI.orient() new', @orientation )
-    #@stream.push('Orient', @orientation, 'UI' )   # This push will call UI.layout() here along with all 'Oriant' subscribers
-    return
-
-  layout:( orientation ) =>
-    Util.dbg( 'UI.layout', orientation )
-    url = "css/img/app/phone6x12#{orientation}.png"
-    $('body').css( { "background-image":"url(#{url})" } )
-    $('#App').attr( 'class', "App#{orientation}" )
+  onScreen:( screen ) ->
+    Util.dbg( 'UI.onScreen()', screen )
+    if @orientation isnt screen.orientation
+       @orientation    = screen.orientation
+       url = "css/img/app/phone6x12#{screen.orientation}.png"
+       $('body').css( { "background-image":"url(#{url})" } )
+       $('#App').attr( 'class', "App#{screen.orientation}" )
 
   show:() ->
 
@@ -91,42 +98,31 @@ class UI
     switch page
       when 'Destination'
         @lastSelect = @destinationUI
-      when 'Recommendation', 'Go', 'NoGo'
+      when 'Go', 'NoGo'
         @lastSelect = if page is 'Go' then @goUI else @nogoUI
       when 'Trip'
         @lastSelect = @tripUI
-        @orient(      'Landscape' )
-        @layout(      'Landscape' )
-        @tripUI.layout( 'Landscape' )
-        #@app.simulate.generateLocationsFromMilePosts( 1000 ) if @app.simulate?
+        @onScreen(        @toScreen('Landscape') )
+        @tripUI.onScreen( @toScreen('Landscape') )
       when 'Deals'
         @lastSelect = @dealsUI
       else
         Util.error( "UI.select unknown page", page )
 
-    # Util.dbg( 'UI.Select() End', name, @lastSelect.$.attr('id') )
-    @layout( 'Portrait' ) if @orientation is 'Landscape' and page isnt 'Trip'
+    # For now all screeb are Portrait except for Trip
+    @onScreen( @toScreen('Portrait') ) if page isnt 'Trip'
     @lastSelect.show()
     return
 
-  width:()  ->
-    w1 = if @$? then @$.width() else 0
-    w  = 0
-    if w1 is 0
-      w = if @orientation is 'Portrait' then 300 else 500
-    else
-      w = w1
-    # Util.dbg( 'UI.width()', w, w1 )
-    w
 
-  height:() ->
-    h1 = if @$? then @$.height() else 0
-    h  = 0
-    if h1 is 0
-      h = if @orientation is 'Portrait' then 500 else 300
+  width: () -> @$.width()
+  height:() -> @$.height()
+
+  toScreen:( orientation ) ->
+    if orientation is @orientation
+      { orientation:orientation, width:@width(), height:@height() }
     else
-      h = h1
-    # Util.dbg( 'UI.height()', h, h1 )
-    h
+      { orientation:orientation, width:@height(), height:@width() }
+
 
 

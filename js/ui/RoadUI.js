@@ -5,12 +5,11 @@
   RoadUI = (function() {
     Util.Export(RoadUI, 'ui/RoadUI');
 
-    function RoadUI(app, stream) {
+    function RoadUI(stream) {
       var DriveBarUI;
-      this.app = app;
       this.stream = stream;
       DriveBarUI = Util.Import('ui/DriveBarUI');
-      this.driveBarUI = new DriveBarUI(this.app, this.stream, 'Road', this, 'Landscape');
+      this.driveBarUI = new DriveBarUI(this.stream, 'Road', this);
     }
 
     RoadUI.prototype.ready = function() {
@@ -18,15 +17,15 @@
       return this.driveBarUI.ready();
     };
 
-    RoadUI.prototype.position = function() {
-      this.driveBarUI.position();
+    RoadUI.prototype.position = function(screen) {
+      this.driveBarUI.position(screen);
       return this.subscribe();
     };
 
     RoadUI.prototype.subscribe = function() {
-      return this.stream.subscribe('Orient', (function(_this) {
-        return function(orientation) {
-          return _this.layout(orientation);
+      return this.stream.subscribe('Screen', (function(_this) {
+        return function(screen) {
+          return _this.onScreen(screen);
         };
       })(this));
     };
@@ -35,9 +34,8 @@
       return "<div id=\"" + (Util.id('Road')) + "\" class=\"" + (Util.css('Road')) + "\">" + (this.driveBarUI.html('Trip')) + "</div>";
     };
 
-    RoadUI.prototype.layout = function(orientation) {
-      Util.dbg('Road.layout()', orientation);
-      return this.driveBarUI.layout(orientation);
+    RoadUI.prototype.onScreen = function(screen) {
+      return Util.noop('RoadUI.screen()', screen);
     };
 
     return RoadUI;

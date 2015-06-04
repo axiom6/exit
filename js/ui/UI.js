@@ -6,8 +6,7 @@
   UI = (function() {
     Util.Export(UI, 'ui/UI');
 
-    function UI(app, stream, destinationUI, goUI, nogoUI, tripUI, dealsUI, navigateUI) {
-      this.app = app;
+    function UI(stream, destinationUI, goUI, nogoUI, tripUI, dealsUI, navigateUI) {
       this.stream = stream;
       this.destinationUI = destinationUI;
       this.goUI = goUI;
@@ -16,9 +15,9 @@
       this.dealsUI = dealsUI;
       this.navigateUI = navigateUI;
       this.select = bind(this.select, this);
-      this.layout = bind(this.layout, this);
       this.orientation = 'Portrait';
-      this.lastSelect = this.destinationUI;
+      this.recommendation = 'Go';
+      this.firstTrip = true;
     }
 
     UI.prototype.ready = function() {
@@ -54,9 +53,13 @@
       return this.stream.publish('Select', 'Destination');
     };
 
+    UI.prototype.position = function(screen) {
+      return this.onScreen(screen);
+    };
+
     UI.prototype.events = function() {
       this.stream.event('Select', this.$destinationIcon, 'click', 'Destination');
-      this.stream.event('Select', this.$recommendationIcon, 'click', 'Recommendation');
+      this.stream.event('Select', this.$recommendationIcon, 'click', this.recommendation);
       this.stream.event('Select', this.$tripIcon, 'click', 'Trip');
       return this.stream.event('Select', this.$dealsIcon, 'click', 'Deals');
     };
@@ -67,9 +70,14 @@
           return _this.select(page);
         };
       })(this));
-      return this.stream.subscribe('Orient', (function(_this) {
-        return function(orientation) {
-          return _this.layout(orientation);
+      this.stream.subscribe('Screen', (function(_this) {
+        return function(screen) {
+          return _this.onScreen(screen);
+        };
+      })(this));
+      return this.stream.subscribe('Trip', (function(_this) {
+        return function(trip) {
+          return _this.onTrip(trip);
         };
       })(this));
     };
@@ -90,6 +98,16 @@
       return "<div      id=\"" + (this.id('UI')) + "\"                     class=\"" + (this.css('UI')) + "\">\n <div    id=\"" + (this.id('IconsHover')) + "\"             class=\"" + (this.css('IconsHover')) + "\"></div>\n <div    id=\"" + (this.id('Icons')) + "\"                  class=\"" + (this.css('Icons')) + "\">\n    <div>\n      <div id=\"" + (this.id('Destination', 'Icon')) + "\"  class=\"" + (this.css('Destination', 'Icon')) + "\"><i class=\"fa fa-picture-o\"></i><div>Destination</div></div>\n      <div id=\"" + (this.id('Recommendation', 'Icon')) + "\"  class=\"" + (this.css('Recommendation', 'Icon')) + "\"><i class=\"fa fa-thumbs-up\" id=\"RecommendationFA\"></i><div>Recommendation</div></div>\n      <div id=\"" + (this.id('Trip', 'Icon')) + "\"  class=\"" + (this.css('Trip', 'Icon')) + "\"><i class=\"fa fa-road\"></i><div>Trip</div></div>\n      <div id=\"" + (this.id('Deals', 'Icon')) + "\"  class=\"" + (this.css('Deals', 'Icon')) + "\"><i class=\"fa fa-trophy\"></i><div>Deals</div></div>\n    </div>\n </div>\n <div id=\"" + (this.id('View')) + "\" class=\"" + (this.css('View')) + "\"></div>\n</div>";
     };
 
+    UI.prototype.onTrip = function(trip) {
+      if (this.recommendation !== trip.recommendation) {
+        this.changeRecommendation(trip.recommendation);
+        this.recommendation = trip.recommendation;
+      } else if (this.firstTrip) {
+        this.select(this.recommendation);
+        this.firstTrip = false;
+      }
+    };
+
     UI.prototype.changeRecommendation = function(recommendation) {
       var faClass;
       Util.noop('UI.changeRecommendation', recommendation);
@@ -98,23 +116,17 @@
       this.$recommendationFA.attr('class', faClass);
     };
 
-    UI.prototype.orient = function(orientation) {
-      if (orientation != null) {
-        this.orientation = orientation;
-      } else {
-        this.orientation = this.orientation === 'Portrait' ? 'Landscape' : 'Portrait';
-      }
-      Util.dbg('UI.orient() new', this.orientation);
-    };
-
-    UI.prototype.layout = function(orientation) {
+    UI.prototype.onScreen = function(screen) {
       var url;
-      Util.dbg('UI.layout', orientation);
-      url = "css/img/app/phone6x12" + orientation + ".png";
-      $('body').css({
-        "background-image": "url(" + url + ")"
-      });
-      return $('#App').attr('class', "App" + orientation);
+      Util.dbg('UI.onScreen()', screen);
+      if (this.orientation !== screen.orientation) {
+        this.orientation = screen.orientation;
+        url = "css/img/app/phone6x12" + screen.orientation + ".png";
+        $('body').css({
+          "background-image": "url(" + url + ")"
+        });
+        return $('#App').attr('class', "App" + screen.orientation);
+      }
     };
 
     UI.prototype.show = function() {};
@@ -129,16 +141,14 @@
         case 'Destination':
           this.lastSelect = this.destinationUI;
           break;
-        case 'Recommendation':
         case 'Go':
         case 'NoGo':
           this.lastSelect = page === 'Go' ? this.goUI : this.nogoUI;
           break;
         case 'Trip':
           this.lastSelect = this.tripUI;
-          this.orient('Landscape');
-          this.layout('Landscape');
-          this.tripUI.layout('Landscape');
+          this.onScreen(this.toScreen('Landscape'));
+          this.tripUI.onScreen(this.toScreen('Landscape'));
           break;
         case 'Deals':
           this.lastSelect = this.dealsUI;
@@ -146,34 +156,34 @@
         default:
           Util.error("UI.select unknown page", page);
       }
-      if (this.orientation === 'Landscape' && page !== 'Trip') {
-        this.layout('Portrait');
+      if (page !== 'Trip') {
+        this.onScreen(this.toScreen('Portrait'));
       }
       this.lastSelect.show();
     };
 
     UI.prototype.width = function() {
-      var w, w1;
-      w1 = this.$ != null ? this.$.width() : 0;
-      w = 0;
-      if (w1 === 0) {
-        w = this.orientation === 'Portrait' ? 300 : 500;
-      } else {
-        w = w1;
-      }
-      return w;
+      return this.$.width();
     };
 
     UI.prototype.height = function() {
-      var h, h1;
-      h1 = this.$ != null ? this.$.height() : 0;
-      h = 0;
-      if (h1 === 0) {
-        h = this.orientation === 'Portrait' ? 500 : 300;
+      return this.$.height();
+    };
+
+    UI.prototype.toScreen = function(orientation) {
+      if (orientation === this.orientation) {
+        return {
+          orientation: orientation,
+          width: this.width(),
+          height: this.height()
+        };
       } else {
-        h = h1;
+        return {
+          orientation: orientation,
+          width: this.height(),
+          height: this.width()
+        };
       }
-      return h;
     };
 
     return UI;

@@ -7,8 +7,7 @@
   Rest = (function() {
     Util.Export(Rest, 'app/Rest');
 
-    function Rest(app, stream) {
-      this.app = app;
+    function Rest(stream) {
       this.stream = stream;
       this.logForecasts = bind(this.logForecasts, this);
       this.logMileposts = bind(this.logMileposts, this);
@@ -322,7 +321,7 @@
       for (i = 0, len1 = segments.length; i < len1; i++) {
         segment = segments[i];
         ref = this.segIdNum(segment), id = ref[0], num = ref[1];
-        results.publish(Util.dbg('logSegment', {
+        results.push(Util.dbg('logSegment', {
           id: id,
           num: num,
           name: segment.name
@@ -345,7 +344,7 @@
           TravelTime: cc['TravelTime'],
           AverageSpeed: cc['AverageSpeed']
         });
-        results.publish(Util.dbg('  weather', cc['Weather']));
+        results.push(Util.dbg('  weather', cc['Weather']));
       }
       return results;
     };
@@ -358,7 +357,7 @@
       for (i = 0, len1 = deals.length; i < len1; i++) {
         d = deals[i];
         dd = d['dealData'];
-        results.publish(Util.dbg('  ', {
+        results.push(Util.dbg('  ', {
           segmentId: dd['segmentId'],
           lat: d['lat'],
           lon: d['lon'],
@@ -376,7 +375,7 @@
       results = [];
       for (i = 0, len1 = mileposts.length; i < len1; i++) {
         milepost = mileposts[i];
-        results.publish(Util.dbg('  ', milepost));
+        results.push(Util.dbg('  ', milepost));
       }
       return results;
     };
@@ -388,7 +387,7 @@
       results = [];
       for (i = 0, len1 = forecasts.length; i < len1; i++) {
         forecast = forecasts[i];
-        results.publish(Util.dbg('  ', forecast));
+        results.push(Util.dbg('  ', forecast));
       }
       return results;
     };

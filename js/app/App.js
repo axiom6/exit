@@ -14,7 +14,7 @@
     function App(dataSource) {
       var AdvisoryUI, Data, DealsUI, DestinationUI, GoUI, Model, NavigateUI, NoGoUI, Rest, RoadUI, Simulate, Stream, ThresholdUI, TripUI, UI, WeatherUI;
       this.dataSource = dataSource != null ? dataSource : 'RestThenLocal';
-      this.subjectNames = ['Select', 'Location', 'Orient', 'Source', 'Destination', 'Trip', 'Forecasts', 'App'];
+      this.subjectNames = ['Select', 'Location', 'Screen', 'Source', 'Destination', 'Trip', 'Forecasts'];
       Stream = Util.Import('app/Stream');
       Rest = Util.Import('app/Rest');
       Data = Util.Import('app/Data');
@@ -31,22 +31,22 @@
       NavigateUI = Util.Import('ui/NavigateUI');
       UI = Util.Import('ui/UI');
       Simulate = Util.Import('app/Simulate');
-      this.stream = new Stream(this, this.subjectNames);
-      this.rest = new Rest(this, this.stream);
-      this.model = new Model(this, this.stream, this.rest);
-      this.goUI = new GoUI(this, this.stream);
-      this.nogoUI = new NoGoUI(this, this.stream);
-      this.thresholdUI = new ThresholdUI(this, this.stream);
-      this.destinationUI = new DestinationUI(this, this.stream, this.thresholdUI);
-      this.roadUI = new RoadUI(this, this.stream);
-      this.weatherUI = new WeatherUI(this, this.stream);
-      this.advisoryUI = new AdvisoryUI(this, this.stream);
-      this.tripUI = new TripUI(this, this.stream, this.roadUI, this.weatherUI, this.advisoryUI);
-      this.dealsUI = new DealsUI(this, this.stream);
-      this.navigateUI = new NavigateUI(this, this.stream);
-      this.ui = new UI(this, this.stream, this.destinationUI, this.goUI, this.nogoUI, this.tripUI, this.dealsUI, this.navigateUI);
+      this.stream = new Stream(this.subjectNames);
+      this.rest = new Rest(this.stream);
+      this.model = new Model(this.stream, this.rest, this.dataSource);
+      this.goUI = new GoUI(this.stream);
+      this.nogoUI = new NoGoUI(this.stream);
+      this.thresholdUI = new ThresholdUI(this.stream);
+      this.destinationUI = new DestinationUI(this.stream, this.thresholdUI);
+      this.roadUI = new RoadUI(this.stream);
+      this.weatherUI = new WeatherUI(this.stream);
+      this.advisoryUI = new AdvisoryUI(this.stream);
+      this.tripUI = new TripUI(this.stream, this.roadUI, this.weatherUI, this.advisoryUI);
+      this.dealsUI = new DealsUI(this.stream);
+      this.navigateUI = new NavigateUI(this.stream);
+      this.ui = new UI(this.stream, this.destinationUI, this.goUI, this.nogoUI, this.tripUI, this.dealsUI, this.navigateUI);
       this.ready();
-      this.position();
+      this.position(this.ui.toScreen('Portrait'));
       this.simulate = new Simulate(this, this.stream);
       if (Util.hasModule('app/App.Test', false)) {
         $('body').css({
@@ -73,21 +73,14 @@
       return this.ui.ready();
     };
 
-    App.prototype.position = function() {
-      this.destinationUI.position();
-      this.goUI.position();
-      this.nogoUI.position();
-      this.tripUI.position();
-      this.dealsUI.position();
-      return this.navigateUI.position();
-    };
-
-    App.prototype.width = function() {
-      return this.ui.width();
-    };
-
-    App.prototype.height = function() {
-      return this.ui.height();
+    App.prototype.position = function(screen) {
+      this.destinationUI.position(screen);
+      this.goUI.position(screen);
+      this.nogoUI.position(screen);
+      this.tripUI.position(this.ui.toScreen('Landscape'));
+      this.dealsUI.position(screen);
+      this.navigateUI.position(screen);
+      return this.ui.position(screen);
     };
 
     return App;

@@ -4,7 +4,7 @@ class Model
 
   Util.Export( Model, 'app/Model' )
 
-  constructor:( @app, @stream, @rest ) ->
+  constructor:( @stream, @rest, @dataSource ) ->
     @Data        = Util.Import( 'app/Data' )  # We occasionally need to key of some static data at this point of the project
     @Trip        = Util.Import( 'app/Trip' )
     @first       = true                       # Implies we have not acquired enough data to get started
@@ -65,11 +65,11 @@ class Model
     @source      = source
     @destination = destination
     name         = @tripName( @source, @destination )
-    @trips[name] = new @Trip( @app, @stream, @, name, source, destination )
-    switch @app.dataSource
+    @trips[name] = new @Trip( @stream, @, name, source, destination )
+    switch @dataSource
       when 'Rest',  'RestThenLocal'  then @doTrip(      @trips[name] )
       when 'Local', 'LocalForecasts' then @doTripLocal( @trips[name] )
-      else Util.error( 'Model.createTrip() unknown dataSource', @app.dataSource )
+      else Util.error( 'Model.createTrip() unknown dataSource', @dataSource )
     return
 
   doTrip:( trip ) ->
@@ -85,7 +85,7 @@ class Model
     @rest.segmentsFromLocal(   trip.direction, @doSegments,   @onSegmentsError   )
     @rest.conditionsFromLocal( trip.direction, @doConditions, @onConditionsError )
     @rest.dealsFromLocal(      trip.direction, @doDeals,      @onDealsError      )
-    @rest.forecastsFromLocal(                  @doForecasts,  @onForecastsError  )  if @app.dataSource is 'Local'
+    @rest.forecastsFromLocal(                  @doForecasts,  @onForecastsError  )  if @dataSource is 'Local'
     @rest.milePostsFromLocal(                  @doMilePosts,  @onMilePostsError  )  if not @milePostsComplete and not @milePostsCompleteWithError
     return
 
@@ -98,9 +98,8 @@ class Model
   launchTrip:( trip ) ->
     @first = false
     trip.launch()
-    @app.ui.changeRecommendation( trip.recommendation )
     @stream.publish( 'Trip', trip )
-    if @app.dataSource isnt 'Local'
+    if @dataSource isnt 'Local'
       @restForecasts( trip ) # Will punlish forecasts on Stream when completed
     return
 
@@ -218,7 +217,7 @@ class Model
         (@conditionsComplete or @conditionsCompleteWithError) and
         (@dealsComplete      or @dealsCompleteWithError)      and
         (@milePostsComplete  or @milePostsCompleteWithError)  and
-         @app.dataSource is 'RestThenLocal' and @first )
+         @dataSource is 'RestThenLocal' and @first )
       @doTripLocal( @trip() )
     else
       Util.error( 'Model.errorsDetected access data unable to proceed with trip' )

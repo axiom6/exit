@@ -12,7 +12,7 @@ class App
   # @dataSource = 'Rest', 'RestThenLocal', 'Local', 'LocalForecasts'
   constructor:( @dataSource='RestThenLocal' ) ->
 
-    @subjectNames = ['Select','Location','Orient','Source','Destination','Trip','Forecasts','App']
+    @subjectNames = ['Select','Location','Screen','Source','Destination','Trip','Forecasts']
 
     # Import Classes
     Stream        = Util.Import( 'app/Stream'       )
@@ -37,25 +37,25 @@ class App
     Simulate    = Util.Import( 'app/Simulate'       )
 
     # Instantiate main App classes
-    @stream     = new Stream(      @, @subjectNames  )
-    @rest       = new Rest(        @, @stream        )
-    @model      = new Model(       @, @stream, @rest )
+    @stream     = new Stream( @subjectNames  )
+    @rest       = new Rest(   @stream        )
+    @model      = new Model(  @stream, @rest, @dataSource )
 
     # Instantiate UI class
-    @goUI          = new GoUI(           @, @stream )
-    @nogoUI        = new NoGoUI(         @, @stream )
-    @thresholdUI   = new ThresholdUI(    @, @stream )
-    @destinationUI = new DestinationUI(  @, @stream, @thresholdUI )
-    @roadUI        = new RoadUI(         @, @stream )
-    @weatherUI     = new WeatherUI(      @, @stream )
-    @advisoryUI    = new AdvisoryUI(     @, @stream )
-    @tripUI        = new TripUI(         @, @stream, @roadUI, @weatherUI, @advisoryUI )
-    @dealsUI       = new DealsUI(        @, @stream )
-    @navigateUI    = new NavigateUI(     @, @stream )
-    @ui            = new UI(             @, @stream, @destinationUI, @goUI, @nogoUI, @tripUI, @dealsUI, @navigateUI )
+    @goUI          = new GoUI(           @stream )
+    @nogoUI        = new NoGoUI(         @stream )
+    @thresholdUI   = new ThresholdUI(    @stream )
+    @destinationUI = new DestinationUI(  @stream, @thresholdUI )
+    @roadUI        = new RoadUI(         @stream )
+    @weatherUI     = new WeatherUI(      @stream )
+    @advisoryUI    = new AdvisoryUI(     @stream )
+    @tripUI        = new TripUI(         @stream, @roadUI, @weatherUI, @advisoryUI )
+    @dealsUI       = new DealsUI(        @stream )
+    @navigateUI    = new NavigateUI(     @stream )
+    @ui            = new UI(             @stream, @destinationUI, @goUI, @nogoUI, @tripUI, @dealsUI, @navigateUI )
 
     @ready()
-    @position()
+    @position( @ui.toScreen('Portrait' ) )
 
     # Run simulations and test if test modules presents
     @simulate = new Simulate( @, @stream )
@@ -82,14 +82,13 @@ class App
     @navigateUI.ready()
     @ui.ready()
 
-  position:() ->
-    @destinationUI.position()
-    @goUI.position()
-    @nogoUI.position()
-    @tripUI.position()
-    @dealsUI.position()
-    @navigateUI.position()
+  position:( screen ) ->
+    @destinationUI.position( screen )
+    @goUI.position(          screen )
+    @nogoUI.position(        screen )
+    @tripUI.position(        @ui.toScreen('Landscape') ) # For now until full responsive web design is implemented
+    @dealsUI.position(       screen )
+    @navigateUI.position(    screen )
+    @ui.position(            screen )
 
-  width:()  -> @ui.width()
-  height:() -> @ui.height()
 

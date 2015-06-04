@@ -7,7 +7,7 @@
 
     Util.Export(Data, 'app/Data');
 
-    Data.Destinations = ['', 'Denver', 'Idaho Springs', 'Georgetown', 'Silverthorne', 'Frisco', 'Copper Mtn', 'Vail', 'NoGo'];
+    Data.Destinations = ['', 'Denver', 'Idaho Springs', 'Georgetown', 'Silverthorne', 'Frisco', 'Copper Mtn', 'Vail'];
 
     Data.DestinationsMile = {
       "Denver": 260.79,
@@ -16,8 +16,7 @@
       "Silverthorne": 205.50,
       "Frisco": 200.70,
       "Copper Mtn": 195.40,
-      "Vail": 177.00,
-      "NoGo": [30, 16]
+      "Vail": 177.00
     };
 
     Data.DestinationsWest = ['Denver', 'Idaho Springs', 'Georgetown', 'Silverthorne', 'Frisco', 'Copper Mtn', 'Vail'];

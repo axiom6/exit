@@ -3,7 +3,7 @@ class Simulate
 
   Util.Export( Simulate, 'app/Simulate' )
 
-  constructor:( @app, @stream  ) ->
+  constructor:( @stream  ) ->
     @Data = Util.Import( 'app/Data')
 
   generateLocationsFromMilePosts:( delay ) ->

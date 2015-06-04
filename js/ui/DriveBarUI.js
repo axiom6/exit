@@ -6,18 +6,17 @@
   DriveBarUI = (function() {
     Util.Export(DriveBarUI, 'ui/DriveBarUI');
 
-    function DriveBarUI(app, stream, ext1, parent, orientation1) {
-      this.app = app;
+    function DriveBarUI(stream, ext1, parent) {
       this.stream = stream;
       this.ext = ext1;
       this.parent = parent;
-      this.orientation = orientation1;
       this.onTrip = bind(this.onTrip, this);
       this.name = 'DriveBar';
       this.lastTrip = {
         name: ''
       };
       this.created = false;
+      this.screen = null;
     }
 
     DriveBarUI.prototype.html = function() {
@@ -30,8 +29,9 @@
 
     DriveBarUI.prototype.ready = function() {};
 
-    DriveBarUI.prototype.position = function() {
+    DriveBarUI.prototype.position = function(screen) {
       var ref;
+      this.screen = screen;
       ref = this.createSvg(this.$, this.htmlId, this.name, this.ext, this.svgWidth(), this.svgHeight(), this.barTop()), this.svg = ref[0], this.$svg = ref[1], this.g = ref[2], this.$g = ref[3], this.gId = ref[4], this.gw = ref[5], this.gh = ref[6], this.y0 = ref[7];
       this.left = this.parent.$.offset().left;
       this.top = this.parent.$.offset().top;
@@ -44,9 +44,9 @@
           return _this.onLocation(location);
         };
       })(this));
-      this.stream.subscribe('Orient', (function(_this) {
-        return function(orientation) {
-          return _this.layout(orientation);
+      this.stream.subscribe('Screen', (function(_this) {
+        return function(screen) {
+          return _this.onScreen(screen);
         };
       })(this));
       return this.stream.subscribe('Trip', (function(_this) {
@@ -57,7 +57,7 @@
     };
 
     DriveBarUI.prototype.onLocation = function(location) {
-      return Util.noop('DriveBar.onLocation()', this.ext, location);
+      return Util.noop('DriveBarUI.onLocation()', this.ext, location);
     };
 
     DriveBarUI.prototype.onTrip = function(trip) {
@@ -69,23 +69,32 @@
       return this.lastTrip = trip;
     };
 
-    DriveBarUI.prototype.layout = function(orientation) {
-      Util.noop(orientation);
+    DriveBarUI.prototype.onScreen = function(screen) {
+      Util.dbg('DriveBarUI.onScreen()', this.ext, screen);
+    };
+
+    DriveBarUI.prototype.onScreenTransform = function(screen) {
+      var xs, ys;
+      this.screen = screen;
+      this.svg.attr("width", this.svgWidth()).attr('height', this.svgHeight());
+      xs = this.gw > 0 ? this.gw / this.svgWidth() : 1.0;
+      ys = 1.0;
+      this.g.attr('transform', "scale(" + xs + "," + ys + ")");
     };
 
     DriveBarUI.prototype.svgWidth = function() {
-      if (this.orientation === 'Portrait') {
-        return this.app.width() * 0.92;
+      if (this.screen.orientation === 'Portrait') {
+        return this.screen.width * 0.92;
       } else {
-        return this.app.height();
+        return this.screen.width;
       }
     };
 
     DriveBarUI.prototype.svgHeight = function() {
-      if (this.orientation === 'Portrait') {
-        return this.app.height() * 0.33;
+      if (this.screen.orientation === 'Portrait') {
+        return this.screen.height * 0.33;
       } else {
-        return this.app.width() * 0.50;
+        return this.screen.height * 0.50;
       }
     };
 
@@ -214,12 +223,12 @@
     };
 
     DriveBarUI.prototype.doSeqmentDeals = function(trip, segId, mile) {
-      var deals, exit;
+      var deals;
       deals = trip.getDealsBySegId(segId);
-      exit = Util.toInt(mile);
+      Util.dbg('DriveBarUI.doSeqmentDeals()', deals.length);
       if (deals.length > 0) {
-        this.app.dealsUI.popupMultipleDeals('Deals', "for Exit ", "" + exit, deals);
-        return $('#gritter-notice-wrapper').show();
+        deals[0].exit = Util.toInt(mile);
+        return this.stream.publish('Deals', deals);
       }
     };
 
@@ -228,15 +237,6 @@
       rectId = Util.svgId(this.name, segId.toString(), this.ext);
       rect = $svg.find('#' + rectId);
       rect.attr('fill', fill);
-    };
-
-    DriveBarUI.prototype.layout2 = function(orientation) {
-      var xs, ys;
-      this.orientation = orientation;
-      this.svg.attr("width", this.svgWidth()).attr('height', this.svgHeight());
-      xs = this.gw > 0 ? this.gw / this.svgWidth() : 1.0;
-      ys = 1.0;
-      this.g.attr('transform', "scale(" + xs + "," + ys + ")");
     };
 
     return DriveBarUI;

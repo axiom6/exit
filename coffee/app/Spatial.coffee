@@ -31,7 +31,7 @@ class Spatial
       Util.error( 'Spatial.direction() source and/or destination missing so returning West' )
       'West'
 
-  constructor:( @app, @stream, @trip ) ->
+  constructor:( @stream, @trip ) ->
     @Data = Util.Import( 'app/Data')
     @subscribe()
 
