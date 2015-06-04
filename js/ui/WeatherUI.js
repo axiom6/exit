@@ -388,8 +388,6 @@
       w.precipType = f.precipType;
       w.windSpeed = f.windSpeed;
       w.cloudCover = f.cloudCover;
-      Util.dbg('WeatherUI.toWeather forecast', f);
-      Util.dbg('WeatherUI.toWeather weather ', w);
       return w;
     };
 

@@ -322,7 +322,7 @@
       for (i = 0, len1 = segments.length; i < len1; i++) {
         segment = segments[i];
         ref = this.segIdNum(segment), id = ref[0], num = ref[1];
-        results.push(Util.dbg('logSegment', {
+        results.publish(Util.dbg('logSegment', {
           id: id,
           num: num,
           name: segment.name
@@ -345,7 +345,7 @@
           TravelTime: cc['TravelTime'],
           AverageSpeed: cc['AverageSpeed']
         });
-        results.push(Util.dbg('  weather', cc['Weather']));
+        results.publish(Util.dbg('  weather', cc['Weather']));
       }
       return results;
     };
@@ -358,7 +358,7 @@
       for (i = 0, len1 = deals.length; i < len1; i++) {
         d = deals[i];
         dd = d['dealData'];
-        results.push(Util.dbg('  ', {
+        results.publish(Util.dbg('  ', {
           segmentId: dd['segmentId'],
           lat: d['lat'],
           lon: d['lon'],
@@ -376,7 +376,7 @@
       results = [];
       for (i = 0, len1 = mileposts.length; i < len1; i++) {
         milepost = mileposts[i];
-        results.push(Util.dbg('  ', milepost));
+        results.publish(Util.dbg('  ', milepost));
       }
       return results;
     };
@@ -388,7 +388,7 @@
       results = [];
       for (i = 0, len1 = forecasts.length; i < len1; i++) {
         forecast = forecasts[i];
-        results.push(Util.dbg('  ', forecast));
+        results.publish(Util.dbg('  ', forecast));
       }
       return results;
     };

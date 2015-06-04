@@ -90,7 +90,7 @@ class Spatial
   pushNavLocations:() ->
     if Spatial.PushLocationsOn then return else Spatial.PushLocationsOn = true
     onSuccess = (position) =>
-      @stream.push( 'Location', @locationFromPosition(position), 'Trip' )
+      @stream.publish( 'Location', @locationFromPosition(position), 'Trip' )
     onError = ( error ) =>
       Util.error( 'Spatia.pushLocation()',' Unable to get your location', error )
     options = { maximumAge:Spatial.MaxAgePosition, timeout:Spatial.TimeOutPosition, enableHighAccuracy:Spatial.EnableHighAccuracy }
@@ -99,7 +99,7 @@ class Spatial
   pushGeoLocators:() ->
     if Spatial.PushLocationsOn then return else Spatial.PushLocationsOn = true
     onSuccess = ( geo ) =>
-      @stream.push( 'Location', @locationFromGeo(geo), 'Trip' )
+      @stream.publish( 'Location', @locationFromGeo(geo), 'Trip' )
     onError = ( error ) =>
       Util.error( 'Spatia.pushLocation()',' Unable to get your location', error )
     options = { maximumAge:Spatial.MaxAgePosition, timeout:Spatial.TimeOutPosition, enableHighAccuracy:Spatial.EnableHighAccuracy }
@@ -111,7 +111,7 @@ class Spatial
     onReverseGeo = ( results, status ) ->
       if status is google.maps.GeocoderStatus.OK
         geolocator.fetchDetailsFromLookup(results)
-        @stream.push( 'Location', @locationFromGeo(geolocator.location), 'Spatial' )
+        @stream.publish( 'Location', @locationFromGeo(geolocator.location), 'Spatial' )
       else
         Util.error( 'Spatial.pushAddressForLatLon() bad status from google.maps', status )
     latlng = new google.maps.LatLng( latLon.lat, latLon.lon )

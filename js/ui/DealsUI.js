@@ -103,7 +103,7 @@
 
     DealsUI.prototype.callDeals = function(args, deals) {
       this.dealsData = deals;
-      return this.stream.push('Deals', deals, 'Deals');
+      return this.stream.publish('Deals', deals);
     };
 
     DealsUI.prototype.popupMultipleDeals = function(title, traffic, eta, deals) {
@@ -181,7 +181,7 @@
       return $("[dataid=" + dealId + "]").click((function(_this) {
         return function() {
           Util.dbg('Deal.TakeDeal', dealId);
-          return _this.stream.push('TakeDeal', dealId, 'Deal');
+          return _this.stream.publish('TakeDeal', dealId);
         };
       })(this));
     };

@@ -170,7 +170,7 @@
       }
       onSuccess = (function(_this) {
         return function(position) {
-          return _this.stream.push('Location', _this.locationFromPosition(position), 'Trip');
+          return _this.stream.publish('Location', _this.locationFromPosition(position), 'Trip');
         };
       })(this);
       onError = (function(_this) {
@@ -195,7 +195,7 @@
       }
       onSuccess = (function(_this) {
         return function(geo) {
-          return _this.stream.push('Location', _this.locationFromGeo(geo), 'Trip');
+          return _this.stream.publish('Location', _this.locationFromGeo(geo), 'Trip');
         };
       })(this);
       onError = (function(_this) {
@@ -217,7 +217,7 @@
       onReverseGeo = function(results, status) {
         if (status === google.maps.GeocoderStatus.OK) {
           geolocator.fetchDetailsFromLookup(results);
-          return this.stream.push('Location', this.locationFromGeo(geolocator.location), 'Spatial');
+          return this.stream.publish('Location', this.locationFromGeo(geolocator.location), 'Spatial');
         } else {
           return Util.error('Spatial.pushAddressForLatLon() bad status from google.maps', status);
         }

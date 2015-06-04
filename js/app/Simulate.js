@@ -22,7 +22,7 @@
         lon = feature.geometry.coordinates[0];
         latlon = [lat, lon];
         time += delay;
-        this.stream.push('Location', latlon);
+        this.stream.publish('Location', latlon);
       }
     };
 

@@ -28,10 +28,6 @@
       return this.subscribe();
     };
 
-    GoUI.prototype.html = function() {
-      return "<div id=\"" + (Util.id('Go')) + "\"         class=\"" + (Util.css('Go')) + "\">\n  <div   id=\"" + (Util.id('GoBanner')) + "\"     class=\"" + (Util.css('GoBanner')) + "\">\n    <div id=\"" + (Util.id('GoBannerText')) + "\" class=\"" + (Util.css('GoBannerText')) + "\">GO</div>\n  </div>\n  <div id=\"" + (Util.id('GoDeals')) + "\"  class=\"" + (Util.css('GoDeals')) + "\">\n    <div>11 deals at your destination</div>\n    <div>get going to beat traffic!</div>\n  </div>\n  <div id=\"" + (Util.id('GoDrive')) + "\" class=\"" + (Util.css('GoDrive')) + "\">" + (this.driveBarUI.html('Go')) + "</div>\n</div>";
-    };
-
     GoUI.prototype.subscribe = function() {
       this.stream.subscribe('Orient', (function(_this) {
         return function(orientation) {
@@ -55,6 +51,10 @@
       this.$GoDeals.empty();
       html = this.app.deals.goDealsHtml(deals);
       return this.$GoDeals.append(html);
+    };
+
+    GoUI.prototype.html = function() {
+      return "<div id=\"" + (Util.id('Go')) + "\"         class=\"" + (Util.css('Go')) + "\">\n  <div   id=\"" + (Util.id('GoBanner')) + "\"     class=\"" + (Util.css('GoBanner')) + "\">\n    <div id=\"" + (Util.id('GoBannerText')) + "\" class=\"" + (Util.css('GoBannerText')) + "\">GO</div>\n  </div>\n  <div id=\"" + (Util.id('GoDeals')) + "\"  class=\"" + (Util.css('GoDeals')) + "\">\n    <div>11 deals at your destination</div>\n    <div>get going to beat traffic!</div>\n  </div>\n  <div id=\"" + (Util.id('GoDrive')) + "\" class=\"" + (Util.css('GoDrive')) + "\">" + (this.driveBarUI.html('Go')) + "</div>\n</div>";
     };
 
     GoUI.prototype.goSize = function() {

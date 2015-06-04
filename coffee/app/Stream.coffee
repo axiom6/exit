@@ -18,8 +18,8 @@ class Stream
       @subjects[name] = new Rx.Subject()
     @subjects[name]
 
-  # Publishes object through rxjs-jquery event for a jQuerySelector dom element
-  publish:( name, jQuerySelector, eventType, objectArg ) ->
+  # Publishes object on event through rxjs-jquery event for a jQuerySelector dom element
+  event:( name, jQuerySelector, eventType, objectArg ) ->
     subject = @getSubject(  name )
     object  = objectArg
     onNext  = ( event ) =>
@@ -34,9 +34,15 @@ class Stream
     subject.subscribe( onNext, @onError, @onComplete )
     return
 
-  push:( name, object ) ->
+  publish:( name, object ) ->
     subject = @getSubject(  name )
     subject.onNext( object )
+    return
+
+  subscribeEvent:( onNext, jqSel, eventType, object ) ->
+    rxjq          = @createRxJQuery( jqSel, object )
+    observable    = rxjq.bindAsObservable( eventType )
+    observable.subscribe( onNext, @onError, @onComplete )
     return
 
   createRxJQuery:(    jQuerySelector, object ) ->
@@ -54,11 +60,7 @@ class Stream
   onComplete:() ->
     Util.dbg(   'Stream.onComplete()', 'Completed' )
 
-  subscribeEvent:( onNext, jqSel, eventType, object ) ->
-    rxjq          = @createRxJQuery( jqSel, object )
-    observable    = rxjq.bindAsObservable( eventType )
-    observable.subscribe( onNext, @onError, @onComplete )
-    return
+
 
   processEvent:( event ) ->
     event?.stopPropagation()                   # Will need to look into preventDefault

@@ -146,7 +146,7 @@
       this.first = false;
       trip.launch();
       this.app.ui.changeRecommendation(trip.recommendation);
-      this.stream.push('Trip', trip);
+      this.stream.publish('Trip', trip);
       if (this.app.dataSource !== 'Local') {
         this.restForecasts(trip);
       }
@@ -223,7 +223,7 @@
         trip.forecasts[name] = forecast;
         trip.forecasts[name].index = this.Trip.Towns[name].index;
       }
-      this.stream.push('Forecasts', trip.forecasts, 'Model');
+      this.stream.publish('Forecasts', trip.forecasts, 'Model');
     };
 
     Model.prototype.doTownForecast = function(args, forecast) {
@@ -265,13 +265,13 @@
       Util.error('Model.townForecastError()', {
         name: name
       });
-      this.pushForecastsWhenComplete(this.trip().forecasts);
+      this.publishForecastsWhenComplete(this.trip().forecasts);
     };
 
-    Model.prototype.pushForecastsWhenComplete = function(forecasts) {
+    Model.prototype.publishForecastsWhenComplete = function(forecasts) {
       this.forecastsCount++;
       if (this.forecastsCount === this.forecastsPending) {
-        this.stream.push('Forecasts', forecasts, 'Model');
+        this.stream.publish('Forecasts', forecasts);
         this.forecastsPending = 0;
       }
     };

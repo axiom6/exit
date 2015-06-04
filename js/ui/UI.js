@@ -49,16 +49,16 @@
           return _this.$Icons.hide();
         };
       })(this));
-      this.publish();
+      this.events();
       this.subscribe();
-      return this.stream.push('Select', 'Destination', 'UI');
+      return this.stream.publish('Select', 'Destination');
     };
 
-    UI.prototype.publish = function() {
-      this.stream.publish('Select', this.$destinationIcon, 'click', 'Destination');
-      this.stream.publish('Select', this.$recommendationIcon, 'click', 'Recommendation');
-      this.stream.publish('Select', this.$tripIcon, 'click', 'Trip');
-      return this.stream.publish('Select', this.$dealsIcon, 'click', 'Deals');
+    UI.prototype.events = function() {
+      this.stream.event('Select', this.$destinationIcon, 'click', 'Destination');
+      this.stream.event('Select', this.$recommendationIcon, 'click', 'Recommendation');
+      this.stream.event('Select', this.$tripIcon, 'click', 'Trip');
+      return this.stream.event('Select', this.$dealsIcon, 'click', 'Deals');
     };
 
     UI.prototype.subscribe = function() {

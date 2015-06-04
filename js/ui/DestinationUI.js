@@ -25,13 +25,13 @@
 
     DestinationUI.prototype.position = function() {
       this.threshold.position();
-      this.publish();
+      this.events();
       return this.subscribe();
     };
 
-    DestinationUI.prototype.publish = function() {
-      this.stream.publish('Source', this.$sourceSelect, 'change', 'Source');
-      return this.stream.publish('Destination', this.$destinationSelect, 'change', 'Destination');
+    DestinationUI.prototype.events = function() {
+      this.stream.event('Source', this.$sourceSelect, 'change', 'Source');
+      return this.stream.event('Destination', this.$destinationSelect, 'change', 'Destination');
     };
 
     DestinationUI.prototype.subscribe = function() {

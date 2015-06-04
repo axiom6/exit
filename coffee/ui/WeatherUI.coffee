@@ -120,8 +120,8 @@ class WeatherUI
     w.precipType        = f.precipType #rain, snow, sleet
     w.windSpeed         = f.windSpeed
     w.cloudCover        = f.cloudCover
-    Util.dbg( 'WeatherUI.toWeather forecast', f )
-    Util.dbg( 'WeatherUI.toWeather weather ', w )
+    # Util.dbg( 'WeatherUI.toWeather forecast', f )
+    # Util.dbg( 'WeatherUI.toWeather weather ', w )
     w
 
 

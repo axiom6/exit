@@ -99,9 +99,9 @@ class Model
     @first = false
     trip.launch()
     @app.ui.changeRecommendation( trip.recommendation )
-    @stream.push( 'Trip', trip )
+    @stream.publish( 'Trip', trip )
     if @app.dataSource isnt 'Local'
-      @restForecasts( trip ) # Will push forecasts on Stream when completed
+      @restForecasts( trip ) # Will punlish forecasts on Stream when completed
     return
 
   # Makes a rest call for each town in the Trip, and checks completion for each town
@@ -161,7 +161,7 @@ class Model
     for own name, forecast of forecasts
       trip.forecasts[name]       = forecast
       trip.forecasts[name].index = @Trip.Towns[name].index
-    @stream.push( 'Forecasts', trip.forecasts, 'Model' )
+    @stream.publish( 'Forecasts', trip.forecasts, 'Model' )
     return
 
   doTownForecast:( args, forecast ) =>
@@ -197,13 +197,13 @@ class Model
   onTownForecastError:( obj ) =>
     name = obj.args.name
     Util.error( 'Model.townForecastError()', { name:name } )
-    @pushForecastsWhenComplete( @trip().forecasts ) # We push on error because some forecasts may have made it through
+    @publishForecastsWhenComplete( @trip().forecasts ) # We push on error because some forecasts may have made it through
     return
 
-  pushForecastsWhenComplete:( forecasts ) ->
+  publishForecastsWhenComplete:( forecasts ) ->
     @forecastsCount++
     if @forecastsCount is @forecastsPending
-      @stream.push( 'Forecasts', forecasts, 'Model' )
+      @stream.publish( 'Forecasts', forecasts )
       @forecastsPending = 0 # No more pending forecasts after push
     return
 

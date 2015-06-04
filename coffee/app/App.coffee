@@ -68,6 +68,9 @@ class App
     if Util.hasModule( 'ui/UI.Test',false)
       @uiTest = new UI.Test( @ui, @adivsoryUI, @dealsUI, @destinationUI, @driveBarUI, @goUI, @noGoUI, @roadUI, @thresholdUI, @trip, @weatherUI, @navigateUI )
 
+    # Jumpstart App
+    @stream.publish( 'Source',      'Denver' )
+    @stream.publish( 'Destination', 'Vail'   )
 
   ready:() ->
     @model.ready()

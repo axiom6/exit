@@ -67,7 +67,7 @@ class DealsUI
 
   callDeals:( args, deals ) =>
     @dealsData = deals
-    @stream.push( 'Deals', deals, 'Deals' )
+    @stream.publish( 'Deals', deals )
 
   popupMultipleDeals:( title, traffic, eta, deals ) ->
     opts   = @dealsOptsHtml( title, traffic, eta, deals )
@@ -122,7 +122,7 @@ class DealsUI
   enableTakeDealClick:( dealId ) ->
     $("[dataid=#{dealId}]").click( () =>
       Util.dbg( 'Deal.TakeDeal', dealId )
-      @stream.push(  'TakeDeal', dealId, 'Deal' ) )
+      @stream.publish(  'TakeDeal', dealId ) )
 
   gritter:( opts ) ->
     $.gritter.add( opts )

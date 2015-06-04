@@ -35,7 +35,7 @@
       return this.subjects[name];
     };
 
-    Stream.prototype.publish = function(name, jQuerySelector, eventType, objectArg) {
+    Stream.prototype.event = function(name, jQuerySelector, eventType, objectArg) {
       var object, onNext, subject;
       subject = this.getSubject(name);
       object = objectArg;
@@ -57,10 +57,17 @@
       subject.subscribe(onNext, this.onError, this.onComplete);
     };
 
-    Stream.prototype.push = function(name, object) {
+    Stream.prototype.publish = function(name, object) {
       var subject;
       subject = this.getSubject(name);
       subject.onNext(object);
+    };
+
+    Stream.prototype.subscribeEvent = function(onNext, jqSel, eventType, object) {
+      var observable, rxjq;
+      rxjq = this.createRxJQuery(jqSel, object);
+      observable = rxjq.bindAsObservable(eventType);
+      observable.subscribe(onNext, this.onError, this.onComplete);
     };
 
     Stream.prototype.createRxJQuery = function(jQuerySelector, object) {
@@ -80,13 +87,6 @@
 
     Stream.prototype.onComplete = function() {
       return Util.dbg('Stream.onComplete()', 'Completed');
-    };
-
-    Stream.prototype.subscribeEvent = function(onNext, jqSel, eventType, object) {
-      var observable, rxjq;
-      rxjq = this.createRxJQuery(jqSel, object);
-      observable = rxjq.bindAsObservable(eventType);
-      observable.subscribe(onNext, this.onError, this.onComplete);
     };
 
     Stream.prototype.processEvent = function(event) {

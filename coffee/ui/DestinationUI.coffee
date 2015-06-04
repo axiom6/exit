@@ -18,13 +18,13 @@ class DestinationUI
 
   position:() ->
     @threshold.position()
-    @publish()
+    @events()
     @subscribe()
 
   # publish is called by
-  publish:() ->
-    @stream.publish( 'Source',      @$sourceSelect,      'change', 'Source'      )
-    @stream.publish( 'Destination', @$destinationSelect, 'change', 'Destination' )
+  events:() ->
+    @stream.event( 'Source',      @$sourceSelect,      'change', 'Source'      )
+    @stream.event( 'Destination', @$destinationSelect, 'change', 'Destination' )
 
   subscribe:() ->
     @stream.subscribe( 'Source',      (source)      => @onSource(source)           )

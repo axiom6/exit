@@ -27,15 +27,15 @@ class UI
     @$namigateIcon       =  @$.find('#NavigateIcon')
     @$IconsHover.mouseenter( () => @$Icons.show() )
     @$Icons     .mouseleave( () => @$Icons.hide() )
-    @publish()
+    @events()
     @subscribe()
-    @stream.push( 'Select', 'Destination', 'UI' ) # We push the first screen selection to be Destionaion
+    @stream.publish( 'Select', 'Destination' ) # We publish the first screen selection to be Destionaion
 
-  publish:() ->
-    @stream.publish( 'Select', @$destinationIcon,    'click', 'Destination'    )
-    @stream.publish( 'Select', @$recommendationIcon, 'click', 'Recommendation' )
-    @stream.publish( 'Select', @$tripIcon,           'click', 'Trip',          )
-    @stream.publish( 'Select', @$dealsIcon,          'click', 'Deals',         )
+  events:() ->
+    @stream.event( 'Select', @$destinationIcon,    'click', 'Destination'    )
+    @stream.event( 'Select', @$recommendationIcon, 'click', 'Recommendation' )
+    @stream.event( 'Select', @$tripIcon,           'click', 'Trip',          )
+    @stream.event( 'Select', @$dealsIcon,          'click', 'Deals',         )
 
   subscribe:() ->
     @stream.subscribe( 'Select', (page)        => @select(page)        )

@@ -58,6 +58,8 @@
       if (Util.hasModule('ui/UI.Test', false)) {
         this.uiTest = new UI.Test(this.ui, this.adivsoryUI, this.dealsUI, this.destinationUI, this.driveBarUI, this.goUI, this.noGoUI, this.roadUI, this.thresholdUI, this.trip, this.weatherUI, this.navigateUI);
       }
+      this.stream.publish('Source', 'Denver');
+      this.stream.publish('Destination', 'Vail');
     }
 
     App.prototype.ready = function() {
