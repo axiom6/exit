@@ -1,9 +1,10 @@
 
-class DriveBarUI
+class DriveBarUC
 
-  Util.Export( DriveBarUI, 'ui/DriveBarUI' )
+  Util.Export( DriveBarUC, 'uc/DriveBarUC' )
 
-  constructor:( @stream, @ext, @parent ) ->
+  # @port [0,0,92,33] @land =[0,0,100,50
+  constructor:( @stream, @ext, @port, @land ) ->
     @name     = 'DriveBar'
     @lastTrip = { name:'' }
     @created  = false
@@ -18,11 +19,9 @@ class DriveBarUI
   ready:() ->
 
   position:( screen ) ->
-    # Util.dbg( 'DriveBarUI.position()', @ext, screen )
+    # Util.dbg( 'DriveBarUC.position()', @ext, screen )
     @screen = screen
     [@svg,@$svg,@g,@$g,@gId,@gw,@gh,@y0] = @createSvg( @$, @htmlId, @name, @ext, @svgWidth(),  @svgHeight(), @barTop() )
-    @left = @parent.$.offset().left
-    @top  = @parent.$.offset().top
     @subscribe()
 
   subscribe:() ->
@@ -31,7 +30,7 @@ class DriveBarUI
     @stream.subscribe( 'Trip',     (trip)     => @onTrip(     trip     ) )
 
   onLocation:( location ) ->
-    Util.noop( 'DriveBarUI.onLocation()', @ext, location )
+    Util.noop( 'DriveBarUC.onLocation()', @ext, location )
 
   onTrip:( trip ) =>
     if not @created or trip.name isnt @lastTrip.name
@@ -41,22 +40,21 @@ class DriveBarUI
     @lastTrip = trip
 
   # Screenlayout changes base on orientation not working
-  onScreen:( screen ) ->
-    Util.dbg( 'DriveBarUI.onScreen()', @ext, screen ) # @screen = screen
-    return
-
-  # Transform version
-  onScreenTransform:( screen ) ->
-    @screen = screen
+  onScreen:( next ) ->
+    prev    = @screen
+    @screen = next
+    Util.cssPosition( @$, @screen, @port, @land )
     @svg.attr( "width", @svgWidth() ).attr( 'height', @svgHeight() )
-    xs = if @gw > 0 then @gw / @svgWidth() else 1.0
-    ys = 1.0
+    [xp,yp] = if prev.orientation is 'Portrait' then [@port[2],@port[3]] else [@land[2],@land[3]]
+    [xn,yn] = if next.orientation is 'Portrait' then [@port[2],@port[3]] else [@land[2],@land[3]]
+    xs = next.width  * xn  / ( prev.width  * xp )
+    ys = next.height * yn  / ( prev.height * yp )
     @g.attr( 'transform', "scale(#{xs},#{ys})" )
     return
 
-  # The svg methods are hacked up do to layout:( orientation ) change orientation difficulties
-  svgWidth: () -> if @screen.orientation is 'Portrait' then @screen.width  * 0.92 else @screen.width
-  svgHeight:() -> if @screen.orientation is 'Portrait' then @screen.height * 0.33 else @screen.height * 0.50
+  # index 2 is width index 3 is height
+  svgWidth: () -> if @screen.orientation is 'Portrait' then @screen.width  * @port[2]/100 else @screen.height * @land[2]/100
+  svgHeight:() -> if @screen.orientation is 'Portrait' then @screen.height * @port[3]/100 else @screen.height * @land[3]/100
   barHeight:() -> @svgHeight() * 0.33
   barTop:   () -> @svgHeight() * 0.50
 
@@ -75,7 +73,7 @@ class DriveBarUI
     @mileBeg  = trip.begMile()
     @mileEnd  = trip.endMile()
     @distance = Math.abs( @mileEnd - @mileBeg )
-    # Util.dbg( 'DriveBarUI.createBars() 1', { mileBeg:@mileBeg, mileEnd:@mileEnd, distance:@distance } )
+    # Util.dbg( 'DriveBarUC.createBars() 1', { mileBeg:@mileBeg, mileEnd:@mileEnd, distance:@distance } )
     thick    = 1
     x        = 0
     y        = @barTop()
@@ -87,7 +85,7 @@ class DriveBarUI
       beg   = w * Math.abs( Util.toFloat(seg.StartMileMarker) - @mileBeg ) / @distance
       end   = w * Math.abs( Util.toFloat(seg.EndMileMarker)   - @mileBeg ) / @distance
       fill  = @fillCondition( seg.segId, trip.conditions )
-      # Util.dbg( 'DriveBarUI.createBars() 2', { segId:seg.segId, beg:beg, end:end,  w:Math.abs(end-beg) } )
+      # Util.dbg( 'DriveBarUC.createBars() 2', { segId:seg.segId, beg:beg, end:end,  w:Math.abs(end-beg) } )
       @rect( trip, @g, seg, seg.segId, beg, y, Math.abs(end-beg), h, fill, 'black', thick, '' )
     @created  = true
     return
@@ -152,7 +150,7 @@ class DriveBarUI
 
   doSeqmentDeals:( trip, segId, mile ) ->
     deals = trip.getDealsBySegId( segId )
-    Util.dbg( 'DriveBarUI.doSeqmentDeals()', deals.length )
+    Util.dbg( 'DriveBarUC.doSeqmentDeals()', deals.length )
     if deals.length > 0
        deals[0].exit = Util.toInt(mile)
        @stream.publish( 'Deals', deals )

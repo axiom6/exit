@@ -1,7 +1,7 @@
 
-class WeatherUI
+class WeatherUC
 
-  Util.Export( WeatherUI, 'ui/WeatherUI' )
+  Util.Export( WeatherUC, 'uc/WeatherUC' )
 
   # Devner Lat 39.779062 -104.982605
 
@@ -40,15 +40,15 @@ class WeatherUI
   @Icons['tornado']             = { back:'black',          icon:'wi-tornado' }
   @Icons['unknown']             = { back:'black',          icon:'wi-wind-default _0-deg' }
 
-  constructor:( @stream ) ->
+  constructor:( @stream, @role, @port, @land ) ->
     @trip      = {}  # Set by onTrip()
     @forecasts = {}  # Set by onForecasts()
 
   ready:() ->
-    @$ = $( """<div id="Weather" class="Weather"></div>""" )
+    @$ = $( """<div id="#{Util.id('WeatherUC')}" class="#{Util.css('WeatherUC')}"></div>""" )
 
   position:(   screen ) ->
-    Util.noop( screen )
+    @onScreen( screen )
     @subscribe()
 
   # Trip subscribe to the full Monty of change
@@ -59,10 +59,10 @@ class WeatherUI
     @stream.subscribe( 'Screen',      (screen)    => @onScreen(    screen    ) )
 
   onLocation:( location ) ->
-    Util.noop( 'WeatherUI.onLocation()', location )
+    Util.noop( 'WeatherUC.onLocation()', location )
 
   onScreen:( screen ) ->
-    Util.noop( 'WeatherUI.screen()', screen )
+    Util.cssPosition( @$, screen, @port, @land )
 
   onTrip:( trip ) ->
     @trip = trip
@@ -109,19 +109,19 @@ class WeatherUI
     w.summary1          =    summaries[0]
     w.summary2          = if summaries[1]? then summaries[1] else '&nbsp;'
     w.fcIcon            = f.icon
-    if WeatherUI.Icons[w.fcIcon]?
-      w.back            = WeatherUI.Icons[f.icon].back
-      w.icon            = WeatherUI.Icons[f.icon].icon
+    if WeatherUC.Icons[w.fcIcon]?
+      w.back            = WeatherUC.Icons[f.icon].back
+      w.icon            = WeatherUC.Icons[f.icon].icon
     else
-      w.back            = WeatherUI.Icons['unknown'].back
-      w.icon            = WeatherUI.Icons['unknown'].icon
+      w.back            = WeatherUC.Icons['unknown'].back
+      w.icon            = WeatherUC.Icons['unknown'].icon
     w.icon              = 'wi-showers' if w.summary is 'Drizzle'
     w.precipProbability = f.precipProbability
     w.precipType        = f.precipType #rain, snow, sleet
     w.windSpeed         = f.windSpeed
     w.cloudCover        = f.cloudCover
-    # Util.dbg( 'WeatherUI.toWeather forecast', f )
-    # Util.dbg( 'WeatherUI.toWeather weather ', w )
+    # Util.dbg( 'WeatherUC.toWeather forecast', f )
+    # Util.dbg( 'WeatherUC.toWeather weather ', w )
     w
 
 

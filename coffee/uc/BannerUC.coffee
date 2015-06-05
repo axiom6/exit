@@ -1,15 +1,15 @@
 
-class AdvisoryUI
+class BannerUC
 
-  Util.Export( AdvisoryUI, 'ui/AdvisoryUI' )
+  Util.Export( BannerUC, 'uc/BannerUC' )
 
-  constructor:( @stream ) ->
+  constructor:( @stream, @role, @port, @land ) ->
 
   ready:() ->
     @$ = $( @html() )
 
   position:(   screen ) ->
-    Util.noop( screen )
+    @onScreen( screen )
     @subscribe()
 
   subscribe:() ->
@@ -17,10 +17,10 @@ class AdvisoryUI
     @stream.subscribe( 'Screen',   (screen)    => @onScreen(screen)     )
 
   onLocation:( location ) ->
-    Util.noop( 'AdvisoryUI.onLocation()', @ext, location )
+    Util.noop( 'BannerUC.onLocation()', @ext, location )
 
   onScreen:( screen ) ->
-    Util.noop( 'AdvisoryUI.screen()', screen )
+    Util.cssPosition( @$, screen, @port, @land )
 
   html:() ->
-    """<div id="#{Util.id('Advisory')}" class="#{Util.css('Advisory')}"></div>"""
+    """<div id="#{Util.id('BannerUC')}" class="#{Util.css('BannerUC')}"></div>"""

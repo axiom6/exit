@@ -304,6 +304,30 @@ class Util
         return false
     true
 
+  # Screen absolute (left top width height) percent positioning and scaling
+
+  # Percent array to position mapping
+  @toPosition:( array ) ->
+    { left:array[0], top:array[1], width:array[2], height:array[3] }
+
+  # Adds Percent from array for CSS position mapping
+  @toPositionPc:( array ) ->
+    { left:array[0]+'%', top:array[1]+'%', width:array[2]+'%', height:array[3]+'%' }
+
+  @cssPosition:( $, screen, port, land ) ->
+    array = if screen.orientation is 'Portrait' then port else land
+    $.css( Util.toPositionPc(array) )
+    return
+
+  @xyScale:( prev, next, port, land ) ->
+    [xp,yp] = if prev.orientation is 'Portrait' then [port[2],port[3]] else [land[2],land[3]]
+    [xn,yn] = if next.orientation is 'Portrait' then [port[2],port[3]] else [land[2],land[3]]
+    xs = next.width  * xn  / ( prev.width  * xp )
+    ys = next.height * yn  / ( prev.height * yp )
+    [xs,ys]
+
+
+
   # ----------------- Guarded jQuery dependent calls -----------------
 
   @resize:( callback ) ->

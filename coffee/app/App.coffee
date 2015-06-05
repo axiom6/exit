@@ -19,37 +19,36 @@ class App
     Rest          = Util.Import( 'app/Rest'         )
     Data          = Util.Import( 'app/Data'         )  # Static class with no need to instaciate
     Model         = Util.Import( 'app/Model'        )
+    Simulate      = Util.Import( 'app/Simulate'     )
 
+    DestinationUI = Util.Import( 'ui/DestinationUI' )   
     GoUI          = Util.Import( 'ui/GoUI'          )
     NoGoUI        = Util.Import( 'ui/NoGoUI'        )
-    ThresholdUI   = Util.Import( 'ui/ThresholdUI'   )
-    DestinationUI = Util.Import( 'ui/DestinationUI' )
-
-    RoadUI        = Util.Import( 'ui/RoadUI'        )
-    WeatherUI     = Util.Import( 'ui/WeatherUI'     )
-    AdvisoryUI    = Util.Import( 'ui/AdvisoryUI'    )
     TripUI        = Util.Import( 'ui/TripUI'        )
-
     DealsUI       = Util.Import( 'ui/DealsUI'       )
     NavigateUI    = Util.Import( 'ui/NavigateUI'    )
-    UI            = Util.Import( 'ui/UI'            )
 
-    Simulate    = Util.Import( 'app/Simulate'       )
+
+    ThresholdUC   = Util.Import( 'ui/ThresholdUC'   )
+
+    UI            = Util.Import( 'ui/UI'            )
 
     # Instantiate main App classes
     @stream     = new Stream( @subjectNames  )
     @rest       = new Rest(   @stream        )
     @model      = new Model(  @stream, @rest, @dataSource )
 
-    # Instantiate UI class
+    # Destination UI with Threshold UC component
+    @thresholdUC   = new ThresholdUC(    @stream )
+    @destinationUI = new DestinationUI(  @stream, @thresholdUC )
+
+    # Go and NoGo UI
     @goUI          = new GoUI(           @stream )
     @nogoUI        = new NoGoUI(         @stream )
-    @thresholdUI   = new ThresholdUI(    @stream )
-    @destinationUI = new DestinationUI(  @stream, @thresholdUI )
-    @roadUI        = new RoadUI(         @stream )
-    @weatherUI     = new WeatherUI(      @stream )
-    @advisoryUI    = new AdvisoryUI(     @stream )
-    @tripUI        = new TripUI(         @stream, @roadUI, @weatherUI, @advisoryUI )
+
+    # Trip UI with Road, Weather Advisory UC components
+    @tripUI        = new TripUI(         @stream )
+    
     @dealsUI       = new DealsUI(        @stream )
     @navigateUI    = new NavigateUI(     @stream )
     @ui            = new UI(             @stream, @destinationUI, @goUI, @nogoUI, @tripUI, @dealsUI, @navigateUI )

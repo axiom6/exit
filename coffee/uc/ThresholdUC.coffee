@@ -1,9 +1,9 @@
 
-class ThresholdUI
+class ThresholdUC
 
-  Util.Export( ThresholdUI, 'ui/ThresholdUI' )
+  Util.Export( ThresholdUC, 'uc/ThresholdUC' )
 
-  constructor:( @stream ) ->
+  constructor:( @stream, @ext, @port, @land ) ->
 
   ready:() ->
     @$ = $( @html() )
@@ -16,7 +16,7 @@ class ThresholdUI
     @stream.subscribe( 'Screen', (screen)   => @onScreen( screen ) )
 
   onScreen:( screen ) ->
-    Util.noop( 'ThresholdUI.onScreen()', screen )
+    Util.noop( 'ThresholdUC.onScreen()', screen )
 
   html:() ->
     """<div id="#{Util.id('Threshold')}"       class="#{Util.css('Threshold')}">
