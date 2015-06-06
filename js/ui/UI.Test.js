@@ -10,18 +10,13 @@ Test = (function() {
 
   Util.Export(UI.Test, 'ui/UI.Test');
 
-  function Test(ui, adivsoryUI, dealsUI, destinationUI, driveBarUI, goUI, noGoUI, roadUI, thresholdUI, trip, weatherUI, navigateUI) {
+  function Test(ui, trip, destinationUI, goUI, noGoUI, tripUI, navigateUI) {
     this.ui = ui;
-    this.adivsoryUI = adivsoryUI;
-    this.dealsUI = dealsUI;
+    this.trip = trip;
     this.destinationUI = destinationUI;
-    this.driveBarUI = driveBarUI;
     this.goUI = goUI;
     this.noGoUI = noGoUI;
-    this.roadUI = roadUI;
-    this.thresholdUI = thresholdUI;
-    this.trip = trip;
-    this.weatherUI = weatherUI;
+    this.tripUI = tripUI;
     this.navigateUI = navigateUI;
     Util.log('UI.Test.constructor');
   }

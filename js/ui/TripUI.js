@@ -5,29 +5,29 @@
   TripUI = (function() {
     Util.Export(TripUI, 'ui/TripUI');
 
-    function TripUI(stream, roadUI, weatherUI, advisoryUI) {
+    function TripUI(stream) {
+      var AdvisoryUC, DriveBarUC, WeatherUC;
       this.stream = stream;
-      this.roadUI = roadUI;
-      this.weatherUI = weatherUI;
-      this.advisoryUI = advisoryUI;
-      this.Data = Util.Import('app/Data');
-      this.driveBarsCreated = false;
+      WeatherUC = Util.Import('uc/WeatherUC');
+      AdvisoryUC = Util.Import('uc/AdvisoryUC');
+      DriveBarUC = Util.Import('uc/DriveBarUC');
+      this.weatherUC = new WeatherUC(this.stream, 'Trip', [0, 0, 100, 45], [0, 0, 100, 45]);
+      this.advisoryUC = new AdvisoryUC(this.stream, 'Trip', [0, 45, 100, 10], [0, 45, 100, 10]);
+      this.driveBarUC = new DriveBarUC(this.stream, 'Trip', [4, 55, 92, 45], [4, 55, 92, 45]);
     }
 
     TripUI.prototype.ready = function() {
-      this.advisoryUI.ready();
-      this.roadUI.ready();
-      this.weatherUI.ready();
+      this.weatherUC.ready();
+      this.advisoryUC.ready();
+      this.driveBarUC.ready();
       this.$ = $(this.html());
-      this.$.append(this.advisoryUI.$);
-      this.$.append(this.weatherUI.$);
-      return this.$.append(this.roadUI.$);
+      return this.$.append(this.weatherUC.$, this.advisoryUC.$, this.driveBarUC.$);
     };
 
     TripUI.prototype.position = function(screen) {
-      this.roadUI.position(screen);
-      this.weatherUI.position(screen);
-      this.advisoryUI.position(screen);
+      this.weatherUC.position(screen);
+      this.advisoryUC.position(screen);
+      this.driveBarUC.position(screen);
       return this.subscribe();
     };
 
@@ -44,7 +44,7 @@
     };
 
     TripUI.prototype.html = function() {
-      return "<div id=\"" + (Util.id('Trip')) + "\" class=\"" + (Util.css('Trip')) + "\"></div>";
+      return "<div id=\"" + (Util.id('TripUI')) + "\" class=\"" + (Util.css('TripUI')) + "\"></div>";
     };
 
     TripUI.prototype.show = function() {

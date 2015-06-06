@@ -3,9 +3,9 @@ class UI
 
   Util.Export( UI, 'ui/UI' )
 
-  constructor:( @stream, @destinationUI, @goUI, @nogoUI, @tripUI, @dealsUI, @navigateUI ) ->
+  constructor:( @stream, @destinationUI, @goUI, @tripUI, @dealsUI, @navigateUI ) ->
     @orientation    = 'Portrait'
-    @recommendation = 'Go'
+    @recommendation = 'GO'
     @firstTrip = true
 
   ready:() ->
@@ -14,7 +14,6 @@ class UI
     @$view = @$.find('#View')
     @$view.append(@destinationUI.$)
     @$view.append(@goUI.$)
-    @$view.append(@nogoUI.$)
     @$view.append(@tripUI.$)
     @$view.append(@dealsUI.$)
     @$view.append(@navigateUI.$)
@@ -76,12 +75,12 @@ class UI
   changeRecommendation:( recommendation ) ->
     Util.noop( 'UI.changeRecommendation', recommendation)
     @select( recommendation )
-    faClass = if recommendation is 'Go' then 'fa fa-thumbs-up' else 'fa fa-thumbs-down'
+    faClass = if recommendation is 'GO' then 'fa fa-thumbs-up' else 'fa fa-thumbs-down'
     @$recommendationFA.attr( 'class', faClass )
     return
 
   onScreen:( screen ) ->
-    Util.dbg( 'UI.onScreen()', screen )
+    # Util.dbg( 'UI.onScreen()', screen )
     if @orientation isnt screen.orientation
        @orientation    = screen.orientation
        url = "css/img/app/phone6x12#{screen.orientation}.png"
@@ -98,8 +97,8 @@ class UI
     switch page
       when 'Destination'
         @lastSelect = @destinationUI
-      when 'Go', 'NoGo'
-        @lastSelect = if page is 'Go' then @goUI else @nogoUI
+      when 'GO', 'NO GO'
+        @lastSelect = @goUI
       when 'Trip'
         @lastSelect = @tripUI
         @onScreen(        @toScreen('Landscape') )

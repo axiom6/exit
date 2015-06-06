@@ -312,7 +312,7 @@ class Util
 
   # Adds Percent from array for CSS position mapping
   @toPositionPc:( array ) ->
-    { left:array[0]+'%', top:array[1]+'%', width:array[2]+'%', height:array[3]+'%' }
+    { position:'absolute', left:array[0]+'%', top:array[1]+'%', width:array[2]+'%', height:array[3]+'%' }
 
   @cssPosition:( $, screen, port, land ) ->
     array = if screen.orientation is 'Portrait' then port else land
@@ -325,8 +325,6 @@ class Util
     xs = next.width  * xn  / ( prev.width  * xp )
     ys = next.height * yn  / ( prev.height * yp )
     [xs,ys]
-
-
 
   # ----------------- Guarded jQuery dependent calls -----------------
 
@@ -385,9 +383,6 @@ class Util
     else
       Util.error( "Util.firstTok() str is not at string", str )
       ''
-
-
-
   ###
     parse = document.createElement('a')
     parse.href =  "http://example.com:3000/dir1/dir2/file.ext?search=test#hash"

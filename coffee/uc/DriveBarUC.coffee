@@ -4,24 +4,24 @@ class DriveBarUC
   Util.Export( DriveBarUC, 'uc/DriveBarUC' )
 
   # @port [0,0,92,33] @land =[0,0,100,50
-  constructor:( @stream, @ext, @port, @land ) ->
+  constructor:( @stream, @role, @port, @land ) ->
     @name     = 'DriveBar'
     @lastTrip = { name:'' }
     @created  = false
     @screen   = null # Set by position() updated by position()
 
   html:() ->
-    @htmlId = Util.id(@name,@ext)                                          # For createSvg()
-    htm     = """<div id="#{@htmlId}" class="#{Util.css(@name)}"></div>"""  # May or may not need ext for CSS
-    @$      = $(htm)
-    htm
+    @htmlId = Util.id(@name,@role)                                          # For createSvg()
+    """<div id="#{@htmlId}" class="#{Util.css(@name)}"></div>"""  # May or may not need ext for CSS
 
   ready:() ->
+    @$ = $( @html() )
 
   position:( screen ) ->
-    # Util.dbg( 'DriveBarUC.position()', @ext, screen )
+    # Util.dbg( 'DriveBarUC.position()', @role, screen )
     @screen = screen
-    [@svg,@$svg,@g,@$g,@gId,@gw,@gh,@y0] = @createSvg( @$, @htmlId, @name, @ext, @svgWidth(),  @svgHeight(), @barTop() )
+    Util.cssPosition( @$, @screen, @port, @land )
+    [@svg,@$svg,@g,@$g,@gId,@gw,@gh,@y0] = @createSvg( @$, @htmlId, @name, @role, @svgWidth(),  @svgHeight(), @barTop() )
     @subscribe()
 
   subscribe:() ->
@@ -30,7 +30,7 @@ class DriveBarUC
     @stream.subscribe( 'Trip',     (trip)     => @onTrip(     trip     ) )
 
   onLocation:( location ) ->
-    Util.noop( 'DriveBarUC.onLocation()', @ext, location )
+    Util.noop( 'DriveBarUC.onLocation()', @role, location )
 
   onTrip:( trip ) =>
     if not @created or trip.name isnt @lastTrip.name
@@ -44,7 +44,7 @@ class DriveBarUC
     prev    = @screen
     @screen = next
     Util.cssPosition( @$, @screen, @port, @land )
-    @svg.attr( "width", @svgWidth() ).attr( 'height', @svgHeight() )
+    @svg.attr( "width", @svgWidth() ).attr( 'height', @svgHeight() ) #.attr( 'fill', '#658552' )
     [xp,yp] = if prev.orientation is 'Portrait' then [@port[2],@port[3]] else [@land[2],@land[3]]
     [xn,yn] = if next.orientation is 'Portrait' then [@port[2],@port[3]] else [@land[2],@land[3]]
     xs = next.width  * xn  / ( prev.width  * xp )
@@ -53,7 +53,7 @@ class DriveBarUC
     return
 
   # index 2 is width index 3 is height
-  svgWidth: () -> if @screen.orientation is 'Portrait' then @screen.width  * @port[2]/100 else @screen.height * @land[2]/100
+  svgWidth: () -> if @screen.orientation is 'Portrait' then @screen.width  * @port[2]/100 else @screen.width  * @land[2]/100
   svgHeight:() -> if @screen.orientation is 'Portrait' then @screen.height * @port[3]/100 else @screen.height * @land[3]/100
   barHeight:() -> @svgHeight() * 0.33
   barTop:   () -> @svgHeight() * 0.50
@@ -80,7 +80,7 @@ class DriveBarUC
     w        = @svgWidth()
     h        = @barHeight()
     @createTravelTime( trip, @g, x, y, w, h )
-    @rect( trip, @g, trip.segments[0], @ext+'Border', x, y, w, h, 'transparent', 'white', thick*4, '' )
+    @rect( trip, @g, trip.segments[0], @role+'Border', x, y, w, h, 'transparent', 'white', thick*4, '' )
     for seg in trip.segments
       beg   = w * Math.abs( Util.toFloat(seg.StartMileMarker) - @mileBeg ) / @distance
       end   = w * Math.abs( Util.toFloat(seg.EndMileMarker)   - @mileBeg ) / @distance
@@ -131,7 +131,7 @@ class DriveBarUC
 
   rect:( trip, g, seg, segId, x0, y0, w, h, fill, stroke, thick, text ) ->
 
-    svgId = Util.svgId( @name, segId.toString(), @ext )
+    svgId = Util.svgId( @name, segId.toString(), @role )
 
     onClick = () =>
       `x = d3.mouse(this)[0]`
@@ -157,7 +157,7 @@ class DriveBarUC
 
 
   updateRectFill:( segId, fill ) ->
-    rectId = Util.svgId( @name, segId.toString(), @ext )
+    rectId = Util.svgId( @name, segId.toString(), @role )
     rect   = $svg.find('#'+rectId)
     rect.attr( 'fill', fill )
     return

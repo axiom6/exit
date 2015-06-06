@@ -5,25 +5,27 @@
   DestinationUI = (function() {
     Util.Export(DestinationUI, 'ui/DestinationUI');
 
-    function DestinationUI(stream, thresholdUI) {
+    function DestinationUI(stream) {
+      var ThresholdUC;
       this.stream = stream;
-      this.thresholdUI = thresholdUI;
+      ThresholdUC = Util.Import('uc/ThresholdUC');
+      this.thresholdUC = new ThresholdUC(this.stream, 'Destination', [4, 60, 92, 40], [60, 4, 40, 92]);
       this.Data = Util.Import('app/Data');
       this.sources = this.Data.Destinations;
       this.destinations = this.Data.Destinations;
     }
 
     DestinationUI.prototype.ready = function() {
-      this.thresholdUI.ready();
+      this.thresholdUC.ready();
       this.$ = $(this.html());
-      this.$.append(this.thresholdUI.$);
+      this.$.append(this.thresholdUC.$);
       this.$destinationBody = this.$.find('#DestinationBody');
       this.$sourceSelect = this.$.find('#SourceSelect');
       return this.$destinationSelect = this.$.find('#DestinationSelect');
     };
 
     DestinationUI.prototype.position = function(screen) {
-      this.thresholdUI.position(screen);
+      this.thresholdUC.position(screen);
       this.events();
       return this.subscribe();
     };
@@ -73,7 +75,7 @@
 
     DestinationUI.prototype.html = function() {
       var destination, htm, i, j, len, len1, ref, ref1, source;
-      htm = "<div      id=\"" + (this.id('Destination')) + "\"             class=\"" + (this.css('Destination')) + "\">\n<div      id=\"" + (this.id('DestinationBody')) + "\"         class=\"" + (this.css('DestinationBody')) + "\">\n <!--div  id=\"" + (this.id('DestinationLabelInput')) + "\" class=\"" + (this.css('DestinationLabelInput')) + "\">\n   <span  id=\"" + (this.id('DestinationUserLabel')) + "\" class=\"" + (this.css('DestinationUserLabel')) + "\">User:</span>\n   <input id=\"" + (this.id('DestinationUserInput')) + "\" class=\"" + (this.css('DestinationUserInput')) + "\"type=\"text\" name=\"theinput\" />\n </div-->\n <div     id=\"" + (this.id('SourceWhat')) + "\"            class=\"" + (this.css('SourceWhat')) + "\">Where are You Now?</div>\n <select  id=\"" + (this.id('SourceSelect')) + "\"          class=\"" + (this.css('SourceSelect')) + "\"name=\"Sources\">";
+      htm = "<div      id=\"" + (this.id('DestinationUI')) + "\"         class=\"" + (this.css('DestinationUI')) + "\">\n<div      id=\"" + (this.id('DestinationBody')) + "\"       class=\"" + (this.css('DestinationBody')) + "\">\n <!--div  id=\"" + (this.id('DestinationLabelInput')) + "\" class=\"" + (this.css('DestinationLabelInput')) + "\">\n   <span  id=\"" + (this.id('DestinationUserLabel')) + "\" class=\"" + (this.css('DestinationUserLabel')) + "\">User:</span>\n   <input id=\"" + (this.id('DestinationUserInput')) + "\" class=\"" + (this.css('DestinationUserInput')) + "\"type=\"text\" name=\"theinput\" />\n </div-->\n <div     id=\"" + (this.id('SourceWhat')) + "\"            class=\"" + (this.css('SourceWhat')) + "\">Where are You Now?</div>\n <select  id=\"" + (this.id('SourceSelect')) + "\"          class=\"" + (this.css('SourceSelect')) + "\"name=\"Sources\">";
       ref = this.sources;
       for (i = 0, len = ref.length; i < len; i++) {
         source = ref[i];

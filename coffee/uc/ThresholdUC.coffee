@@ -9,19 +9,19 @@ class ThresholdUC
     @$ = $( @html() )
 
   position:(   screen ) ->
-    Util.noop( screen )
+    @onScreen( screen )
     @subscribe()
 
   subscribe:() ->
     @stream.subscribe( 'Screen', (screen)   => @onScreen( screen ) )
 
   onScreen:( screen ) ->
-    Util.noop( 'ThresholdUC.onScreen()', screen )
+    Util.cssPosition( @$, screen, @port, @land )
 
   html:() ->
     """<div id="#{Util.id('Threshold')}"       class="#{Util.css('Threshold')}">
        <div id="#{Util.id('ThresholdAdjust')}" class="#{Util.css('ThresholdAdjust')}">Adjust Threshold</div>
-       <img src="css/img/app/Threshold.png">
+       <img src="css/img/app/Threshold.png" width="300" height="200">
     </div>"""
 
   show:() -> @$.show()

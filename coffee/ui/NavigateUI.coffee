@@ -19,7 +19,7 @@ class NavigateUI
     Util.noop( 'NavigateUI.onScreen()', screen )
 
   html:() ->
-    """<div id="#{Util.id('Navigate')}" class="#{Util.css('Navigate')}">Navigate</div>"""
+    """<div id="#{Util.id('NavigateUI')}" class="#{Util.css('NavigateUI')}">Navigate</div>"""
 
   show:() -> @$.show()
 

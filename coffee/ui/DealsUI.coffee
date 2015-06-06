@@ -13,11 +13,10 @@ class DealsUI
     @$ = $( @html() )
 
   position:(   screen ) ->
-    Util.noop( screen )
     @subscribe()
 
   html:() ->
-    """<div id="#{Util.id('Deals')}" class="#{Util.css('Deals')}"></div>"""
+    """<div id="#{Util.id('DealsUI')}" class="#{Util.css('DealsUI')}"></div>"""
 
   show:() ->
     @isVisible = true
@@ -32,7 +31,7 @@ class DealsUI
   subscribe:() ->
     @stream.subscribe( 'Trip',        (trip)        => @onTrip(trip)              )
     @stream.subscribe( 'Location',    (location)    => @onLocation(location)      )
-    @stream.subscribe( 'Screen',      (screen)    => @onScreen(screen)     )
+    @stream.subscribe( 'Screen',      (screen)      => @onScreen(screen)          )
     @stream.subscribe( 'Deals',       (deals)       => @onDeals(deals)            )
     #@stream.subscribe( 'Conditions', (conditions)  => @onConditions( conditions) )
 
@@ -43,7 +42,7 @@ class DealsUI
     Util.noop( 'DealsUI.onLocation()', @ext, location )
 
   onScreen:( screen ) ->
-    Util.noop( 'DealsUI.screen()', screen )
+
 
   latLon:() ->
     [39.574431,-106.09752]

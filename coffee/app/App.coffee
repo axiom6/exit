@@ -23,14 +23,9 @@ class App
 
     DestinationUI = Util.Import( 'ui/DestinationUI' )   
     GoUI          = Util.Import( 'ui/GoUI'          )
-    NoGoUI        = Util.Import( 'ui/NoGoUI'        )
     TripUI        = Util.Import( 'ui/TripUI'        )
     DealsUI       = Util.Import( 'ui/DealsUI'       )
     NavigateUI    = Util.Import( 'ui/NavigateUI'    )
-
-
-    ThresholdUC   = Util.Import( 'ui/ThresholdUC'   )
-
     UI            = Util.Import( 'ui/UI'            )
 
     # Instantiate main App classes
@@ -38,20 +33,12 @@ class App
     @rest       = new Rest(   @stream        )
     @model      = new Model(  @stream, @rest, @dataSource )
 
-    # Destination UI with Threshold UC component
-    @thresholdUC   = new ThresholdUC(    @stream )
     @destinationUI = new DestinationUI(  @stream, @thresholdUC )
-
-    # Go and NoGo UI
     @goUI          = new GoUI(           @stream )
-    @nogoUI        = new NoGoUI(         @stream )
-
-    # Trip UI with Road, Weather Advisory UC components
     @tripUI        = new TripUI(         @stream )
-    
     @dealsUI       = new DealsUI(        @stream )
     @navigateUI    = new NavigateUI(     @stream )
-    @ui            = new UI(             @stream, @destinationUI, @goUI, @nogoUI, @tripUI, @dealsUI, @navigateUI )
+    @ui            = new UI(             @stream, @destinationUI, @goUI, @tripUI, @dealsUI, @navigateUI )
 
     @ready()
     @position( @ui.toScreen('Portrait' ) )
@@ -65,17 +52,16 @@ class App
       @appTest = new App.Test( @, @stream, @simulate, @rest, @model )
 
     if Util.hasModule( 'ui/UI.Test',false)
-      @uiTest = new UI.Test( @ui, @adivsoryUI, @dealsUI, @destinationUI, @driveBarUI, @goUI, @noGoUI, @roadUI, @thresholdUI, @trip, @weatherUI, @navigateUI )
+      @uiTest = new UI.Test( @ui, @trip, @destinationUI, @goUI, @tripUI, @navigateUI )
 
     # Jumpstart App
     @stream.publish( 'Source',      'Denver' )
-    @stream.publish( 'Destination', 'Vail'   )
+    @stream.publish( 'Destination', 'Copper Mtn'   )
 
   ready:() ->
     @model.ready()
     @destinationUI.ready()
     @goUI.ready()
-    @nogoUI.ready()
     @tripUI.ready()
     @dealsUI.ready()
     @navigateUI.ready()
@@ -84,10 +70,7 @@ class App
   position:( screen ) ->
     @destinationUI.position( screen )
     @goUI.position(          screen )
-    @nogoUI.position(        screen )
     @tripUI.position(        @ui.toScreen('Landscape') ) # For now until full responsive web design is implemented
     @dealsUI.position(       screen )
     @navigateUI.position(    screen )
     @ui.position(            screen )
-
-

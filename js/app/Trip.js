@@ -145,10 +145,10 @@
     };
 
     Trip.prototype.makeRecommendation = function() {
-      if (this.source === 'NoGo' || this.destination === 'NoGo') {
-        return 'NoGo';
+      if (this.destination === 'Copper Mtn') {
+        return 'NO GO';
       } else {
-        return 'Go';
+        return 'GO';
       }
     };
 

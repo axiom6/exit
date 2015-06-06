@@ -13,16 +13,16 @@ class DealsUC
     @$ = $( @html() )
 
   position:(   screen ) ->
-    Util.noop( screen )
+    @onScreen( screen )
     @subscribe()
 
   html:() ->
-    """<div id="#{Util.id('Deals')}" class="#{Util.css('Deals')}"></div>"""
+    """<div id="#{Util.id('DealsUC',@role)}" class="#{Util.css('DealsUC')}"></div>"""
 
   show:() ->
     @isVisible = true
     @$.show()
-#$('#gritter-notice-wrapper').show()
+    #$('#gritter-notice-wrapper').show()
 
   hide:() ->
     @isVisible = false
@@ -40,10 +40,10 @@ class DealsUC
     Util.noop( 'Deals.onTrip()', trip )
 
   onLocation:( location ) ->
-    Util.noop( 'DealsUI.onLocation()', @ext, location )
+    Util.noop( 'DealsUC.onLocation()', @ext, location )
 
   onScreen:( screen ) ->
-    Util.noop( 'DealsUI.screen()', screen )
+    Util.cssPosition( @$, screen, @port, @land )
 
   latLon:() ->
     [39.574431,-106.09752]
@@ -54,6 +54,12 @@ class DealsUC
     $('#gritter-notice-wrapper').show()
 
   onDeals2:( deals ) ->
+    return
+    @$GoDeals.empty()
+    html = @app.deals.goDealsHtml( deals )
+    @$GoDeals.append( html )
+
+  onDeals3:( deals ) ->
     #@popupMultipleDeals( 'EXIT NOW!', 'Traffic is slow ', "ETA #{@app.etaHoursMins()}", deals )
     #$('#gritter-notice-wrapper').hide() if not @isVisible
 

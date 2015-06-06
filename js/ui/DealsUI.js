@@ -21,12 +21,11 @@
     };
 
     DealsUI.prototype.position = function(screen) {
-      Util.noop(screen);
       return this.subscribe();
     };
 
     DealsUI.prototype.html = function() {
-      return "<div id=\"" + (Util.id('Deals')) + "\" class=\"" + (Util.css('Deals')) + "\"></div>";
+      return "<div id=\"" + (Util.id('DealsUI')) + "\" class=\"" + (Util.css('DealsUI')) + "\"></div>";
     };
 
     DealsUI.prototype.show = function() {
@@ -70,9 +69,7 @@
       return Util.noop('DealsUI.onLocation()', this.ext, location);
     };
 
-    DealsUI.prototype.onScreen = function(screen) {
-      return Util.noop('DealsUI.screen()', screen);
-    };
+    DealsUI.prototype.onScreen = function(screen) {};
 
     DealsUI.prototype.latLon = function() {
       return [39.574431, -106.09752];

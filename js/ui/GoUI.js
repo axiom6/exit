@@ -6,24 +6,29 @@
     Util.Export(GoUI, 'ui/GoUI');
 
     function GoUI(stream) {
-      var DriveBarUI;
+      var BannerUC, DealsUC, DriveBarUC;
       this.stream = stream;
-      DriveBarUI = Util.Import('ui/DriveBarUI');
-      this.driveBarUI = new DriveBarUI(this.stream, 'Go', this);
+      BannerUC = Util.Import('uc/BannerUC');
+      DealsUC = Util.Import('uc/DealsUC');
+      DriveBarUC = Util.Import('uc/DriveBarUC');
+      this.bannerUC = new BannerUC(this.stream, 'Go', [4, 4, 92, 29], [4, 4, 46, 46]);
+      this.dealsUC = new DealsUC(this.stream, 'Go', [4, 33, 92, 29], [50, 4, 46, 46]);
+      this.driveBarUC = new DriveBarUC(this.stream, 'Go', [4, 66, 92, 30], [4, 54, 92, 42]);
       this.first = true;
     }
 
     GoUI.prototype.ready = function() {
+      this.bannerUC.ready();
+      this.dealsUC.ready();
+      this.driveBarUC.ready();
       this.$ = $(this.html());
-      this.$GoBanner = this.$.find('#GoBanner');
-      this.$GoBannerText = this.$.find('#GoBannerText');
-      this.$GoDeals = this.$.find('#GoDeals');
-      return this.driveBarUI.ready();
+      return this.$.append(this.bannerUC.$, this.dealsUC.$, this.driveBarUC.$);
     };
 
     GoUI.prototype.position = function(screen) {
-      this.driveBarUI.position(screen);
-      this.goSize(screen);
+      this.bannerUC.position(screen);
+      this.dealsUC.position(screen);
+      this.driveBarUC.position(screen);
       return this.subscribe();
     };
 
@@ -33,37 +38,23 @@
           return _this.onScreen(screen);
         };
       })(this));
-      return this.stream.subscribe('Deals', (function(_this) {
-        return function(deals) {
-          return _this.onDeals(deals);
+      return this.stream.subscribe('Trip', (function(_this) {
+        return function(trip) {
+          return _this.onTrip(trip);
         };
       })(this));
     };
 
     GoUI.prototype.onScreen = function(screen) {
-      Util.noop('GoUI.screen()', screen);
-      return this.goSize(screen);
+      return Util.noop('GoUI.screen()', screen);
     };
 
-    GoUI.prototype.goSize = function(screen) {
-      var fontSize;
-      fontSize = this.first ? screen.height * this.$GoBanner.height() * 0.0065 : this.$GoBanner.height() * 0.65;
-      this.$GoBannerText.css({
-        fontSize: fontSize + 'px'
-      });
-      return this.first = false;
-    };
-
-    GoUI.prototype.onDeals = function(deals) {
-      var html;
-      return;
-      this.$GoDeals.empty();
-      html = this.app.deals.goDealsHtml(deals);
-      return this.$GoDeals.append(html);
+    GoUI.prototype.onTrip = function(trip) {
+      return Util.noop('GoUI.onTrip()', trip.recommendation);
     };
 
     GoUI.prototype.html = function() {
-      return "<div id=\"" + (Util.id('Go')) + "\"               class=\"" + (Util.css('Go')) + "\">\n  <div   id=\"" + (Util.id('GoBanner')) + "\"     class=\"" + (Util.css('GoBanner')) + "\">\n    <div id=\"" + (Util.id('GoBannerText')) + "\" class=\"" + (Util.css('GoBannerText')) + "\">GO</div>\n  </div>\n  <div id=\"" + (Util.id('GoDeals')) + "\"  class=\"" + (Util.css('GoDeals')) + "\">\n    <div>11 deals at your destination</div>\n    <div>get going to beat traffic!</div>\n  </div>\n  <div id=\"" + (Util.id('GoDrive')) + "\" class=\"" + (Util.css('GoDrive')) + "\">" + (this.driveBarUI.html('Go')) + "</div>\n</div>";
+      return "<div id=\"" + (Util.id('GoUI')) + "\" class=\"" + (Util.css('GoUI')) + "\"></div>";
     };
 
     GoUI.prototype.show = function() {

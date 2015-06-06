@@ -11,17 +11,6 @@
       "outputAbbreviatedPath" : "No Output Path",
       "fileType" : 16
     },
-    "\/css\/img\/app\/NoGoDriveBar.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/css\/img\/app\/NoGoDriveBar.png",
-      "processed" : 0,
-      "outputAbbreviatedPath" : "\/css\/img\/app\/NoGoDriveBar.png",
-      "initialSize" : 18839,
-      "fileType" : 8192
-    },
     "\/css\/img\/app\/Threshold.png" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -31,6 +20,17 @@
       "processed" : 0,
       "outputAbbreviatedPath" : "\/css\/img\/app\/Threshold.png",
       "initialSize" : 61462,
+      "fileType" : 8192
+    },
+    "\/css\/img\/app\/NoGoDriveBar.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/css\/img\/app\/NoGoDriveBar.png",
+      "processed" : 0,
+      "outputAbbreviatedPath" : "\/css\/img\/app\/NoGoDriveBar.png",
+      "initialSize" : 18839,
       "fileType" : 8192
     },
     "\/js\/util\/GeoJsonUtils.js" : {
@@ -111,17 +111,6 @@
       "initialSize" : 232306,
       "fileType" : 8192
     },
-    "\/css\/img\/app\/Weather.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/css\/img\/app\/Weather.png",
-      "processed" : 0,
-      "outputAbbreviatedPath" : "\/css\/img\/app\/Weather.png",
-      "initialSize" : 147363,
-      "fileType" : 8192
-    },
     "\/coffee\/app\/Model.coffee" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -134,26 +123,26 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/js\/ui\/AdvisoryUI.js" : {
+    "\/css\/img\/app\/Weather.png" : {
       "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
+      "ignore" : 0,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/ui\/AdvisoryUI.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/ui\/AdvisoryUI-ck.js",
-      "fileType" : 64
+      "inputAbbreviatedPath" : "\/css\/img\/app\/Weather.png",
+      "processed" : 0,
+      "outputAbbreviatedPath" : "\/css\/img\/app\/Weather.png",
+      "initialSize" : 147363,
+      "fileType" : 8192
     },
     "\/coffee\/uc\/DealsUC.coffee" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
       "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
+      "outputPathIsSetByUser" : 1,
       "inputAbbreviatedPath" : "\/coffee\/uc\/DealsUC.coffee",
       "checkOutputStyle" : 0,
       "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/coffee\/uc\/DealsUC.js",
+      "outputAbbreviatedPath" : "\/js\/uc\/DealsUC.js",
       "outputStyle" : 0,
       "fileType" : 32
     },
@@ -179,15 +168,15 @@
       "outputAbbreviatedPath" : "\/js\/util\/custom_boot.orig-ck.js",
       "fileType" : 64
     },
-    "\/js\/ui\/RoadUI.js" : {
+    "\/js\/uc\/RoadUC.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/ui\/RoadUI.js",
+      "inputAbbreviatedPath" : "\/js\/uc\/RoadUC.js",
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/ui\/RoadUI-ck.js",
+      "outputAbbreviatedPath" : "\/js\/uc\/RoadUC-ck.js",
       "fileType" : 64
     },
     "\/coffee\/uc\/AdvisoryUC.coffee" : {
@@ -198,20 +187,9 @@
       "inputAbbreviatedPath" : "\/coffee\/uc\/AdvisoryUC.coffee",
       "checkOutputStyle" : 0,
       "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/js\/ui\/AdvisoryUI.js",
+      "outputAbbreviatedPath" : "\/js\/uc\/AdvisoryUC.js",
       "outputStyle" : 0,
       "fileType" : 32
-    },
-    "\/js\/uc\/RoadUC.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/uc\/RoadUC.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/uc\/RoadUC-ck.js",
-      "fileType" : 64
     },
     "\/js\/app\/App.Test.js" : {
       "ignoreWasSetByUser" : 0,
@@ -338,21 +316,9 @@
       "outputAbbreviatedPath" : "\/js\/util\/Test-ck.js",
       "fileType" : 64
     },
-    "\/coffee\/uc\/RoadUC.coffee" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 1,
-      "inputAbbreviatedPath" : "\/coffee\/uc\/RoadUC.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/js\/ui\/RoadUI.js",
-      "outputStyle" : 0,
-      "fileType" : 32
-    },
     "\/js\/uc\/ThresholdUC.js" : {
       "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
+      "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
       "inputAbbreviatedPath" : "\/js\/uc\/ThresholdUC.js",
@@ -424,17 +390,6 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/js\/util\/Visual.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/util\/Visual.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/util\/Visual-ck.js",
-      "fileType" : 64
-    },
     "\/js\/ui\/UI.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -444,6 +399,17 @@
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
       "outputAbbreviatedPath" : "\/js\/ui\/UI-ck.js",
+      "fileType" : 64
+    },
+    "\/js\/util\/Visual.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/js\/util\/Visual.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/js\/util\/Visual-ck.js",
       "fileType" : 64
     },
     "\/css\/img\/gritter\/gritter.png" : {
@@ -477,17 +443,6 @@
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
       "outputAbbreviatedPath" : "\/js\/util\/custom_reporter-ck.js",
-      "fileType" : 64
-    },
-    "\/js\/ui\/DriveBarUI.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/ui\/DriveBarUI.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/ui\/DriveBarUI-ck.js",
       "fileType" : 64
     },
     "\/js\/util\/Util.Test.js" : {
@@ -566,7 +521,7 @@
     },
     "\/js\/uc\/AdvisoryUC.js" : {
       "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
+      "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
       "inputAbbreviatedPath" : "\/js\/uc\/AdvisoryUC.js",
@@ -706,7 +661,7 @@
       "inputAbbreviatedPath" : "\/coffee\/uc\/ThresholdUC.coffee",
       "checkOutputStyle" : 0,
       "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/js\/ui\/ThresholdUI.js",
+      "outputAbbreviatedPath" : "\/js\/uc\/ThresholdUC.js",
       "outputStyle" : 0,
       "fileType" : 32
     },
@@ -785,26 +740,27 @@
       "outputAbbreviatedPath" : "\/js\/app\/Visual-ck.js",
       "fileType" : 64
     },
-    "\/data\/junk\/I70Mileposts.html" : {
+    "\/css\/img\/gritter\/gritter-long.png" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/data\/junk\/I70Mileposts.html",
-      "outputAbbreviatedPath" : "No Output Path",
-      "fileType" : 2048
+      "inputAbbreviatedPath" : "\/css\/img\/gritter\/gritter-long.png",
+      "processed" : 0,
+      "outputAbbreviatedPath" : "\/css\/img\/gritter\/gritter-long.png",
+      "initialSize" : 6299,
+      "fileType" : 8192
     },
-    "\/coffee\/app\/App.coffee" : {
+    "\/js\/ui\/NavigateUI.js" : {
       "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
+      "ignore" : 1,
       "hidden" : 0,
-      "outputPathIsSetByUser" : 1,
-      "inputAbbreviatedPath" : "\/coffee\/app\/App.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/js\/app\/App.js",
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/js\/ui\/NavigateUI.js",
       "outputStyle" : 0,
-      "fileType" : 32
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/js\/ui\/NavigateUI-ck.js",
+      "fileType" : 64
     },
     "\/coffee\/util\/Visual.coffee" : {
       "ignoreWasSetByUser" : 0,
@@ -841,27 +797,26 @@
       "initialSize" : 104731,
       "fileType" : 8192
     },
-    "\/js\/ui\/NavigateUI.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/ui\/NavigateUI.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/ui\/NavigateUI-ck.js",
-      "fileType" : 64
-    },
-    "\/css\/img\/gritter\/gritter-long.png" : {
+    "\/data\/junk\/I70Mileposts.html" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/css\/img\/gritter\/gritter-long.png",
-      "processed" : 0,
-      "outputAbbreviatedPath" : "\/css\/img\/gritter\/gritter-long.png",
-      "initialSize" : 6299,
-      "fileType" : 8192
+      "inputAbbreviatedPath" : "\/data\/junk\/I70Mileposts.html",
+      "outputAbbreviatedPath" : "No Output Path",
+      "fileType" : 2048
+    },
+    "\/coffee\/app\/App.coffee" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 1,
+      "inputAbbreviatedPath" : "\/coffee\/app\/App.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/js\/app\/App.js",
+      "outputStyle" : 0,
+      "fileType" : 32
     },
     "\/css\/img\/app\/phone6x12Landscape.png" : {
       "ignoreWasSetByUser" : 0,
@@ -896,7 +851,7 @@
     },
     "\/js\/uc\/DriveBarUC.js" : {
       "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
+      "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
       "inputAbbreviatedPath" : "\/js\/uc\/DriveBarUC.js",
@@ -970,17 +925,6 @@
       "initialSize" : 204182,
       "fileType" : 8192
     },
-    "\/js\/ui\/NoGoUI.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/ui\/NoGoUI.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/ui\/NoGoUI-ck.js",
-      "fileType" : 64
-    },
     "\/coffee\/app\/Trip.coffee" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -992,6 +936,17 @@
       "outputAbbreviatedPath" : "\/js\/app\/Trip.js",
       "outputStyle" : 0,
       "fileType" : 32
+    },
+    "\/js\/uc\/DealsUC.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/js\/uc\/DealsUC.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/js\/uc\/DealsUC-ck.js",
+      "fileType" : 64
     },
     "\/coffee\/ui\/GoUI.coffee" : {
       "ignoreWasSetByUser" : 0,
@@ -1005,27 +960,85 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/js\/ui\/ThresholdUI.js" : {
+    "\/coffee\/uc\/BannerUC.coffee" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 1,
+      "inputAbbreviatedPath" : "\/coffee\/uc\/BannerUC.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/js\/uc\/BannerUC.js",
+      "outputStyle" : 0,
+      "fileType" : 32
+    },
+    "\/js\/app\/Data.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/ui\/ThresholdUI.js",
+      "inputAbbreviatedPath" : "\/js\/app\/Data.js",
       "outputStyle" : 0,
       "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/ui\/ThresholdUI-ck.js",
+      "outputAbbreviatedPath" : "\/js\/app\/Data-ck.js",
       "fileType" : 64
     },
-    "\/js\/uc\/DealsUC.js" : {
+    "\/js\/uc\/BannerUC.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/js\/uc\/BannerUC.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/js\/uc\/BannerUC-ck.js",
+      "fileType" : 64
+    },
+    "\/js\/ui\/TripUI.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/js\/ui\/TripUI.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/js\/ui\/TripUI-ck.js",
+      "fileType" : 64
+    },
+    "\/coffee\/uc\/WeatherUC.coffee" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 1,
+      "inputAbbreviatedPath" : "\/coffee\/uc\/WeatherUC.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/js\/uc\/WeatherUC.js",
+      "outputStyle" : 0,
+      "fileType" : 32
+    },
+    "\/css\/img\/dash\/Weather.JPG" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/uc\/DealsUC.js",
+      "inputAbbreviatedPath" : "\/css\/img\/dash\/Weather.JPG",
+      "processed" : 0,
+      "outputAbbreviatedPath" : "\/css\/img\/dash\/Weather.JPG",
+      "initialSize" : 166042,
+      "fileType" : 4096
+    },
+    "\/coffee\/uc\/DriveBarUC.coffee" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 1,
+      "inputAbbreviatedPath" : "\/coffee\/uc\/DriveBarUC.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/js\/uc\/DriveBarUC.js",
       "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/uc\/DealsUC-ck.js",
-      "fileType" : 64
+      "fileType" : 32
     },
     "\/data\/junk\/URLs.coffee" : {
       "ignoreWasSetByUser" : 0,
@@ -1049,63 +1062,6 @@
       "outputAbbreviatedPath" : "\/css\/img\/site\/TeamGo.png",
       "initialSize" : 359352,
       "fileType" : 8192
-    },
-    "\/js\/app\/Data.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/app\/Data.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/app\/Data-ck.js",
-      "fileType" : 64
-    },
-    "\/coffee\/uc\/WeatherUC.coffee" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 1,
-      "inputAbbreviatedPath" : "\/coffee\/uc\/WeatherUC.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/js\/ui\/WeatherUI.js",
-      "outputStyle" : 0,
-      "fileType" : 32
-    },
-    "\/css\/img\/dash\/Weather.JPG" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/css\/img\/dash\/Weather.JPG",
-      "processed" : 0,
-      "outputAbbreviatedPath" : "\/css\/img\/dash\/Weather.JPG",
-      "initialSize" : 166042,
-      "fileType" : 4096
-    },
-    "\/coffee\/uc\/DriveBarUC.coffee" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 1,
-      "inputAbbreviatedPath" : "\/coffee\/uc\/DriveBarUC.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/js\/ui\/DriveBarUI.js",
-      "outputStyle" : 0,
-      "fileType" : 32
-    },
-    "\/js\/ui\/TripUI.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/ui\/TripUI.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/ui\/TripUI-ck.js",
-      "fileType" : 64
     },
     "\/js\/util\/GeoJsonUtils.Test.js" : {
       "ignoreWasSetByUser" : 0,
@@ -1142,17 +1098,6 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/js\/ui\/WeatherUI.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/ui\/WeatherUI.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/ui\/WeatherUI-ck.js",
-      "fileType" : 64
-    },
     "\/css\/app\/App.css" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -1164,7 +1109,7 @@
     },
     "\/js\/uc\/WeatherUC.js" : {
       "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
+      "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
       "inputAbbreviatedPath" : "\/js\/uc\/WeatherUC.js",
@@ -1215,18 +1160,6 @@
       "checkOutputStyle" : 0,
       "minifyOutput" : 0,
       "outputAbbreviatedPath" : "\/js\/ui\/DestinationUI.js",
-      "outputStyle" : 0,
-      "fileType" : 32
-    },
-    "\/coffee\/ui\/NoGoUI.coffee" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 1,
-      "inputAbbreviatedPath" : "\/coffee\/ui\/NoGoUI.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/js\/ui\/NoGoUI.js",
       "outputStyle" : 0,
       "fileType" : 32
     }

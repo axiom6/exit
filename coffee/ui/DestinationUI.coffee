@@ -3,21 +3,23 @@ class DestinationUI
 
   Util.Export( DestinationUI, 'ui/DestinationUI' )
 
-  constructor:( @stream, @thresholdUI ) ->
+  constructor:( @stream ) ->
+    ThresholdUC  = Util.Import( 'uc/ThresholdUC' )
+    @thresholdUC = new ThresholdUC( @stream, 'Destination', [4,60,92,40], [ 60, 4, 40, 92]  )
     @Data = Util.Import( 'app/Data' )
     @sources      = @Data.Destinations # For now we access sources     from static data
     @destinations = @Data.Destinations # For now we access destinations from static data
 
   ready:() ->
-    @thresholdUI.ready()
+    @thresholdUC.ready()
     @$ = $( @html() )
-    @$.append( @thresholdUI.$  )
+    @$.append( @thresholdUC.$  )
     @$destinationBody   = @$.find('#DestinationBody'  )
     @$sourceSelect      = @$.find('#SourceSelect'     )
     @$destinationSelect = @$.find('#DestinationSelect')
 
   position:(   screen ) ->
-    @thresholdUI.position( screen )
+    @thresholdUC.position( screen )
     @events()
     @subscribe()
 
@@ -42,8 +44,8 @@ class DestinationUI
   icon:( name, type, fa ) -> Util.icon( name, type, fa )
 
   html:() ->
-    htm = """<div      id="#{@id('Destination')}"             class="#{@css('Destination')}">
-             <div      id="#{@id('DestinationBody')}"         class="#{@css('DestinationBody')}">
+    htm = """<div      id="#{@id('DestinationUI')}"         class="#{@css('DestinationUI')}">
+             <div      id="#{@id('DestinationBody')}"       class="#{@css('DestinationBody')}">
               <!--div  id="#{@id('DestinationLabelInput')}" class="#{@css('DestinationLabelInput')}">
                 <span  id="#{@id('DestinationUserLabel' )}" class="#{@css('DestinationUserLabel' )}">User:</span>
                 <input id="#{@id('DestinationUserInput' )}" class="#{@css('DestinationUserInput' )}"type="text" name="theinput" />

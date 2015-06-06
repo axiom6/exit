@@ -9,7 +9,7 @@ class TripUI
     DriveBarUC    = Util.Import( 'uc/DriveBarUC' )
     @weatherUC    = new WeatherUC(  @stream, 'Trip', [0,  0, 100, 45], [0,  0, 100, 45] )
     @advisoryUC   = new AdvisoryUC( @stream, 'Trip', [0, 45, 100, 10], [0, 45, 100, 10] )
-    @driveBarUC   = new DriveBarUC( @stream, 'Trip', [0, 55, 100, 45], [0, 55, 100, 45] )
+    @driveBarUC   = new DriveBarUC( @stream, 'Trip', [4, 55,  92, 45], [4, 55,  92, 45] )
 
   ready:() ->
     @weatherUC.ready()
@@ -19,8 +19,8 @@ class TripUI
     @$.append( @weatherUC.$, @advisoryUC.$, @driveBarUC.$ )
 
   position:( screen ) ->
-    @weatherUI.position(  screen )
-    @advisoryUI.position( screen )
+    @weatherUC.position(  screen )
+    @advisoryUC.position( screen )
     @driveBarUC.position( screen )
     @subscribe()
 

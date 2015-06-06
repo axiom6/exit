@@ -8,8 +8,8 @@ class AdvisoryUC
   ready:() ->
     @$ = $( @html() )
 
-  position:(  screen ) ->
-    onScreen( screen )
+  position:(   screen ) ->
+    @onScreen( screen )
     @subscribe()
 
   subscribe:() ->
@@ -23,4 +23,4 @@ class AdvisoryUC
     Util.cssPosition( @$, screen, @port, @land )
 
   html:() ->
-    """<div id="#{Util.id('AdvisoryUC')}" class="#{Util.css('AdvisoryUC')}"></div>"""
+    """<div id="#{Util.id('AdvisoryUC',@role)}" class="#{Util.css('AdvisoryUC')}"></div>"""

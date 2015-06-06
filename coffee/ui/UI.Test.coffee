@@ -5,8 +5,17 @@ class Test
   UI.Test = Test
   Util.Export( UI.Test, 'ui/UI.Test' )
   
-  constructor:( @ui, @adivsoryUI, @dealsUI, @destinationUI, @driveBarUI, @goUI, @noGoUI, @roadUI, @thresholdUI, @trip, @weatherUI, @navigateUI  ) ->
+  constructor:( @ui, @trip, @destinationUI, @goUI, @noGoUI, @tripUI, @navigateUI ) ->
     Util.log( 'UI.Test.constructor' )
+
+  # Trip
+    # html:() ->
+    # ready:() ->
+    # $ready;() ->
+    # position:() ->
+    # subscribe:() ->
+    # onLocation:( location ) ->
+    # layout:( orientation ) ->
     
   # UI
     # html:() ->
@@ -22,7 +31,25 @@ class Test
     # width
     # height
 
-  # AdivsoryUI
+  # DestinationUI
+    # html:() ->
+    # ready:() ->
+    # $ready;() ->
+    # position:() ->
+    # subscribe:() ->
+    # onLocation:( location ) ->
+    # layout:( orientation ) ->
+
+  # GoUI
+    # html:() ->
+    # ready:() ->
+    # $ready;() ->
+    # position:() ->
+    # subscribe:() ->
+    # onLocation:( location ) ->
+    # layout:( orientation ) ->
+
+  # TripUI
     # html:() ->
     # ready:() ->
     # $ready;() ->
@@ -40,7 +67,7 @@ class Test
     # onLocation:( location ) ->
     # layout:( orientation ) ->
 
-  # DestinationUI
+  # NavigateUI
     # html:() ->
     # ready:() ->
     # $ready;() ->
@@ -49,7 +76,54 @@ class Test
     # onLocation:( location ) ->
     # layout:( orientation ) ->
 
-  # DriveBarUI
+  # ThresholdUC
+    # html:() ->
+    # ready:() ->
+    # $ready;() ->
+    # position:() ->
+    # subscribe:() ->
+    # onLocation:( location ) ->
+    # layout:( orientation ) ->
+
+  # BannerUC
+    # html:() ->
+    # ready:() ->
+    # $ready;() ->
+    # position:() ->
+    # subscribe:() ->
+    # onLocation:( location ) ->
+    # layout:( orientation ) ->
+
+  # BannerUC
+    # html:() ->
+    # ready:() ->
+    # $ready;() ->
+    # position:() ->
+    # subscribe:() ->
+    # onLocation:( location ) ->
+    # layout:( orientation ) ->
+
+  # WeatherUC
+    # html:() ->
+    # ready:() ->
+    # $ready;() ->
+    # position:() ->
+    # subscribe:() ->
+    # onLocation:( location ) ->
+    # layout:( orientation ) ->
+    # createForecastHtml:( name, w ) ->
+    # updateForecastHtml:( name, w ) ->
+
+  # AdivsoryUC
+    # html:() ->
+    # ready:() ->
+    # $ready;() ->
+    # position:() ->
+    # subscribe:() ->
+    # onLocation:( location ) ->
+    # layout:( orientation ) ->
+
+  # DriveBarUC
     # html:() ->
     # ready:() ->
     # $ready;() ->
@@ -74,68 +148,5 @@ class Test
     # barHeight:()  -> @svgHeight() * 0.33
     # barTop:()     -> @svgHeight() * 0.50
 
-  # GoUI
-    # html:() ->
-    # ready:() ->
-    # $ready;() ->
-    # position:() ->
-    # subscribe:() ->
-    # onLocation:( location ) ->
-    # layout:( orientation ) ->
 
-  # NoGoUI
-    # html:() ->
-    # ready:() ->
-    # $ready;() ->
-    # position:() ->
-    # subscribe:() ->
-    # onLocation:( location ) ->
-    # layout:( orientation ) ->
-
-  # RoadUI
-    # html:() ->
-    # ready:() ->
-    # $ready;() ->
-    # position:() ->
-    # subscribe:() ->
-    # onLocation:( location ) ->
-    # layout:( orientation ) ->
-
-  # ThresholdUI
-    # html:() ->
-    # ready:() ->
-    # $ready;() ->
-    # position:() ->
-    # subscribe:() ->
-    # onLocation:( location ) ->
-    # layout:( orientation ) ->
-
-  # Trip
-    # html:() ->
-    # ready:() ->
-    # $ready;() ->
-    # position:() ->
-    # subscribe:() ->
-    # onLocation:( location ) ->
-    # layout:( orientation ) ->
-
-  # WeatherUI
-    # html:() ->
-    # ready:() ->
-    # $ready;() ->
-    # position:() ->
-    # subscribe:() ->
-    # onLocation:( location ) ->
-    # layout:( orientation ) ->
-    # createForecastHtml:( name, w ) ->
-    # updateForecastHtml:( name, w ) ->
-
-  # NavigateUI
-    # html:() ->
-    # ready:() ->
-    # $ready;() ->
-    # position:() ->
-    # subscribe:() ->
-    # onLocation:( location ) ->
-    # layout:( orientation ) ->
 

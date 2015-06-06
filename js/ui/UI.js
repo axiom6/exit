@@ -6,17 +6,16 @@
   UI = (function() {
     Util.Export(UI, 'ui/UI');
 
-    function UI(stream, destinationUI, goUI, nogoUI, tripUI, dealsUI, navigateUI) {
+    function UI(stream, destinationUI, goUI, tripUI, dealsUI, navigateUI) {
       this.stream = stream;
       this.destinationUI = destinationUI;
       this.goUI = goUI;
-      this.nogoUI = nogoUI;
       this.tripUI = tripUI;
       this.dealsUI = dealsUI;
       this.navigateUI = navigateUI;
       this.select = bind(this.select, this);
       this.orientation = 'Portrait';
-      this.recommendation = 'Go';
+      this.recommendation = 'GO';
       this.firstTrip = true;
     }
 
@@ -26,7 +25,6 @@
       this.$view = this.$.find('#View');
       this.$view.append(this.destinationUI.$);
       this.$view.append(this.goUI.$);
-      this.$view.append(this.nogoUI.$);
       this.$view.append(this.tripUI.$);
       this.$view.append(this.dealsUI.$);
       this.$view.append(this.navigateUI.$);
@@ -112,13 +110,12 @@
       var faClass;
       Util.noop('UI.changeRecommendation', recommendation);
       this.select(recommendation);
-      faClass = recommendation === 'Go' ? 'fa fa-thumbs-up' : 'fa fa-thumbs-down';
+      faClass = recommendation === 'GO' ? 'fa fa-thumbs-up' : 'fa fa-thumbs-down';
       this.$recommendationFA.attr('class', faClass);
     };
 
     UI.prototype.onScreen = function(screen) {
       var url;
-      Util.dbg('UI.onScreen()', screen);
       if (this.orientation !== screen.orientation) {
         this.orientation = screen.orientation;
         url = "css/img/app/phone6x12" + screen.orientation + ".png";
@@ -141,9 +138,9 @@
         case 'Destination':
           this.lastSelect = this.destinationUI;
           break;
-        case 'Go':
-        case 'NoGo':
-          this.lastSelect = page === 'Go' ? this.goUI : this.nogoUI;
+        case 'GO':
+        case 'NO GO':
+          this.lastSelect = this.goUI;
           break;
         case 'Trip':
           this.lastSelect = this.tripUI;

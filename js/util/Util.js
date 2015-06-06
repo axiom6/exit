@@ -542,6 +542,40 @@ Util = (function() {
     return true;
   };
 
+  Util.toPosition = function(array) {
+    return {
+      left: array[0],
+      top: array[1],
+      width: array[2],
+      height: array[3]
+    };
+  };
+
+  Util.toPositionPc = function(array) {
+    return {
+      position: 'absolute',
+      left: array[0] + '%',
+      top: array[1] + '%',
+      width: array[2] + '%',
+      height: array[3] + '%'
+    };
+  };
+
+  Util.cssPosition = function($, screen, port, land) {
+    var array;
+    array = screen.orientation === 'Portrait' ? port : land;
+    $.css(Util.toPositionPc(array));
+  };
+
+  Util.xyScale = function(prev, next, port, land) {
+    var ref, ref1, xn, xp, xs, yn, yp, ys;
+    ref = prev.orientation === 'Portrait' ? [port[2], port[3]] : [land[2], land[3]], xp = ref[0], yp = ref[1];
+    ref1 = next.orientation === 'Portrait' ? [port[2], port[3]] : [land[2], land[3]], xn = ref1[0], yn = ref1[1];
+    xs = next.width * xn / (prev.width * xp);
+    ys = next.height * yn / (prev.height * yp);
+    return [xs, ys];
+  };
+
   Util.resize = function(callback) {
     window.onresize = function() {
       return setTimeout(callback, 100);

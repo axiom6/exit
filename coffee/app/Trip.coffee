@@ -85,7 +85,7 @@ class Trip
     Util.toInt(@eta/60) + ' Hours ' + @eta%60 + ' Mins'
 
   makeRecommendation:( ) =>
-    if @source is 'NoGo' or @destination is 'NoGo' then 'NoGo' else 'Go'
+    if @destination is 'Copper Mtn' then 'NO GO' else 'GO'
 
   getDealsBySegId:( segId ) ->
     segDeals = []

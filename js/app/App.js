@@ -12,7 +12,7 @@
     });
 
     function App(dataSource) {
-      var AdvisoryUC, Data, DealsUI, DestinationUI, GoUI, Model, NavigateUI, NoGoUI, Rest, RoadUC, Simulate, Stream, ThresholdUC, TripUI, UI, WeatherUC;
+      var Data, DealsUI, DestinationUI, GoUI, Model, NavigateUI, Rest, Simulate, Stream, TripUI, UI;
       this.dataSource = dataSource != null ? dataSource : 'RestThenLocal';
       this.subjectNames = ['Select', 'Location', 'Screen', 'Source', 'Destination', 'Trip', 'Forecasts'];
       Stream = Util.Import('app/Stream');
@@ -22,29 +22,19 @@
       Simulate = Util.Import('app/Simulate');
       DestinationUI = Util.Import('ui/DestinationUI');
       GoUI = Util.Import('ui/GoUI');
-      NoGoUI = Util.Import('ui/NoGoUI');
       TripUI = Util.Import('ui/TripUI');
       DealsUI = Util.Import('ui/DealsUI');
       NavigateUI = Util.Import('ui/NavigateUI');
-      AdvisoryUC = Util.Import('uc/AdvisoryUC');
-      RoadUC = Util.Import('uc/RoadUC');
-      WeatherUC = Util.Import('uc/WeatherUC');
-      ThresholdUC = Util.Import('ui/ThresholdUC');
       UI = Util.Import('ui/UI');
       this.stream = new Stream(this.subjectNames);
       this.rest = new Rest(this.stream);
       this.model = new Model(this.stream, this.rest, this.dataSource);
-      this.thresholdUC = new ThresholdUC(this.stream);
       this.destinationUI = new DestinationUI(this.stream, this.thresholdUC);
       this.goUI = new GoUI(this.stream);
-      this.nogoUI = new NoGoUI(this.stream);
-      this.roadUC = new RoadUC(this.stream);
-      this.weatherUC = new WeatherUC(this.stream);
-      this.advisoryUC = new AdvisoryUC(this.stream);
-      this.tripUI = new TripUI(this.stream, this.roadUC, this.weatherUC, this.advisoryUC);
+      this.tripUI = new TripUI(this.stream);
       this.dealsUI = new DealsUI(this.stream);
       this.navigateUI = new NavigateUI(this.stream);
-      this.ui = new UI(this.stream, this.destinationUI, this.goUI, this.nogoUI, this.tripUI, this.dealsUI, this.navigateUI);
+      this.ui = new UI(this.stream, this.destinationUI, this.goUI, this.tripUI, this.dealsUI, this.navigateUI);
       this.ready();
       this.position(this.ui.toScreen('Portrait'));
       this.simulate = new Simulate(this, this.stream);
@@ -56,17 +46,16 @@
         this.appTest = new App.Test(this, this.stream, this.simulate, this.rest, this.model);
       }
       if (Util.hasModule('ui/UI.Test', false)) {
-        this.uiTest = new UI.Test(this.ui, this.adivsoryUI, this.dealsUI, this.destinationUI, this.driveBarUI, this.goUI, this.noGoUI, this.roadUI, this.thresholdUI, this.trip, this.weatherUI, this.navigateUI);
+        this.uiTest = new UI.Test(this.ui, this.trip, this.destinationUI, this.goUI, this.tripUI, this.navigateUI);
       }
       this.stream.publish('Source', 'Denver');
-      this.stream.publish('Destination', 'Vail');
+      this.stream.publish('Destination', 'Copper Mtn');
     }
 
     App.prototype.ready = function() {
       this.model.ready();
       this.destinationUI.ready();
       this.goUI.ready();
-      this.nogoUI.ready();
       this.tripUI.ready();
       this.dealsUI.ready();
       this.navigateUI.ready();
@@ -76,7 +65,6 @@
     App.prototype.position = function(screen) {
       this.destinationUI.position(screen);
       this.goUI.position(screen);
-      this.nogoUI.position(screen);
       this.tripUI.position(this.ui.toScreen('Landscape'));
       this.dealsUI.position(screen);
       this.navigateUI.position(screen);
