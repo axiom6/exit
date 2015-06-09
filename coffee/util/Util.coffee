@@ -518,7 +518,8 @@ class Util
     Util.htmlIds[htmlId] = htmlId
     htmlId
 
-  @svgId:( name, type, svgType ) -> @id( name, type, svgType )
+  @svgId:( name, type, svgType, check=false ) ->
+    if check then @id( name, type, svgType ) else name + type + svgType
   @css:(   name, type=''       ) -> name + type
   @icon:(  name, type, fa      ) -> name + type + ' fa fa-' + fa
 

@@ -19,7 +19,8 @@ class DriveBarUC
 
   position:( screen ) ->
     # Util.dbg( 'DriveBarUC.position()', @role, screen )
-    @screen = screen
+    @screen     = screen
+    @screenOrig = screen
     Util.cssPosition( @$, @screen, @port, @land )
     [@svg,@$svg,@g,@$g,@gId,@gw,@gh,@y0] = @createSvg( @$, @htmlId, @name, @role, @svgWidth(),  @svgHeight(), @barTop() )
     @subscribe()
@@ -39,12 +40,18 @@ class DriveBarUC
       @updateFills( trip )
     @lastTrip = trip
 
+  onScreen:(  screen ) ->
+    @screen = screen
+    Util.cssPosition( @$, @screen, @port, @land )
+    @svg.attr( "width", @svgWidth() ).attr( 'height', @svgHeight() )
+    @createBars( @lastTrip )
+
   # Screenlayout changes base on orientation not working
-  onScreen:( next ) ->
+  onScreenTransform:( next ) ->
     prev    = @screen
     @screen = next
     Util.cssPosition( @$, @screen, @port, @land )
-    @svg.attr( "width", @svgWidth() ).attr( 'height', @svgHeight() ) #.attr( 'fill', '#658552' )
+    @svg.attr( "width", @svgWidth() ).attr( 'height', @svgHeight() )
     [xp,yp] = if prev.orientation is 'Portrait' then [@port[2],@port[3]] else [@land[2],@land[3]]
     [xn,yn] = if next.orientation is 'Portrait' then [@port[2],@port[3]] else [@land[2],@land[3]]
     xs = next.width  * xn  / ( prev.width  * xp )

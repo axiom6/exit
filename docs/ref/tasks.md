@@ -2,22 +2,22 @@
 ## App
 |   |   |    |   |   |   |
 | - | - | -  | - | - | - |
+| **Deals**           | Triggers    | Geo Fence      | Bus Button | Gritter    |            | 
 | **Simulate**        | LanLngTime  | Speeds / Conds | Weather    | Roadblocks | Deals      | 
 | **Trip**            | Road        | Weather        | Adivsory   |            |            |
 | **Mobile**          | Cordova     | Events         |            |            | Responsive | 
 | **Event**           | Scenario    | Navigate       | Swipe      | Resize     |            |
-| **Deals**           | Triggers    | Geo Fence      | Bus Button | Gritter    |            | 
 | **Test**            | Rest        | Destination    | Trip       | Deals      |            |
 | **Predict**         | ETA         |   Go           |  NoGo      | Explain    | Roadblocks |
-| **Speeds / Conds**  | DIA Edwards | Breckinridge   | Winterpark | Keystone   | A-Basin    |
-| **Store**           | Stream      | Memory         | Rest       | IndexedDB  |            |
-| **Push**            | Speeds      | Conditions     | Hot Deals  | Advisorys  | DriveBar   |
 | **Post Profiles**   | Destination | Trip           | Deals      |            |            | 
 
 ## Add Ons
 |   |   |    |   |   |   |
 | - | - | -  | - | - | - |
 | **Navigate**        |             |                |            |            |            |
+| **Store**           | Stream      | Memory         | Rest       | IndexedDB  |            |
+| **Speeds / Conds**  | DIA Edwards | Breckinridge   | Winterpark | Keystone   | A-Basin    |
+| **Push**            | Speeds      | Conditions     | Hot Deals  | Advisorys  | DriveBar   |
 
 ## Complete
 |   |   |    |   |   |   |

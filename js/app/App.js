@@ -14,7 +14,7 @@
     function App(dataSource) {
       var Data, DealsUI, DestinationUI, GoUI, Model, NavigateUI, Rest, Simulate, Stream, TripUI, UI;
       this.dataSource = dataSource != null ? dataSource : 'RestThenLocal';
-      this.subjectNames = ['Select', 'Location', 'Screen', 'Source', 'Destination', 'Trip', 'Forecasts'];
+      this.subjectNames = ['Icons', 'Location', 'Screen', 'Source', 'Destination', 'Trip', 'Forecasts'];
       Stream = Util.Import('app/Stream');
       Rest = Util.Import('app/Rest');
       Data = Util.Import('app/Data');
@@ -54,20 +54,10 @@
 
     App.prototype.ready = function() {
       this.model.ready();
-      this.destinationUI.ready();
-      this.goUI.ready();
-      this.tripUI.ready();
-      this.dealsUI.ready();
-      this.navigateUI.ready();
       return this.ui.ready();
     };
 
     App.prototype.position = function(screen) {
-      this.destinationUI.position(screen);
-      this.goUI.position(screen);
-      this.tripUI.position(this.ui.toScreen('Landscape'));
-      this.dealsUI.position(screen);
-      this.navigateUI.position(screen);
       return this.ui.position(screen);
     };
 

@@ -168,7 +168,7 @@ class Model
     trip                       = @trip()
     trip.forecasts[name]       = forecast
     trip.forecasts[name].index = @Trip.Towns[name].index
-    @pushForecastsWhenComplete( trip.forecasts )
+    @publishForecastsWhenComplete( trip.forecasts )
     return
 
   onSegmentsError:( obj ) =>

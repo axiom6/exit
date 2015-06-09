@@ -9,7 +9,7 @@
       var ThresholdUC;
       this.stream = stream;
       ThresholdUC = Util.Import('uc/ThresholdUC');
-      this.thresholdUC = new ThresholdUC(this.stream, 'Destination', [4, 60, 92, 40], [60, 4, 40, 92]);
+      this.thresholdUC = new ThresholdUC(this.stream, 'Destination', [0, 60, 100, 40], [50, 20, 50, 80]);
       this.Data = Util.Import('app/Data');
       this.sources = this.Data.Destinations;
       this.destinations = this.Data.Destinations;
@@ -19,12 +19,14 @@
       this.thresholdUC.ready();
       this.$ = $(this.html());
       this.$.append(this.thresholdUC.$);
-      this.$destinationBody = this.$.find('#DestinationBody');
+      this.$sourceBody = this.$.find('#SourceBody');
       this.$sourceSelect = this.$.find('#SourceSelect');
+      this.$destinationBody = this.$.find('#DestinationBody');
       return this.$destinationSelect = this.$.find('#DestinationSelect');
     };
 
     DestinationUI.prototype.position = function(screen) {
+      this.onScreen(screen);
       this.thresholdUC.position(screen);
       this.events();
       return this.subscribe();
@@ -75,13 +77,13 @@
 
     DestinationUI.prototype.html = function() {
       var destination, htm, i, j, len, len1, ref, ref1, source;
-      htm = "<div      id=\"" + (this.id('DestinationUI')) + "\"         class=\"" + (this.css('DestinationUI')) + "\">\n<div      id=\"" + (this.id('DestinationBody')) + "\"       class=\"" + (this.css('DestinationBody')) + "\">\n <!--div  id=\"" + (this.id('DestinationLabelInput')) + "\" class=\"" + (this.css('DestinationLabelInput')) + "\">\n   <span  id=\"" + (this.id('DestinationUserLabel')) + "\" class=\"" + (this.css('DestinationUserLabel')) + "\">User:</span>\n   <input id=\"" + (this.id('DestinationUserInput')) + "\" class=\"" + (this.css('DestinationUserInput')) + "\"type=\"text\" name=\"theinput\" />\n </div-->\n <div     id=\"" + (this.id('SourceWhat')) + "\"            class=\"" + (this.css('SourceWhat')) + "\">Where are You Now?</div>\n <select  id=\"" + (this.id('SourceSelect')) + "\"          class=\"" + (this.css('SourceSelect')) + "\"name=\"Sources\">";
+      htm = "<div      id=\"" + (this.id('DestinationUI')) + "\"         class=\"" + (this.css('DestinationUI')) + "\">\n<!--div  id=\"" + (this.id('DestinationLabelInput')) + "\" class=\"" + (this.css('DestinationLabelInput')) + "\">\n  <span  id=\"" + (this.id('DestinationUserLabel')) + "\" class=\"" + (this.css('DestinationUserLabel')) + "\">User:</span>\n  <input id=\"" + (this.id('DestinationUserInput')) + "\" class=\"" + (this.css('DestinationUserInput')) + "\"type=\"text\" name=\"theinput\" />\n</div-->\n<div      id=\"" + (this.id('SourceBody')) + "\"           class=\"" + (this.css('SourceBody')) + "\">\n  <div    id=\"" + (this.id('SourceWhat')) + "\"            class=\"" + (this.css('SourceWhat')) + "\">Where are You Now?</div>\n  <select id=\"" + (this.id('SourceSelect')) + "\"          class=\"" + (this.css('SourceSelect')) + "\"name=\"Sources\">";
       ref = this.sources;
       for (i = 0, len = ref.length; i < len; i++) {
         source = ref[i];
         htm += "<option>" + source + "</option>";
       }
-      htm += "</select></div>\n<div     id=\"" + (this.id('DestinationWhat')) + "\"       class=\"" + (this.css('DestinationWhat')) + "\">What is your</div>\n<div     id=\"" + (this.id('DestinationDest')) + "\"       class=\"" + (this.css('DestinationDest')) + "\">Destination?</div>\n<select  id=\"" + (this.id('DestinationSelect')) + "\"     class=\"" + (this.css('DestinationSelect')) + "\"name=\"Desinations\">";
+      htm += "</select></div>\n<div      id=\"" + (this.id('DestinationBody')) + "\"      class=\"" + (this.css('DestinationBody')) + "\">\n<div     id=\"" + (this.id('DestinationWhat')) + "\"       class=\"" + (this.css('DestinationWhat')) + "\">What is your</div>\n<div     id=\"" + (this.id('DestinationDest')) + "\"       class=\"" + (this.css('DestinationDest')) + "\">Destination?</div>\n<select  id=\"" + (this.id('DestinationSelect')) + "\"     class=\"" + (this.css('DestinationSelect')) + "\"name=\"Desinations\">";
       ref1 = this.destinations;
       for (j = 0, len1 = ref1.length; j < len1; j++) {
         destination = ref1[j];
@@ -92,7 +94,8 @@
     };
 
     DestinationUI.prototype.onScreen = function(screen) {
-      return Util.noop('DestinationUI.onScreen()', screen);
+      Util.cssPosition(this.$sourceBody, screen, [0, 0, 100, 25], [0, 0, 50, 40]);
+      return Util.cssPosition(this.$destinationBody, screen, [0, 25, 100, 25], [0, 40, 50, 40]);
     };
 
     DestinationUI.prototype.show = function() {

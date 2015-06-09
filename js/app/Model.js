@@ -231,7 +231,7 @@
       trip = this.trip();
       trip.forecasts[name] = forecast;
       trip.forecasts[name].index = this.Trip.Towns[name].index;
-      this.pushForecastsWhenComplete(trip.forecasts);
+      this.publishForecastsWhenComplete(trip.forecasts);
     };
 
     Model.prototype.onSegmentsError = function(obj) {

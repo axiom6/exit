@@ -7,12 +7,11 @@ class App
   $(document).ready ->
     Util.debug = true # Swithes  Util.dbg() debugging on or off
     Util.init()
-    Util.app = new App( 'Local' )
+    Util.app = new App( 'Local' ) # @dataSource = 'Rest', 'RestThenLocal', 'Local', 'LocalForecasts'
 
-  # @dataSource = 'Rest', 'RestThenLocal', 'Local', 'LocalForecasts'
   constructor:( @dataSource='RestThenLocal' ) ->
 
-    @subjectNames = ['Select','Location','Screen','Source','Destination','Trip','Forecasts']
+    @subjectNames = ['Icons','Location','Screen','Source','Destination','Trip','Forecasts']
 
     # Import Classes
     Stream        = Util.Import( 'app/Stream'       )
@@ -60,17 +59,7 @@ class App
 
   ready:() ->
     @model.ready()
-    @destinationUI.ready()
-    @goUI.ready()
-    @tripUI.ready()
-    @dealsUI.ready()
-    @navigateUI.ready()
     @ui.ready()
 
   position:( screen ) ->
-    @destinationUI.position( screen )
-    @goUI.position(          screen )
-    @tripUI.position(        @ui.toScreen('Landscape') ) # For now until full responsive web design is implemented
-    @dealsUI.position(       screen )
-    @navigateUI.position(    screen )
-    @ui.position(            screen )
+    @ui.position( screen )

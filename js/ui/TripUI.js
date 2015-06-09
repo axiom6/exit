@@ -11,9 +11,9 @@
       WeatherUC = Util.Import('uc/WeatherUC');
       AdvisoryUC = Util.Import('uc/AdvisoryUC');
       DriveBarUC = Util.Import('uc/DriveBarUC');
-      this.weatherUC = new WeatherUC(this.stream, 'Trip', [0, 0, 100, 45], [0, 0, 100, 45]);
-      this.advisoryUC = new AdvisoryUC(this.stream, 'Trip', [0, 45, 100, 10], [0, 45, 100, 10]);
-      this.driveBarUC = new DriveBarUC(this.stream, 'Trip', [4, 55, 92, 45], [4, 55, 92, 45]);
+      this.weatherUC = new WeatherUC(this.stream, 'Trip', [0, 0, 100, 54], [0, 0, 100, 50]);
+      this.advisoryUC = new AdvisoryUC(this.stream, 'Trip', [0, 54, 100, 10], [0, 50, 100, 10]);
+      this.driveBarUC = new DriveBarUC(this.stream, 'Trip', [4, 64, 92, 36], [4, 60, 92, 40]);
     }
 
     TripUI.prototype.ready = function() {

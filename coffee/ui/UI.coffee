@@ -4,44 +4,43 @@ class UI
   Util.Export( UI, 'ui/UI' )
 
   constructor:( @stream, @destinationUI, @goUI, @tripUI, @dealsUI, @navigateUI ) ->
+    IconsUC         = Util.Import( 'uc/IconsUC' )
+    @iconsUC        = new IconsUC( @stream, [0,0,100,10], [0,0,100,18] )
     @orientation    = 'Portrait'
     @recommendation = 'GO'
+    @trip           = null
     @firstTrip = true
 
   ready:() ->
     @$ = $( @html() )
     $('#App').append(@$)
+    @iconsUC.ready()
+    @destinationUI.ready()
+    @goUI.ready()
+    @tripUI.ready()
+    @dealsUI.ready()
+    @navigateUI.ready()
+    @$.append( @iconsUC.$ )
     @$view = @$.find('#View')
     @$view.append(@destinationUI.$)
     @$view.append(@goUI.$)
     @$view.append(@tripUI.$)
     @$view.append(@dealsUI.$)
     @$view.append(@navigateUI.$)
-    @$IconsHover         =  @$.find('#IconsHover')
-    @$Icons              =  @$.find('#Icons')
-    @$destinationIcon    =  @$.find('#DestinationIcon')
-    @$recommendationIcon =  @$.find('#RecommendationIcon')
-    @$recommendationFA   =  @$.find('#RecommendationFA')
-    @$tripIcon           =  @$.find('#TripIcon')
-    @$dealsIcon          =  @$.find('#DealsIcon')
-    @$namigateIcon       =  @$.find('#NavigateIcon')
-    @$IconsHover.mouseenter( () => @$Icons.show() )
-    @$Icons     .mouseleave( () => @$Icons.hide() )
-    @events()
     @subscribe()
-    @stream.publish( 'Select', 'Destination' ) # We publish the first screen selection to be Destionaion
+    @stream.publish( 'Icons', 'Destination' ) # We publish the first screen selection to be Destionaion
 
   position:(   screen ) ->
     @onScreen( screen )
-
-  events:() ->
-    @stream.event( 'Select', @$destinationIcon,    'click', 'Destination'   )
-    @stream.event( 'Select', @$recommendationIcon, 'click', @recommendation )
-    @stream.event( 'Select', @$tripIcon,           'click', 'Trip',         )
-    @stream.event( 'Select', @$dealsIcon,          'click', 'Deals',        )
+    @iconsUC.position(       screen )
+    @destinationUI.position( screen )
+    @goUI.position(          screen )
+    @tripUI.position(        screen )
+    @dealsUI.position(       screen )
+    @navigateUI.position(    screen )
 
   subscribe:() ->
-    @stream.subscribe( 'Select', (page)   => @select(   page   ) )
+    @stream.subscribe( 'Icons',  (name)   => @onIcons(  name   ) )
     @stream.subscribe( 'Screen', (screen) => @onScreen( screen ) )
     @stream.subscribe( 'Trip',   (trip)   => @onTrip(   trip   ) )
 
@@ -50,69 +49,58 @@ class UI
   icon:( name, type, fa ) -> Util.icon( name, type, fa )
 
   html:() ->
-    """<div      id="#{@id('UI')}"                     class="#{@css('UI')}">
-         <div    id="#{@id('IconsHover')}"             class="#{@css('IconsHover')}"></div>
-         <div    id="#{@id('Icons')}"                  class="#{@css('Icons')}">
-            <div>
-              <div id="#{@id('Destination',   'Icon')}"  class="#{@css('Destination',   'Icon')}"><i class="fa fa-picture-o"></i><div>Destination</div></div>
-              <div id="#{@id('Recommendation','Icon')}"  class="#{@css('Recommendation','Icon')}"><i class="fa fa-thumbs-up" id="RecommendationFA"></i><div>Recommendation</div></div>
-              <div id="#{@id('Trip',          'Icon')}"  class="#{@css('Trip',          'Icon')}"><i class="fa fa-road"></i><div>Trip</div></div>
-              <div id="#{@id('Deals',         'Icon')}"  class="#{@css('Deals',         'Icon')}"><i class="fa fa-trophy"></i><div>Deals</div></div>
-            </div>
-         </div>
+    """<div   id="#{@id('UI')}"   class="#{@css('UI')}">
          <div id="#{@id('View')}" class="#{@css('View')}"></div>
         </div>"""
 
   onTrip:( trip ) ->
+    @trip = trip
     if @recommendation isnt  trip.recommendation
       @changeRecommendation( trip.recommendation )
       @recommendation =      trip.recommendation
-    else if @firstTrip
-      @select( @recommendation )
+    if @firstTrip
+      @onIcons( 'Recommendation' )
       @firstTrip = false
     return
 
   changeRecommendation:( recommendation ) ->
-    Util.noop( 'UI.changeRecommendation', recommendation)
-    @select( recommendation )
+    @onIcons( 'Recommendation' )
     faClass = if recommendation is 'GO' then 'fa fa-thumbs-up' else 'fa fa-thumbs-down'
-    @$recommendationFA.attr( 'class', faClass )
+    $icon   =  @iconsUC.$find('Recommendation')
+    $icon.find('i'  ).attr( 'class', faClass )
+    $icon.find('div').text(recommendation)
     return
 
   onScreen:( screen ) ->
-    # Util.dbg( 'UI.onScreen()', screen )
+    Util.dbg( 'UI.onScreen()', screen )
     if @orientation isnt screen.orientation
        @orientation    = screen.orientation
        url = "css/img/app/phone6x12#{screen.orientation}.png"
        $('body').css( { "background-image":"url(#{url})" } )
        $('#App').attr( 'class', "App#{screen.orientation}" )
 
-  show:() ->
-
-  hide:() ->
-
-  select:( page ) =>
-    # Util.dbg( 'UI.Select() Beg', page, @lastSelect.$.attr('id') )
+  onIcons:( name ) =>
+    # Util.dbg( 'UI.onIcon() Beg', name, @lastSelect.$.attr('id') )
     @lastSelect.hide() if @lastSelect?
-    switch page
-      when 'Destination'
-        @lastSelect = @destinationUI
-      when 'GO', 'NO GO'
+    switch name
+      when 'Destination'     then @lastSelect = @destinationUI
+      when 'Recommendation'
         @lastSelect = @goUI
-      when 'Trip'
-        @lastSelect = @tripUI
-        @onScreen(        @toScreen('Landscape') )
-        @tripUI.onScreen( @toScreen('Landscape') )
-      when 'Deals'
-        @lastSelect = @dealsUI
+        ###
+        if not @firstTrip
+          @trip.recommendation = if @trip.recommendation is 'GO' then 'NO GO' else 'GO'
+          @stream.publish( 'Trip', @trip )
+        ###
+      when 'Trip'            then @lastSelect = @tripUI
+      when 'Deals'           then @lastSelect = @dealsUI
+      when 'Navigate'        then @lastSelect = @navigateUI
+      when 'Point'
+        orientation = if @orientation is 'Portrait' then 'Landscape' else 'Portrait'
+        @stream.publish( 'Screen', @toScreen(orientation) )
       else
-        Util.error( "UI.select unknown page", page )
-
-    # For now all screeb are Portrait except for Trip
-    @onScreen( @toScreen('Portrait') ) if page isnt 'Trip'
+        Util.error( "UI.select unknown name", name )
     @lastSelect.show()
     return
-
 
   width: () -> @$.width()
   height:() -> @$.height()

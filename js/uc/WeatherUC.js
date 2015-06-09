@@ -287,8 +287,8 @@
       this.role = role;
       this.port = port;
       this.land = land;
-      this.trip = {};
-      this.forecasts = {};
+      this.forecasts = null;
+      this.screen = null;
     }
 
     WeatherUC.prototype.ready = function() {
@@ -328,11 +328,51 @@
     };
 
     WeatherUC.prototype.onScreen = function(screen) {
-      return Util.cssPosition(this.$, screen, this.port, this.land);
+      Util.cssPosition(this.$, screen, this.port, this.land);
+      if (this.forecasts != null) {
+        this.updateCss(this.forecasts, screen);
+      }
+      return this.screen = screen;
+    };
+
+    WeatherUC.prototype.updateCss = function(forecasts, screen) {
+      var $f, forecast, h, i, isHorz, n, name, results, w, x, y;
+      isHorz = screen.orientation === 'Landscape';
+      n = 8;
+      i = 0;
+      x = 0;
+      y = 0;
+      w = isHorz ? 100 / n : 200 / n;
+      h = isHorz ? 100 : 50;
+      results = [];
+      for (name in forecasts) {
+        if (!hasProp.call(forecasts, name)) continue;
+        forecast = forecasts[name];
+        i++;
+        $f = this.$find(name);
+        $f.css({
+          left: x + '%',
+          top: y + '%',
+          width: w + '%',
+          height: h + '%'
+        });
+        x += w;
+        if (i === n / 2 && !isHorz) {
+          x = 0;
+          results.push(y += h);
+        } else {
+          results.push(void 0);
+        }
+      }
+      return results;
+    };
+
+    WeatherUC.prototype.$find = function(name) {
+      return this.$.find("#Weather" + name);
     };
 
     WeatherUC.prototype.onTrip = function(trip) {
-      this.trip = trip;
+      Util.noop('WeatherUC.onTrip()', trip);
     };
 
     WeatherUC.prototype.onForecasts = function(forecasts) {
@@ -340,19 +380,23 @@
       for (name in forecasts) {
         if (!hasProp.call(forecasts, name)) continue;
         forecast = forecasts[name];
-        $f = $('#' + ("Weather" + name));
+        $f = this.$find(name);
         w = this.toWeather(forecast);
         if (Util.isJQuery($f)) {
           this.updateForecastHtml(name, w, $f);
         } else {
           this.createForecastHtml(name, w);
+          if (this.screen != null) {
+            this.updateCss(forecasts, this.screen);
+          }
         }
       }
+      this.forecasts = forecasts;
     };
 
     WeatherUC.prototype.createForecastHtml = function(name, w) {
       var html;
-      html = "<div   class=\"Weather" + w.index + "\" style=\"background-color:" + w.back + "\" id=\"Weather" + name + "\">\n  <div class=\"WeatherName\">" + name + "</div>\n  <div class=\"WeatherTime\">" + w.hms + "</div>\n  <i   class=\"WeatherIcon wi " + w.icon + "\"></i>\n  <div class=\"WeatherSum1\">" + w.summary1 + "</div>\n  <div class=\"WeatherSum2\">" + w.summary2 + "</div>\n  <div class=\"WeatherTemp\">" + w.temperature + "&deg;F</div>\n</div>";
+      html = "<div   class=\"WeatherCell\" style=\"background-color:" + w.back + "\" id=\"Weather" + name + "\">\n  <div class=\"WeatherName\">" + name + "</div>\n  <div class=\"WeatherTime\">" + w.hms + "</div>\n  <i   class=\"WeatherIcon wi " + w.icon + "\"></i>\n  <div class=\"WeatherSum1\">" + w.summary1 + "</div>\n  <div class=\"WeatherSum2\">" + w.summary2 + "</div>\n  <div class=\"WeatherTemp\">" + w.temperature + "&deg;F</div>\n</div>";
       this.$.append(html);
     };
 

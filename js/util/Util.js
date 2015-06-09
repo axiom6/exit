@@ -881,8 +881,15 @@ Util = (function() {
     return htmlId;
   };
 
-  Util.svgId = function(name, type, svgType) {
-    return this.id(name, type, svgType);
+  Util.svgId = function(name, type, svgType, check) {
+    if (check == null) {
+      check = false;
+    }
+    if (check) {
+      return this.id(name, type, svgType);
+    } else {
+      return name + type + svgType;
+    }
   };
 
   Util.css = function(name, type) {

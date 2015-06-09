@@ -22,18 +22,19 @@ class BannerUC
     Util.noop( 'BannerUC.onLocation()', @ext, location )
 
   onTrip:( trip ) ->
-    # Util.dbg('BannerUC.onTrip()',   trip.recommendation )
-    @$bannerText.text( trip.recommendation )
-    klass = if trip.recommendation is 'GO' then 'GoBanner' else 'NoGoBanner'
+    @changeRecommendation( trip.recommendation )
+
+  changeRecommendation:( recommendation ) ->
+    @$bannerText.text(   recommendation )
+    klass = if recommendation is 'GO' then 'GoBanner' else 'NoGoBanner'
     @$.attr('class', klass )
     scale = if @screen.orientation is 'Portrait' then @port[3]     else @land[3]
-    scale = if trip.recommendation is 'GO'       then scale*0.0050 else scale*0.0030
+    scale = if recommendation      is 'GO'       then scale*0.0050 else scale*0.0020
     @$.css( { fontSize:screen.height*scale+'px' } )
 
   onScreen:( screen ) ->
     @screen = screen
     Util.cssPosition( @$, screen, @port, @land )
-
 
   html:() ->
     """<div   id="#{Util.id('BannerUC')}"   class="#{Util.css('GoBannerUC')}">

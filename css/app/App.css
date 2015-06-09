@@ -24,12 +24,20 @@ body {
   height: 100%;
   font-family: 'Droid Sans', sans-serif;
 }
+.IconsUC {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 10%;
+  display: transparent;
+}
 .IconsHover {
   position: absolute;
   left: 0;
   top: 0;
   width: 100%;
-  height: 4%;
+  height: 40%;
   background: transparent;
   z-index: 3;
 }
@@ -38,7 +46,7 @@ body {
   left: 0;
   top: 0;
   width: 100%;
-  height: 10%;
+  height: 100%;
   display: none;
   background: black;
   color: white;
@@ -46,36 +54,9 @@ body {
   border: 1px solid black;
   z-index: 4;
 }
-.DestinationIcon {
+.Icon {
   position: absolute;
   left: 0;
-  top: 0;
-  width: 25.00%;
-  height: 94%;
-  z-index: 5;
-  text-align: center;
-}
-.RecommendationIcon {
-  position: absolute;
-  left: 25.00%;
-  top: 0;
-  width: 25.00%;
-  height: 94%;
-  z-index: 5;
-  text-align: center;
-}
-.TripIcon {
-  position: absolute;
-  left: 50.00%;
-  top: 0;
-  width: 25.00%;
-  height: 94%;
-  z-index: 5;
-  text-align: center;
-}
-.DealsIcon {
-  position: absolute;
-  left: 75.00%;
   top: 0;
   width: 25.00%;
   height: 94%;
@@ -102,6 +83,13 @@ body {
   background-color: #658552;
   text-align: center;
 }
+.SourceBody {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 25%;
+}
 .SourceLabelInput {
   padding-top: 1.0em;
 }
@@ -126,6 +114,13 @@ body {
 .SourceSelect {
   font-size: 1.0em;
   font-weight: bold;
+}
+.DestinationBody {
+  position: absolute;
+  left: 0;
+  top: 25%;
+  width: 100%;
+  height: 25%;
 }
 .DestinationLabelInput {
   padding-top: 1.0em;
@@ -222,9 +217,6 @@ body {
   background-color: #678754;
   color: white;
 }
-.AdvisoryUC {
-  display: none;
-}
 .DriveBarUI {
   position: absolute;
   background-color: #658552;
@@ -235,72 +227,9 @@ body {
   font-weight: 700;
   font-size: 1.0em;
 }
-.Weather1 {
+.WeatherCell {
   position: absolute;
   left: 0;
-  top: 0;
-  width: 12.5%;
-  height: 100%;
-  border: 1px solid;
-  text-align: center;
-}
-.Weather2 {
-  position: absolute;
-  left: 12.5%;
-  top: 0;
-  width: 12.5%;
-  height: 100%;
-  border: 1px solid;
-  text-align: center;
-}
-.Weather3 {
-  position: absolute;
-  left: 25.0%;
-  top: 0;
-  width: 12.5%;
-  height: 100%;
-  border: 1px solid;
-  text-align: center;
-}
-.Weather4 {
-  position: absolute;
-  left: 37.5%;
-  top: 0;
-  width: 12.5%;
-  height: 100%;
-  border: 1px solid;
-  text-align: center;
-}
-.Weather5 {
-  position: absolute;
-  left: 50.0%;
-  top: 0;
-  width: 12.5%;
-  height: 100%;
-  border: 1px solid;
-  text-align: center;
-}
-.Weather6 {
-  position: absolute;
-  left: 62.5%;
-  top: 0;
-  width: 12.5%;
-  height: 100%;
-  border: 1px solid;
-  text-align: center;
-}
-.Weather7 {
-  position: absolute;
-  left: 75.0%;
-  top: 0;
-  width: 12.5%;
-  height: 100%;
-  border: 1px solid;
-  text-align: center;
-}
-.Weather8 {
-  position: absolute;
-  left: 87.5%;
   top: 0;
   width: 12.5%;
   height: 100%;

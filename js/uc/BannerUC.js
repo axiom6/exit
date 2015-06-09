@@ -45,12 +45,16 @@
     };
 
     BannerUC.prototype.onTrip = function(trip) {
+      return this.changeRecommendation(trip.recommendation);
+    };
+
+    BannerUC.prototype.changeRecommendation = function(recommendation) {
       var klass, scale;
-      this.$bannerText.text(trip.recommendation);
-      klass = trip.recommendation === 'GO' ? 'GoBanner' : 'NoGoBanner';
+      this.$bannerText.text(recommendation);
+      klass = recommendation === 'GO' ? 'GoBanner' : 'NoGoBanner';
       this.$.attr('class', klass);
       scale = this.screen.orientation === 'Portrait' ? this.port[3] : this.land[3];
-      scale = trip.recommendation === 'GO' ? scale * 0.0050 : scale * 0.0030;
+      scale = recommendation === 'GO' ? scale * 0.0050 : scale * 0.0020;
       return this.$.css({
         fontSize: screen.height * scale + 'px'
       });

@@ -41,8 +41,8 @@ class WeatherUC
   @Icons['unknown']             = { back:'black',          icon:'wi-wind-default _0-deg' }
 
   constructor:( @stream, @role, @port, @land ) ->
-    @trip      = {}  # Set by onTrip()
-    @forecasts = {}  # Set by onForecasts()
+    @forecasts = null
+    @screen    = null
 
   ready:() ->
     @$ = $( """<div id="#{Util.id('WeatherUC')}" class="#{Util.css('WeatherUC')}"></div>""" )
@@ -63,23 +63,47 @@ class WeatherUC
 
   onScreen:( screen ) ->
     Util.cssPosition( @$, screen, @port, @land )
+    @updateCss( @forecasts, screen ) if @forecasts?
+    @screen =  screen
+
+  updateCss:( forecasts, screen ) ->
+    isHorz = screen.orientation is 'Landscape'
+    n = 8
+    i = 0
+    x = 0
+    y = 0
+    w = if isHorz then 100/n else 200/n
+    h = if isHorz then 100   else 50
+    for own name, forecast of forecasts
+      i++
+      $f = @$find( name )
+      $f.css( { left:x+'%', top:y+'%', width:w+'%', height:h+'%'} )
+      x += w
+      if i is n/2 and not isHorz
+        x  = 0
+        y += h
+
+  $find:( name ) ->
+    @$.find( "#Weather#{name}" )
 
   onTrip:( trip ) ->
-    @trip = trip
+    Util.noop( 'WeatherUC.onTrip()', trip )
     return
 
-  onForecasts:( forecasts ) ->
+  onForecasts:(  forecasts ) ->
     for own name, forecast of forecasts
-      $f = $( '#'+"Weather#{name}")
+      $f = @$find( name )
       w  = @toWeather( forecast )
       if Util.isJQuery($f)
         @updateForecastHtml( name, w, $f )
       else
         @createForecastHtml( name, w )
+        @updateCss( forecasts, @screen ) if @screen?
+    @forecasts = forecasts
     return
 
   createForecastHtml:( name, w ) ->
-    html = """<div   class="Weather#{w.index}" style="background-color:#{w.back}" id="Weather#{name}">
+    html = """<div   class="WeatherCell" style="background-color:#{w.back}" id="Weather#{name}">
                 <div class="WeatherName">#{name}</div>
                 <div class="WeatherTime">#{w.hms}</div>
                 <i   class="WeatherIcon wi #{w.icon}"></i>

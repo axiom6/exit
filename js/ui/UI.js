@@ -7,65 +7,56 @@
     Util.Export(UI, 'ui/UI');
 
     function UI(stream, destinationUI, goUI, tripUI, dealsUI, navigateUI) {
+      var IconsUC;
       this.stream = stream;
       this.destinationUI = destinationUI;
       this.goUI = goUI;
       this.tripUI = tripUI;
       this.dealsUI = dealsUI;
       this.navigateUI = navigateUI;
-      this.select = bind(this.select, this);
+      this.onIcons = bind(this.onIcons, this);
+      IconsUC = Util.Import('uc/IconsUC');
+      this.iconsUC = new IconsUC(this.stream, [0, 0, 100, 10], [0, 0, 100, 18]);
       this.orientation = 'Portrait';
       this.recommendation = 'GO';
+      this.trip = null;
       this.firstTrip = true;
     }
 
     UI.prototype.ready = function() {
       this.$ = $(this.html());
       $('#App').append(this.$);
+      this.iconsUC.ready();
+      this.destinationUI.ready();
+      this.goUI.ready();
+      this.tripUI.ready();
+      this.dealsUI.ready();
+      this.navigateUI.ready();
+      this.$.append(this.iconsUC.$);
       this.$view = this.$.find('#View');
       this.$view.append(this.destinationUI.$);
       this.$view.append(this.goUI.$);
       this.$view.append(this.tripUI.$);
       this.$view.append(this.dealsUI.$);
       this.$view.append(this.navigateUI.$);
-      this.$IconsHover = this.$.find('#IconsHover');
-      this.$Icons = this.$.find('#Icons');
-      this.$destinationIcon = this.$.find('#DestinationIcon');
-      this.$recommendationIcon = this.$.find('#RecommendationIcon');
-      this.$recommendationFA = this.$.find('#RecommendationFA');
-      this.$tripIcon = this.$.find('#TripIcon');
-      this.$dealsIcon = this.$.find('#DealsIcon');
-      this.$namigateIcon = this.$.find('#NavigateIcon');
-      this.$IconsHover.mouseenter((function(_this) {
-        return function() {
-          return _this.$Icons.show();
-        };
-      })(this));
-      this.$Icons.mouseleave((function(_this) {
-        return function() {
-          return _this.$Icons.hide();
-        };
-      })(this));
-      this.events();
       this.subscribe();
-      return this.stream.publish('Select', 'Destination');
+      return this.stream.publish('Icons', 'Destination');
     };
 
     UI.prototype.position = function(screen) {
-      return this.onScreen(screen);
-    };
-
-    UI.prototype.events = function() {
-      this.stream.event('Select', this.$destinationIcon, 'click', 'Destination');
-      this.stream.event('Select', this.$recommendationIcon, 'click', this.recommendation);
-      this.stream.event('Select', this.$tripIcon, 'click', 'Trip');
-      return this.stream.event('Select', this.$dealsIcon, 'click', 'Deals');
+      this.onScreen(screen);
+      this.iconsUC.position(screen);
+      this.destinationUI.position(screen);
+      this.goUI.position(screen);
+      this.tripUI.position(screen);
+      this.dealsUI.position(screen);
+      return this.navigateUI.position(screen);
     };
 
     UI.prototype.subscribe = function() {
-      this.stream.subscribe('Select', (function(_this) {
-        return function(page) {
-          return _this.select(page);
+      this.stream.subscribe('Icons', (function(_this) {
+        return function(name) {
+          return _this.onIcons(name);
         };
       })(this));
       this.stream.subscribe('Screen', (function(_this) {
@@ -93,29 +84,33 @@
     };
 
     UI.prototype.html = function() {
-      return "<div      id=\"" + (this.id('UI')) + "\"                     class=\"" + (this.css('UI')) + "\">\n <div    id=\"" + (this.id('IconsHover')) + "\"             class=\"" + (this.css('IconsHover')) + "\"></div>\n <div    id=\"" + (this.id('Icons')) + "\"                  class=\"" + (this.css('Icons')) + "\">\n    <div>\n      <div id=\"" + (this.id('Destination', 'Icon')) + "\"  class=\"" + (this.css('Destination', 'Icon')) + "\"><i class=\"fa fa-picture-o\"></i><div>Destination</div></div>\n      <div id=\"" + (this.id('Recommendation', 'Icon')) + "\"  class=\"" + (this.css('Recommendation', 'Icon')) + "\"><i class=\"fa fa-thumbs-up\" id=\"RecommendationFA\"></i><div>Recommendation</div></div>\n      <div id=\"" + (this.id('Trip', 'Icon')) + "\"  class=\"" + (this.css('Trip', 'Icon')) + "\"><i class=\"fa fa-road\"></i><div>Trip</div></div>\n      <div id=\"" + (this.id('Deals', 'Icon')) + "\"  class=\"" + (this.css('Deals', 'Icon')) + "\"><i class=\"fa fa-trophy\"></i><div>Deals</div></div>\n    </div>\n </div>\n <div id=\"" + (this.id('View')) + "\" class=\"" + (this.css('View')) + "\"></div>\n</div>";
+      return "<div   id=\"" + (this.id('UI')) + "\"   class=\"" + (this.css('UI')) + "\">\n <div id=\"" + (this.id('View')) + "\" class=\"" + (this.css('View')) + "\"></div>\n</div>";
     };
 
     UI.prototype.onTrip = function(trip) {
+      this.trip = trip;
       if (this.recommendation !== trip.recommendation) {
         this.changeRecommendation(trip.recommendation);
         this.recommendation = trip.recommendation;
-      } else if (this.firstTrip) {
-        this.select(this.recommendation);
+      }
+      if (this.firstTrip) {
+        this.onIcons('Recommendation');
         this.firstTrip = false;
       }
     };
 
     UI.prototype.changeRecommendation = function(recommendation) {
-      var faClass;
-      Util.noop('UI.changeRecommendation', recommendation);
-      this.select(recommendation);
+      var $icon, faClass;
+      this.onIcons('Recommendation');
       faClass = recommendation === 'GO' ? 'fa fa-thumbs-up' : 'fa fa-thumbs-down';
-      this.$recommendationFA.attr('class', faClass);
+      $icon = this.iconsUC.$find('Recommendation');
+      $icon.find('i').attr('class', faClass);
+      $icon.find('div').text(recommendation);
     };
 
     UI.prototype.onScreen = function(screen) {
       var url;
+      Util.dbg('UI.onScreen()', screen);
       if (this.orientation !== screen.orientation) {
         this.orientation = screen.orientation;
         url = "css/img/app/phone6x12" + screen.orientation + ".png";
@@ -126,35 +121,39 @@
       }
     };
 
-    UI.prototype.show = function() {};
-
-    UI.prototype.hide = function() {};
-
-    UI.prototype.select = function(page) {
+    UI.prototype.onIcons = function(name) {
+      var orientation;
       if (this.lastSelect != null) {
         this.lastSelect.hide();
       }
-      switch (page) {
+      switch (name) {
         case 'Destination':
           this.lastSelect = this.destinationUI;
           break;
-        case 'GO':
-        case 'NO GO':
+        case 'Recommendation':
           this.lastSelect = this.goUI;
+
+          /*
+          if not @firstTrip
+            @trip.recommendation = if @trip.recommendation is 'GO' then 'NO GO' else 'GO'
+            @stream.publish( 'Trip', @trip )
+           */
           break;
         case 'Trip':
           this.lastSelect = this.tripUI;
-          this.onScreen(this.toScreen('Landscape'));
-          this.tripUI.onScreen(this.toScreen('Landscape'));
           break;
         case 'Deals':
           this.lastSelect = this.dealsUI;
           break;
+        case 'Navigate':
+          this.lastSelect = this.navigateUI;
+          break;
+        case 'Point':
+          orientation = this.orientation === 'Portrait' ? 'Landscape' : 'Portrait';
+          this.stream.publish('Screen', this.toScreen(orientation));
+          break;
         default:
-          Util.error("UI.select unknown page", page);
-      }
-      if (page !== 'Trip') {
-        this.onScreen(this.toScreen('Portrait'));
+          Util.error("UI.select unknown name", name);
       }
       this.lastSelect.show();
     };

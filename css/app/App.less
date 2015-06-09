@@ -6,15 +6,15 @@ body { background-image:url("../img/app/phone6x12Portrait.png"); background-repe
 
 .UI                { position:absolute; left:0; top:0; width:100%; height:100%; font-family: 'Droid Sans', sans-serif; }
 
-.IconsHover        { position:absolute; left:0; top:0; width:100%; height:  4%;
+.IconsUC           { position:absolute; left:      0;  top:0;  width:100%;  height: 10%; display:transparent; }
+
+.IconsHover        { position:absolute; left:0; top:0; width:100%; height:40%;
                      background:transparent; z-index:3; }
 
-.Icons              { position:absolute; left:      0;  top:0;  width:100%;  height: 10%; display:none;
+.Icons              { position:absolute; left:      0;  top:0;  width:100%;  height: 100%; display:none;
                       background:black; color:white; font-size:36px; border:1px solid black; z-index:4; }
-.DestinationIcon    { position:absolute; left:    0;  top:0; width:25.00%; height:94%; z-index:5; text-align:center;}
-.RecommendationIcon { position:absolute; left:25.00%; top:0; width:25.00%; height:94%; z-index:5; text-align:center;}
-.TripIcon           { position:absolute; left:50.00%; top:0; width:25.00%; height:94%; z-index:5; text-align:center;}
-.DealsIcon          { position:absolute; left:75.00%; top:0; width:25.00%; height:94%; z-index:5; text-align:center;}
+.Icon               { position:absolute; left:    0;  top:0; width:25.00%; height:94%; z-index:5; text-align:center;}
+
 
 .Icons > div             { display:table; }                                // CSS Hack with table and
 .Icons > div > div       { display:table-cell; vertical-align:middle; }    // table-cell vertical middle
@@ -23,7 +23,7 @@ body { background-image:url("../img/app/phone6x12Portrait.png"); background-repe
 .DestinationUI           { position:absolute; left:0; top:0; width:100%; height:100%;
                            display:none; background-color:#658552; text-align:center; }
 
-.SourceBody            {  }
+.SourceBody            {position:absolute; left:0; top:0; width:100%; height:25%; }
 .SourceLabelInput      { padding-top:1.0em; }
 .SourceUserLabel       { font-size:1.0em;  font-weight:bold; }
 .SourceUserInput       { font-size:1.0em;  font-weight:bold; }
@@ -31,7 +31,7 @@ body { background-image:url("../img/app/phone6x12Portrait.png"); background-repe
 .SourceDest            { font-size:2.5em;  font-weight:bold; padding-bottom:0.5em; }
 .SourceSelect          { font-size:1.0em;  font-weight:bold; }
 
-.DestinationBody       {  }
+.DestinationBody       { position:absolute; left:0; top:25%; width:100%; height:25% }
 .DestinationLabelInput { padding-top:1.0em; }
 .DestinationUserLabel  { font-size:1.0em;  font-weight:bold; }
 .DestinationUserInput  { font-size:1.0em;  font-weight:bold; }
@@ -55,20 +55,12 @@ body { background-image:url("../img/app/phone6x12Portrait.png"); background-repe
 
 .DealsUC               { position:absolute;  overflow:auto; font-size:1.5em;  background-color:#678754; color:white; }
 
-.AdvisoryUC            { display:none; }
+.AdvisoryUC            {  }
 
 .DriveBarUI            { position:absolute;  background-color:#658552; }
 
-.WeatherUC { position:absolute;  font-family: 'Open Sans Condensed', sans-serif; font-weight:700; font-size:1.0em; }
-.Weather1  { position:absolute; left:0;     top:0; width:12.5%; height:100%;  border:1px solid; text-align:center; }
-.Weather2  { position:absolute; left:12.5%; top:0; width:12.5%; height:100%;  border:1px solid; text-align:center; }
-.Weather3  { position:absolute; left:25.0%; top:0; width:12.5%; height:100%;  border:1px solid; text-align:center; }
-.Weather4  { position:absolute; left:37.5%; top:0; width:12.5%; height:100%;  border:1px solid; text-align:center; }
-.Weather5  { position:absolute; left:50.0%; top:0; width:12.5%; height:100%;  border:1px solid; text-align:center; }
-.Weather6  { position:absolute; left:62.5%; top:0; width:12.5%; height:100%;  border:1px solid; text-align:center; }
-.Weather7  { position:absolute; left:75.0%; top:0; width:12.5%; height:100%;  border:1px solid; text-align:center; }
-.Weather8  { position:absolute; left:87.5%; top:0; width:12.5%; height:100%;  border:1px solid; text-align:center; }
-
+.WeatherUC   { position:absolute;  font-family: 'Open Sans Condensed', sans-serif; font-weight:700; font-size:1.0em; }
+.WeatherCell { position:absolute; left:0;     top:0; width:12.5%; height:100%;  border:1px solid; text-align:center; }
 .WeatherName { font-size:0.9em; }
 .WeatherName { font-size:0.9em; }
 .WeatherIcon { font-size:2.5em; }

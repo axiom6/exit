@@ -32,6 +32,7 @@
     DriveBarUC.prototype.position = function(screen) {
       var ref;
       this.screen = screen;
+      this.screenOrig = screen;
       Util.cssPosition(this.$, this.screen, this.port, this.land);
       ref = this.createSvg(this.$, this.htmlId, this.name, this.role, this.svgWidth(), this.svgHeight(), this.barTop()), this.svg = ref[0], this.$svg = ref[1], this.g = ref[2], this.$g = ref[3], this.gId = ref[4], this.gw = ref[5], this.gh = ref[6], this.y0 = ref[7];
       return this.subscribe();
@@ -68,7 +69,14 @@
       return this.lastTrip = trip;
     };
 
-    DriveBarUC.prototype.onScreen = function(next) {
+    DriveBarUC.prototype.onScreen = function(screen) {
+      this.screen = screen;
+      Util.cssPosition(this.$, this.screen, this.port, this.land);
+      this.svg.attr("width", this.svgWidth()).attr('height', this.svgHeight());
+      return this.createBars(this.lastTrip);
+    };
+
+    DriveBarUC.prototype.onScreenTransform = function(next) {
       var prev, ref, ref1, xn, xp, xs, yn, yp, ys;
       prev = this.screen;
       this.screen = next;
