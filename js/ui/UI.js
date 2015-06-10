@@ -6,6 +6,38 @@
   UI = (function() {
     Util.Export(UI, 'ui/UI');
 
+    UI.IconSpecs = [
+      {
+        name: 'Destination',
+        css: 'Icon',
+        icon: 'picture-o'
+      }, {
+        name: 'Recommendation',
+        css: 'Icon',
+        icon: 'thumbs-up'
+      }, {
+        name: 'Trip',
+        css: 'Icon',
+        icon: 'road'
+      }, {
+        name: 'Deals',
+        css: 'Icon',
+        icon: 'trophy'
+      }, {
+        name: 'Navigate',
+        css: 'Icon',
+        icon: 'car'
+      }, {
+        name: 'Point',
+        css: 'Icon',
+        icon: 'compass'
+      }, {
+        name: 'Fork',
+        css: 'Icon',
+        icon: 'code-fork'
+      }
+    ];
+
     function UI(stream, destinationUI, goUI, tripUI, dealsUI, navigateUI) {
       var IconsUC;
       this.stream = stream;
@@ -16,7 +48,7 @@
       this.navigateUI = navigateUI;
       this.onIcons = bind(this.onIcons, this);
       IconsUC = Util.Import('uc/IconsUC');
-      this.iconsUC = new IconsUC(this.stream, [0, 0, 100, 10], [0, 0, 100, 18]);
+      this.iconsUC = new IconsUC(this.stream, 'Icons', [0, 0, 100, 10], [0, 0, 100, 18], UI.IconSpecs, true, true);
       this.orientation = 'Portrait';
       this.recommendation = '?';
     }
@@ -88,7 +120,6 @@
     UI.prototype.onTrip = function(trip) {
       if (this.recommendation !== trip.recommendation) {
         this.changeRecommendation(trip.recommendation);
-        this.recommendation = trip.recommendation;
       }
     };
 

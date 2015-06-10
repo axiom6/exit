@@ -201,21 +201,31 @@ body {
   height: 100%;
 }
 .ThresholdUC {
-  display: none;
   position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-}
-.DealsUC {
-  position: absolute;
-  overflow: auto;
   font-size: 1.5em;
   background-color: #678754;
   color: white;
 }
-.DriveBarUI {
+.SearchUC {
+  position: absolute;
+  font-size: 1.5em;
+  background-color: #678754;
+  color: white;
+}
+.DealsUC {
+  position: absolute;
+  font-size: 1.5em;
+  background-color: #678754;
+  color: white;
+  overflow: auto;
+}
+.AdvisoryUC {
+  position: absolute;
+  font-size: 1.5em;
+  background-color: #678754;
+  color: white;
+}
+.DriveBarUC {
   position: absolute;
   background-color: #658552;
 }

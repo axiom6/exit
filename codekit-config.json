@@ -78,17 +78,6 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/js\/util\/Visual.Test.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/util\/Visual.Test.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/util\/Visual.Test-ck.js",
-      "fileType" : 64
-    },
     "\/css\/img\/gritter\/gritter-close.png" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -100,6 +89,17 @@
       "initialSize" : 4204,
       "fileType" : 8192
     },
+    "\/js\/util\/Visual.Test.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/js\/util\/Visual.Test.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/js\/util\/Visual.Test-ck.js",
+      "fileType" : 64
+    },
     "\/css\/img\/app\/6-app-no-go.png" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -109,17 +109,6 @@
       "processed" : 0,
       "outputAbbreviatedPath" : "\/css\/img\/app\/6-app-no-go.png",
       "initialSize" : 232306,
-      "fileType" : 8192
-    },
-    "\/css\/img\/app\/Weather.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/css\/img\/app\/Weather.png",
-      "processed" : 0,
-      "outputAbbreviatedPath" : "\/css\/img\/app\/Weather.png",
-      "initialSize" : 147363,
       "fileType" : 8192
     },
     "\/coffee\/app\/Model.coffee" : {
@@ -133,6 +122,17 @@
       "outputAbbreviatedPath" : "\/js\/app\/Model.js",
       "outputStyle" : 0,
       "fileType" : 32
+    },
+    "\/css\/img\/app\/Weather.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/css\/img\/app\/Weather.png",
+      "processed" : 0,
+      "outputAbbreviatedPath" : "\/css\/img\/app\/Weather.png",
+      "initialSize" : 147363,
+      "fileType" : 8192
     },
     "\/coffee\/uc\/DealsUC.coffee" : {
       "ignoreWasSetByUser" : 0,
@@ -423,6 +423,17 @@
       "initialSize" : 4880,
       "fileType" : 8192
     },
+    "\/js\/uc\/SearchUC.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/js\/uc\/SearchUC.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/js\/uc\/SearchUC-ck.js",
+      "fileType" : 64
+    },
     "\/js\/app\/Trip.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -490,6 +501,18 @@
       "initialSize" : 90618,
       "fileType" : 8192
     },
+    "\/coffee\/ui\/NavigateUI.coffee" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 1,
+      "inputAbbreviatedPath" : "\/coffee\/ui\/NavigateUI.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/js\/ui\/NavigateUI.js",
+      "outputStyle" : 0,
+      "fileType" : 32
+    },
     "\/css\/app\/App.less" : {
       "ieCompatibility" : 1,
       "inputAbbreviatedPath" : "\/css\/app\/App.less",
@@ -506,18 +529,6 @@
       "outputStyle" : 0,
       "fileType" : 1,
       "debugStyle" : 0
-    },
-    "\/coffee\/ui\/NavigateUI.coffee" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 1,
-      "inputAbbreviatedPath" : "\/coffee\/ui\/NavigateUI.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/js\/ui\/NavigateUI.js",
-      "outputStyle" : 0,
-      "fileType" : 32
     },
     "\/js\/uc\/AdvisoryUC.js" : {
       "ignoreWasSetByUser" : 0,
@@ -642,17 +653,6 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/css\/img\/app\/3-app-dropdown-select.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/css\/img\/app\/3-app-dropdown-select.png",
-      "processed" : 0,
-      "outputAbbreviatedPath" : "\/css\/img\/app\/3-app-dropdown-select.png",
-      "initialSize" : 220626,
-      "fileType" : 8192
-    },
     "\/coffee\/uc\/ThresholdUC.coffee" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -664,6 +664,17 @@
       "outputAbbreviatedPath" : "\/js\/uc\/ThresholdUC.js",
       "outputStyle" : 0,
       "fileType" : 32
+    },
+    "\/css\/img\/app\/3-app-dropdown-select.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/css\/img\/app\/3-app-dropdown-select.png",
+      "processed" : 0,
+      "outputAbbreviatedPath" : "\/css\/img\/app\/3-app-dropdown-select.png",
+      "initialSize" : 220626,
+      "fileType" : 8192
     },
     "\/coffee\/util\/custom_boot.coffee" : {
       "ignoreWasSetByUser" : 0,
@@ -712,17 +723,6 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/js\/app\/Visual.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 1,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/app\/Visual.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/app\/Visual-ck.js",
-      "fileType" : 64
-    },
     "\/css\/app\/Jasmine.Custom.less" : {
       "ieCompatibility" : 1,
       "inputAbbreviatedPath" : "\/css\/app\/Jasmine.Custom.less",
@@ -739,6 +739,17 @@
       "outputStyle" : 0,
       "fileType" : 1,
       "debugStyle" : 0
+    },
+    "\/js\/app\/Visual.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 1,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/js\/app\/Visual.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/js\/app\/Visual-ck.js",
+      "fileType" : 64
     },
     "\/data\/junk\/I70Mileposts.html" : {
       "ignoreWasSetByUser" : 0,
@@ -760,38 +771,15 @@
       "outputAbbreviatedPath" : "\/js\/ui\/NavigateUI-ck.js",
       "fileType" : 64
     },
-    "\/coffee\/util\/Visual.coffee" : {
+    "\/coffee\/uc\/SearchUC.coffee" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
       "hidden" : 0,
       "outputPathIsSetByUser" : 1,
-      "inputAbbreviatedPath" : "\/coffee\/util\/Visual.coffee",
+      "inputAbbreviatedPath" : "\/coffee\/uc\/SearchUC.coffee",
       "checkOutputStyle" : 0,
       "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/js\/util\/Visual.js",
-      "outputStyle" : 1,
-      "fileType" : 32
-    },
-    "\/css\/img\/dash\/dash-slide2_720.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/css\/img\/dash\/dash-slide2_720.png",
-      "processed" : 0,
-      "outputAbbreviatedPath" : "\/css\/img\/dash\/dash-slide2_720.png",
-      "initialSize" : 104731,
-      "fileType" : 8192
-    },
-    "\/coffee\/app\/App.coffee" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 1,
-      "inputAbbreviatedPath" : "\/coffee\/app\/App.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/js\/app\/App.js",
+      "outputAbbreviatedPath" : "\/js\/uc\/SearchUC.js",
       "outputStyle" : 0,
       "fileType" : 32
     },
@@ -804,6 +792,30 @@
       "checkOutputStyle" : 0,
       "minifyOutput" : 0,
       "outputAbbreviatedPath" : "\/js\/util\/Visual.Test.js",
+      "outputStyle" : 0,
+      "fileType" : 32
+    },
+    "\/coffee\/util\/Visual.coffee" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 1,
+      "inputAbbreviatedPath" : "\/coffee\/util\/Visual.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/js\/util\/Visual.js",
+      "outputStyle" : 1,
+      "fileType" : 32
+    },
+    "\/coffee\/app\/App.coffee" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 1,
+      "inputAbbreviatedPath" : "\/coffee\/app\/App.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/js\/app\/App.js",
       "outputStyle" : 0,
       "fileType" : 32
     },
@@ -861,6 +873,17 @@
       "outputAbbreviatedPath" : "No Output Path",
       "fileType" : 2048
     },
+    "\/css\/img\/dash\/dash-slide2_720.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/css\/img\/dash\/dash-slide2_720.png",
+      "processed" : 0,
+      "outputAbbreviatedPath" : "\/css\/img\/dash\/dash-slide2_720.png",
+      "initialSize" : 104731,
+      "fileType" : 8192
+    },
     "\/js\/uc\/DriveBarUC.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -883,17 +906,6 @@
       "outputAbbreviatedPath" : "\/js\/uc\/IconsUC-ck.js",
       "fileType" : 64
     },
-    "\/js\/ui\/DealsUI.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/ui\/DealsUI.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/ui\/DealsUI-ck.js",
-      "fileType" : 64
-    },
     "\/css\/img\/app\/2-app-dropdown.png" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -904,6 +916,17 @@
       "outputAbbreviatedPath" : "\/css\/img\/app\/2-app-dropdown.png",
       "initialSize" : 220613,
       "fileType" : 8192
+    },
+    "\/js\/ui\/DealsUI.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/js\/ui\/DealsUI.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/js\/ui\/DealsUI-ck.js",
+      "fileType" : 64
     },
     "\/css\/img\/app\/7-homescreen-alert.png" : {
       "ignoreWasSetByUser" : 0,
@@ -937,17 +960,16 @@
       "outputAbbreviatedPath" : "No Output Path",
       "fileType" : 2048
     },
-    "\/coffee\/app\/Trip.coffee" : {
+    "\/css\/img\/app\/1-app-open.png" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
       "hidden" : 0,
-      "outputPathIsSetByUser" : 1,
-      "inputAbbreviatedPath" : "\/coffee\/app\/Trip.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/js\/app\/Trip.js",
-      "outputStyle" : 0,
-      "fileType" : 32
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/css\/img\/app\/1-app-open.png",
+      "processed" : 0,
+      "outputAbbreviatedPath" : "\/css\/img\/app\/1-app-open.png",
+      "initialSize" : 204182,
+      "fileType" : 8192
     },
     "\/js\/uc\/DealsUC.js" : {
       "ignoreWasSetByUser" : 0,
@@ -960,16 +982,17 @@
       "outputAbbreviatedPath" : "\/js\/uc\/DealsUC-ck.js",
       "fileType" : 64
     },
-    "\/css\/img\/app\/1-app-open.png" : {
+    "\/coffee\/app\/Trip.coffee" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
       "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/css\/img\/app\/1-app-open.png",
-      "processed" : 0,
-      "outputAbbreviatedPath" : "\/css\/img\/app\/1-app-open.png",
-      "initialSize" : 204182,
-      "fileType" : 8192
+      "outputPathIsSetByUser" : 1,
+      "inputAbbreviatedPath" : "\/coffee\/app\/Trip.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/js\/app\/Trip.js",
+      "outputStyle" : 0,
+      "fileType" : 32
     },
     "\/coffee\/ui\/GoUI.coffee" : {
       "ignoreWasSetByUser" : 0,
@@ -995,6 +1018,18 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
+    "\/data\/junk\/URLs.coffee" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/data\/junk\/URLs.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/data\/junk\/URLs.js",
+      "outputStyle" : 0,
+      "fileType" : 32
+    },
     "\/css\/img\/site\/TeamGo.png" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -1005,17 +1040,6 @@
       "outputAbbreviatedPath" : "\/css\/img\/site\/TeamGo.png",
       "initialSize" : 359352,
       "fileType" : 8192
-    },
-    "\/js\/uc\/BannerUC.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/uc\/BannerUC.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/uc\/BannerUC-ck.js",
-      "fileType" : 64
     },
     "\/js\/app\/Data.js" : {
       "ignoreWasSetByUser" : 0,
@@ -1074,17 +1098,16 @@
       "outputAbbreviatedPath" : "\/js\/ui\/TripUI-ck.js",
       "fileType" : 64
     },
-    "\/data\/junk\/URLs.coffee" : {
+    "\/js\/uc\/BannerUC.js" : {
       "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
+      "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/data\/junk\/URLs.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/data\/junk\/URLs.js",
+      "inputAbbreviatedPath" : "\/js\/uc\/BannerUC.js",
       "outputStyle" : 0,
-      "fileType" : 32
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/js\/uc\/BannerUC-ck.js",
+      "fileType" : 64
     },
     "\/js\/util\/GeoJsonUtils.Test.js" : {
       "ignoreWasSetByUser" : 0,

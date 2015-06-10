@@ -3,9 +3,18 @@ class UI
 
   Util.Export( UI, 'ui/UI' )
 
+  @IconSpecs = [
+    { name:'Destination',    css:'Icon', icon:'picture-o' }
+    { name:'Recommendation', css:'Icon', icon:'thumbs-up' }
+    { name:'Trip',           css:'Icon', icon:'road'      }
+    { name:'Deals',          css:'Icon', icon:'trophy'    }
+    { name:'Navigate',       css:'Icon', icon:'car'       }
+    { name:'Point',          css:'Icon', icon:'compass'   }
+    { name:'Fork',           css:'Icon', icon:'code-fork' } ]
+
   constructor:( @stream, @destinationUI, @goUI, @tripUI, @dealsUI, @navigateUI ) ->
     IconsUC         = Util.Import( 'uc/IconsUC' )
-    @iconsUC        = new IconsUC( @stream, [0,0,100,10], [0,0,100,18] )
+    @iconsUC        = new IconsUC( @stream, 'Icons', [0,0,100,10], [0,0,100,18], UI.IconSpecs, true, true )
     @orientation    = 'Portrait'
     @recommendation = '?'
 
@@ -54,7 +63,6 @@ class UI
   onTrip:( trip ) ->
     if @recommendation isnt  trip.recommendation
       @changeRecommendation( trip.recommendation )
-      @recommendation =      trip.recommendation
     return
 
   reverseRecommendation:() ->

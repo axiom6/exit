@@ -10,7 +10,6 @@ class GoUI
     @bannerUC   = new BannerUC(   @stream, 'Go', [4, 4,92,16], [ 4,  4, 46, 46] )
     @dealsUC    = new DealsUC(    @stream, 'Go', [4,24,92,42], [50,  4, 46, 46] )
     @driveBarUC = new DriveBarUC( @stream, 'Go', [4,66,92,30], [ 4, 54, 92, 42] )
-    @first = true
 
   ready:() ->
     @bannerUC.ready()
