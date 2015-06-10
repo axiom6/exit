@@ -54,9 +54,9 @@
       klass = recommendation === 'GO' ? 'GoBanner' : 'NoGoBanner';
       this.$.attr('class', klass);
       scale = this.screen.orientation === 'Portrait' ? this.port[3] : this.land[3];
-      scale = recommendation === 'GO' ? scale * 0.0050 : scale * 0.0020;
+      scale = recommendation === 'GO' ? scale * 0.0040 : scale * 0.0040;
       return this.$.css({
-        fontSize: screen.height * scale + 'px'
+        fontSize: this.screen.height * scale + 'px'
       });
     };
 

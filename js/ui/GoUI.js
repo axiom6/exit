@@ -11,8 +11,8 @@
       BannerUC = Util.Import('uc/BannerUC');
       DealsUC = Util.Import('uc/DealsUC');
       DriveBarUC = Util.Import('uc/DriveBarUC');
-      this.bannerUC = new BannerUC(this.stream, 'Go', [4, 4, 92, 29], [4, 4, 46, 46]);
-      this.dealsUC = new DealsUC(this.stream, 'Go', [4, 33, 92, 29], [50, 4, 46, 46]);
+      this.bannerUC = new BannerUC(this.stream, 'Go', [4, 4, 92, 16], [4, 4, 46, 46]);
+      this.dealsUC = new DealsUC(this.stream, 'Go', [4, 24, 92, 42], [50, 4, 46, 46]);
       this.driveBarUC = new DriveBarUC(this.stream, 'Go', [4, 66, 92, 30], [4, 54, 92, 42]);
       this.first = true;
     }

@@ -30,6 +30,10 @@
         name: 'Point',
         css: 'Icon',
         icon: 'compass'
+      }, {
+        name: 'Fork',
+        css: 'Icon',
+        icon: 'code-fork'
       }
     ];
 

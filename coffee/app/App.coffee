@@ -55,7 +55,7 @@ class App
 
     # Jumpstart App
     @stream.publish( 'Source',      'Denver' )
-    @stream.publish( 'Destination', 'Copper Mtn'   )
+    @stream.publish( 'Destination', 'Vail'   )
 
   ready:() ->
     @model.ready()

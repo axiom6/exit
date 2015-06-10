@@ -29,8 +29,8 @@ class BannerUC
     klass = if recommendation is 'GO' then 'GoBanner' else 'NoGoBanner'
     @$.attr('class', klass )
     scale = if @screen.orientation is 'Portrait' then @port[3]     else @land[3]
-    scale = if recommendation      is 'GO'       then scale*0.0050 else scale*0.0020
-    @$.css( { fontSize:screen.height*scale+'px' } )
+    scale = if recommendation      is 'GO'       then scale*0.0040 else scale*0.0040
+    @$.css( { fontSize:@screen.height*scale+'px' } )
 
   onScreen:( screen ) ->
     @screen = screen

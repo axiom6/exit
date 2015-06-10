@@ -49,7 +49,7 @@
         this.uiTest = new UI.Test(this.ui, this.trip, this.destinationUI, this.goUI, this.tripUI, this.navigateUI);
       }
       this.stream.publish('Source', 'Denver');
-      this.stream.publish('Destination', 'Copper Mtn');
+      this.stream.publish('Destination', 'Vail');
     }
 
     App.prototype.ready = function() {

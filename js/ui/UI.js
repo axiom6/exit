@@ -18,9 +18,7 @@
       IconsUC = Util.Import('uc/IconsUC');
       this.iconsUC = new IconsUC(this.stream, [0, 0, 100, 10], [0, 0, 100, 18]);
       this.orientation = 'Portrait';
-      this.recommendation = 'GO';
-      this.trip = null;
-      this.firstTrip = true;
+      this.recommendation = '?';
     }
 
     UI.prototype.ready = function() {
@@ -88,14 +86,25 @@
     };
 
     UI.prototype.onTrip = function(trip) {
-      this.trip = trip;
       if (this.recommendation !== trip.recommendation) {
         this.changeRecommendation(trip.recommendation);
         this.recommendation = trip.recommendation;
       }
-      if (this.firstTrip) {
-        this.onIcons('Recommendation');
-        this.firstTrip = false;
+    };
+
+    UI.prototype.reverseRecommendation = function() {
+      if (this.recommendation === 'GO') {
+        return 'NO GO';
+      } else {
+        return 'GO';
+      }
+    };
+
+    UI.prototype.reverseOrientation = function() {
+      if (this.orientation === 'Portrait') {
+        return 'Landscape';
+      } else {
+        return 'Portrait';
       }
     };
 
@@ -106,11 +115,12 @@
       $icon = this.iconsUC.$find('Recommendation');
       $icon.find('i').attr('class', faClass);
       $icon.find('div').text(recommendation);
+      this.goUI.bannerUC.changeRecommendation(recommendation);
+      this.recommendation = recommendation;
     };
 
     UI.prototype.onScreen = function(screen) {
       var url;
-      Util.dbg('UI.onScreen()', screen);
       if (this.orientation !== screen.orientation) {
         this.orientation = screen.orientation;
         url = "css/img/app/phone6x12" + screen.orientation + ".png";
@@ -122,7 +132,6 @@
     };
 
     UI.prototype.onIcons = function(name) {
-      var orientation;
       if (this.lastSelect != null) {
         this.lastSelect.hide();
       }
@@ -132,12 +141,6 @@
           break;
         case 'Recommendation':
           this.lastSelect = this.goUI;
-
-          /*
-          if not @firstTrip
-            @trip.recommendation = if @trip.recommendation is 'GO' then 'NO GO' else 'GO'
-            @stream.publish( 'Trip', @trip )
-           */
           break;
         case 'Trip':
           this.lastSelect = this.tripUI;
@@ -148,9 +151,11 @@
         case 'Navigate':
           this.lastSelect = this.navigateUI;
           break;
+        case 'Fork':
+          this.changeRecommendation(this.reverseRecommendation());
+          break;
         case 'Point':
-          orientation = this.orientation === 'Portrait' ? 'Landscape' : 'Portrait';
-          this.stream.publish('Screen', this.toScreen(orientation));
+          this.stream.publish('Screen', this.toScreen(this.reverseOrientation()));
           break;
         default:
           Util.error("UI.select unknown name", name);

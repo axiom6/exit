@@ -7,9 +7,7 @@ class UI
     IconsUC         = Util.Import( 'uc/IconsUC' )
     @iconsUC        = new IconsUC( @stream, [0,0,100,10], [0,0,100,18] )
     @orientation    = 'Portrait'
-    @recommendation = 'GO'
-    @trip           = null
-    @firstTrip = true
+    @recommendation = '?'
 
   ready:() ->
     @$ = $( @html() )
@@ -54,14 +52,16 @@ class UI
         </div>"""
 
   onTrip:( trip ) ->
-    @trip = trip
     if @recommendation isnt  trip.recommendation
       @changeRecommendation( trip.recommendation )
       @recommendation =      trip.recommendation
-    if @firstTrip
-      @onIcons( 'Recommendation' )
-      @firstTrip = false
     return
+
+  reverseRecommendation:() ->
+    if @recommendation is 'GO' then 'NO GO' else 'GO'
+
+  reverseOrientation:() ->
+    if @orientation is 'Portrait' then 'Landscape' else 'Portrait'
 
   changeRecommendation:( recommendation ) ->
     @onIcons( 'Recommendation' )
@@ -69,10 +69,11 @@ class UI
     $icon   =  @iconsUC.$find('Recommendation')
     $icon.find('i'  ).attr( 'class', faClass )
     $icon.find('div').text(recommendation)
+    @goUI.bannerUC.changeRecommendation( recommendation )
+    @recommendation = recommendation
     return
 
   onScreen:( screen ) ->
-    Util.dbg( 'UI.onScreen()', screen )
     if @orientation isnt screen.orientation
        @orientation    = screen.orientation
        url = "css/img/app/phone6x12#{screen.orientation}.png"
@@ -84,19 +85,12 @@ class UI
     @lastSelect.hide() if @lastSelect?
     switch name
       when 'Destination'     then @lastSelect = @destinationUI
-      when 'Recommendation'
-        @lastSelect = @goUI
-        ###
-        if not @firstTrip
-          @trip.recommendation = if @trip.recommendation is 'GO' then 'NO GO' else 'GO'
-          @stream.publish( 'Trip', @trip )
-        ###
+      when 'Recommendation'  then @lastSelect = @goUI
       when 'Trip'            then @lastSelect = @tripUI
       when 'Deals'           then @lastSelect = @dealsUI
       when 'Navigate'        then @lastSelect = @navigateUI
-      when 'Point'
-        orientation = if @orientation is 'Portrait' then 'Landscape' else 'Portrait'
-        @stream.publish( 'Screen', @toScreen(orientation) )
+      when 'Fork'            then @changeRecommendation( @reverseRecommendation() )
+      when 'Point'           then @stream.publish( 'Screen', @toScreen(@reverseOrientation() ) )
       else
         Util.error( "UI.select unknown name", name )
     @lastSelect.show()

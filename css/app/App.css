@@ -160,7 +160,6 @@ body {
 .GoBanner {
   position: absolute;
   display: table;
-  font-size: 5.0em;
   font-weight: bold;
   background-color: white;
   color: #658552;
@@ -168,7 +167,6 @@ body {
 .NoGoBanner {
   position: absolute;
   display: table;
-  font-size: 5.0em;
   font-weight: bold;
   background-color: #E2492F;
   color: white;

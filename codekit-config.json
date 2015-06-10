@@ -78,17 +78,6 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/css\/img\/gritter\/gritter-close.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/css\/img\/gritter\/gritter-close.png",
-      "processed" : 0,
-      "outputAbbreviatedPath" : "\/css\/img\/gritter\/gritter-close.png",
-      "initialSize" : 4204,
-      "fileType" : 8192
-    },
     "\/js\/util\/Visual.Test.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -99,6 +88,17 @@
       "syntaxCheckerStyle" : 0,
       "outputAbbreviatedPath" : "\/js\/util\/Visual.Test-ck.js",
       "fileType" : 64
+    },
+    "\/css\/img\/gritter\/gritter-close.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/css\/img\/gritter\/gritter-close.png",
+      "processed" : 0,
+      "outputAbbreviatedPath" : "\/css\/img\/gritter\/gritter-close.png",
+      "initialSize" : 4204,
+      "fileType" : 8192
     },
     "\/css\/img\/app\/6-app-no-go.png" : {
       "ignoreWasSetByUser" : 0,
@@ -519,6 +519,17 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
+    "\/js\/uc\/AdvisoryUC.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/js\/uc\/AdvisoryUC.js",
+      "outputStyle" : 0,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/js\/uc\/AdvisoryUC-ck.js",
+      "fileType" : 64
+    },
     "\/js\/util\/custom_reporter.orig.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -541,17 +552,6 @@
       "outputAbbreviatedPath" : "\/js\/util\/Util.Test.js",
       "outputStyle" : 0,
       "fileType" : 32
-    },
-    "\/js\/uc\/AdvisoryUC.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/js\/uc\/AdvisoryUC.js",
-      "outputStyle" : 0,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/js\/uc\/AdvisoryUC-ck.js",
-      "fileType" : 64
     },
     "\/App.html" : {
       "ignoreWasSetByUser" : 0,
@@ -740,64 +740,6 @@
       "fileType" : 1,
       "debugStyle" : 0
     },
-    "\/css\/img\/gritter\/gritter-long.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/css\/img\/gritter\/gritter-long.png",
-      "processed" : 0,
-      "outputAbbreviatedPath" : "\/css\/img\/gritter\/gritter-long.png",
-      "initialSize" : 6299,
-      "fileType" : 8192
-    },
-    "\/coffee\/app\/App.coffee" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 1,
-      "inputAbbreviatedPath" : "\/coffee\/app\/App.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/js\/app\/App.js",
-      "outputStyle" : 0,
-      "fileType" : 32
-    },
-    "\/coffee\/util\/Visual.coffee" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 1,
-      "inputAbbreviatedPath" : "\/coffee\/util\/Visual.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/js\/util\/Visual.js",
-      "outputStyle" : 1,
-      "fileType" : 32
-    },
-    "\/coffee\/util\/Visual.Test.coffee" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 1,
-      "inputAbbreviatedPath" : "\/coffee\/util\/Visual.Test.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/js\/util\/Visual.Test.js",
-      "outputStyle" : 0,
-      "fileType" : 32
-    },
-    "\/css\/img\/dash\/dash-slide2_720.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/css\/img\/dash\/dash-slide2_720.png",
-      "processed" : 0,
-      "outputAbbreviatedPath" : "\/css\/img\/dash\/dash-slide2_720.png",
-      "initialSize" : 104731,
-      "fileType" : 8192
-    },
     "\/data\/junk\/I70Mileposts.html" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -817,6 +759,64 @@
       "syntaxCheckerStyle" : 0,
       "outputAbbreviatedPath" : "\/js\/ui\/NavigateUI-ck.js",
       "fileType" : 64
+    },
+    "\/coffee\/util\/Visual.coffee" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 1,
+      "inputAbbreviatedPath" : "\/coffee\/util\/Visual.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/js\/util\/Visual.js",
+      "outputStyle" : 1,
+      "fileType" : 32
+    },
+    "\/css\/img\/dash\/dash-slide2_720.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/css\/img\/dash\/dash-slide2_720.png",
+      "processed" : 0,
+      "outputAbbreviatedPath" : "\/css\/img\/dash\/dash-slide2_720.png",
+      "initialSize" : 104731,
+      "fileType" : 8192
+    },
+    "\/coffee\/app\/App.coffee" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 1,
+      "inputAbbreviatedPath" : "\/coffee\/app\/App.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/js\/app\/App.js",
+      "outputStyle" : 0,
+      "fileType" : 32
+    },
+    "\/coffee\/util\/Visual.Test.coffee" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 1,
+      "inputAbbreviatedPath" : "\/coffee\/util\/Visual.Test.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/js\/util\/Visual.Test.js",
+      "outputStyle" : 0,
+      "fileType" : 32
+    },
+    "\/css\/img\/gritter\/gritter-long.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/css\/img\/gritter\/gritter-long.png",
+      "processed" : 0,
+      "outputAbbreviatedPath" : "\/css\/img\/gritter\/gritter-long.png",
+      "initialSize" : 6299,
+      "fileType" : 8192
     },
     "\/css\/img\/app\/phone6x12Landscape.png" : {
       "ignoreWasSetByUser" : 0,
@@ -840,15 +840,6 @@
       "initialSize" : 7659,
       "fileType" : 4096
     },
-    "\/App.Test.html" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/App.Test.html",
-      "outputAbbreviatedPath" : "No Output Path",
-      "fileType" : 2048
-    },
     "\/coffee\/uc\/IconsUC.coffee" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -860,6 +851,15 @@
       "outputAbbreviatedPath" : "\/js\/uc\/IconsUC.js",
       "outputStyle" : 0,
       "fileType" : 32
+    },
+    "\/App.Test.html" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/App.Test.html",
+      "outputAbbreviatedPath" : "No Output Path",
+      "fileType" : 2048
     },
     "\/js\/uc\/DriveBarUC.js" : {
       "ignoreWasSetByUser" : 0,
@@ -937,16 +937,17 @@
       "outputAbbreviatedPath" : "No Output Path",
       "fileType" : 2048
     },
-    "\/css\/img\/app\/1-app-open.png" : {
+    "\/coffee\/app\/Trip.coffee" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
       "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/css\/img\/app\/1-app-open.png",
-      "processed" : 0,
-      "outputAbbreviatedPath" : "\/css\/img\/app\/1-app-open.png",
-      "initialSize" : 204182,
-      "fileType" : 8192
+      "outputPathIsSetByUser" : 1,
+      "inputAbbreviatedPath" : "\/coffee\/app\/Trip.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/js\/app\/Trip.js",
+      "outputStyle" : 0,
+      "fileType" : 32
     },
     "\/js\/uc\/DealsUC.js" : {
       "ignoreWasSetByUser" : 0,
@@ -959,17 +960,16 @@
       "outputAbbreviatedPath" : "\/js\/uc\/DealsUC-ck.js",
       "fileType" : 64
     },
-    "\/coffee\/app\/Trip.coffee" : {
+    "\/css\/img\/app\/1-app-open.png" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
       "hidden" : 0,
-      "outputPathIsSetByUser" : 1,
-      "inputAbbreviatedPath" : "\/coffee\/app\/Trip.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/js\/app\/Trip.js",
-      "outputStyle" : 0,
-      "fileType" : 32
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/css\/img\/app\/1-app-open.png",
+      "processed" : 0,
+      "outputAbbreviatedPath" : "\/css\/img\/app\/1-app-open.png",
+      "initialSize" : 204182,
+      "fileType" : 8192
     },
     "\/coffee\/ui\/GoUI.coffee" : {
       "ignoreWasSetByUser" : 0,

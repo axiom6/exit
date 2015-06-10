@@ -9,7 +9,8 @@ class IconsUC
     { name:'Trip',           css:'Icon', icon:'road'      }
     { name:'Deals',          css:'Icon', icon:'trophy'    }
     { name:'Navigate',       css:'Icon', icon:'car'       }
-    { name:'Point',          css:'Icon', icon:'compass'   } ]
+    { name:'Point',          css:'Icon', icon:'compass'   }
+    { name:'Fork',           css:'Icon', icon:'code-fork' } ]
 
   constructor:( @stream, @port, @land, @specs=IconsUC.Specs, @isHorz=true ) ->
 
