@@ -10,6 +10,8 @@
       this.role = role;
       this.port = port;
       this.land = land;
+      this.screen = {};
+      this.recommendation = '?';
     }
 
     BannerUC.prototype.ready = function() {
@@ -49,20 +51,23 @@
     };
 
     BannerUC.prototype.changeRecommendation = function(recommendation) {
-      var klass, scale;
-      this.$bannerText.text(recommendation);
+      var klass;
+      this.recommendation = recommendation;
       klass = recommendation === 'GO' ? 'GoBanner' : 'NoGoBanner';
       this.$.attr('class', klass);
-      scale = this.screen.orientation === 'Portrait' ? this.port[3] : this.land[3];
-      scale = recommendation === 'GO' ? scale * 0.0040 : scale * 0.0040;
-      return this.$.css({
-        fontSize: this.screen.height * scale + 'px'
-      });
+      return this.resetText();
+    };
+
+    BannerUC.prototype.resetText = function() {
+      var html;
+      html = this.recommendation === 'NO GO' && this.screen.orientation === 'Landscape' ? 'NO<br/>GO' : this.recommendation;
+      return this.$bannerText.html(html);
     };
 
     BannerUC.prototype.onScreen = function(screen) {
       this.screen = screen;
-      return Util.cssPosition(this.$, screen, this.port, this.land);
+      Util.cssPosition(this.$, screen, this.port, this.land);
+      return this.resetText();
     };
 
     BannerUC.prototype.html = function() {

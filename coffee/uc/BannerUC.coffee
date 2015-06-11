@@ -4,6 +4,8 @@ class BannerUC
   Util.Export( BannerUC, 'uc/BannerUC' )
 
   constructor:( @stream, @role, @port, @land ) ->
+    @screen         = {}
+    @recommendation = '?'
 
   ready:() ->
     @$ = $( @html() )
@@ -25,16 +27,21 @@ class BannerUC
     @changeRecommendation( trip.recommendation )
 
   changeRecommendation:( recommendation ) ->
-    @$bannerText.text(   recommendation )
+    @recommendation = recommendation
     klass = if recommendation is 'GO' then 'GoBanner' else 'NoGoBanner'
     @$.attr('class', klass )
-    scale = if @screen.orientation is 'Portrait' then @port[3]     else @land[3]
-    scale = if recommendation      is 'GO'       then scale*0.0040 else scale*0.0040
-    @$.css( { fontSize:@screen.height*scale+'px' } )
+    @resetText()
+
+  resetText:() ->
+    html =  if @recommendation is 'NO GO' and @screen.orientation is 'Landscape' then 'NO<br/>GO' else @recommendation
+    @$bannerText.html( html )
+    #@$.css( { fontSize:'60px' } )
+    #Util.dbg( 'BannerUC.changeRecommendation() fontSize', screen.height*scale+'px', screen.height, scale )
 
   onScreen:( screen ) ->
     @screen = screen
     Util.cssPosition( @$, screen, @port, @land )
+    @resetText()
 
   html:() ->
     """<div   id="#{Util.id('BannerUC')}"   class="#{Util.css('GoBannerUC')}">

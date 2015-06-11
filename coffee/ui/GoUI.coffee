@@ -7,9 +7,9 @@ class GoUI
     BannerUC    = Util.Import( 'uc/BannerUC'  )
     DealsUC     = Util.Import( 'uc/DealsUC'   )
     DriveBarUC  = Util.Import( 'uc/DriveBarUC')
-    @bannerUC   = new BannerUC(   @stream, 'Go', [4, 4,92,16], [ 4,  4, 46, 46] )
-    @dealsUC    = new DealsUC(    @stream, 'Go', [4,24,92,42], [50,  4, 46, 46] )
-    @driveBarUC = new DriveBarUC( @stream, 'Go', [4,66,92,30], [ 4, 54, 92, 42] )
+    @bannerUC   = new BannerUC(   @stream, 'Go', [4, 2,92,16], [ 2,  4, 24, 46] )
+    @dealsUC    = new DealsUC(    @stream, 'Go', [4,20,92,46], [26,  4, 72, 46] )
+    @driveBarUC = new DriveBarUC( @stream, 'Go', [4,68,92,30], [ 2, 54, 96, 42] )
 
   ready:() ->
     @bannerUC.ready()

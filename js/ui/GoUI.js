@@ -11,9 +11,9 @@
       BannerUC = Util.Import('uc/BannerUC');
       DealsUC = Util.Import('uc/DealsUC');
       DriveBarUC = Util.Import('uc/DriveBarUC');
-      this.bannerUC = new BannerUC(this.stream, 'Go', [4, 4, 92, 16], [4, 4, 46, 46]);
-      this.dealsUC = new DealsUC(this.stream, 'Go', [4, 24, 92, 42], [50, 4, 46, 46]);
-      this.driveBarUC = new DriveBarUC(this.stream, 'Go', [4, 66, 92, 30], [4, 54, 92, 42]);
+      this.bannerUC = new BannerUC(this.stream, 'Go', [4, 2, 92, 16], [2, 4, 24, 46]);
+      this.dealsUC = new DealsUC(this.stream, 'Go', [4, 20, 92, 46], [26, 4, 72, 46]);
+      this.driveBarUC = new DriveBarUC(this.stream, 'Go', [4, 68, 92, 30], [2, 54, 96, 42]);
     }
 
     GoUI.prototype.ready = function() {

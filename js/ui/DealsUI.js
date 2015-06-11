@@ -39,9 +39,9 @@
       SearchUC = Util.Import('uc/SearchUC');
       IconsUC = Util.Import('uc/IconsUC');
       DealsUC = Util.Import('uc/DealsUC');
-      this.searchUC = new SearchUC(this.stream, 'Deals', [4, 4, 92, 12], [4, 4, 12, 92]);
-      this.iconsUC = new IconsUC(this.stream, 'Search', [4, 16, 92, 10], [16, 4, 10, 92], DealsUI.IconSpecs, false, false);
-      this.dealsUC = new DealsUC(this.stream, 'Deals', [4, 26, 92, 66], [26, 4, 66, 92]);
+      this.searchUC = new SearchUC(this.stream, 'Deals', [4, 2, 92, 14], [2, 3, 14, 95]);
+      this.iconsUC = new IconsUC(this.stream, 'Search', [4, 16, 92, 10], [16, 3, 10, 95], DealsUI.IconSpecs, false, false);
+      this.dealsUC = new DealsUC(this.stream, 'Deals', [4, 26, 92, 72], [26, 3, 73, 95]);
     }
 
     DealsUI.prototype.ready = function() {
