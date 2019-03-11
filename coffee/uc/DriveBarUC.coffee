@@ -26,9 +26,9 @@ class DriveBarUC
     @subscribe()
 
   subscribe:() ->
-    @stream.subscribe( 'Location', (location) => @onLocation( location ) )
-    @stream.subscribe( 'Screen',   (screen)   => @onScreen(   screen   ) )
-    @stream.subscribe( 'Trip',     (trip)     => @onTrip(     trip     ) )
+    @stream.subscribe( 'Location', 'Deals', (location) => @onLocation( location ) )
+    @stream.subscribe( 'Screen',   'Deals', (screen)   => @onScreen(   screen   ) )
+    @stream.subscribe( 'Trip',     'Deals', (trip)     => @onTrip(     trip     ) )
 
   onLocation:( location ) ->
     Util.noop( 'DriveBarUC.onLocation()', @role, location )

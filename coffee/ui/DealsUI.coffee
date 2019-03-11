@@ -40,12 +40,12 @@ class DealsUI
   hide:() -> @$.hide()
 
   subscribe:() ->
-    @stream.subscribe( 'Trip',        (trip)        => @onTrip(trip)              )
-    @stream.subscribe( 'Location',    (location)    => @onLocation(location)      )
-    @stream.subscribe( 'Screen',      (screen)      => @onScreen(screen)          )
-    @stream.subscribe( 'Deals',       (deals)       => @onDeals(deals)            )
-    @stream.subscribe( 'Search',      (search)      => @onSearch(search)          )
-    #@stream.subscribe( 'Conditions', (conditions)  => @onConditions( conditions) )
+    @stream.subscribe( 'Trip',        'DealsUI', (trip)        => @onTrip(trip)              )
+    @stream.subscribe( 'Location',    'DealsUI', (location)    => @onLocation(location)      )
+    @stream.subscribe( 'Screen',      'DealsUI', (screen)      => @onScreen(screen)          )
+    @stream.subscribe( 'Deals',       'DealsUI', (deals)       => @onDeals(deals)            )
+    @stream.subscribe( 'Search',      'DealsUI', (search)      => @onSearch(search)          )
+    #@stream.subscribe( 'Conditions', 'DealsUI', (conditions)  => @onConditions( conditions) )
 
   onTrip:( trip ) ->
     Util.noop( 'Deals.onTrip()', trip )

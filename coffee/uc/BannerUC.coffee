@@ -16,9 +16,9 @@ class BannerUC
     @subscribe()
 
   subscribe:() ->
-    @stream.subscribe( 'Location', (location)  => @onLocation( location ) )
-    @stream.subscribe( 'Screen',   (screen)    => @onScreen(   screen   ) )
-    @stream.subscribe( 'Trip',     (trip)      => @onTrip(     trip     ) )
+    @stream.subscribe( 'Location', 'BannerUC', (location)  => @onLocation( location ) )
+    @stream.subscribe( 'Screen',   'BannerUC', (screen)    => @onScreen(   screen   ) )
+    @stream.subscribe( 'Trip',     'BannerUC', (trip)      => @onTrip(     trip     ) )
 
   onLocation:( location ) ->
     Util.noop( 'BannerUC.onLocation()', @ext, location )

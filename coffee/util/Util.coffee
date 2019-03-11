@@ -16,7 +16,21 @@ class Util
   Util.logStackNum = 0
   Util.logStackMax = 100
 
-  # ------ Modules ------
+  @element:( $elem ) ->
+    # console.log( 'Dom.element()', $elem, Dom.isJQueryElem( $elem ) )
+    if Util.isJQueryElem( $elem )
+      $elem.get(0)
+    else if Util.isStr( $elem )
+      $($elem).get(0)
+    else
+      console.error('Dom.domElement( $elem )', typeof($elem), $elem,
+        '$elem is neither jQuery object nor selector' )
+      null
+
+  @isJQueryElem:( $elem ) ->
+    $? and $elem? and ( $elem instanceof $ || 'jquery' in Object($elem) )
+
+# ------ Modules ------
 
   @init:() ->
 
@@ -423,8 +437,8 @@ class Util
     date.getFullYear()     +'-'+pad(date.getUTCMonth()+1)+'-'+pad(date.getUTCDate())+'T'+
     pad(date.getUTCHours())+':'+pad(date.getUTCMinutes())+':'+pad(date.getUTCSeconds())+'Z'
 
-  @toHMS:( unixTime ) ->
-    date = if Util.isNum(unixTime) then new Date( unixTime * 1000 ) else new Date()
+  @toHMS:( ) -> # unixTime 
+    date = new Date() # if Util.isNum(unixTime) then new Date( unixTime * 1000 ) else new Date()
     hour   = date.getHours()
     ampm   = 'AM'
     if hour > 12

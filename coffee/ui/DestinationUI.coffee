@@ -9,6 +9,7 @@ class DestinationUI
     @Data = Util.Import( 'app/Data' )
     @sources      = @Data.Destinations # For now we access sources     from static data
     @destinations = @Data.Destinations # For now we access destinations from static data
+    Util.noop( @showBody, @hideBody )
 
   ready:() ->
     @thresholdUC.ready()
@@ -27,13 +28,13 @@ class DestinationUI
 
   # publish is called by
   events:() ->
-    @stream.event( 'Source',      @$sourceSelect,      'change', 'Source'      )
-    @stream.event( 'Destination', @$destinationSelect, 'change', 'Destination' )
+    @stream.event( 'Source',      'Source',      Util.element(@$sourceSelect),      'change' )
+    @stream.event( 'Destination', 'Destination', Util.element(@$destinationSelect), 'change' )
 
   subscribe:() ->
-    @stream.subscribe( 'Source',      (source)      => @onSource(source)           )
-    @stream.subscribe( 'Destination', (destination) => @onDestination(destination) )
-    @stream.subscribe( 'Screen',      (screen)      => @onScreen(screen)           )
+    @stream.subscribe( 'Source',      'DestinationUI', (source)      => @onSource(source)           )
+    @stream.subscribe( 'Destination', 'DestinationUI', (destination) => @onDestination(destination) )
+    @stream.subscribe( 'Screen',      'DestinationUI', (screen)      => @onScreen(screen)           )
 
   onSource:( source ) ->
     Util.noop( 'Destination.onSource()', source )
@@ -53,13 +54,13 @@ class DestinationUI
               </div-->
               <div      id="#{@id('SourceBody')}"           class="#{@css('SourceBody')}">
                 <div    id="#{@id('SourceWhat')}"            class="#{@css('SourceWhat')}">Where are You Now?</div>
-                <select id="#{@id('SourceSelect')}"          class="#{@css('SourceSelect')}"name="Sources">"""
+                <select id="#{@id('SourceSelect')}"          class="#{@css('SourceSelect')}" name="Sources">"""
     htm += """<option>#{source}</option>""" for source in @sources
     htm += """</select></div>
               <div      id="#{@id('DestinationBody')}"      class="#{@css('DestinationBody')}">
               <div     id="#{@id('DestinationWhat')}"       class="#{@css('DestinationWhat')}">What is your</div>
               <div     id="#{@id('DestinationDest')}"       class="#{@css('DestinationDest')}">Destination?</div>
-              <select  id="#{@id('DestinationSelect')}"     class="#{@css('DestinationSelect')}"name="Desinations">"""
+              <select  id="#{@id('DestinationSelect')}"     class="#{@css('DestinationSelect')}" name="Desinations">"""
     htm += """<option>#{destination}</option>""" for destination in @destinations
     htm += """</select></div></div>"""
     htm

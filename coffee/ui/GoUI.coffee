@@ -25,8 +25,8 @@ class GoUI
     @subscribe()
 
   subscribe:() ->
-    @stream.subscribe( 'Screen', (screen) => @onScreen( screen ) )
-    @stream.subscribe( 'Trip',   (trip)   => @onTrip(   trip   ) )
+    @stream.subscribe( 'Screen', 'GoUI', (screen) => @onScreen( screen ) )
+    @stream.subscribe( 'Trip',   'GoUI', (trip)   => @onTrip(   trip   ) )
 
   onScreen:( screen ) ->
     Util.noop( 'GoUI.screen()', screen )

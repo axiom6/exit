@@ -86,10 +86,8 @@ class Test
 
   # Location
   streamPushTestLocation:() ->
-    subject = new Rx.Subject()
-    subject.subscribe( (location) => @onTestLocation( location ) )
-    object  = @stream.createObject('LatLon', 'Stream.Test')
-    subject.onNext( object )
+    @stream.subscribe( 'Location', 'Test', (location) => @onTestLocation( location ) )
+    @stream.publish(   'Location', { content:'LatLon', from:'Stream.Test'} )
     return
 
   onTestLocation:( object ) ->

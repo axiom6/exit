@@ -11,10 +11,10 @@ class App
 
   constructor:( @dataSource='RestThenLocal' ) ->
 
-    @subjectNames = ['Icons','Location','Screen','Source','Destination','Trip','Forecasts']
+    @subjects = ['Icons','Location','Screen','Source','Destination','Trip','Forecasts']
 
     # Import Classes
-    Stream        = Util.Import( 'app/Stream'       )
+    Stream        = Util.Import( 'util/Stream'      )
     Rest          = Util.Import( 'app/Rest'         )
     Data          = Util.Import( 'app/Data'         )  # Static class with no need to instaciate
     Model         = Util.Import( 'app/Model'        )
@@ -28,7 +28,8 @@ class App
     UI            = Util.Import( 'ui/UI'            )
 
     # Instantiate main App classes
-    @stream     = new Stream( @subjectNames  )
+    logSpec     = { subscribe:false, publish:false, complete:false, subjects:@subjects }
+    @stream     = new Stream( @subjects, logSpec )
     @rest       = new Rest(   @stream        )
     @model      = new Model(  @stream, @rest, @dataSource )
 
@@ -56,6 +57,8 @@ class App
     # Jumpstart App
     @stream.publish( 'Source',      'Denver' )
     @stream.publish( 'Destination', 'Vail'   )
+
+    Util.noop( Data, @appTest, @uiTest )
 
   ready:() ->
     @model.ready()

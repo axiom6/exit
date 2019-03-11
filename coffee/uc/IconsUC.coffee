@@ -13,7 +13,8 @@ class IconsUC
     htm += """<div id="#{Util.id('IconsHover',@subject)}" class="#{Util.css('IconsHover')}"></div>""" if @hover
     htm += """<div id="#{Util.id('Icons',     @subject)}" class="#{Util.css('Icons')}"><div>"""
     for spec in @specs
-      htm += """<div id="#{Util.id(spec.name,'Icon',@subject)}" class="#{Util.css(spec.css)}"><i class="fa fa-#{spec.icon}"></i><div>#{spec.name}</div></div>"""
+      htm += """<div id="#{Util.id(spec.name,'Icon',@subject)}" class="#{Util.css(spec.css)}">
+                  <i class="#{spec.icon}"></i><div>#{spec.name}</div></div>"""
     htm += """</div></div></div>"""
     htm
 
@@ -34,10 +35,10 @@ class IconsUC
 
   events:() ->
     for spec in @specs
-      @stream.event( @subject, @$find(spec.name), 'click', spec.name )
+      @stream.event( @subject, spec, @$find(spec.name), 'click' )
 
   subscribe:() ->
-    @stream.subscribe( 'Screen', (screen)  => @onScreen(screen)     )
+    @stream.subscribe( 'Screen', 'IconsUC', (screen)  => @onScreen(screen)   )
 
   onScreen:( screen ) ->
     isHorz = if @stayHorz then true else if screen.orientation is 'Portrait' then true else false

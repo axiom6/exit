@@ -53,10 +53,10 @@ class WeatherUC
 
   # Trip subscribe to the full Monty of change
   subscribe:() ->
-    @stream.subscribe( 'Trip',        (trip)      => @onTrip(      trip      ) )
-    @stream.subscribe( 'Forecasts',   (forecasts) => @onForecasts( forecasts ) )
-    @stream.subscribe( 'Location',    (location)  => @onLocation(  location  ) )
-    @stream.subscribe( 'Screen',      (screen)    => @onScreen(    screen    ) )
+    @stream.subscribe( 'Trip',        'WeatherUC', (trip)      => @onTrip(      trip      ) )
+    @stream.subscribe( 'Forecasts',   'WeatherUC', (forecasts) => @onForecasts( forecasts ) )
+    @stream.subscribe( 'Location',    'WeatherUC', (location)  => @onLocation(  location  ) )
+    @stream.subscribe( 'Screen',      'WeatherUC', (screen)    => @onScreen(    screen    ) )
 
   onLocation:( location ) ->
     Util.noop( 'WeatherUC.onLocation()', location )

@@ -5,7 +5,7 @@ class Rest
 
   constructor:( @stream  ) ->
     @Spatial       = Util.Import( 'app/Spatial' )
-    @localURL      = 'http://localhost:63342/Exit-Now-App/data/exit/'
+    @localURL      = 'http://localhost:63342/exit/public/json/exit/'
     @baseURL       = "http://104.154.46.117/"
     @jessURL       = "https://exit-now-admin-jesseporter32.c9.io/"
     @forecastIoURL = "https://api.forecast.io/forecast/"
@@ -16,11 +16,12 @@ class Rest
     @dealsURL      = @currURL + "api/deals"
     @cors          = 'json' # jsonp for different origin
     @subscribe()
+    Util.noop( @jessURL, @accept, @jsonParse )
 
   subscribe:() ->
-    #@stream.subscribe( 'RequestSegments',     (query) =>  @requestSegmentsBy(   query, doSegments,   onSegmentsError   ) )
-    #@stream.subscribe( 'RequestConditionsBy', (query) =>  @requestConditionsBy( query, doConditions, onConditionsError ) )
-    #@stream.subscribe( 'RequestDealsBy',      (query) =>  @requestDealsBy(      query, doDeals,      onDealsError      ) )
+    #@stream.subscribe( 'RequestSegments', 'Rest', (query) => @requestSegmentsBy( query, doSegments, # onSegmentsError ) )
+    #@stream.subscribe( 'RequestConditionsBy', 'Rest', (query) =>  @requestConditionsBy( query, doConditions, onConditionsError ) )
+    #@stream.subscribe( 'RequestDealsBy',      'Rest', (query) =>  @requestDealsBy(      query, doDeals,      onDealsError      ) )
     
   segmentsFromLocal:( direction, onSuccess, onError ) ->
     url  = "#{@localURL}Segments#{direction}.json"

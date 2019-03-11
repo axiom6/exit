@@ -13,8 +13,8 @@ class SearchUC
     @subscribe()
 
   subscribe:() ->
-    @stream.subscribe( 'Location', (location)  => @onLocation(location) )
-    @stream.subscribe( 'Screen',   (screen)    => @onScreen(screen)     )
+    @stream.subscribe( 'Location', 'SearchUC', (location)  => @onLocation(location) )
+    @stream.subscribe( 'Screen',   'SearchUC', (screen)    => @onScreen(screen)     )
 
   onLocation:( location ) ->
     Util.noop( 'SearchUC.onLocation()', @ext, location )

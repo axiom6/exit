@@ -3,14 +3,14 @@ class UI
 
   Util.Export( UI, 'ui/UI' )
 
-  @IconSpecs = [
-    { name:'Destination',    css:'Icon', icon:'picture-o' }
-    { name:'Recommendation', css:'Icon', icon:'thumbs-up' }
-    { name:'Trip',           css:'Icon', icon:'road'      }
-    { name:'Deals',          css:'Icon', icon:'trophy'    }
-    { name:'Navigate',       css:'Icon', icon:'car'       }
-    { name:'Point',          css:'Icon', icon:'compass'   }
-    { name:'Fork',           css:'Icon', icon:'code-fork' } ]
+  UI.IconSpecs = [
+    { name:'Destination',    css:'Icon', icon:'fas fa-file-image'  }
+    { name:'Recommendation', css:'Icon', icon:'fas fa-thumbs-up'   }
+    { name:'Trip',           css:'Icon', icon:'fas fa-road'        }
+    { name:'Deals',          css:'Icon', icon:'fas fa-trophy'      }
+    { name:'Navigate',       css:'Icon', icon:'fas fa-car'         }
+    { name:'Point',          css:'Icon', icon:'fas fa-compass'     }
+    { name:'Fork',           css:'Icon', icon:'fas fa-code-branch' } ]
 
   constructor:( @stream, @destinationUI, @goUI, @tripUI, @dealsUI, @navigateUI ) ->
     IconsUC         = Util.Import( 'uc/IconsUC' )
@@ -47,9 +47,9 @@ class UI
     @navigateUI.position(    screen )
 
   subscribe:() ->
-    @stream.subscribe( 'Icons',  (name)   => @onIcons(  name   ) )
-    @stream.subscribe( 'Screen', (screen) => @onScreen( screen ) )
-    @stream.subscribe( 'Trip',   (trip)   => @onTrip(   trip   ) )
+    @stream.subscribe( 'Icons',  'UI', (name)   => @onIcons(  name   ) )
+    @stream.subscribe( 'Screen', 'UI', (screen) => @onScreen( screen ) )
+    @stream.subscribe( 'Trip',   'UI', (trip)   => @onTrip(   trip   ) )
 
   id:(   name, type     ) -> Util.id(   name, type     )
   css:(  name, type     ) -> Util.css(  name, type     )
@@ -73,7 +73,7 @@ class UI
 
   changeRecommendation:( recommendation ) ->
     @onIcons( 'Recommendation' )
-    faClass = if recommendation is 'GO' then 'fa fa-thumbs-up' else 'fa fa-thumbs-down'
+    faClass = if recommendation is 'GO' then 'fas fa-thumbs-up' else 'fas fa-thumbs-down'
     $icon   =  @iconsUC.$find('Recommendation')
     $icon.find('i'  ).attr( 'class', faClass )
     $icon.find('div').text(recommendation)

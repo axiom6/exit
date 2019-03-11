@@ -11,7 +11,7 @@ class Test
     @subscribe()
 
   subscribe:() ->
-    @stream.subscribe( 'Trip', (trip) => @runTrip( trip ) )
+    @stream.subscribe( 'Trip', 'App.Test', (trip) => @runTrip( trip ) )
 
   # App - not a lot of testing
   runApp:() ->

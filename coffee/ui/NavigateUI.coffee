@@ -13,7 +13,7 @@ class NavigateUI
     @subscribe()
 
   subscribe:() ->
-    @stream.subscribe( 'Screen', (screen)   => @onScreen( screen ) )
+    @stream.subscribe( 'Screen', 'NavigateUI', (screen)   => @onScreen( screen ) )
 
   onScreen:( screen ) ->
     Util.noop( 'NavigateUI.onScreen()', screen )

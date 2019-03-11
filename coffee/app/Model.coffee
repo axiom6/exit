@@ -23,13 +23,14 @@ class Model
     @milePosts          = []
     @segmentIds         = @Data.WestSegmentIds  # CDOT road speed segment for Demo I70 West from 6th Ave to East Vail
     @segmentIdsReturned = []                    # Accumulate by doSegments()
+    Util.noop( @forecastsPending, @segmentIds, @segmentIdsReturned )
 
   ready:() ->
     @subscribe()
 
   subscribe:() ->
-    @stream.subscribe( 'Source',      (source)      => @onSource(      source      ) )
-    @stream.subscribe( 'Destination', (destination) => @onDestination( destination ) )
+    @stream.subscribe( 'Source',      'Model', (source)      => @onSource(      source      ) )
+    @stream.subscribe( 'Destination', 'Model', (destination) => @onDestination( destination ) )
 
   # A poor man's chained completion status.
   # Could be implemented better in the future with a chained Stream or a synched promise chain

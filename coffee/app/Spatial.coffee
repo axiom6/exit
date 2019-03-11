@@ -36,7 +36,7 @@ class Spatial
     @subscribe()
 
   subscribe:() =>
-    @stream.subscribe( 'Location', (location) => @onLocation( location ) )
+    @stream.subscribe( 'Location', 'Spatial', (location) => @onLocation( location ) )
 
   onLocation:( location ) =>
     Util.log( 'Spatial.onLocation', location )

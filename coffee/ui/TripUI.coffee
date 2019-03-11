@@ -26,7 +26,7 @@ class TripUI
 
   # Trip subscribe to the full Monty of change
   subscribe:() ->
-    @stream.subscribe( 'Screen', (screen)   => @onScreen( screen ) )
+    @stream.subscribe( 'Screen', 'TripUI', (screen)   => @onScreen( screen ) )
 
   # All positioning happens in the components
   onScreen:( screen ) ->

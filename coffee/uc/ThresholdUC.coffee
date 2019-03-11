@@ -13,7 +13,7 @@ class ThresholdUC
     @subscribe()
 
   subscribe:() ->
-    @stream.subscribe( 'Screen', (screen)   => @onScreen( screen ) )
+    @stream.subscribe( 'Screen', 'ThresholdUC', (screen)   => @onScreen( screen ) )
 
   onScreen:( screen ) ->
     Util.cssPosition( @$, screen, @port, @land )

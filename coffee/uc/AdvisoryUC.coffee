@@ -13,8 +13,8 @@ class AdvisoryUC
     @subscribe()
 
   subscribe:() ->
-    @stream.subscribe( 'Location', (location)  => @onLocation(location) )
-    @stream.subscribe( 'Screen',   (screen)    => @onScreen(screen)     )
+    @stream.subscribe( 'Location', 'AdvisoryUC', (location)  => @onLocation(location) )
+    @stream.subscribe( 'Screen',   'AdvisoryUC', (screen)    => @onScreen(screen)     )
 
   onLocation:( location ) ->
     Util.noop( 'AdvisoryUC.onLocation()', @ext, location )

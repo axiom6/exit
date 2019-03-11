@@ -19,11 +19,11 @@ class DealsUC
     """<div id="#{Util.id('DealsUC',@role)}" class="#{Util.css('DealsUC')}"></div>"""
 
   subscribe:() ->
-    @stream.subscribe( 'Trip',        (trip)        => @onTrip(trip)              )
-    @stream.subscribe( 'Location',    (location)    => @onLocation(location)      )
-    @stream.subscribe( 'Screen',      (screen)      => @onScreen(screen)          )
-    @stream.subscribe( 'Deals',       (deals)       => @onDeals(deals)            )
-    #@stream.subscribe( 'Conditions', (conditions)  => @onConditions( conditions) )
+    @stream.subscribe( 'Trip',        'DealsUC', (trip)        => @onTrip(trip)              )
+    @stream.subscribe( 'Location',    'DealsUC', (location)    => @onLocation(location)      )
+    @stream.subscribe( 'Screen',      'DealsUC', (screen)      => @onScreen(screen)          )
+    @stream.subscribe( 'Deals',       'DealsUC', (deals)       => @onDeals(deals)            )
+    #@stream.subscribe( 'Conditions', 'DealsUC', (conditions)  => @onConditions( conditions) )
 
   onTrip:( trip ) ->
     @etaHoursMins = trip.etaHoursMins()
