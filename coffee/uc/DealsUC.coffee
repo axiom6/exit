@@ -6,7 +6,7 @@ class DealsUC
   constructor:( @stream, @role, @port, @land ) ->
     @etaHoursMins = '?'
     @uom = 'em'
-
+    Util.noop( @iAmExiting, @enableIamExitingClick )
 
   ready:() ->
     @$ = $( @html() )
@@ -36,7 +36,7 @@ class DealsUC
     Util.cssPosition( @$, screen, @port, @land )
 
   onConditions:( conditions ) ->
-    Util.noop( 'Deals.onConditions()' )
+    Util.noop( 'Deals.onConditions()', conditions )
 
   onDeals:( deals ) ->
     #Util.dbg( 'DealsUI.onDeals()', deals[0].exit )
@@ -65,8 +65,8 @@ class DealsUC
     padding  = 0.2 * fontSize
     takeSize = 1.0 * fontSize
     html  = """<hr  style="margin:#{@fs(padding)}"</hr>"""
-    html += """<div style="font-size:#{@fs(fontSize)};">#{deal.dealData.name}</div>
-               <div style="font-size:#{@fs(fontSize)};"><span>#{deal.dealData.businessName}</span>#{@takeDeal(deal._id,takeSize,padding,take)}</div>"""
+    html += """<div style="font-size:#{@fs(fontSize)};">#{deal['dealData'].name}</div>
+               <div style="font-size:#{@fs(fontSize)};"><span>#{deal['dealData']['businessName']}</span>#{@takeDeal(deal._id,takeSize,padding,take)}</div>"""
     html
 
   fs:(size) ->

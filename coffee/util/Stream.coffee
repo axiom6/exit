@@ -32,7 +32,8 @@ class Stream
     onEvent = ( event ) =>
       event?.stopPropagation()
       event?.preventDefault()
-      @publish( subjectName, object )
+      pobject = if eventType is 'change' then $element.children("option:selected").val() else object
+      @publish( subjectName, pobject )
       return
 
     # console.log( 'Stream.event()', $element)

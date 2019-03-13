@@ -35,7 +35,7 @@ class IconsUC
 
   events:() ->
     for spec in @specs
-      @stream.event( @subject, spec, @$find(spec.name), 'click' )
+      @stream.event( @subject, spec.name, @$find(spec.name), 'click' )
 
   subscribe:() ->
     @stream.subscribe( 'Screen', 'IconsUC', (screen)  => @onScreen(screen)   )

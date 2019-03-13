@@ -1,7 +1,12 @@
 
-class GeoJsonUtils
+class Geo
+
+  Util.Export( Geo, 'util/Geo' )
 
   constructor:() ->
+    Util.noop( @boundingBoxAroundPolyCoords, @pnpoly, @lineStringsIntersect, @pointInPolygon )
+    Util.noop( @pointInMultiPolygon, @drawCircle, @rectangleCentroid, @geometryWithinRadius )
+    Util.noop( @centroid, @simplify, @destinationPoint, Geo )
 
   boundingBoxAroundPolyCoords:(coords) ->
     xAll = []
@@ -162,15 +167,9 @@ class GeoJsonUtils
       centerPoint.coordinates[0]
     ]
     dist = radiusInMeters / 1000 / 6371
-    radCenter = [
-      @numberToRadius(center[0])
-      @numberToRadius(center[1])
-    ]
+    radCenter = [@numberToRadius(center[0]),@numberToRadius(center[1])]
     steps = steps or 15
-    poly = [ [
-      center[0]
-      center[1]
-    ] ]
+    poly = [ [ center[0], center[1] ] ]
     while i < steps
       brng = 2 * Math.PI * i / steps
       lat = Math.asin(Math.sin(radCenter[0]) * Math.cos(dist) + Math.cos(radCenter[0]) * Math.sin(dist) * Math.cos(brng))
@@ -211,10 +210,10 @@ class GeoJsonUtils
     lat2 = pt2.coordinates[1]
     dLat = @numberToRadius(lat2 - lat1)
     dLon = @numberToRadius(lon2 - lon1)
-    a = Math.sin(dLat / 2) ** 2 + Math.cos(@numberToRadius(lat1)) * Math.cos(@numberToRadius(lat2)) * Math.sin(dLon / 2) ** 2
-    c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-    6371 * c * 1000
-    # returns meters
+    a    = Math.sin(dLat/2) ** 2 + Math.cos(@numberToRadius(lat1)) * Math.cos(@numberToRadius(lat2)) * Math.sin(dLon / 2) ** 2
+    c    = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+    6371 * c * 1000 # returns meters
+
 
   geometryWithinRadius:(geometry, center, radius) ->
     if geometry.type == 'Point'
@@ -233,7 +232,7 @@ class GeoJsonUtils
           return false
       true
 
-# adapted from http://paulbourke.net/geometry/polyarea/javascript.txt
+  # adapted from http://paulbourke.net/geometry/polyarea/javascript.txt
 
   area:(polygon) ->
     p1 = undefined
@@ -278,7 +277,7 @@ class GeoJsonUtils
         x += (p1.x + p2.x) * f
         y += (p1.y + p2.y) * f
         j = i++
-      f = area(polygon) * 6
+      f = @area(polygon) * 6
       {
         'type': 'Point'
         'coordinates': [

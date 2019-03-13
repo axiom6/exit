@@ -1,7 +1,7 @@
 
 class Visual
 
-  Util.Export( Visual, 'app/Visual' )
+  Util.Export( Visual, 'util/Visual' )
 
   @rad:( deg ) -> deg * Math.PI / 180
   @deg:( rad ) -> rad * 180 / Math.PI

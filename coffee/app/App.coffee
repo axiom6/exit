@@ -28,7 +28,7 @@ class App
     UI            = Util.Import( 'ui/UI'            )
 
     # Instantiate main App classes
-    logSpec     = { subscribe:false, publish:false, complete:false, subjects:@subjects }
+    logSpec     = { subscribe:false, publish:true, complete:false, subjects:@subjects }
     @stream     = new Stream( @subjects, logSpec )
     @rest       = new Rest(   @stream        )
     @model      = new Model(  @stream, @rest, @dataSource )
@@ -55,8 +55,8 @@ class App
       @uiTest = new UI.Test( @ui, @trip, @destinationUI, @goUI, @tripUI, @navigateUI )
 
     # Jumpstart App
-    @stream.publish( 'Source',      'Denver' )
-    @stream.publish( 'Destination', 'Vail'   )
+    #@stream.publish( 'Source',      'Denver' )
+    #@stream.publish( 'Destination', 'Vail'   )
 
     Util.noop( Data, @appTest, @uiTest )
 
