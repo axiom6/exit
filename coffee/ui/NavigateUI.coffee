@@ -6,20 +6,29 @@ class NavigateUI
   constructor:( @stream ) ->
 
   ready:() ->
-    @$ = $( @html() )
+    @htmlId = Util.id('NavigateUI')
+    @$      = $( @html(@htmlId) )
+    @$img   = @$.find('img')
+    return
 
   position:(   screen ) ->
-    Util.noop( screen )
+    onScreen:( screen )
     @subscribe()
+    return
 
   subscribe:() ->
     @stream.subscribe( 'Screen', 'NavigateUI', (screen)   => @onScreen( screen ) )
+    return
 
   onScreen:( screen ) ->
-    Util.noop( 'NavigateUI.onScreen()', screen )
+    src = if screen.orientation is 'Landscape' then "css/img/nav/Nav.Land.png" else  "css/img/nav/Nav.Port.png"
+    @$img.attr( 'src', src )
+    return
 
-  html:() ->
-    """<div id="#{Util.id('NavigateUI')}" class="#{Util.css('NavigateUI')}">Navigate</div>"""
+  html:( htmlId ) ->
+    """<div id="#{htmlId}" class="#{Util.css('NavigateUI')}">
+         <img src="css/img/nav/Nav.Port.png" alt="Navigate"/>
+       </div>"""
 
   show:() -> @$.show()
 

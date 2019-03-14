@@ -55,8 +55,8 @@ class App
       @uiTest = new UI.Test( @ui, @trip, @destinationUI, @goUI, @tripUI, @navigateUI )
 
     # Jumpstart App
-    #@stream.publish( 'Source',      'Denver' )
-    #@stream.publish( 'Destination', 'Vail'   )
+    @stream.publish( 'Source',      'Denver' )
+    @stream.publish( 'Destination', 'Vail'   )
 
     Util.noop( Data, @appTest, @uiTest )
 

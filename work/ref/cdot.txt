@@ -1,0 +1,18 @@
+
+
+TypeTrafficFlowCd 	The AverageTrafficFlow is translated into a meaning text value that is presented on the map with a color.
+                    The values are: 1-4.
+
+TypeTrafficFlowTxt 	The text value of the above mentioned code. The values are: Wide Open, Slowing, Heavy and Stop-n-go traffic flow.
+
+AverageTrafficFlow 	This is a term that we are using to denote the congestion on arterial segments (i.e. city streets).
+                    This is represented as a %. A higher number here is better while a smaller one denote more congestion.
+                     Refer to the City Congestion section of How is Speed Calculated for more information
+
+
+
+Green - speed is over 50 mph (wide open and speeds are at or close to the speed limit)
+Color for speed between 50mph and 25mph 	Yellow - speed is between 25 - 50 mph (moderate congestion and can be slow)
+Color for speed between 25mph and 15mph 	Red - speed is between 15 - 25 mph (very congested and slow on the highway)
+Color for speed less than 15mph 	Black - speed is between 0 - 15 mph (traffic is basically at a stand still on the highway)
+Color when no speed data is there 	Grey - no data (means we have no working devices covering that part of the roadway)
