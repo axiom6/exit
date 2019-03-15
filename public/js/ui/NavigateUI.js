@@ -1,55 +1,49 @@
-(function() {
-  var NavigateUI;
+var NavigateUI;
 
-  NavigateUI = (function() {
-    class NavigateUI {
-      constructor(stream) {
-        this.stream = stream;
-      }
+import Util from '../util/Util.js';
 
-      ready() {
-        this.htmlId = Util.id('NavigateUI');
-        this.$ = $(this.html(this.htmlId));
-        this.$img = this.$.find('img');
-      }
+NavigateUI = class NavigateUI {
+  constructor(stream) {
+    this.stream = stream;
+  }
 
-      position(screen) {
-        ({
-          onScreen: screen
-        });
-        this.subscribe();
-      }
+  ready() {
+    this.htmlId = Util.id('NavigateUI');
+    this.$ = $(this.html(this.htmlId));
+    this.$img = this.$.find('img');
+  }
 
-      subscribe() {
-        this.stream.subscribe('Screen', 'NavigateUI', (screen) => {
-          return this.onScreen(screen);
-        });
-      }
+  position(screen) {
+    ({
+      onScreen: screen
+    });
+    this.subscribe();
+  }
 
-      onScreen(screen) {
-        var src;
-        src = screen.orientation === 'Landscape' ? "css/img/nav/Nav.Land.png" : "css/img/nav/Nav.Port.png";
-        this.$img.attr('src', src);
-      }
+  subscribe() {
+    this.stream.subscribe('Screen', 'NavigateUI', (screen) => {
+      return this.onScreen(screen);
+    });
+  }
 
-      html(htmlId) {
-        return `<div id="${htmlId}" class="${Util.css('NavigateUI')}">\n  <img src="css/img/nav/Nav.Port.png" alt="Navigate"/>\n</div>`;
-      }
+  onScreen(screen) {
+    var src;
+    src = screen.orientation === 'Landscape' ? "css/img/nav/Nav.Land.png" : "css/img/nav/Nav.Port.png";
+    this.$img.attr('src', src);
+  }
 
-      show() {
-        return this.$.show();
-      }
+  html(htmlId) {
+    return `<div id="${htmlId}" class="${Util.css('NavigateUI')}">\n  <img src="css/img/nav/Nav.Port.png" alt="Navigate"/>\n</div>`;
+  }
 
-      hide() {
-        return this.$.hide();
-      }
+  show() {
+    return this.$.show();
+  }
 
-    };
+  hide() {
+    return this.$.hide();
+  }
 
-    Util.Export(NavigateUI, 'ui/NavigateUI');
+};
 
-    return NavigateUI;
-
-  }).call(this);
-
-}).call(this);
+export default NavigateUI;

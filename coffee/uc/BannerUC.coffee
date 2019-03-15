@@ -1,7 +1,7 @@
 
-class BannerUC
+import Util     from '../util/Util.js'
 
-  Util.Export( BannerUC, 'uc/BannerUC' )
+class BannerUC
 
   constructor:( @stream, @role, @port, @land ) ->
     @screen         = {}
@@ -47,3 +47,5 @@ class BannerUC
     """<div   id="#{Util.id('BannerUC')}"   class="#{Util.css('GoBannerUC')}">
          <div id="#{Util.id('BannerText')}" class="#{Util.css('BannerText')}">GO</div>
        </div>"""
+
+`export default BannerUC`

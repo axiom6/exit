@@ -1,21 +1,21 @@
 
+import Util  from '../util/Util.js'
+import Data  from '../app/Data.js'
 
 # Provides Spatial Geometry for Trip
 # Instanciated for each Trip for direct access to Trip data
 
 class Spatial
 
-  Util.Export( Spatial, 'app/Spatial' )
-
-  @EarthRadiusInMiles  = 3958.761
-  @EarthRadiusInMeters = 6371000
-  @KiloMetersToMiles   = 0.621371
-  @MetersToFeet        = 3.28084
-  @MetersPerSecToMPH   = 0.44704  # 5280 / ( Spatial.MetersToFeet * 3600 )
-  @MaxAgePosition      = 0        # 600000 One Minute
-  @TimeOutPosition     = 5000     # 600000 One Minute
-  @EnableHighAccuracy  = true
-  @PushLocationsOn     = false
+  Spatial.EarthRadiusInMiles  = 3958.761
+  Spatial.EarthRadiusInMeters = 6371000
+  Spatial.KiloMetersToMiles   = 0.621371
+  Spatial.MetersToFeet        = 3.28084
+  Spatial.MetersPerSecToMPH   = 0.44704  # 5280 / ( Spatial.MetersToFeet * 3600 )
+  Spatial.MaxAgePosition      = 0        # 600000 One Minute
+  Spatial.TimeOutPosition     = 5000     # 600000 One Minute
+  Spatial.EnableHighAccuracy  = true
+  Spatial.PushLocationsOn     = false
 
   @radians:( deg ) -> deg * 0.01745329251996 # deg * PI / 180
   @cos:(     deg ) -> Math.cos(Spatial.radians(deg))
@@ -23,33 +23,36 @@ class Spatial
   # Class Method called as Spatial.direction
   # Lot of boilerplate because @direction can be called from anywhere
   @direction:( source, destination ) ->
-    Data = Util.Import( 'app/Data')
     hasSourceDesitnation = source? and source isnt '?' and destination and destination isnt '?'
     if hasSourceDesitnation
       if Data.DestinationsMile[source] >= Data.DestinationsMile[destination]  then 'West' else 'East'
     else
-      Util.error( 'Spatial.direction() source and/or destination missing so returning West' )
+      console.error( 'Spatial.direction() source and/or destination missing so returning West' )
       'West'
 
   constructor:( @stream, @trip ) ->
-    @Data = Util.Import( 'app/Data')
+    @google = window['google']
     @subscribe()
-
+    Util.noop( @pushLocations, @pushNavLocations, @pushGeoLocators, @pushAddressForLatLon, @mileSegs )
+    Util.noop( @mileLatLonSpherical, @mileLatLon2 )
+    
+    
   subscribe:() =>
     @stream.subscribe( 'Location', 'Spatial', (location) => @onLocation( location ) )
 
   onLocation:( location ) =>
-    Util.log( 'Spatial.onLocation', location )
+    console.log( 'Spatial.onLocation', location )
 
   segInTrip:( seg ) ->
-    begMileSeg = Util.toFloat(seg.StartMileMarker)
-    endMileSeg = Util.toFloat(seg.EndMileMarker)
+    begMileSeg = Util.toFloat(seg['StartMileMarker'])
+    endMileSeg = Util.toFloat(seg['EndMileMarker'])
     inTrip = switch @trip.direction
       when 'East', 'North'
         @trip.begMile() - 0.5 <= begMileSeg and endMileSeg <= @trip.endMile() + 0.5
       when 'West' or 'South'
         @trip.begMile() + 0.5 >= begMileSeg and endMileSeg >= @trip.endMile() - 0.5
-    #Util.dbg( 'Spatial.segInTrip 2', { inTrip:inTrip, begMileTrip:@trip.begMile(), begMileSeg:begMileSeg, endMileSeg:endMileSeg, endMileTrip:@trip.endMile() } )
+    #console.log( 'Spatial.segInTrip 2', { inTrip:inTrip, begMileTrip:@trip.begMile(), begMileSeg:begMileSeg,
+    # endMileSeg:endMileSeg, endMileTrip:@trip.endMile() } )
     inTrip
 
   segIdNum:( key ) ->
@@ -60,7 +63,7 @@ class Spatial
       id    = key
       num   = Util.toInt( key.substring(2,key.length) )
     else
-      Util.error( 'Spatial.segIdNum() unable to parse key for Segment number', key )
+      console.error( 'Spatial.segIdNum() unable to parse key for Segment number', key )
     [id,num]
 
   locationFromPosition:( position ) ->
@@ -81,7 +84,7 @@ class Spatial
     location.zip          = geo.address.postalCode                    if Util.isStr( geo.address.postalCode   )
     location.street       = geo.address.street                        if Util.isStr( geo.address.street       )
     location.streetNumber = geo.address.streetNumber                  if Util.isStr( geo.address.streetNumber )
-    location.address      = geo.formattedAddress                      if Util.isStr( geo.formattedAddress     )
+    location.address      = geo['formattedAddress']                   if Util.isStr( geo['formattedAddress']     )
     location  
     
   pushLocations:() ->
@@ -92,29 +95,31 @@ class Spatial
     onSuccess = (position) =>
       @stream.publish( 'Location', @locationFromPosition(position), 'Trip' )
     onError = ( error ) =>
-      Util.error( 'Spatia.pushLocation()',' Unable to get your location', error )
+      console.error( 'Spatia.pushLocation()',' Unable to get your location', error )
     options = { maximumAge:Spatial.MaxAgePosition, timeout:Spatial.TimeOutPosition, enableHighAccuracy:Spatial.EnableHighAccuracy }
     navigator.geolocation.watchPosition( onSuccess, onError, options ) # or getCurrentPosition
 
   pushGeoLocators:() ->
+    geolocator = new @google['maps'].Geolocator() # ???   
     if Spatial.PushLocationsOn then return else Spatial.PushLocationsOn = true
     onSuccess = ( geo ) =>
       @stream.publish( 'Location', @locationFromGeo(geo), 'Trip' )
     onError = ( error ) =>
-      Util.error( 'Spatia.pushLocation()',' Unable to get your location', error )
+      console.error( 'Spatia.pushLocation()',' Unable to get your location', error )
     options = { maximumAge:Spatial.MaxAgePosition, timeout:Spatial.TimeOutPosition, enableHighAccuracy:Spatial.EnableHighAccuracy }
     geolocator.locate( onSuccess, onError, true, options, null )
 
-  # Hold off untill we want to load google and google maps
+  # Hold off untill we want to load @google and @google maps
   pushAddressForLatLon:( latLon ) ->
-    geocoder = new google.maps.Geocoder()
+    geocoder   = new @google['maps'].Geocoder()
+    geolocator = new @google['maps'].Geolocator() # ??? 
     onReverseGeo = ( results, status ) ->
-      if status is google.maps.GeocoderStatus.OK
+      if status is @google['maps']['GeocoderStatus']['OK']
         geolocator.fetchDetailsFromLookup(results)
         @stream.publish( 'Location', @locationFromGeo(geolocator.location), 'Spatial' )
       else
-        Util.error( 'Spatial.pushAddressForLatLon() bad status from google.maps', status )
-    latlng = new google.maps.LatLng( latLon.lat, latLon.lon )
+        console.error( 'Spatial.pushAddressForLatLon() bad status from @google.maps', status )
+    latlng = new @google['maps'].LatLng( latLon.lat, latLon.lon )
     geocoder.geocode( {'latLng':latlng}, onReverseGeo )
 
   seg:( segNum ) ->
@@ -139,21 +144,21 @@ class Spatial
 
   mileSeg:( seg ) ->
     mile = 0
-    for i in [1...seg.latlngs.length]
-      latlngs = seg.latlngs
+    for i in [1...seg['latlngs'].length]
+      latlngs = seg['latlngs']
       mile += @mileLatLonFCC( latlngs[i-1][0], latlngs[i-1][1], latlngs[i][0], latlngs[i][1] )
     mile
 
   mileSegs:() ->
     array = []
-    miles = Util.toFloat(@trip.segments[0].StartMileMarker)
+    miles = Util.toFloat(@trip.segments[0]['StartMileMarker'])
     for seg in @trip.segments
       mile   = @mileSeg(seg)
       miles -= mile
-      beg    = Util.toFloat(seg.StartMileMarker)
-      end    = Util.toFloat(seg.EndMileMarker)
+      beg    = Util.toFloat(seg['StartMileMarker'])
+      end    = Util.toFloat(seg['EndMileMarker'])
       dist   = Util.toFixed(Math.abs(end-beg))
-      obj    = { num:seg.num, mile:Util.toFixed(mile,2), dist:dist, beg:seg.StartMileMarker, end:seg.EndMileMarker, miles:miles }
+      obj    = { num:seg.num, mile:Util.toFixed(mile,2), dist:dist, beg:seg['StartMileMarker'], end:seg['EndMileMarker'], miles:miles }
       array.push(obj)
     json = JSON.stringify(array)
     Util.dbg( json )
@@ -186,5 +191,5 @@ class Spatial
     c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
     Spatial.EarthRadiusInMiles * c # 6371000 * c  returns meters
 
-
+`export default Spatial`
 

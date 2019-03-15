@@ -1,8 +1,6 @@
 
 class Visual
 
-  Util.Export( Visual, 'util/Visual' )
-
   @rad:( deg ) -> deg * Math.PI / 180
   @deg:( rad ) -> rad * 180 / Math.PI
   @sin:( deg ) -> Math.sin(Visual.rad(deg))
@@ -56,7 +54,7 @@ class Visual
   @maxRgb:( rgb ) -> Math.max( rgb.r,  rgb.g,  rgb.b )
   @sumRgb:( rgb ) ->           rgb.r + rgb.g + rgb.b
 
-  @hexCss:( hex ) -> """##{hex.toString(16)}""" # For orthogonality
+  #hexCss:( hex ) -> """##{hex.toString(16)}""" # For orthogonality
   @rgbCss:( rgb ) -> """rgb(#{rgb.r},#{rgb.g},#{rgb.b})"""
   @hslCss:( hsl ) -> """hsl(#{hsl.h},#{hsl.s*100}%,#{hsl.l*100}%)"""
   @hsiCss:( hsi ) -> Visual.hslCss( Visual.rgbToHsl( Visual.hsiToRgb(hsi) ) )
@@ -83,7 +81,7 @@ class Visual
       hsl  = { h:parseInt(toks[1]), s:parseInt(toks[2]), l:parseInt(toks[3]) }
       rgb  = Visual.hslToRgb(hsl)
     else
-      Util.error( 'Visual.cssRgb() unknown CSS color', str )
+      console.error( 'Visual.cssRgb() unknown CSS color', str )
     rgb
 
   # Util.dbg( 'Visual.cssRgb', toks.length, { r:toks[1], g:toks[2], b:toks[3] } )
@@ -125,9 +123,10 @@ class Visual
       when 3 then { r:p, g:q, b:v }
       when 4 then { r:t, g:p, b:v }
       when 5 then { r:v, g:p, b:q }
-      else Util.error('Visual.hsvToRgb()'); { r:v, g:t, b:p } # Should never happend
+      else console.error('Visual.hsvToRgb()'); { r:v, g:t, b:p } # Should never happend
     Visual.roundRgb( rgb, 255 )
 
+  ###
   @rgbToHsv:( rgb ) ->
     rgb = Visual.rgbRound( rgb, 1/255 )
     max = Visual.maxRgb( rgb )
@@ -142,8 +141,9 @@ class Visual
           ( rgb.g - rgb.b ) / d + if g < b then 6 else 0
         when g then  ( rgb.b - rgb.r ) / d + 2
         when b then  ( rgb.r - rgb.g ) / d + 4
-        else Util.error('Visual.rgbToHsv')
-    { h:Math.round(h*60), s:Visual.dec(s), v:Visual.dec(v) }
+        else console.error('Visual.rgbToHsv')
+    { h:Math.round(h*60), s:Visual.dec(s), v:Visual.dec(v) } 
+  ###
 
   @hslToRgb:( hsl ) ->
     h = hsl.h; s = hsl.s; l = hsl.l
@@ -182,6 +182,7 @@ class Visual
           ( g - b ) / d + if g < b then 6 else 0
         when g then ( b - r ) / d + 2
         when b then ( r - g ) / d + 4
-        else Util.error('Visual.@rgbToHsl()'); 0
+        else console.error('Visual.@rgbToHsl()'); 0
     { h:Math.round(h*60), s:Visual.dec(s), l:Visual.dec(l) }
 
+`export default Visual`

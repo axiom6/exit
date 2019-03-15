@@ -1,7 +1,7 @@
 
-class IconsUC
+import Util  from '../util/Util.js'
 
-  Util.Export( IconsUC, 'uc/IconsUC' )
+class IconsUC
 
   constructor:( @stream, @subject, @port, @land, @specs, @hover=true, @stayHorz=true ) ->
 
@@ -52,3 +52,5 @@ class IconsUC
       @$find(spec.name).css( { left:x+'%', top:y+'%', width:w+'%', height:h+'%'} )
       if isHorz then x += w else y += h
     return
+
+export default IconsUC

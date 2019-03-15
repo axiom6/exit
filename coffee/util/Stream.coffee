@@ -3,9 +3,9 @@
 # StreamRx extends Stream for RxJS
 # SteamsXs extends Stream for xstream
 
-class Stream
+import Util  from '../util/Util.js'
 
-  Util.Export( Stream, 'util/Stream' )
+class Stream
 
   constructor:( @subjectNames, @info ) ->
     @subjects = {}
@@ -119,4 +119,4 @@ class Stream
         console.info( "    Subscriber #{subscriberName}" )
     return
 
-# `export default Stream`
+`export default Stream`

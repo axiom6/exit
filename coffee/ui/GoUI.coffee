@@ -1,12 +1,12 @@
 
+import Util       from '../util/Util.js'
+import BannerUC   from '../uc/BannerUC.js'
+import DealsUC    from '../uc/DealsUC.js'
+import DriveBarUC from '../uc/DriveBarUC.js'
+
 class GoUI
 
-  Util.Export( GoUI, 'ui/GoUI' )
-
   constructor:( @stream ) ->
-    BannerUC    = Util.Import( 'uc/BannerUC'  )
-    DealsUC     = Util.Import( 'uc/DealsUC'   )
-    DriveBarUC  = Util.Import( 'uc/DriveBarUC')
     @bannerUC   = new BannerUC(   @stream, 'Go', [4, 2,92,16], [ 2,  4, 24, 46] )
     @dealsUC    = new DealsUC(    @stream, 'Go', [4,20,92,46], [26,  4, 72, 46] )
     @driveBarUC = new DriveBarUC( @stream, 'Go', [4,68,92,30], [ 2, 54, 96, 42] )
@@ -39,3 +39,5 @@ class GoUI
 
   show:() -> @$.show()
   hide:() -> @$.hide()
+
+`export default GoUI`

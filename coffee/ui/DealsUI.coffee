@@ -1,9 +1,12 @@
 
+import Util     from '../util/Util.js'
+import SearchUC from '../uc/SearchUC.js'
+import IconsUC  from '../uc/IconsUC.js'
+import DealsUC  from '../uc/DealsUC.js'
+
 class DealsUI
 
-  Util.Export( DealsUI, 'ui/DealsUI' )
-
-  @IconSpecs = [
+  DealsUI.IconSpecs = [
     { name:'Food',     css:'Icon', icon:'cutlery'    }
     { name:'Drink',    css:'Icon', icon:'glass'      }
     { name:'Lodging',  css:'Icon', icon:'bed'        }
@@ -12,9 +15,6 @@ class DealsUI
     { name:'Hospital', css:'Icon', icon:'hospital-o' } ]
 
   constructor:( @stream ) ->
-    SearchUC    = Util.Import( 'uc/SearchUC'  )
-    IconsUC     = Util.Import( 'uc/IconsUC'   )
-    DealsUC     = Util.Import( 'uc/DealsUC'   )
     @searchUC   = new SearchUC(   @stream, 'Deals',  [4, 2,92,14], [ 2, 3,14,95] )
     @iconsUC    = new IconsUC(    @stream, 'Search', [4,16,92,10], [16, 3,10,95], DealsUI.IconSpecs, false, false )
     @dealsUC    = new DealsUC(    @stream, 'Deals',  [4,26,92,72], [26, 3,73,95] )
@@ -63,6 +63,6 @@ class DealsUI
     Util.dbg( 'DealsUI.onSearch()', search )
 
   onConditions:( conditions ) ->
-    Util.noop( 'Deals.onConditions()' )
+    Util.noop( 'Deals.onConditions()', conditions )
 
-
+`export default DealsUI`

@@ -1,12 +1,11 @@
 
+import Util          from '../util/Util.js'
+import Data          from '../app/Data.js'
+import Trip          from '../app/Trip.js'
 
 class Model
 
-  Util.Export( Model, 'app/Model' )
-
   constructor:( @stream, @rest, @dataSource ) ->
-    @Data        = Util.Import( 'app/Data' )  # We occasionally need to key of some static data at this point of the project
-    @Trip        = Util.Import( 'app/Trip' )
     @first       = true                       # Implies we have not acquired enough data to get started
     @source      = '?'
     @destination = '?'
@@ -21,7 +20,7 @@ class Model
     @forecastsPending    = 0
     @forecastsCount     = 0
     @milePosts          = []
-    @segmentIds         = @Data.WestSegmentIds  # CDOT road speed segment for Demo I70 West from 6th Ave to East Vail
+    @segmentIds         = Data.WestSegmentIds  # CDOT road speed segment for Demo I70 West from 6th Ave to East Vail
     @segmentIdsReturned = []                    # Accumulate by doSegments()
     Util.noop( @forecastsPending, @segmentIds, @segmentIdsReturned )
 
@@ -66,11 +65,11 @@ class Model
     @source      = source
     @destination = destination
     name         = @tripName( @source, @destination )
-    @trips[name] = new @Trip( @stream, @, name, source, destination )
+    @trips[name] = new Trip( @stream, @, name, source, destination )
     switch @dataSource
       when 'Rest',  'RestThenLocal'  then @doTrip(      @trips[name] )
       when 'Local', 'LocalForecasts' then @doTripLocal( @trips[name] )
-      else Util.error( 'Model.createTrip() unknown dataSource', @dataSource )
+      else console.error( 'Model.createTrip() unknown dataSource', @dataSource )
     return
 
   doTrip:( trip ) ->
@@ -125,15 +124,17 @@ class Model
     trip.segments   = []
     trip.segmentIds = []
     for own key, seg of segments.segments
+      id  = 0
+      num = 0
       [id,num]  = trip.segIdNum( key )
-      # Util.log( 'Model.doSegments id num', { id:id, num:num, beg:seg.StartMileMarker, end:seg.EndMileMarker } )
+      # console.log( 'Model.doSegments id num', { id:id, num:num, beg:seg.StartMileMarker, end:seg.EndMileMarker } )
       if trip.segInTrip( seg )
         seg['segId'] = num
         seg.num = num
         trip.segments.  push( seg )
         trip.segmentIds.push( num )
     @segmentsComplete = true
-    # Util.log( 'Model.doSegments segmenIds', trip.segmentIds )
+    # console.log( 'Model.doSegments segmenIds', trip.segmentIds )
     @checkComplete()
     return
 
@@ -160,7 +161,7 @@ class Model
     trip = @trip()
     for own name, forecast of forecasts
       trip.forecasts[name]       = forecast
-      trip.forecasts[name].index = @Trip.Towns[name].index
+      trip.forecasts[name].index = Trip.Towns[name].index
     @stream.publish( 'Forecasts', trip.forecasts, 'Model' )
     return
 
@@ -168,35 +169,35 @@ class Model
     name                       = args.name
     trip                       = @trip()
     trip.forecasts[name]       = forecast
-    trip.forecasts[name].index = @Trip.Towns[name].index
+    trip.forecasts[name].index = Trip.Towns[name].index
     @publishForecastsWhenComplete( trip.forecasts )
     return
 
   onSegmentsError:( obj ) =>
-    Util.error( 'Model.onSegmentError()', obj )
+    console.error( 'Model.onSegmentError()', obj )
     @segmentsCompleteWithError = true
     @errorsDetected()
     return
 
   onConditionsError:( obj ) =>
-    Util.error( 'Model.onConditionsError()', obj )
+    console.error( 'Model.onConditionsError()', obj )
     @conditionsCompleteWithError = true
     @errorsDetected()
     return
 
   onDealsError:( obj ) =>
-    Util.error( 'Model.onDealsError()', obj )
+    console.error( 'Model.onDealsError()', obj )
     @dealsCompleteWithError = true
     @errorsDetected()
     return
 
   onForecastsError:( obj ) =>
-    Util.error( 'Model.onForecastsError()', { name:obj.args.name } )
+    console.error( 'Model.onForecastsError()', { name:obj.args.name } )
     return
 
   onTownForecastError:( obj ) =>
     name = obj.args.name
-    Util.error( 'Model.townForecastError()', { name:name } )
+    console.error( 'Model.townForecastError()', { name:name } )
     @publishForecastsWhenComplete( @trip().forecasts ) # We push on error because some forecasts may have made it through
     return
 
@@ -208,7 +209,7 @@ class Model
     return
 
   onMilePostsError:( obj ) =>
-    Util.error( 'Model.onMilePostsError()', obj )
+    console.error( 'Model.onMilePostsError()', obj )
     @milePostsCompleteWithError = true
     @errorsDetected()
     return
@@ -221,5 +222,7 @@ class Model
          @dataSource is 'RestThenLocal' and @first )
       @doTripLocal( @trip() )
     else
-      Util.error( 'Model.errorsDetected access data unable to proceed with trip' )
+      console.error( 'Model.errorsDetected access data unable to proceed with trip' )
     return
+
+export default Model

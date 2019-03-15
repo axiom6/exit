@@ -1,11 +1,11 @@
 
-class WeatherUC
+import Util  from '../util/Util.js'
 
-  Util.Export( WeatherUC, 'uc/WeatherUC' )
+class WeatherUC
 
   # Devner Lat 39.779062 -104.982605
 
-  @Locs = [
+  WeatherUC.Locs = [
     { key:"Evergreen",    index:1, lon:-105.334724, lat:39.701735, name:"Evergreen"      }
     { key:"US40",         index:2, lon:-105.654065, lat:39.759558, name:"US40"           }
     { key:"EastTunnel",   index:3, lon:-105.891111, lat:39.681757, name:"East Tunnel"    }
@@ -15,14 +15,30 @@ class WeatherUC
     { key:"VailPass",     index:7, lon:-106.216071, lat:39.531042, name:"Vail Pass"      }
     { key:"Vail",         index:8, lon:-106.378767, lat:39.644407, name:"Vail"           } ]
 
-  @Locs[0].fore = { key:"Evergreen",    name:"Evergreen",    lon:-105.334724, lat:39.701735, time:1430776040, summary:'Overcast',   fcIcon:'cloudy', style:{ back:'silver', icon:'wi-cloudy'  }, precipProbability:0.01, precipType:'rain', temperature:44.16, windSpeed:5.7, cloudCover:0.99  }
-  @Locs[1].fore = { key:"US40",         name:"US40",         lon:-105.654065, lat:39.759558, time:1430776040, summary:'Drizzle',    fcIcon:'rain',   style:{ back:'silver', icon:'wi-showers' }, precipProbability:0.67, precipType:'rain', temperature:43.61, windSpeed:6.3, cloudCover:0.89  }
-  @Locs[2].fore = { key:"EastTunnel",   name:"East Tunnel",  lon:-105.891111, lat:39.681757, time:1430776040, summary:'Overcast',   fcIcon:'cloudy', style:{ back:'silver', icon:'wi-cloudy'  }, precipProbability:0.19, precipType:'rain', temperature:39.49, windSpeed:6.9, cloudCover:0.97  }
-  @Locs[3].fore = { key:"WestTunnel",   name:"West Tunnel",  lon:-105.878342, lat:39.692400, time:1430776040, summary:'Overcast',   fcIcon:'cloudy', style:{ back:'silver', icon:'wi-cloudy'  }, precipProbability:0.21, precipType:'rain', temperature:39.57, windSpeed:6.82, cloudCover:0.97 }
-  @Locs[4].fore = { key:"Silverthorne", name:"Silverthorne", lon:-106.072685, lat:39.624160, time:1430776040, summary:'Light Rain', fcIcon:'rain',   style:{ back:'silver', icon:'wi-rain'    }, precipProbability:1,    precipType:'rain', temperature:47.4,  windSpeed:6.89, cloudCover:0.85 }
-  @Locs[5].fore = { key:"CopperMtn",    name:"Copper Mtn",   lon:-106.147382, lat:39.503512, time:1430776040, summary:'Light Rain', fcIcon:'rain',   style:{ back:'silver', icon:'wi-rain'    }, precipProbability:1,    precipType:'rain', temperature:46.92, windSpeed:3.44, cloudCover:1    }
-  @Locs[6].fore = { key:"VailPass",     name:"Vail Pass",    lon:-106.216071, lat:39.531042, time:1430776041, summary:'Drizzle',    fcIcon:'rain',   style:{ back:'silver', icon:'wi-showers' }, precipProbability:0.53, precipType:'rain', temperature:47.29, windSpeed:3.94, cloudCover:0.94 }
-  @Locs[7].fore = { key:"Vail",         name:"Vail",         lon:-106.378767, lat:39.644407, time:1430776041, summary:'Light Rain', fcIcon:'rain',   style:{ back:'silver', icon:'wi-rain'    }, precipProbability:1,    precipType:'rain', temperature:44.83, windSpeed:2.43, cloudCover:0.87 }
+  WeatherUC.Locs[0].fore = {
+    key:"Evergreen",    name:"Evergreen",    lon:-105.334724, lat:39.701735, time:1430776040, summary:'Overcast',  fcIcon:'cloudy',
+    style:{  back:'silver', icon:'wi-cloudy'  }, precipProbability:0.01, precipType:'rain', temperature:44.16, windSpeed:5.7, cloudCover:0.99  }
+  WeatherUC.Locs[1].fore = {
+    key:"US40", name:"US40", lon:-105.654065, lat:39.759558, time:1430776040, summary:'Drizzle', fcIcon:'rain',
+    style:{ back:'silver', icon:'wi-showers' }, precipProbability:0.67, precipType:'rain', temperature:43.61, windSpeed:6.3, cloudCover:0.89 }
+  WeatherUC.Locs[2].fore = {
+    key:"EastTunnel",   name:"East Tunnel",  lon:-105.891111, lat:39.681757, time:1430776040, summary:'Overcast',   fcIcon:'cloudy',
+    style:{ back:'silver', icon:'wi-cloudy'  }, precipProbability:0.19, precipType:'rain', temperature:39.49, windSpeed:6.9, cloudCover:0.97  }
+  WeatherUC.Locs[3].fore = {
+    key:"WestTunnel",   name:"West Tunnel",  lon:-105.878342, lat:39.692400, time:1430776040, summary:'Overcast',   fcIcon:'cloudy',
+    style:{ back:'silver', icon:'wi-cloudy'  }, precipProbability:0.21, precipType:'rain', temperature:39.57, windSpeed:6.82, cloudCover:0.97 }
+  WeatherUC.Locs[4].fore = {
+    key:"Silverthorne", name:"Silverthorne", lon:-106.072685, lat:39.624160, time:1430776040, summary:'Light Rain', fcIcon:'rain',
+    style:{ back:'silver', icon:'wi-rain'    }, precipProbability:1,    precipType:'rain', temperature:47.4,  windSpeed:6.89, cloudCover:0.85 }
+  WeatherUC.Locs[5].fore = {
+    key:"CopperMtn",    name:"Copper Mtn",   lon:-106.147382, lat:39.503512, time:1430776040, summary:'Light Rain', fcIcon:'rain',
+    style:{ back:'silver', icon:'wi-rain'    }, precipProbability:1,    precipType:'rain', temperature:46.92, windSpeed:3.44, cloudCover:1    }
+  WeatherUC.Locs[6].fore = {
+    key:"VailPass",     name:"Vail Pass",    lon:-106.216071, lat:39.531042, time:1430776041, summary:'Drizzle',    fcIcon:'rain',
+    style:{ back:'silver', icon:'wi-showers' }, precipProbability:0.53, precipType:'rain', temperature:47.29, windSpeed:3.94, cloudCover:0.94 }
+  WeatherUC.Locs[7].fore = {
+    key:"Vail",         name:"Vail",         lon:-106.378767, lat:39.644407, time:1430776041, summary:'Light Rain', fcIcon:'rain',
+    style:{ back:'silver', icon:'wi-rain'    }, precipProbability:1,    precipType:'rain', temperature:44.83, windSpeed:2.43, cloudCover:0.87 }
 
   @Icons = {}
   @Icons['clear-day']           = { back:'lightblue',      icon:'wi-day-cloudy' }
@@ -123,7 +139,7 @@ class WeatherUC
     return
 
   toWeather:( forecast ) ->
-    f = if forecast.currently? then forecast.currently else forecast # The current forecast data point
+    f = if forecast['currently']? then forecast['currently'] else forecast # The current forecast data point
     w = {}
     w.index             = forecast.index
     w.temperature       = Util.toFixed(f.temperature,0)
@@ -161,10 +177,10 @@ class WeatherUC
       @createHtml( loc, json )
     settings.error = ( jqXHR, textStatus, errorThrown ) ->
         Util.noop( errorThrown )
-        Util.error('Weather.forcast', { url:url, text:textStatus } )
+        console.error('Weather.forcast', { url:url, text:textStatus } )
     $.ajax( settings )
 
-
+export default WeatherUC
 
 
 

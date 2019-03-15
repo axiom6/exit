@@ -1,10 +1,9 @@
 
+import Util    from '../util/Util.js'
+
 class Rest
 
-  Util.Export( Rest, 'app/Rest' )
-
   constructor:( @stream  ) ->
-    @Spatial       = Util.Import( 'app/Spatial' )
     @localURL      = 'http://localhost:63342/exit/public/json/exit/'
     @baseURL       = "http://104.154.46.117/"
     @jessURL       = "https://exit-now-admin-jesseporter32.c9.io/"
@@ -80,7 +79,7 @@ class Rest
   #   because it has to be called for each towm with its town.lon town.lat and town.time
   forecastByTown:( name, town, onSuccess, onError ) ->
     args = {  name:name, town:town, lat:town.lat, lon:town.lon, time:town.time, hms:Util.toHMS(town.time) }
-    #Util.dbg( 'Rest.forecastByTown', args )
+    #console.log( 'Rest.forecastByTown', args )
     #url  = """#{@forecastIoURL}#{@forecastIoKey}}/#{town.lat},#{town.lon}"""  # ,#{town.time}
     #@get( url, 'Forecast', args, onSuccess, onError )
     @getForecast( args, onSuccess, onError )
@@ -142,7 +141,7 @@ class Rest
     return
 
   dealsByUrl:( url, onSuccess, onError ) ->
-    Util.dbg( 'isCall', typeof(onSuccess), onSuccess? )
+    console.log( 'isCall', typeof(onSuccess), onSuccess? )
     @get( url, 'Deals', {}, onSuccess, onError  )
     return
 
@@ -161,7 +160,7 @@ class Rest
       return
     settings.error = ( jqXHR, textStatus, errorThrown ) =>
       Util.noop( errorThrown )
-      Util.error( 'Rest.'+from, { url:url, args:args, text:textStatus } )
+      console.error( 'Rest.'+from, { url:url, args:args, text:textStatus } )
       onError( { url:url, args:args, from:from } )
       return
     $.ajax( settings )
@@ -175,7 +174,7 @@ class Rest
       onSuccess( args, response ) if onSuccess?
     settings.error = ( jqXHR, textStatus, errorThrown ) =>
       Util.noop( errorThrown )
-      Util.error( 'Rest.'+from, { url:url, text:textStatus } )
+      console.error( 'Rest.'+from, { url:url, text:textStatus } )
       onError( { url:url, args:args, from:from } )
     $.ajax( settings )
     return
@@ -199,53 +198,57 @@ class Rest
   logSegments:( args, obj ) =>
     args.size = segments.length
     segments = obj.segments
-    Util.dbg( 'logSegments args', args )
+    console.log( 'logSegments args', args )
     for segment in segments
+      id = 0
+      num = 0
       [id,num] = @segIdNum( segment )
-      Util.dbg( 'logSegment', { id:id, num:num, name:segment.name } )
+      console.log( 'logSegment', { id:id, num:num, name:segment.name } )
 
   logConditions:( args, conditions ) =>
     args.size = conditions.length
-    Util.dbg( 'logConditions args',  args )
-    Util.dbg( 'logConditions conds',  )
+    console.log( 'logConditions args',  args )
+    console.log( 'logConditions conds',  )
     for c in conditions
       cc = c['Conditions']
-      Util.dbg( '  condition', { SegmentId:c['SegmentId'], TravelTime:cc['TravelTime'], AverageSpeed:cc['AverageSpeed'] } )
-      Util.dbg( '  weather', cc['Weather'] )
+      console.log( '  condition', { SegmentId:c['SegmentId'], TravelTime:cc['TravelTime'], AverageSpeed:cc['AverageSpeed'] } )
+      console.log( '  weather', cc['Weather'] )
 
   logDeals:( args, deals ) =>
     args.size = deals.length
-    Util.dbg( 'logDeals args',  args )
+    console.log( 'logDeals args',  args )
     for d in deals
       dd = d['dealData']
-      Util.dbg( '  ', { segmentId:dd['segmentId'], lat:d['lat'], lon:d['lon'],  buiness:d['businessName'], description:d['name'] } )
+      console.log( '  ', { segmentId:dd['segmentId'], lat:d['lat'], lon:d['lon'],  buiness:d['businessName'], description:d['name'] } )
 
   logMileposts:( args, mileposts ) =>
     args.size = mileposts.length
-    Util.dbg( 'logMileposts args',  args )
+    console.log( 'logMileposts args',  args )
     for milepost in mileposts
-      Util.dbg( '  ', milepost )
+      console.log( '  ', milepost )
 
   logForecasts:( args, forecasts ) =>
     args.size = forecasts.length
-    Util.dbg( 'logForecasts args',  args )
+    console.log( 'logForecasts args',  args )
     for forecast in forecasts
-      Util.dbg( '  ', forecast )
+      console.log( '  ', forecast )
 
   # Deprecated
   jsonParse:( url, from, args, json, onSuccess ) ->
     json = json.toString().replace(/(\r\n|\n|\r)/gm,"")  # Remove all line breaks
-    Util.dbg( '--------------------------' )
-    Util.dbg( json )
-    Util.dbg( '--------------------------' )
+    console.log( '--------------------------' )
+    console.log( json )
+    console.log( '--------------------------' )
     try
       objs = JSON.parse(json)
       onSuccess( args, objs )
     catch error
-      Util.error( 'Rest.jsonParse()', { url:url, from:from, args:args, error:error } )
+      console.error( 'Rest.jsonParse()', { url:url, from:from, args:args, error:error } )
 
   ###
    curl 'https://api.forecast.io/forecast/2c52a8974f127eee9de82ea06aadc7fb/39.759558,-105.654065?callback=jQuery21308299770827870816_1433124323587&_=1433124323588'
 
   # """https://api.forecast.io/forecast/#{key}/#{loc.lat},#{loc.lon},#{loc.time}"""
-  ###
+  ###    
+  
+export default Rest

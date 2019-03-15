@@ -1,7 +1,7 @@
 
-class NavigateUI
+import Util       from '../util/Util.js'
 
-  Util.Export( NavigateUI, 'ui/NavigateUI' )
+class NavigateUI
 
   constructor:( @stream ) ->
 
@@ -33,3 +33,5 @@ class NavigateUI
   show:() -> @$.show()
 
   hide:() -> @$.hide()
+
+`export default NavigateUI`

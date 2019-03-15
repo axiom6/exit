@@ -29,7 +29,7 @@ Util = (function() {
       var has;
       has = typeof obj[method] === 'function';
       if (!has && issue) {
-        Util.log('Util.hasMethod()', method, has);
+        console.log('Util.hasMethod()', method, has);
       }
       return has;
     }
@@ -42,7 +42,7 @@ Util = (function() {
       }
       has = window[global] != null;
       if (!has && issue) {
-        Util.error(`Util.hasGlobal() ${global} not present`);
+        console.error(`Util.hasGlobal() ${global} not present`);
       }
       return has;
     }
@@ -61,7 +61,7 @@ Util = (function() {
       plug = Util.lastTok(plugin, '.');
       has = (window[glob] != null) && (window[glob][plug] != null);
       if (!has && issue) {
-        Util.error(`Util.hasPlugin()  $${glob + '.' + plug} not present`);
+        console.error(`Util.hasPlugin()  $${glob + '.' + plug} not present`);
       }
       return has;
     }
@@ -70,7 +70,7 @@ Util = (function() {
       var has;
       has = Util.modules[path] != null;
       if (!has && issue) {
-        Util.error(`Util.hasModule() ${path} not present`);
+        console.error(`Util.hasModule() ${path} not present`);
       }
       return has;
     }
@@ -82,7 +82,7 @@ Util = (function() {
         arg = arguments[j];
         has = Util.hasGlobal(arg, false) || Util.hasModule(arg, false) || Util.hasPlugin(arg, false);
         if (!has) {
-          Util.error('Missing Dependency', arg);
+          console.error('Missing Dependency', arg);
         }
         if (has === false) {
           ok = has;
@@ -98,7 +98,7 @@ Util = (function() {
         module = modules[j];
         has = global != null ? Util.hasGlobal(global, false) || Util.hasPlugin(global) : Util.hasModule(lib + module, false) != null;
         if (!has) {
-          Util.error('Util.verifyLoadModules() Missing Module', lib + module + '.js', {
+          console.error('Util.verifyLoadModules() Missing Module', lib + module + '.js', {
             global: global
           });
         }
@@ -107,141 +107,12 @@ Util = (function() {
       return ok;
     }
 
-    // Load libraries With YepNope
-    static loadInitLibs(root, paths, libs, callback, dbg = false) {
-      var deps, dir, j, len, mod, path, ref, ref1;
-      Util.root = root;
-      Util.paths = paths;
-      Util.libs = libs;
-      if (!Util.hasGlobal('yepnope')) {
-        return;
-      }
-      deps = [];
-      ref = libs.paths;
-      for (path in ref) {
-        dir = ref[path];
-        ref1 = libs[path];
-        for (j = 0, len = ref1.length; j < len; j++) {
-          mod = ref1[j];
-          deps.push(root + dir + mod + '.js');
-          if (dbg) {
-            Util.log(root + dir + mod + '.js');
-          }
-        }
-      }
-      yepnope([
-        {
-          load: deps,
-          complete: callback
-        }
-      ]);
-    }
-
-    static loadModules(path, dir, modules, callback = null) {
-      var deps, j, len, module, modulesCallback;
-      if (!Util.hasGlobal('yepnope')) {
-        return;
-      }
-      modulesCallback = callback != null ? callback : () => {
-        return Util.verifyLoadModules(dir, modules);
-      };
-      deps = [];
-      for (j = 0, len = modules.length; j < len; j++) {
-        module = modules[j];
-        if (!Util.hasModule(dir + module, false)) {
-          deps.push(Util.root + path + dir + module + '.js');
-        } else {
-          Util.warn('Util.loadModules() already loaded module', Util.root + dir + module);
-        }
-      }
-      yepnope([
-        {
-          load: deps,
-          complete: modulesCallback
-        }
-      ]);
-    }
-
-    static loadModule(path, dir, module, global = void 0) {
-      var modulesCallback;
-      if (!Util.hasGlobal('yepnope')) {
-        return;
-      }
-      modulesCallback = typeof callback !== "undefined" && callback !== null ? callback : () => {
-        return Util.verifyLoadModules(dir, [module], global);
-      };
-      if (((global != null) && !Util.hasGlobal(global, false)) || !Util.hasModule(dir + module, false)) {
-        yepnope([
-          {
-            load: Util.root + path + dir + module + '.js',
-            complete: modulesCallback
-          }
-        ]);
-      } else {
-        Util.warn('Util.loadModule() already loaded module', dir + module);
-      }
-    }
-
-    // First add module the modules associative array.
-    // Export is capitalized to avoid conflict with "export" JavaScript keyword
-    static Export(module, path, dbg = false) {
-      Util.setModule(module, path);
-      if (dbg) {
-        Util.log('Util.Export', path);
-      }
-      return module;
-    }
-
-    // First lookup module from modules associative array
-    // Import is capitalized to avoid conflict with "import" JavaScript keyword
-    static Import(path) {
-      var module;
-      module = Util.getModule(path);
-      return module;
-    }
-
-    // Need to rethink this method
-    static IdExt(path) {
-      var ext, module;
-      module = Util.Import(path);
-      ext = '';
-      if ((module != null ? module.ext : void 0) == null) {
-        Util.error('Util.IdExt() id extension ext not defined for module with path', path);
-        ext = void 0;
-      } else {
-        ext = path.split('/').pop();
-      }
-      return ext;
-    }
-
-    static setModule(module, path) {
-      if ((module == null) && (path != null)) {
-        Util.error('Util.setModule() module not defined for path', path);
-      } else if ((module != null) && (path == null)) {
-        Util.error('Util.setModule() path not  defined for module', module.toString());
-      } else {
-        Util.modules[path] = module;
-      }
-    }
-
-    static getModule(path, dbg = false) {
-      var module;
-      if (dbg) {
-        Util.log('getNodule', path);
-      }
-      module = Util.modules[path];
-      if (module == null) {
-        Util.error('Util.getModule() module not defined for path', path);
-      }
-      return module;
-    }
-
     static setInstance(instance, path) {
-      Util.log('Util.setInstance()', path);
+      console.log('Util.setInstance()', path);
       if ((instance == null) && (path != null)) {
-        Util.error('Util.setInstance() instance not defined for path', path);
+        console.error('Util.setInstance() instance not defined for path', path);
       } else if ((instance != null) && (path == null)) {
-        Util.error('Util.setInstance() path not defined for instance', instance.toString());
+        console.error('Util.setInstance() path not defined for instance', instance.toString());
       } else {
         Util.instances[path] = instance;
       }
@@ -250,11 +121,11 @@ Util = (function() {
     static getInstance(path, dbg = false) {
       var instance;
       if (dbg) {
-        Util.log('getInstance', path);
+        console.log('getInstance', path);
       }
       instance = Util.instances[path];
       if (instance == null) {
-        Util.error('Util.getInstance() instance not defined for path', path);
+        console.error('Util.getInstance() instance not defined for path', path);
       }
       return instance;
     }
@@ -265,7 +136,7 @@ Util = (function() {
     // This method should not be called directly
     static toStrArgs(prefix, args) {
       var arg, j, len, str;
-      Util.logStackNum = 0;
+      console.logStackNum = 0;
       str = Util.isStr(prefix) ? prefix + " " : "";
       for (j = 0, len = args.length; j < len; j++) {
         arg = args[j];
@@ -275,8 +146,8 @@ Util = (function() {
     }
 
     static toStr(arg) {
-      Util.logStackNum++;
-      if (Util.logStackNum > Util.logStackMax) {
+      console.logStackNum++;
+      if (console.logStackNum > console.logStackMax) {
         return '';
       }
       switch (typeof arg) {
@@ -334,7 +205,7 @@ Util = (function() {
     // Consume unused but mandated variable to pass code inspections
     static noop() {
       if (false) {
-        Util.log(arguments);
+        console.log(arguments);
       }
     }
 
@@ -415,7 +286,7 @@ Util = (function() {
         throw new Error(str);
       } catch (error1) {
         error = error1;
-        Util.log(error.stack);
+        console.log(error.stack);
       }
     }
 
@@ -635,7 +506,7 @@ Util = (function() {
       if (Util.isStr(str) && (str.split != null)) {
         return str.split(delim)[0];
       } else {
-        Util.error("Util.firstTok() str is not at string", str);
+        console.error("Util.firstTok() str is not at string", str);
         return '';
       }
     }
@@ -700,8 +571,8 @@ Util = (function() {
     // Return and ISO formated data string
     static isoDateTime(date) {
       var pad;
-      Util.log('Util.isoDatetime()', date);
-      Util.log('Util.isoDatetime()', date.getUTCMonth().date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes, date.getUTCSeconds);
+      console.log('Util.isoDatetime()', date);
+      console.log('Util.isoDatetime()', date.getUTCMonth().date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes, date.getUTCSeconds);
       pad = function(n) {
         if (n < 10) {
           return '0' + n;
@@ -840,23 +711,23 @@ Util = (function() {
     }
 
     static match_test() {
-      Util.log(Util.match_args("ex", "some text"));
-      Util.log(Util.match_args("s..t", "spit"));
-      Util.log(Util.match_args("^..t", "buttercup"));
-      Util.log(Util.match_args("i..$", "cherries"));
-      Util.log(Util.match_args("o*m", "vrooooommm!"));
-      return Util.log(Util.match_args("^hel*o$", "hellllllo"));
+      console.log(Util.match_args("ex", "some text"));
+      console.log(Util.match_args("s..t", "spit"));
+      console.log(Util.match_args("^..t", "buttercup"));
+      console.log(Util.match_args("i..$", "cherries"));
+      console.log(Util.match_args("o*m", "vrooooommm!"));
+      return console.log(Util.match_args("^hel*o$", "hellllllo"));
     }
 
     static match_args(regexp, text) {
-      return Util.log(regexp, text, Util.match(regexp, text));
+      return console.log(regexp, text, Util.match(regexp, text));
     }
 
     static id(name, type = '', ext = '') {
       var htmlId;
       htmlId = name + type + ext;
       if (Util.htmlIds[htmlId] != null) {
-        Util.error('Util.id() duplicate html id', htmlId);
+        console.error('Util.id() duplicate html id', htmlId);
       }
       Util.htmlIds[htmlId] = htmlId;
       return htmlId;
@@ -898,9 +769,9 @@ Util = (function() {
 
   Util.libs = {}; // Set by loadInitLibs for future reference in calls to loadModule(s)
 
-  Util.logStackNum = 0;
+  console.logStackNum = 0;
 
-  Util.logStackMax = 100;
+  console.logStackMax = 100;
 
   return Util;
 
@@ -908,4 +779,4 @@ Util = (function() {
 
 // Export Util as a convenience, since it is not really needed since Util is a global
 // Need to export at the end of the file.
-Util.Export(Util, 'util/Util');
+export default Util;

@@ -1,7 +1,7 @@
 
-class SearchUC
+import Util  from '../util/Util.js'
 
-  Util.Export( SearchUC, 'uc/SearchUC' )
+class SearchUC
 
   constructor:( @stream, @role, @port, @land, @dealsUC ) ->
 
@@ -24,3 +24,5 @@ class SearchUC
 
   html:() ->
     """<div id="#{Util.id('SearchUC',@role)}" class="#{Util.css('SearchUC')}"></div>"""
+
+`export default SearchUC`

@@ -1,7 +1,7 @@
 
-class Geo
+import Util  from '../util/Util.js'
 
-  Util.Export( Geo, 'util/Geo' )
+class Geo
 
   constructor:() ->
     Util.noop( @boundingBoxAroundPolyCoords, @pnpoly, @lineStringsIntersect, @pointInPolygon )
@@ -460,3 +460,5 @@ class Geo
         @numberToDegree(lat2)
       ]
     }
+
+`export default Geo`

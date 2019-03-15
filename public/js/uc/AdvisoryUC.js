@@ -1,51 +1,45 @@
-(function() {
-  var AdvisoryUC;
+var AdvisoryUC;
 
-  AdvisoryUC = (function() {
-    class AdvisoryUC {
-      constructor(stream, role, port, land) {
-        this.stream = stream;
-        this.role = role;
-        this.port = port;
-        this.land = land;
-      }
+import Util from '../util/Util.js';
 
-      ready() {
-        return this.$ = $(this.html());
-      }
+AdvisoryUC = class AdvisoryUC {
+  constructor(stream, role, port, land) {
+    this.stream = stream;
+    this.role = role;
+    this.port = port;
+    this.land = land;
+  }
 
-      position(screen) {
-        this.onScreen(screen);
-        return this.subscribe();
-      }
+  ready() {
+    return this.$ = $(this.html());
+  }
 
-      subscribe() {
-        this.stream.subscribe('Location', 'AdvisoryUC', (location) => {
-          return this.onLocation(location);
-        });
-        return this.stream.subscribe('Screen', 'AdvisoryUC', (screen) => {
-          return this.onScreen(screen);
-        });
-      }
+  position(screen) {
+    this.onScreen(screen);
+    return this.subscribe();
+  }
 
-      onLocation(location) {
-        return Util.noop('AdvisoryUC.onLocation()', this.ext, location);
-      }
+  subscribe() {
+    this.stream.subscribe('Location', 'AdvisoryUC', (location) => {
+      return this.onLocation(location);
+    });
+    return this.stream.subscribe('Screen', 'AdvisoryUC', (screen) => {
+      return this.onScreen(screen);
+    });
+  }
 
-      onScreen(screen) {
-        return Util.cssPosition(this.$, screen, this.port, this.land);
-      }
+  onLocation(location) {
+    return Util.noop('AdvisoryUC.onLocation()', this.ext, location);
+  }
 
-      html() {
-        return `<div id="${Util.id('AdvisoryUC', this.role)}" class="${Util.css('AdvisoryUC')}"></div>`;
-      }
+  onScreen(screen) {
+    return Util.cssPosition(this.$, screen, this.port, this.land);
+  }
 
-    };
+  html() {
+    return `<div id="${Util.id('AdvisoryUC', this.role)}" class="${Util.css('AdvisoryUC')}"></div>`;
+  }
 
-    Util.Export(AdvisoryUC, 'uc/AdvisoryUC');
+};
 
-    return AdvisoryUC;
-
-  }).call(this);
-
-}).call(this);
+export default AdvisoryUC;

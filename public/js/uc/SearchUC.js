@@ -1,52 +1,46 @@
-(function() {
-  var SearchUC;
+var SearchUC;
 
-  SearchUC = (function() {
-    class SearchUC {
-      constructor(stream, role, port, land, dealsUC) {
-        this.stream = stream;
-        this.role = role;
-        this.port = port;
-        this.land = land;
-        this.dealsUC = dealsUC;
-      }
+import Util from '../util/Util.js';
 
-      ready() {
-        return this.$ = $(this.html());
-      }
+SearchUC = class SearchUC {
+  constructor(stream, role, port, land, dealsUC) {
+    this.stream = stream;
+    this.role = role;
+    this.port = port;
+    this.land = land;
+    this.dealsUC = dealsUC;
+  }
 
-      position(screen) {
-        this.onScreen(screen);
-        return this.subscribe();
-      }
+  ready() {
+    return this.$ = $(this.html());
+  }
 
-      subscribe() {
-        this.stream.subscribe('Location', 'SearchUC', (location) => {
-          return this.onLocation(location);
-        });
-        return this.stream.subscribe('Screen', 'SearchUC', (screen) => {
-          return this.onScreen(screen);
-        });
-      }
+  position(screen) {
+    this.onScreen(screen);
+    return this.subscribe();
+  }
 
-      onLocation(location) {
-        return Util.noop('SearchUC.onLocation()', this.ext, location);
-      }
+  subscribe() {
+    this.stream.subscribe('Location', 'SearchUC', (location) => {
+      return this.onLocation(location);
+    });
+    return this.stream.subscribe('Screen', 'SearchUC', (screen) => {
+      return this.onScreen(screen);
+    });
+  }
 
-      onScreen(screen) {
-        return Util.cssPosition(this.$, screen, this.port, this.land);
-      }
+  onLocation(location) {
+    return Util.noop('SearchUC.onLocation()', this.ext, location);
+  }
 
-      html() {
-        return `<div id="${Util.id('SearchUC', this.role)}" class="${Util.css('SearchUC')}"></div>`;
-      }
+  onScreen(screen) {
+    return Util.cssPosition(this.$, screen, this.port, this.land);
+  }
 
-    };
+  html() {
+    return `<div id="${Util.id('SearchUC', this.role)}" class="${Util.css('SearchUC')}"></div>`;
+  }
 
-    Util.Export(SearchUC, 'uc/SearchUC');
+};
 
-    return SearchUC;
-
-  }).call(this);
-
-}).call(this);
+export default SearchUC;

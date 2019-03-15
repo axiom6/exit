@@ -1,7 +1,7 @@
 
-class ThresholdUC
+import Util  from '../util/Util.js'
 
-  Util.Export( ThresholdUC, 'uc/ThresholdUC' )
+class ThresholdUC
 
   constructor:( @stream, @ext, @port, @land ) ->
 
@@ -26,3 +26,5 @@ class ThresholdUC
 
   show:() -> @$.show()
   hide:() -> @$.hide()
+
+`export default ThresholdUC`

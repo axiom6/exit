@@ -1,7 +1,9 @@
 
-class UI
+import Util      from '../util/Util.js'
+import IconsUC   from '../uc/IconsUC.js'
 
-  Util.Export( UI, 'ui/UI' )
+
+class UI
 
   UI.IconSpecs = [
     { name:'Destination',    css:'Icon', icon:'fas fa-file-image'  }
@@ -13,7 +15,6 @@ class UI
     { name:'Fork',           css:'Icon', icon:'fas fa-code-branch' } ]
 
   constructor:( @stream, @destinationUI, @goUI, @tripUI, @dealsUI, @navigateUI ) ->
-    IconsUC         = Util.Import( 'uc/IconsUC' )
     @iconsUC        = new IconsUC( @stream, 'Icons', [0,0,100,10], [0,0,100,18], UI.IconSpecs, true, true )
     @orientation    = 'Portrait'
     @recommendation = '?'
@@ -100,7 +101,7 @@ class UI
       when 'Fork'            then @changeRecommendation( @reverseRecommendation() )
       when 'Point'           then @stream.publish( 'Screen', @toScreen(@reverseOrientation() ) )
       else
-        Util.error( "UI.select unknown name", name )
+        console.error( "UI.select unknown name", name )
     @lastSelect.show()
     return
 
@@ -113,5 +114,5 @@ class UI
     else
       { orientation:orientation, width:@height(), height:@width() }
 
-
+`export default UI`
 

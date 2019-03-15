@@ -1,14 +1,15 @@
 
+import Util        from '../util/Util.js'
+import Data        from '../app/Data.js'
+import ThresholdUC from '../uc/ThresholdUC.js'
+
 class DestinationUI
 
-  Util.Export( DestinationUI, 'ui/DestinationUI' )
-
   constructor:( @stream ) ->
-    ThresholdUC  = Util.Import( 'uc/ThresholdUC' )
+
     @thresholdUC = new ThresholdUC( @stream, 'Destin', [0,60,100,40], [ 50, 20, 50, 80]  )
-    @Data = Util.Import( 'app/Data' )
-    @sources = @Data.Destinations # For now we access sources     from static data
-    @destins = @Data.Destinations # For now we access destins from static data
+    @sources = Data.Destinations # For now we access sources     from static data
+    @destins = Data.Destinations # For now we access destins from static data
     Util.noop( @showBody, @hideBody )
 
   ready:() ->
@@ -75,3 +76,5 @@ class DestinationUI
 
   showBody:() -> @$destinBody.show()
   hideBody:() -> @$destinBody.hide()
+
+`export default DestinationUI`

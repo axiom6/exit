@@ -1,12 +1,13 @@
 
+import Util        from '../util/Util.js'
+import WeatherUC   from '../uc/WeatherUC.js'
+import AdvisoryUC  from '../uc/AdvisoryUC.js'
+import DriveBarUC  from '../uc/DriveBarUC.js'
+
 class TripUI
 
-  Util.Export( TripUI,   'ui/TripUI' )
-
   constructor:( @stream ) ->
-    WeatherUC     = Util.Import( 'uc/WeatherUC'  )
-    AdvisoryUC    = Util.Import( 'uc/AdvisoryUC' )
-    DriveBarUC    = Util.Import( 'uc/DriveBarUC' )
+
     @weatherUC    = new WeatherUC(  @stream, 'Trip', [0,  0, 100, 54], [0,  0, 100, 50] )
     @advisoryUC   = new AdvisoryUC( @stream, 'Trip', [0, 54, 100, 10], [0, 50, 100, 10] )
     @driveBarUC   = new DriveBarUC( @stream, 'Trip', [4, 64,  92, 36], [4, 60,  92, 40] )
@@ -38,5 +39,7 @@ class TripUI
   show:() -> @$.show()
 
   hide:() -> @$.hide()
+
+`export default TripUI`
 
 

@@ -1,7 +1,7 @@
 
-class AdvisoryUC
+import Util     from '../util/Util.js'
 
-  Util.Export( AdvisoryUC, 'uc/AdvisoryUC' )
+class AdvisoryUC
 
   constructor:( @stream, @role, @port, @land ) ->
 
@@ -24,3 +24,5 @@ class AdvisoryUC
 
   html:() ->
     """<div id="#{Util.id('AdvisoryUC',@role)}" class="#{Util.css('AdvisoryUC')}"></div>"""
+
+`export default AdvisoryUC`

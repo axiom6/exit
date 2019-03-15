@@ -1,42 +1,42 @@
 
-
+import Util          from '../util/Util.js'
 
 # Static data for demo that will be gradually be replaced with dynamic data from the server
 
 class Data
 
-  Util.Export( Data, 'app/Data' )
+  Util.noop( Data.DestinationsWest )
 
-  @Destinations     =  ['','Denver',        'Idaho Springs',       'Georgetown',        'Silverthorne',       'Frisco',        'Copper Mtn',        'Vail'        ]
-  @DestinationsMile =     {"Denver":260.79, "Idaho Springs":239.70,"Georgetown":227.90, "Silverthorne":205.50,"Frisco":200.70, "Copper Mtn":195.40, "Vail":177.00 }
+  Data.Destinations     =  ['','Denver',        'Idaho Springs',       'Georgetown',        'Silverthorne',       'Frisco',        'Copper Mtn',        'Vail'        ]
+  Data.DestinationsMile =     {"Denver":260.79, "Idaho Springs":239.70,"Georgetown":227.90, "Silverthorne":205.50,"Frisco":200.70, "Copper Mtn":195.40, "Vail":177.00 }
 
-  @DestinationsWest   =  ['Denver', 'Idaho Springs','Georgetown',   'Silverthorne','Frisco',        'Copper Mtn', 'Vail' ]
-  @DestinationsEast   =  ['Vail', 'Copper Mtn','Frisco',        'Silverthorne','Georgetown',  'Idaho Springs', 'Denver']
+  Data.DestinationsWest   =  ['Denver', 'Idaho Springs','Georgetown',   'Silverthorne','Frisco',        'Copper Mtn', 'Vail' ]
+  Data.DestinationsEast   =  ['Vail', 'Copper Mtn','Frisco',        'Silverthorne','Georgetown',  'Idaho Springs', 'Denver']
 
-  @scenario1 = { preset:1, dir:'East', beg:"Vail",       end:"Denver",     begCDOT:"East Vail to Vail Pass",           endCDOT:"Morrison / Heritage to C-470" }
-  @scenario2 = { preset:2, dir:'West', beg:"Denver",     end:"Vail",       begCDOT:"US 6 to C-470",                    endCDOT:"East Vail to Vail Pass" }
-  @scenario3 = { preset:3, dir:'East', beg:"Vail",       end:"Bakerville", begCDOT:"East Vail to Vail Pass",           endCDOT:"Loveland to Bakerville" }
-  @scenario4 = { preset:4, dir:'West', beg:"Georgetown", end:"Frisco",     begCDOT:"Georgetown to Bakerville",         endCDOT:"Silverthorne to Frisco (Main St)" }
-  @scenario5 = { preset:5, dir:'East', beg:"Frisco",     end:"Morrison",   begCDOT:"Frisco (Main St) to Silverthorne", endCDOT:"Lookout Mountain to Morrison / Heritage" }
-  @scenario6 = { preset:6, dir:'East', beg:"Frisco",     end:"Bakerville", begCDOT:"Frisco (Main St) to Silverthorne", endCDOT:"Loveland to Bakerville" }
-
-
-
-  @WestSegmentIds = [16,17,266,267,274,275,20,21,22,23,24,25,270,271,27,28,29,30]
-  @EastSegmentIds = [31,32,33,34,272,273,36,37,39,40,41,276,277,268,269,44,45]
-
-  @WestSegmentsURL = "http://104.154.46.117/api/state?segments=16,17,266,267,274,275,20,21,22,23,24,25,270,271,27,28,29,30"
-  @EastSegmentsURL = "http://104.154.46.117/api/state?segments=31,32,33,34,272,273,36,37,39,40,41,276,277,268,269,44,45"
-
-  @WestBegLatLon  = [39.713024,-105.194595]
-  @WestEndLatLon  = [39.539680,-106.215126]
-
-  @gitPush = "git push https://github.com/GoCodeColorado/Exit-Now-App"
+  Data.scenario1 = { preset:1, dir:'East', beg:"Vail",       end:"Denver",     begCDOT:"East Vail to Vail Pass",           endCDOT:"Morrison / Heritage to C-470" }
+  Data.scenario2 = { preset:2, dir:'West', beg:"Denver",     end:"Vail",       begCDOT:"US 6 to C-470",                    endCDOT:"East Vail to Vail Pass" }
+  Data.scenario3 = { preset:3, dir:'East', beg:"Vail",       end:"Bakerville", begCDOT:"East Vail to Vail Pass",           endCDOT:"Loveland to Bakerville" }
+  Data.scenario4 = { preset:4, dir:'West', beg:"Georgetown", end:"Frisco",     begCDOT:"Georgetown to Bakerville",         endCDOT:"Silverthorne to Frisco (Main St)" }
+  Data.scenario5 = { preset:5, dir:'East', beg:"Frisco",     end:"Morrison",   begCDOT:"Frisco (Main St) to Silverthorne", endCDOT:"Lookout Mountain to Morrison / Heritage" }
+  Data.scenario6 = { preset:6, dir:'East', beg:"Frisco",     end:"Bakerville", begCDOT:"Frisco (Main St) to Silverthorne", endCDOT:"Loveland to Bakerville" }
 
 
-  @DealSegmentIds = []
 
-  @EastSegments = {
+  Data.WestSegmentIds = [16,17,266,267,274,275,20,21,22,23,24,25,270,271,27,28,29,30]
+  Data.EastSegmentIds = [31,32,33,34,272,273,36,37,39,40,41,276,277,268,269,44,45]
+
+  Data.WestSegmentsURL = "http://104.154.46.117/api/state?segments=16,17,266,267,274,275,20,21,22,23,24,25,270,271,27,28,29,30"
+  Data.EastSegmentsURL = "http://104.154.46.117/api/state?segments=31,32,33,34,272,273,36,37,39,40,41,276,277,268,269,44,45"
+
+  Data.WestBegLatLon  = [39.713024,-105.194595]
+  Data.WestEndLatLon  = [39.539680,-106.215126]
+
+  Data.gitPush = "git push https://github.com/GoCodeColorado/Exit-Now-App"
+
+
+  Data.DealSegmentIds = []
+
+  Data.EastSegments = {
     "type":"FeatureCollection",
     "crs":{ "type":"name", "properties": { "name":"urn:ogc:def:crs:OGC:1.3:CRS84" } },
     "features":[
@@ -61,7 +61,7 @@ class Data
     ]
   }
 
-  @WestSegments = {
+  Data.WestSegments = {
     "type":"FeatureCollection",
     "crs":{ "type":"name", "properties": { "name":"urn:ogc:def:crs:OGC:1.3:CRS84" } },
     "features":[
@@ -86,7 +86,7 @@ class Data
     ]
   }
 
-  @Exits = {
+  Data.Exits = {
     "type":"FeatureCollection",
     "crs":{ "type":"name", "properties": { "name":"urn:ogc:def:crs:OGC:1.3:CRS84" } },
     "features":[
@@ -123,7 +123,7 @@ class Data
     ]
   }
 
-  @MilePosts = {
+  Data.MilePosts = {
     "type":   "FeatureCollection",
     "crs": {  "type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"} },
     "features": [
@@ -226,3 +226,5 @@ class Data
       { "type": "Feature", "properties": { "Route": "070A", "Milepost": 260 }, "geometry": { "type": "Point", "coordinates": [ -105.192522,39.714378 ] } }
     ]
   }
+  
+export default Data

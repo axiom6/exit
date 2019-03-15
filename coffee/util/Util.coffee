@@ -13,8 +13,8 @@ class Util
   Util.root      = ''
   Util.paths     = {} # Set by loadInitLibs for future reference in calls to loadModule(s)
   Util.libs      = {} # Set by loadInitLibs for future reference in calls to loadModule(s)
-  Util.logStackNum = 0
-  Util.logStackMax = 100
+  console.logStackNum = 0
+  console.logStackMax = 100
 
   @element:( $elem ) ->
     # console.log( 'Dom.element()', $elem, Dom.isJQueryElem( $elem ) )
@@ -36,7 +36,7 @@ class Util
 
   @hasMethod:( obj, method, issue=false ) ->
     has = typeof obj[method] is 'function'
-    Util.log( 'Util.hasMethod()', method, has )  if not has and issue
+    console.log( 'Util.hasMethod()', method, has )  if not has and issue
     has
 
   @hasGlobal:( global, issue=true ) ->
@@ -44,7 +44,7 @@ class Util
       Util.trace(  global )
       return false
     has = window[global]?
-    Util.error( "Util.hasGlobal() #{global} not present" )  if not has and issue
+    console.error( "Util.hasGlobal() #{global} not present" )  if not has and issue
     has
 
   @getGlobal:( global, issue=true ) ->
@@ -54,19 +54,19 @@ class Util
     glob = Util.firstTok(plugin,'.')
     plug = Util.lastTok( plugin,'.')
     has  = window[glob]? and window[glob][plug]?
-    Util.error( "Util.hasPlugin()  $#{glob+'.'+plug} not present" )  if not has and issue
+    console.error( "Util.hasPlugin()  $#{glob+'.'+plug} not present" )  if not has and issue
     has
 
   @hasModule:( path, issue=true ) ->
     has = Util.modules[path]?
-    Util.error( "Util.hasModule() #{path} not present" )  if not has and issue
+    console.error( "Util.hasModule() #{path} not present" )  if not has and issue
     has
 
   @dependsOn:() ->
     ok = true
     for arg in arguments
       has = Util.hasGlobal(arg,false) or Util.hasModule(arg,false) or Util.hasPlugin(arg,false)
-      Util.error( 'Missing Dependency', arg ) if not has
+      console.error( 'Missing Dependency', arg ) if not has
       ok = has if has is false
     ok
 
@@ -74,100 +74,25 @@ class Util
     ok  = true
     for module in modules
       has = if global? then Util.hasGlobal(global,false) or Util.hasPlugin(global) else Util.hasModule(lib+module,false)?
-      Util.error( 'Util.verifyLoadModules() Missing Module', lib+module+'.js', {global:global} ) if not has
+      console.error( 'Util.verifyLoadModules() Missing Module', lib+module+'.js', {global:global} ) if not has
       ok &= has
     ok
 
-  # Load libraries With YepNope
-  @loadInitLibs:( root, paths, libs, callback, dbg=false ) ->
-    Util.root  = root
-    Util.paths = paths
-    Util.libs  = libs
-    return if not Util.hasGlobal('yepnope')
-    deps   = []
-    for path, dir of libs.paths
-      for mod in libs[path]
-        deps.push( root + dir + mod + '.js' )
-        Util.log(  root + dir + mod + '.js' ) if dbg
-    yepnope( [{ load:deps, complete:callback }] )
-    return
-
-  @loadModules:( path, dir, modules, callback=null ) ->
-    return if not Util.hasGlobal('yepnope')
-    modulesCallback = if callback? then callback  else () => Util.verifyLoadModules(dir,modules)
-    deps = []
-    for module in modules
-      if not Util.hasModule( dir+module, false )
-        deps.push( Util.root + path+dir+module+'.js' )
-      else
-        Util.warn( 'Util.loadModules() already loaded module', Util.root + dir + module )
-    yepnope( [{ load:deps, complete:modulesCallback }] )
-    return
-
-  @loadModule:( path, dir, module, global=undefined ) ->
-    return if not Util.hasGlobal('yepnope')
-    modulesCallback = if callback? then callback  else () => Util.verifyLoadModules(dir,[module],global)
-    if ( global? and not Util.hasGlobal(global,false) ) or not Util.hasModule( dir+module, false )
-      yepnope( [{ load:Util.root+path+dir+module+'.js', complete:modulesCallback }] )
-    else
-      Util.warn( 'Util.loadModule() already loaded module', dir+module )
-    return
-
-  # First add module the modules associative array.
-  # Export is capitalized to avoid conflict with "export" JavaScript keyword
-  @Export:( module, path, dbg=false ) ->
-    Util.setModule( module, path )
-    Util.log( 'Util.Export', path ) if dbg
-    module
-
-  # First lookup module from modules associative array
-  # Import is capitalized to avoid conflict with "import" JavaScript keyword
-  @Import:( path ) ->
-    module = Util.getModule( path )
-    module
-
-  # Need to rethink this method
-  @IdExt:( path ) ->
-    module = Util.Import( path )
-    ext = ''
-    if not module?.ext?
-      Util.error('Util.IdExt() id extension ext not defined for module with path', path )
-      ext = undefined
-    else
-      ext = path.split('/').pop()
-    ext
-
-  @setModule:( module, path ) ->
-    if not module? and path?
-      Util.error('Util.setModule() module not defined for path', path )
-    else if module? and not path?
-      Util.error('Util.setModule() path not  defined for module', module.toString() )
-    else
-      Util.modules[path] = module
-    return
-
-  @getModule:( path, dbg=false ) ->
-    Util.log( 'getNodule', path ) if dbg
-    module = Util.modules[path]
-    if not module?
-      Util.error('Util.getModule() module not defined for path', path )
-    module
-
   @setInstance:( instance, path ) ->
-    Util.log( 'Util.setInstance()', path )
+    console.log( 'Util.setInstance()', path )
     if not instance? and path?
-      Util.error('Util.setInstance() instance not defined for path', path )
+      console.error('Util.setInstance() instance not defined for path', path )
     else if instance? and not path?
-      Util.error('Util.setInstance() path not defined for instance', instance.toString() )
+      console.error('Util.setInstance() path not defined for instance', instance.toString() )
     else
       Util.instances[path] = instance
     return
 
   @getInstance:( path, dbg=false ) ->
-    Util.log( 'getInstance', path ) if dbg
+    console.log( 'getInstance', path ) if dbg
     instance = Util.instances[path]
     if not instance?
-      Util.error('Util.getInstance() instance not defined for path', path )
+      console.error('Util.getInstance() instance not defined for path', path )
     instance
 
   # ---- Logging -------
@@ -175,15 +100,15 @@ class Util
   # args should be the arguments passed by the original calling function
   # This method should not be called directly
   @toStrArgs:( prefix, args ) ->
-    Util.logStackNum = 0
+    console.logStackNum = 0
     str = if Util.isStr(prefix) then prefix + " "  else ""
     for arg in args
       str += Util.toStr(arg) + " "
     str
 
   @toStr:( arg ) ->
-    Util.logStackNum++
-    return '' if Util.logStackNum > Util.logStackMax
+    console.logStackNum++
+    return '' if console.logStackNum > console.logStackMax
     switch typeof(arg)
       when 'null'   then 'null'
       when 'string' then Util.toStrStr(arg)
@@ -217,7 +142,7 @@ class Util
 
   # Consume unused but mandated variable to pass code inspections
   @noop:() ->
-    Util.log( arguments ) if false
+    console.log( arguments ) if false
     return
 
   # Conditional log arguments through console
@@ -278,7 +203,7 @@ class Util
     try
       throw new Error( str )
     catch error
-      Util.log( error.stack )
+      console.log( error.stack )
     return
 
   @alert:(  ) ->
@@ -395,7 +320,7 @@ class Util
     if Util.isStr(str) and str.split?
       str.split(delim)[0]
     else
-      Util.error( "Util.firstTok() str is not at string", str )
+      console.error( "Util.firstTok() str is not at string", str )
       ''
   ###
     parse = document.createElement('a')
@@ -431,8 +356,8 @@ class Util
 
   # Return and ISO formated data string
   @isoDateTime:( date ) ->
-    Util.log( 'Util.isoDatetime()', date )
-    Util.log( 'Util.isoDatetime()', date.getUTCMonth(). date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes, date.getUTCSeconds )
+    console.log( 'Util.isoDatetime()', date )
+    console.log( 'Util.isoDatetime()', date.getUTCMonth(). date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes, date.getUTCSeconds )
     pad = (n) -> if n < 10 then '0'+n else n
     date.getFullYear()     +'-'+pad(date.getUTCMonth()+1)+'-'+pad(date.getUTCDate())+'T'+
     pad(date.getUTCHours())+':'+pad(date.getUTCMinutes())+':'+pad(date.getUTCSeconds())+'Z'
@@ -516,19 +441,19 @@ class Util
       text = text.slice(1)
 
   @match_test:() ->
-    Util.log( Util.match_args("ex", "some text") )
-    Util.log( Util.match_args("s..t", "spit") )
-    Util.log( Util.match_args("^..t", "buttercup") )
-    Util.log( Util.match_args("i..$", "cherries") )
-    Util.log( Util.match_args("o*m", "vrooooommm!") )
-    Util.log( Util.match_args("^hel*o$", "hellllllo") )
+    console.log( Util.match_args("ex", "some text") )
+    console.log( Util.match_args("s..t", "spit") )
+    console.log( Util.match_args("^..t", "buttercup") )
+    console.log( Util.match_args("i..$", "cherries") )
+    console.log( Util.match_args("o*m", "vrooooommm!") )
+    console.log( Util.match_args("^hel*o$", "hellllllo") )
 
   @match_args:( regexp, text ) ->
-    Util.log( regexp, text, Util.match(regexp,text) )
+    console.log( regexp, text, Util.match(regexp,text) )
 
   @id:( name, type='', ext='' ) ->
     htmlId = name + type + ext
-    Util.error( 'Util.id() duplicate html id', htmlId ) if Util.htmlIds[htmlId]?
+    console.error( 'Util.id() duplicate html id', htmlId ) if Util.htmlIds[htmlId]?
     Util.htmlIds[htmlId] = htmlId
     htmlId
 
@@ -539,4 +464,4 @@ class Util
 
 # Export Util as a convenience, since it is not really needed since Util is a global
 # Need to export at the end of the file.
-Util.Export( Util, 'util/Util' )
+`export default Util`

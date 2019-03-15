@@ -1,7 +1,7 @@
 
-class DriveBarUC
+import Util          from '../util/Util.js'
 
-  Util.Export( DriveBarUC, 'uc/DriveBarUC' )
+class DriveBarUC
 
   # @port [0,0,92,33] @land =[0,0,100,50
   constructor:( @stream, @role, @port, @land ) ->
@@ -9,6 +9,7 @@ class DriveBarUC
     @lastTrip = { name:'' }
     @created  = false
     @screen   = null # Set by position() updated by position()
+    Util.noop( @onScreenTransform )
 
   html:() ->
     @htmlId = Util.id(@name,@role)                                          # For createSvg()
@@ -19,8 +20,8 @@ class DriveBarUC
 
   position:( screen ) ->
     # Util.dbg( 'DriveBarUC.position()', @role, screen )
-    @screen     = screen
-    @screenOrig = screen
+    @screen      = screen
+    #@screenOrig = screen
     Util.cssPosition( @$, @screen, @port, @land )
     [@svg,@$svg,@g,@$g,@gId,@gw,@gh,@y0] = @createSvg( @$, @htmlId, @name, @role, @svgWidth(),  @svgHeight(), @barTop() )
     @subscribe()
@@ -52,6 +53,10 @@ class DriveBarUC
     @screen = next
     Util.cssPosition( @$, @screen, @port, @land )
     @svg.attr( "width", @svgWidth() ).attr( 'height', @svgHeight() )
+    xp = 0
+    yp = 0
+    xn = 0
+    yn = 0
     [xp,yp] = if prev.orientation is 'Portrait' then [@port[2],@port[3]] else [@land[2],@land[3]]
     [xn,yn] = if next.orientation is 'Portrait' then [@port[2],@port[3]] else [@land[2],@land[3]]
     xs = next.width  * xn  / ( prev.width  * xp )
@@ -89,8 +94,8 @@ class DriveBarUC
     @createTravelTime( trip, @g, x, y, w, h )
     @rect( trip, @g, trip.segments[0], @role+'Border', x, y, w, h, 'transparent', 'white', thick*4, '' )
     for seg in trip.segments
-      beg   = w * Math.abs( Util.toFloat(seg.StartMileMarker) - @mileBeg ) / @distance
-      end   = w * Math.abs( Util.toFloat(seg.EndMileMarker)   - @mileBeg ) / @distance
+      beg   = w * Math.abs( Util.toFloat(seg['StartMileMarker']) - @mileBeg ) / @distance
+      end   = w * Math.abs( Util.toFloat(seg['EndMileMarker'])   - @mileBeg ) / @distance
       fill  = @fillCondition( seg.segId, trip.conditions )
       # Util.dbg( 'DriveBarUC.createBars() 2', { segId:seg.segId, beg:beg, end:end,  w:Math.abs(end-beg) } )
       @rect( trip, @g, seg, seg.segId, beg, y, Math.abs(end-beg), h, fill, 'black', thick, '' )
@@ -98,6 +103,7 @@ class DriveBarUC
     return
 
   createTravelTime:( trip, g, x, y, w, h ) ->
+    Util.noop( h )
     fontSize  = 18
     fontSizePx = fontSize + 'px'
     g.append("svg:text").text(trip.source).attr("x",4).attr("y",y-fontSize).attr('fill','white')
@@ -116,9 +122,9 @@ class DriveBarUC
 
   # Brute force array interation
   getTheCondition:( segId, conditions ) ->
-    for condition in conditions
-      if condition.SegmentId? and condition.Conditions?
-        return condition.Conditions if segId is condition.SegmentId
+    for  condition in conditions
+      if condition.SegmentId? and condition['Conditions']?
+        return condition['Conditions'] if segId is condition.SegmentId
     undefined
 
   fillSpeed:( speed ) ->
@@ -132,7 +138,7 @@ class DriveBarUC
   updateFills:( trip ) ->
     for condition in trip.conditions
       segId = Util.toInt(condition.SegmentId)
-      fill  = @fillSpeed( condition.Conditions.AverageSpeed )
+      fill  = @fillSpeed( condition['Conditions'].AverageSpeed )
       @updateRectFill( segId, fill )
     return
 
@@ -143,7 +149,7 @@ class DriveBarUC
     onClick = () =>
       `x = d3.mouse(this)[0]`
       mile  = @mileBeg + (@mileEnd-@mileBeg) *  x / @svgWidth()
-      Util.dbg( 'DriveBar.rect()', { segId:segId, beg:seg.StartMileMarker, mile:Util.toFixed(mile,1), end:seg.EndMileMarker } )
+      console.log( 'DriveBar.rect()', { segId:segId, beg:seg['StartMileMarker'], mile:Util.toFixed(mile,1), end:seg['EndMileMarker'] } )
       @doSeqmentDeals(trip,segId,mile)
 
     g.append("svg:rect").attr('id',svgId).attr("x",x0).attr("y",y0).attr("width",w).attr("height",h).attr('segId',segId)
@@ -165,8 +171,8 @@ class DriveBarUC
 
   updateRectFill:( segId, fill ) ->
     rectId = Util.svgId( @name, segId.toString(), @role )
-    rect   = $svg.find('#'+rectId)
+    rect   = @$svg.find('#'+rectId)
     rect.attr( 'fill', fill )
     return
 
-
+`export default DriveBarUC`

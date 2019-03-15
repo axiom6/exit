@@ -1,52 +1,46 @@
-(function() {
-  var ThresholdUC;
+var ThresholdUC;
 
-  ThresholdUC = (function() {
-    class ThresholdUC {
-      constructor(stream, ext, port, land) {
-        this.stream = stream;
-        this.ext = ext;
-        this.port = port;
-        this.land = land;
-      }
+import Util from '../util/Util.js';
 
-      ready() {
-        return this.$ = $(this.html());
-      }
+ThresholdUC = class ThresholdUC {
+  constructor(stream, ext, port, land) {
+    this.stream = stream;
+    this.ext = ext;
+    this.port = port;
+    this.land = land;
+  }
 
-      position(screen) {
-        this.onScreen(screen);
-        return this.subscribe();
-      }
+  ready() {
+    return this.$ = $(this.html());
+  }
 
-      subscribe() {
-        return this.stream.subscribe('Screen', 'ThresholdUC', (screen) => {
-          return this.onScreen(screen);
-        });
-      }
+  position(screen) {
+    this.onScreen(screen);
+    return this.subscribe();
+  }
 
-      onScreen(screen) {
-        return Util.cssPosition(this.$, screen, this.port, this.land);
-      }
+  subscribe() {
+    return this.stream.subscribe('Screen', 'ThresholdUC', (screen) => {
+      return this.onScreen(screen);
+    });
+  }
 
-      html() {
-        return `<div id="${Util.id('Threshold')}"       class="${Util.css('Threshold')}">\n   <div id="${Util.id('ThresholdAdjust')}" class="${Util.css('ThresholdAdjust')}">Adjust Threshold</div>\n   <img src="css/img/app/Threshold.png" width="300" height="200">\n</div>`;
-      }
+  onScreen(screen) {
+    return Util.cssPosition(this.$, screen, this.port, this.land);
+  }
 
-      show() {
-        return this.$.show();
-      }
+  html() {
+    return `<div id="${Util.id('Threshold')}"       class="${Util.css('Threshold')}">\n   <div id="${Util.id('ThresholdAdjust')}" class="${Util.css('ThresholdAdjust')}">Adjust Threshold</div>\n   <img src="css/img/app/Threshold.png" width="300" height="200">\n</div>`;
+  }
 
-      hide() {
-        return this.$.hide();
-      }
+  show() {
+    return this.$.show();
+  }
 
-    };
+  hide() {
+    return this.$.hide();
+  }
 
-    Util.Export(ThresholdUC, 'uc/ThresholdUC');
+};
 
-    return ThresholdUC;
-
-  }).call(this);
-
-}).call(this);
+export default ThresholdUC;

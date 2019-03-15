@@ -1,7 +1,7 @@
 
-class DealsUC
+import Util  from '../util/Util.js'
 
-  Util.Export( DealsUC, 'uc/DealsUC' )
+class DealsUC
 
   constructor:( @stream, @role, @port, @land ) ->
     @etaHoursMins = '?'
@@ -91,3 +91,5 @@ class DealsUC
     $("[dataid=#{dataId}]").click( () ->
       Util.dbg( "I'M EXITING" )
       $.gritter.remove( gritterId ) )
+
+`export default DealsUC`

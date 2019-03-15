@@ -1,7 +1,18 @@
 
-class App
+import Util          from '../util/Util.js'
+import Stream        from '../util/Stream.js'
+import Rest          from '../app/Rest.js'
+import Data          from '../app/Data.js'           # Static class with no need to instaciate
+import Model         from '../app/Model.js'
+import Simulate      from '../app/Simulate.js'
+import DestinationUI from '../ui/DestinationUI.js'
+import GoUI          from '../ui/GoUI.js'
+import TripUI        from '../ui/TripUI.js'
+import DealsUI       from '../ui/DealsUI.js'
+import NavigateUI    from '../ui/NavigateUI.js'
+import UI            from '../ui/UI.js'
 
-  Util.Export( App, 'app/App' )
+class App
 
   # This kicks off everything
   $(document).ready ->
@@ -13,22 +24,8 @@ class App
 
     @subjects = ['Icons','Location','Screen','Source','Destination','Trip','Forecasts']
 
-    # Import Classes
-    Stream        = Util.Import( 'util/Stream'      )
-    Rest          = Util.Import( 'app/Rest'         )
-    Data          = Util.Import( 'app/Data'         )  # Static class with no need to instaciate
-    Model         = Util.Import( 'app/Model'        )
-    Simulate      = Util.Import( 'app/Simulate'     )
-
-    DestinationUI = Util.Import( 'ui/DestinationUI' )   
-    GoUI          = Util.Import( 'ui/GoUI'          )
-    TripUI        = Util.Import( 'ui/TripUI'        )
-    DealsUI       = Util.Import( 'ui/DealsUI'       )
-    NavigateUI    = Util.Import( 'ui/NavigateUI'    )
-    UI            = Util.Import( 'ui/UI'            )
-
     # Instantiate main App classes
-    logSpec     = { subscribe:false, publish:true, complete:false, subjects:@subjects }
+    logSpec     = { subscribe:false, publish:false, complete:false, subjects:@subjects }
     @stream     = new Stream( @subjects, logSpec )
     @rest       = new Rest(   @stream        )
     @model      = new Model(  @stream, @rest, @dataSource )
@@ -66,3 +63,5 @@ class App
 
   position:( screen ) ->
     @ui.position( screen )
+    
+export default App
